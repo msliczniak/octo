@@ -105,6 +105,19 @@ int main(int argc, char ** argv) {
 		sscanf(argv[2], "%x", &temp);
 		seed[1] = temp;
 	}
+
+#ifdef  OCTO
+	x = seed[0]; y = seed[1];
+	for (temp = 0; ; temp++) {
+		rotate_bytes(seed, 2);
+		(void)printf("%02X%02X\n", seed[0], seed[1]);
+		if (x == seed[0] && y == seed[1]) break;
+	}
+
+	(void)printf("%04X\n", temp);
+	return (0);
+#endif
+
 	printf("%02X, %02X\n", seed[0], seed[1]);
 
 	/* The code judges 0xFF as an empty cell, so initialize the bottle here
