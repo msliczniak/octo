@@ -25,6 +25,8 @@
 :alias y				v9
 
 : main
+v0 := 0
+buzzer := v0
 
 
 #lfsr0 := seed0
@@ -45,11 +47,12 @@ if lfsr0 == 0 then lfsr0 := 0xff
 
 #:breakpoint main
 
-:const h		64
-hires
+:const h		32
+#:const h		64
+#hires
 
 : gen
-jump gen_loopend
+#jump gen_loopend
 
 : gen_loop
 :call lfsr
@@ -97,7 +100,11 @@ y += px1
 if y != maxy then jump gen_loop
 
 s0 := key
+#buzzer := x
 clear
+
+y := 0
+jump gen_loop
 
 : gen_loopend
 i := rule16
