@@ -1,0 +1,104 @@
+These increment every time a new capsule is generated, and start at the
+indicated value when a new game starts:
+90 - Starts at 1
+A7 - Starts at 2
+310 - Starts at 1
+327 - Starts at 2
+
+Location 2B1 looks to be associated with the next capsule. So it might lead to
+finding the randomizer code. It might used for the left half of the next
+capsule, but I dunno what it does for the right half.
+Values of 2B1:
+FF - ??
+60 - Yellow
+61 - Red
+62 - Blue
+2B1 appears to take on different values while the capsule is being thrown into
+the bottle. 2B5 looks like the right half, but it's 7x instead of 6x.
+
+Locations 2B1 and 2B5 are written a value that isn't FF:
+8787
+
+Looks like B8A1 is just part of a memory filling routine.
+
+Locations 201 and 205 I think are the active capsule's left and right halves,
+respectively, with the same values as 2B1 and 2B5.
+
+Now I think location 47 is the one to look at, because it appears that it is
+the low nybble of location 2B1, before being added to 2B1, which would be 60
+before addition.
+
+After a call to sub_8772 that looks like it's accessing relevant data:
+88E0
+Looks like that location is where the next piece data is written.
+
+Now it looks like location 9A is where I want to look. There aren't many places
+in the code directly using that location, so finding the next clue shouldn't be
+hard.
+
+Now it looks like location 31A is important (and it's definately related to
+left half capsule selection). Location 39A doesn't look to be the right half:
+90B3
+
+Okay, so location 9A is copied to 31A; check its value before sub_90AF.
+
+Narrowing down references to 9A that could be what I want:
+Maybe not 87DD, as location 31A is copied to 9A there
+8EBC, probably!
+
+Location 9B might be the capsule right half.
+
+Location 780 write:
+82C5
+
+Location A7 write:
+8222 - Looks like an initializer
+
+A7 looks like an index into the table at 780, where the 780 table is $80 bytes
+long, with each byte being in the range [0,8]. The tables at A7FD (capsule left
+half) and A806 (capsule right half) are 9 bytes long.
+
+New strategy: Maybe watch locations A4 and 324 (probably A4), as that's the
+number of viruses on-screen, and that value is incremented on-screen as viruses
+are generated.
+
+Looks like sub_9CFF is called to generate each virus (I think).
+
+Location 9D45 is only executed for each 4 viruses generated, I believe. It
+looks to be accessing a data table, much like that used for piece generation.
+
+A code chunk at 9E29 is executed for each virus generated, as there is an
+increment instruction that increments the number of viruses on-screen.
+
+Looks like location A8 is the binary format number of viruses remaining to
+generate less one, at least when inside sub_9CFF. So for level 20, there'd be
+84 viruses to generate, but the first call of sub_9CFF has 83 (dec) stored at
+A8.
+
+Location 9CBC is only hit when in 2-player mode. So location 727 might be the
+number of players, 1=1-player, 2=2-player.
+
+Looks like sub_9C91 is responsible for virus generation.
+
+Code location 8148 is a subroutine call that eventually reaches sub_9C91 if
+location 46 is 8 when sub_8157 is called.
+
+sub_8206 is called before sub_9C91 as the game starts, after start is pressed
+at the configuration screen. There's code inside sub_8206 that sets location 46
+to 8, for the transition into sub_9C91. Inside sub_9C91, there's code that sets
+location 46 to 4.
+
+I believe location 400 to 47F is the bottle contents, or at least the name
+table, which might narrow down where the virus generation code is. I found it
+by guessing that the bottle name table has the same values for pills as the
+next/current capsule locations do, and using a RAM search on a line in the
+bottle I filled completely with unbroken pills I was able to find the bottle
+name table.
+
+Looks like, for the bottle name table, these values are the viruses:
+D0 - Yellow virus
+D1 - Red virus
+D2 - Blue virus
+
+It's looking like code location 9E02 is where the viruses are written into the
+bottle's name table.

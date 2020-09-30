@@ -1,0 +1,257 @@
+# https://tetrisconcept.net/threads/dr-mario-virus-placement.2037/page-2#post-63038
+
+# problematic seeds
+#
+#:const seed0 0
+#:const seed1 0
+#
+#:const seed0 0
+#:const seed1 1
+
+
+:const seed0 0xa5
+:const seed1 0x5a
+
+
+:alias lfsr0		v0
+:alias lfsr1		v1
+:alias viruses	v2
+:alias c0				v3
+:alias c1				v4
+:alias s0				v5
+:alias s1				v6
+:alias s2				v7
+:alias x				v8
+:alias y				v9
+
+: main
+
+
+#lfsr0 := seed0
+#lfsr1 := seed1
+
+lfsr0 := random 0xff
+
+# every other seed generates same stream
+# makes test below simpler to force even
+lfsr1 := random 0xfe
+
+if lfsr1 != 0 then jump good_seed
+
+# force a valid seed
+if lfsr0 == 0 then lfsr0 := 0xff
+
+: good_seed
+
+#:breakpoint main
+
+:const h		64
+hires
+
+: gen
+jump gen_loopend
+
+: gen_loop
+:call lfsr
+
+:const px		5
+
+:calc  px1	{ px + 1 }
+:calc  w		{ h << 1 }
+:calc  cols	{ floor ( ( w + 1 ) / ( px << 2 ) ) }
+:calc  rows	{ floor ( ( h + px - px1 + 1 ) / px1 ) }
+:calc  maxx	{ cols * ( px + px + px + px1 ) }
+:calc  maxy	{ rows * px1 }
+
+s0 := lfsr0
+s0 >>= s0
+s0 >>= s0
+s0 >>= s0
+s0 >>= s0
+i := hex s0
+sprite x y 5
+x += px
+
+i := hex lfsr0
+sprite x y 5
+x += px
+
+s0 := lfsr1
+s0 >>= s0
+s0 >>= s0
+s0 >>= s0
+s0 >>= s0
+i := hex s0
+sprite x y 5
+x += px
+
+i := hex lfsr1
+sprite x y 5
+x += px1
+
+if x != maxx then jump gen_loop
+
+x := 0
+y += px1
+
+if y != maxy then jump gen_loop
+
+s0 := key
+clear
+
+: gen_loopend
+i := rule16
+
+x := 20
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+x := 62
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+x := 104
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+i := rule5
+
+x := 36
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+x := 78
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+x := 120
+y := 48
+sprite x y 0
+y := 32
+sprite x y 0
+y := 16
+sprite x y 0
+y := 0
+sprite x y 0
+
+x := 0
+
+jump gen_loop
+
+
+: lfsr
+c1 := 0
+
+s2 := 2
+
+s0 := lfsr0
+s0 &= s2
+
+s1 := lfsr1
+s1 &= s2
+
+s0 ^= s1
+
+if s0 != 0 then c1 := 1
+
+# 1
+c0 := 1
+c0 &= lfsr0
+
+s0 := 0
+if c1 != 0 then s0 := 128
+
+lfsr0 >>= lfsr0
+
+lfsr0 |= s0
+
+c1 := c0
+
+#2
+c0 := 1
+c0 &= lfsr1
+
+s0 := 0
+if c1 != 0 then s0 := 128
+
+lfsr1 >>= lfsr1
+
+lfsr1 |= s0
+
+return
+
+: green
+0b01000000
+: red
+0b11000000
+: yellow
+0b10000000
+0b11000000
+
+
+: rule16
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+0b11111111 0b11111111
+
+: rule5
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+0b11111000 0b00000000
+

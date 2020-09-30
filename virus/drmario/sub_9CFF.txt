@@ -1,0 +1,11 @@
+Non-input 0-page RAM variables:
+17
+18
+47
+48: New virus type
+49: New virus location
+4A
+4B
+4C
+51
+57
