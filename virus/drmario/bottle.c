@@ -1,15 +1,17 @@
-#include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <time.h>
 
-#define VIRUS_LEVEL 20
-uint8_t REM_VIRUSES = VIRUS_LEVEL * 4 + 4;
+#define VIRUS_LEVEL 0
+uint8_t REM_VIRUSES = (VIRUS_LEVEL + 1) * 4;
 
 uint8_t color, location;
 
 size_t bottle_start = 16;
 uint8_t bottle[20 * 8];
 
-void sub_B771(uint8_t * data, uint8_t len) {
+void rotate_bytes(uint8_t * data, uint8_t len) {
 	uint8_t carry_0 = 0, carry_1 = 0;
 	uint8_t x = 0;
 	if (((data[0] & 2) ^ (data[1] & 2)) != 0) {
@@ -24,82 +26,110 @@ void sub_B771(uint8_t * data, uint8_t len) {
 	}
 }
 
-void sub_9CFF(uint8_t * seed) {
-	uint8_t byte_47;
-	uint8_t byte_48;
-	uint8_t byte_49;
-	uint8_t byte_4C;
-	uint8_t byte_51;
-	uint8_t byte_57;
-	uint8_t virus_level_tbl[] = {0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0x9,0xA,0xA,0xB,0xB,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC,0xC};
-	uint8_t rng_tbl[] = {0x78,0x70,0x68,0x60,0x58,0x50,0x48,0x40,0x38,0x30,0x28,0x20,0x18,0x10,0x8,0x0};
-	uint8_t equal3_tbl[] = {0,1,2,2,1,0,0,1,2,2,1,0,0,1,2,1};
-	uint8_t bit_tbl[] = {1, 2, 4, 0};
+void generate_virus(uint8_t * seed) {
+	uint8_t virus_pos_tbl_index;
+	uint8_t virus_type;
+	uint8_t virus_pos;
+	uint8_t surrounding_viruses;
+	uint8_t virus_level_tbl[] = {
+		0x9,0x9,0x9,0x9,0x9,0x9,0x9,
+		0x9,0x9,0x9,0x9,0x9,0x9,0x9,
+		0x9,0xA,0xA,0xB,0xB,0xC,0xC,
+		0xC,0xC,0xC,0xC,0xC,0xC,0xC,
+		0xC,0xC,0xC,0xC,0xC,0xC,0xC
+	};
+	uint8_t virus_pos_tbl[] = {
+		0x78,0x70,0x68,0x60,0x58,0x50,0x48,0x40,
+		0x38,0x30,0x28,0x20,0x18,0x10,0x08,0x00
+	};
+	uint8_t virus_type_tbl[] = {0,1,2,2,1,0,0,1,2,2,1,0,0,1,2,1};
+	uint8_t bit_tbl[] = {1,2,4,0};
 
 	do {
-		sub_B771(seed, 2);
-		byte_47 = seed[0] & 0xF;
-	} while (virus_level_tbl[VIRUS_LEVEL] < byte_47);
-	byte_47 = rng_tbl[byte_47] + (seed[1] & 7);
-	byte_57 = byte_47;
-	byte_49 = byte_47;
+		rotate_bytes(seed, 2);
+	} while (virus_level_tbl[VIRUS_LEVEL] < (virus_pos_tbl_index = seed[0] & 0xF));
+	virus_pos = virus_pos_tbl[virus_pos_tbl_index] + (seed[1] & 7);
 
-	byte_48 = REM_VIRUSES & 3;
-	if (byte_48 == 3) {
-		sub_B771(seed, 2);
-
-		byte_48 = equal3_tbl[seed[1] & 0xF];
+	virus_type = REM_VIRUSES & 3;
+	if (virus_type == 3) {
+		rotate_bytes(seed, 2);
+		virus_type = virus_type_tbl[seed[1] & 0xF];
 	}
 
-	do {
-		if (bottle[bottle_start + byte_57] == 0xFF)
-			goto loop_start;
+	while (1) {
+		if (bottle[bottle_start + virus_pos] == 0xFF)
+			break;
 try_again:
-		byte_57 = ++byte_49;
-	} while (byte_57 < 0x80);
-	return;
-loop_start:
-	byte_47 = byte_48;
-	byte_4C = 0;
-	byte_57 = 0;
+		if (++virus_pos >= 0x80)
+			return;
+	}
 
-	byte_4C |= bit_tbl[bottle[bottle_start + byte_49 - 16] & 3];
-	byte_4C |= bit_tbl[bottle[bottle_start + byte_49 + 16] & 3];
-	if ((byte_49 & 7) >= 2)
-		byte_4C |= bit_tbl[bottle[bottle_start + byte_49 - 2] & 3];
-	if ((byte_49 & 7) < 6)
-		byte_4C |= bit_tbl[bottle[bottle_start + byte_49 + 2] & 3];
-loop_inner:
-	if (byte_4C != 7)
-		goto loop_outer;
-	goto try_again;
-loop_outer:
-	byte_51 = 0;
-	if ((byte_4C & bit_tbl[byte_48]) == 0)
-		goto done;
-	byte_48--;
-	if (byte_48 & 0x80)
-		byte_48 = 2;
-	goto loop_inner;
-done:
-	bottle[bottle_start + byte_49] = 0xD0 | byte_48;
+	surrounding_viruses = 0;
+	surrounding_viruses |= bit_tbl[bottle[bottle_start + virus_pos - 16] & 3];
+	surrounding_viruses |= bit_tbl[bottle[bottle_start + virus_pos + 16] & 3];
+	if ((virus_pos & 7) >= 2)
+		surrounding_viruses |= bit_tbl[bottle[bottle_start + virus_pos - 2] & 3];
+	if ((virus_pos & 7) < 6)
+		surrounding_viruses |= bit_tbl[bottle[bottle_start + virus_pos + 2] & 3];
+
+	while (1) {
+		if (surrounding_viruses == 7)
+			goto try_again;
+		if ((surrounding_viruses & bit_tbl[virus_type]) == 0)
+			break;
+		if (virus_type == 0)
+			virus_type = 2;
+		else
+			virus_type--;
+	}
+
+	bottle[bottle_start + virus_pos] = 0xD0 | virus_type;
 	REM_VIRUSES--;
 }
 
-int main() {
+int main(int argc, char ** argv) {
 	size_t x, y;
-	uint8_t seed[] = {0x02, 0x00};
+	/* Be sure the seed is nonzero, or the virus generation function will
+	 * loop endlessly. */
+	uint8_t seed[2];
+	unsigned int temp;
 
+	if (argc < 2) {
+		srand(time(NULL));
+		seed[0] = rand();
+		seed[1] = rand();
+	}
+	else {
+		sscanf(argv[1], "%x", &temp);
+		seed[0] = temp;
+		sscanf(argv[2], "%x", &temp);
+		seed[1] = temp;
+	}
+	printf("%02X, %02X\n", seed[0], seed[1]);
+
+	/* The code judges 0xFF as an empty cell, so initialize the bottle here
+	 * with 0xFF. */
 	for (y = 0; y < 20; y++) {
 		for (x = 0; x < 8; x++) {
 			bottle[y*8 + x] = 0xFF;
 		}
 	}
 
+	/* A call of generate_virus will fail sometimes, with REM_VIRUSES
+	 * unchanged, so keep calling sub_9CFF until enough viruses have been
+	 * generated.
+	 * */
 	while (REM_VIRUSES > 0) {
-		sub_9CFF(seed);
+		generate_virus(seed);
 	}
 
+	/* The original 6502 code uses 0xD0, 0xD1, and 0xD2 for viruses, so
+	 * code here must interpret the bytes properly.
+	 *
+	 * 0xD0 => Yellow virus
+	 * 0xD1 => Red virus
+	 * 0xD2 => Blue virus
+	 * 0xFF => Empty cell */
 	for (y = 2; y < 16 + 2; y++) {
 		for (x = 0; x < 8; x++) {
 			switch (bottle[y*8 + x]) {

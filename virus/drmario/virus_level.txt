@@ -6,4 +6,4 @@
 19->80
 20->84
 
-LEVEL->LEVEL*4 + 4
+LEVEL->(LEVEL + 1) *4
