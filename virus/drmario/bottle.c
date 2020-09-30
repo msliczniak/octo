@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <time.h>
 
-#define VIRUS_LEVEL 0
+#define VIRUS_LEVEL 20
 uint8_t REM_VIRUSES = (VIRUS_LEVEL + 1) * 4;
 
 uint8_t color, location;
