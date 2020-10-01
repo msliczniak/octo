@@ -1,0 +1,54 @@
+# test random
+
+:alias x				v0
+:alias y				v1
+:alias r				v2
+:alias s				v3
+
+:const h		32
+:const px		5
+
+:calc  px1	{ px + 1 }
+:calc  w		{ h << 1 }
+:calc  cols	{ floor ( ( w + 2 ) / ( px + px1 ) ) }
+:calc  rows	{ floor ( ( h + 1 ) / px1 ) }
+:calc  maxx	{ cols * ( px + px1 ) }
+:calc  maxy	{ ( rows * px1 ) + 1 }
+
+
+: main
+x := 0
+buzzer := x
+y := 1
+
+#:breakpoint main
+
+: loop0
+r := random 0xff
+
+s := r
+s >>= s
+s >>= s
+s >>= s
+s >>= s
+i := hex s
+sprite x y 5
+x += px
+
+i := hex r
+sprite x y 5
+x += px1
+
+if x != maxx then jump loop0
+
+x := 0
+y += px1
+
+if y != maxy then jump loop0
+
+y := 1
+s := key
+buzzer := x
+clear
+
+jump loop0

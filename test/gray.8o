@@ -1,0 +1,53 @@
+: main
+v0 := 0
+buzzer := v0
+
+v1 := 11
+i := gray
+sprite  v0 v1 11
+
+v1 := 22
+i := black
+sprite  v0 v1 11
+
+v1 := 11
+v2 := 1
+
+: loop0
+sprite  v0 v1 11
+
+# comment this out for vcsyc
+jump loop0
+
+delay := v2
+
+: retry0
+v3 := delay
+if v3 == 0 then jump loop0
+jump retry0
+
+: black
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+0xff
+
+: gray
+0xaa
+0x55
+0xaa
+0x55
+0xaa
+0x55
+0xaa
+0x55
+0xaa
+0x55
+0xaa
