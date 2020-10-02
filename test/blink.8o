@@ -1,0 +1,128 @@
+: main
+v1 := 0
+buzzer := v1
+
+i := bm
+
+v1 := 1
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 9
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 17
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 25
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 33
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 41
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 49
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+v1 := 57
+v2 := 9
+sprite v1 v2 11
+v2 := 21
+sprite v1 v2 11
+
+V4 := 1
+
+V5 := 2
+V6 := 10
+V7 := 18
+V8 := 26
+V9 := 34
+VA := 42
+VB := 50
+VC := 58
+
+VD := 9
+VE := 21
+
+: repeat
+delay := V4
+
+i := blink0
+sprite V5 VD 10
+i := blink0
+sprite V5 VE 10
+
+i := blink0
+sprite V6 VD 10
+i := blink0
+sprite V6 VE 10
+
+i := blink0
+sprite V7 VD 10
+i := blink0
+sprite V7 VE 10
+
+i := blink0
+sprite V8 VD 10
+i := blink0
+sprite V8 VE 10
+
+i := blink0
+sprite V9 VD 10
+i := blink0
+sprite V9 VE 10
+
+i := blink0
+sprite VA VD 10
+i := blink0
+sprite VA VE 10
+
+i := blink1
+sprite VB VD 10
+i := blink1
+sprite VB VE 10
+
+if V4 == 1
+then jump longer
+V4 := 1
+jump retry
+
+: longer
+V4 := 30
+
+: retry
+V3 := delay
+if V3 == 0
+then jump repeat
+jump retry
+
+: bm
+#0xEE 0x88 0x00 0xEE 0x88 0x00 0xEE 0x88 0x00 0xEE 0x88
+0xEE 0x84 0x00 0xEC 0x46 0x00 0xCE 0x68 0x00 0xEC 0x46
+
+: blink0
+0x88 0x00 0x00 0x88 0x00 0x00 0x88 0x00 0x00 0x88
+: blink1
+0x80 0x00 0x00 0x80 0x00 0x00 0x80 0x00 0x00 0x80
