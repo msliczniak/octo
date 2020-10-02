@@ -33,6 +33,32 @@ buzzer := v0
 
 : gen
 
+v1 := 0
+v2 := 0
+v3 := 0
+v4 := 0
+v5 := 0
+v6 := 0
+v7 := 0
+v8 := 0
+v9 := 0
+vA := 0
+vB := 0
+vC := 0
+vD := 0
+vE := 0
+vF := 0
+i := ani0
+save vF
+i := ani1
+save vF
+i := ani2
+save vF
+i := ani3
+save vF
+i := ani4
+save v7
+
 v0 := 0xff
 v1 := 0xff
 v2 := 0xff
@@ -83,8 +109,8 @@ then lfsr0 := 0xff
 
 : good_seed
 
-lfsr0 := 0xa5
-lfsr1 := 0x5a
+#lfsr0 := 0xa5
+#lfsr1 := 0x5a
 
 # corresponds to level 20
 viruses := 84
@@ -234,30 +260,84 @@ i := bottle0
 i += pos
 save v0
 
+#:breakpoint ani
+
 s0 := 7
 s0 &= pos
+s1 := s0
 s0 <<= s0
-s0 <<= s0
+s0 += s1
+c0 := s0
+c0 >>= c0
+c0 >>= c0
+c0 >>= c0
+
+i := mul3b
+i += s1
+load v0
+s2 := v0
 
 s1 := 0x78
 s1 &= pos
 s1 >>= s1
+s1 >>= s1
 
 i := yellow
-type <<= type
-type <<= type
 i += type
-sprite s1 s0 4
+sprite s0 s1 2
+
+s0 := s1
+s1 <<= s1
+s0 += s1
+s0 -= 18
+s0 += c0
+
+i := ani0
+i += s0
+load v0
+
+v0 |= s2
+i := ani0
+i += s0
+save v0
+s0 += 3
+i := ani0
+i += s0
+save v0
 
 viruses -= 1
 if viruses != 0
 then jump gen_loop
 
-s0 := 15
-buzzer := s0
-s0 := key
-clear
-jump gen
+#s0 := 15
+#buzzer := s0
+#s0 := key
+#clear
+#jump gen
+
+vA := 0
+v9 := 8
+v8 := 16
+v7 := 24
+v6 := 32
+v5 := 40
+
+vC := 6
+vB := 20
+
+vE := 15
+
+: animate
+delay := vE
+
+i := ani0
+sprite vA vC 14
+
+: animate_delay
+vD := delay
+if vD == 0
+then jump animate
+jump animate_delay
 
 : lfsr
 c1 := 0
@@ -304,22 +384,13 @@ lfsr1 |= s0
 return
 
 : yellow
-0
-0b11100000
-0b10100000
-0b10100000
+0x40
 
 : red
-0
-0b11100000
-0b10000000
-0b11100000
+0xE0
 
 : blue
-0
-0b10100000
-0b10100000
-0b11100000
+0xA0 0xC0
 
 : virus_level_tbl
 0x9 0x9 0x9 0x9 0x9 0x9 0x9
@@ -374,4 +445,22 @@ return
 
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
-:monitor bottle 160
+#:monitor bottle 160
+
+#: mul3o
+#0 3 6 9 12 15 18 21
+
+: mul3b
+0x80 0x10 0x02 0x40 0x08 0x01 0x20 0x04
+
+: ani0
+0 1 2 3 4 5 6 7 8 9 0xa 0xb 0xc 0xd 0xe 0xf
+: ani1
+0 1 2 3 4 5 6 7 8 9 0xa 0xb 0xc 0xd 0xe 0xf
+: ani2
+0 1 2 3 4 5 6 7 8 9 0xa 0xb 0xc 0xd 0xe 0xf
+: ani3
+0 1 2 3 4 5 6 7 8 9 0xa 0xb 0xc 0xd 0xe 0xf
+: ani4
+0 1 2 3 4 5 6 7
+:monitor ani0 78
