@@ -1,0 +1,332 @@
+: main
+VC := 0
+buzzer := VC
+delay := VC
+
+i := t0
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t0
+VF := 96
+i += VF
+save VB
+
+i := t1
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t1
+VF := 96
+i += VF
+save VB
+
+i := t2
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t2
+VF := 96
+i += VF
+save VB
+
+i := t3
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t3
+VF := 96
+i += VF
+save VB
+
+i := t4
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t4
+VF := 96
+i += VF
+save VB
+
+i := t5
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t5
+VF := 96
+i += VF
+save VB
+
+i := t6
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t6
+VF := 96
+i += VF
+save VB
+
+i := t7
+load VB
+VE := 0xff
+V0 ^= VE
+V1 ^= VE
+V2 ^= VE
+V3 ^= VE
+V4 ^= VE
+V5 ^= VE
+i := t7
+VF := 96
+i += VF
+save VB
+
+VD := 8
+
+i := t
+VE := 6
+sprite VC VE 6
+sprite VD VE 6
+VE := 18
+sprite VC VE 6
+sprite VD VE 6
+
+VE := 12
+
+i := t0
+sprite VC VC 12
+i := t1
+sprite VC VE 12
+
+i := t2
+sprite VD VC 12
+i := t3
+sprite VD VE 12
+
+: repeat
+VF := key
+VF := 30
+delay := VF
+
+i := t0
+VF := 96
+i += VF
+sprite VC VC 12
+i := t1
+VF := 96
+i += VF
+sprite VC VE 12
+
+i := t2
+VF := 96
+i += VF
+sprite VD VC 12
+i := t3
+VF := 96
+i += VF
+sprite VD VE 12
+
+i := t4
+load VA
+i := z0
+save VA
+i := t5
+load VA
+i := z1
+save VA
+i := t6
+load VA
+i := z2
+save VA
+i := t7
+load VA
+i := z3
+save VA
+
+i := t0
+sprite VC VC 12
+i := t1
+sprite VC VE 12
+
+i := t2
+sprite VD VC 12
+i := t3
+sprite VD VE 12
+
+#VF := key
+
+
+
+: wait
+VF := delay
+if VF != 0
+then jump wait
+
+i := t
+sprite VC VC 12
+i := t
+sprite VC VE 12
+i := t
+sprite VD VC 12
+i := t
+sprite VD VE 12
+
+jump repeat
+
+: t
+0xff 0xff 0xff 0xff 0xff 0xff
+0xff 0xff 0xff 0xff 0xff 0xff
+
+: t0
+0b01001110
+0b01000010
+0b01001110
+0b01001000
+0b01001110
+0b00000000
+: z0
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t1
+0b11101110
+0b10001000
+0b11101110
+0b00101010
+0b11101110
+0b00000000
+: z1
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t2
+0b11100100
+0b10101010
+0b11101110
+0b00101010
+0b11101010
+0b00000000
+: z2
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t3
+0b11001110
+0b10101000
+0b10101100
+0b10101000
+0b11001110
+0b00000000
+: z3
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t4
+0b11101010
+0b00101010
+0b01101110
+0b00100010
+0b11100010
+0b00000000
+: z4
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t5
+0b11101110
+0b00101010
+0b00101110
+0b00101010
+0b00101110
+0b00000000
+: z5
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t6
+0b11000110
+0b10101000
+0b11001000
+0b10101000
+0b11000110
+0b00000000
+: z6
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+
+: t7
+0b11100110
+0b10001000
+0b11001010
+0b10001010
+0b10000110
+0b00000000
+: z7
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
+0b00000000
