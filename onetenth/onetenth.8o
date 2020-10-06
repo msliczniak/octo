@@ -1,332 +1,235 @@
 : main
-VC := 0
-buzzer := VC
-delay := VC
+VE := 0
+buzzer := VE
 
-i := t0
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t0
-VF := 96
-i += VF
-save VB
+#jump main_loop
 
-i := t1
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t1
-VF := 96
-i += VF
-save VB
+# draw all characters
+v0 := 0
+v1 := 10
+v2 := 20
+v3 := 30
+v4 := 40
 
-i := t2
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t2
-VF := 96
-i += VF
-save VB
+v5 := 1
+v6 := 8
+v7 := 15
+v8 := 22
 
-i := t3
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t3
-VF := 96
-i += VF
-save VB
+i := s0
+sprite v0 v5 5
+i := s1
+sprite v0 v6 5
+i := s2
+sprite v0 v7 5
+i := s3
+sprite v0 v8 5
 
-i := t4
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t4
-VF := 96
-i += VF
-save VB
+i := s4
+sprite v1 v5 5
+i := s5
+sprite v1 v6 5
+i := s6
+sprite v1 v7 5
+i := s7
+sprite v1 v8 5
 
-i := t5
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t5
-VF := 96
-i += VF
-save VB
+i := s8
+sprite v2 v5 5
+i := s9
+sprite v2 v6 5
+i := sa
+sprite v2 v7 5
+i := sb
+sprite v2 v8 5
 
-i := t6
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t6
-VF := 96
-i += VF
-save VB
+i := sc
+sprite v3 v5 5
+i := sd
+sprite v3 v6 5
+i := se
+sprite v3 v7 5
+i := sf
+sprite v3 v8 5
 
-i := t7
-load VB
-VE := 0xff
-V0 ^= VE
-V1 ^= VE
-V2 ^= VE
-V3 ^= VE
-V4 ^= VE
-V5 ^= VE
-i := t7
-VF := 96
-i += VF
-save VB
+i := sg
+sprite v4 v5 5
+i := ss
+sprite v4 v6 5
 
-VD := 8
+: main_loop
+VE := 30
+delay := VE
+:call redraw
 
-i := t
-VE := 6
-sprite VC VE 6
-sprite VD VE 6
-VE := 18
-sprite VC VE 6
-sprite VD VE 6
+: retry
+VE := delay
+if VE != 0
+then jump retry
 
-VE := 12
+:call redraw
+jump main_loop
 
-i := t0
-sprite VC VC 12
-i := t1
-sprite VC VE 12
+: redraw # proc
 
-i := t2
-sprite VD VC 12
-i := t3
-sprite VD VE 12
+#V0 := 0
+#V1 := 16
+#V2 := 32
+#V3 := 48
 
-: repeat
-VF := key
-VF := 30
-delay := VF
+#i := e0
+#sprite V0 V0 14
+#i := e2
+#sprite V1 V0 14
+#i := e4
+#sprite V2 V0 14
+#i := e6
+#sprite V3 V0 14
+#i := e8
+#sprite V0 V1 14
+#i := ea
+#sprite V1 V1 14
+#i := ec
+#sprite V2 V1 14
+#i := ee
+#sprite V3 V1 14
 
-i := t0
-VF := 96
-i += VF
-sprite VC VC 12
-i := t1
-VF := 96
-i += VF
-sprite VC VE 12
+#return
 
-i := t2
-VF := 96
-i += VF
-sprite VD VC 12
-i := t3
-VF := 96
-i += VF
-sprite VD VE 12
+V0 := 0
+V1 := 0
+V2 := 0
+i := e0
+sprite V1 V0 14 #0
 
-i := t4
-load VA
-i := z0
-save VA
-i := t5
-load VA
-i := z1
-save VA
-i := t6
-load VA
-i := z2
-save VA
-i := t7
-load VA
-i := z3
-save VA
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #1
 
-i := t0
-sprite VC VC 12
-i := t1
-sprite VC VE 12
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #2
 
-i := t2
-sprite VD VC 12
-i := t3
-sprite VD VE 12
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #3
 
-#VF := key
+V2 := 14
+i := e0
+i += V2
+V1 := 0
+V0 += 14
+sprite V1 V0 14 #4
 
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #5
 
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #6
 
-: wait
-VF := delay
-if VF != 0
-then jump wait
+V2 += 14
+i := e0
+i += V2
+V1 += 10
+sprite V1 V0 14 #7
 
-i := t
-sprite VC VC 12
-i := t
-sprite VC VE 12
-i := t
-sprite VD VC 12
-i := t
-sprite VD VE 12
+return
 
-jump repeat
+# 5x5 symbols
+: s0 # 1 = 2^0
+#0x7C 0x74 0x74 0x74 0x7C # bold
+0x1C 0x36 0x36 0x36 0x1C # bold rounded
+: s1 # 2 = 2^1
+0x00 0x0C 0x04 0x04 0x0E # miniscule
+: s2 # 4 = 2^2
+0x3E 0x02 0x3E 0x20 0x3E
+: s3 # 8 = 2^3
+0x3C 0x0E 0x3E 0x0E 0x3C # bold rounded
+: s4 # 16 = 2^4
+0x00 0x04 0x14 0x1E 0x04 # miniscule
+: s5 # 32 = 2^5
+0x1E 0x20 0x3E 0x02 0x3E
+: s6 # 64 = 2^6
+0x1E 0x18 0x3E 0x3A 0x1E # bold rounded
+: s7 # 128 = 2^7
+0x00 0x1E 0x02 0x04 0x08 # miniscule
+: s8 # 256 = 2^8
+0x1E 0x12 0x3E 0x22 0x3E
+: s9 # 512 = 2^9
+0x3E 0x2E 0x3E 0x0E 0x0E # bold
+: sa # 1K = 2^10
+0x00 0x0C 0x12 0x1E 0x12
+: sb # 2K = 2^11
+0x3C 0x22 0x3E 0x22 0x3C
+: sc # 4K = 2^12
+0x1E 0x3E 0x38 0x3E 0x1E # bold rounded
+: sd # 8K = 2^13
+0x00 0x1C 0x12 0x12 0x1C # miniscule
+: se # 16K = 2^14
+0x3E 0x20 0x38 0x20 0x3E
+: sf # 32K = 2^15
+0x3E 0x38 0x3C 0x38 0x38 # bold
+: sg # 64K = 2^16
+0x00 0x2E 0x2A 0x2A 0x2E # miniscule
+: ss # blank space
+0 0 0 0 0
+#: sx
+#0x70 0xD8 0xD8 0xD8 0x70 # initial 0
+#: sy
+#0x00 0x60 0x20 0x20 0x70 # initial 1
 
-: t
-0xff 0xff 0xff 0xff 0xff 0xff
-0xff 0xff 0xff 0xff 0xff 0xff
+: buf0
+0 0 0 0 0 0
+: buf1
+0 0 0 0 0 0
 
-: t0
-0b01001110
-0b01000010
-0b01001110
-0b01001000
-0b01001110
-0b00000000
-: z0
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
+: top
+0 0 0 0 0 0
 
-: t1
-0b11101110
-0b10001000
-0b11101110
-0b00101010
-0b11101110
-0b00000000
-: z1
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
+: bot
+0 0 0 0 0 0
 
-: t2
-0b11100100
-0b10101010
-0b11101110
-0b00101010
-0b11101010
-0b00000000
-: z2
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
+: zeros
+0 0 0 0 0 0 0
 
-: t3
-0b11001110
-0b10101000
-0b10101100
-0b10101000
-0b11001110
-0b00000000
-: z3
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
+: e0
+0 0 0 0 0 0 0
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: e2
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: e4
+0 0 0 0 0 0 0
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: e6
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: e8
+0 0 0 0 0 0 0
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: ea
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: ec
+0 0 0 0 0 0 0
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: ee
+0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
 
-: t4
-0b11101010
-0b00101010
-0b01101110
-0b00100010
-0b11100010
-0b00000000
-: z4
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-
-: t5
-0b11101110
-0b00101010
-0b00101110
-0b00101010
-0b00101110
-0b00000000
-: z5
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-
-: t6
-0b11000110
-0b10101000
-0b11001000
-0b10101000
-0b11000110
-0b00000000
-: z6
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-
-: t7
-0b11100110
-0b10001000
-0b11001010
-0b10001010
-0b10000110
-0b00000000
-: z7
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
-0b00000000
+: rand0
+0 0 0 0 0 0 0 0 0 0 0 0
+: rand1
+0 0 0 0 0 0 0 0 0 0 0 0
