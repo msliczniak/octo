@@ -1,0 +1,18 @@
+ETI 660
+In machines like the ETI 660, variables are stored in locations $0470 to $047F.
+
+The image pointer is held in the 1802 CPU register RA.
+
+Due to how this machines ROM interpreter sets up internal registers to hold parts of the instruction opcode, the Image register or RA can actually be set up as 7A00 even if the address 0A00 is specified.
+
+This can cause issues if an emulator is running 1802 code which assumes that the RA register has this $7n type of value.
+
+The screen memory stats at $0480 and runs to $05FF.
+
+The programming memory available is usually from $0600 to $0FFF for a fully expanded machine.
+
+Sound beeps are available with the added ability to be able to specific a pitch from 0 to $FF for the sound.
+
+Sound can generated using the Pitch and Sound Timer instructions.
+
+Sound can also be set from within 1802 machine code programs by an OUT output instruction and setting the 1802 Q output line to on.

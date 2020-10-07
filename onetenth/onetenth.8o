@@ -1,66 +1,112 @@
+:breakpoint main_loop
+
 : main
 VE := 0
 buzzer := VE
 
-#jump main_loop
+: main_loop
+VE := 0
+VD := 0
 
-# draw all characters
-v0 := 0
-v1 := 10
-v2 := 20
-v3 := 30
-v4 := 40
+: loop_create
+V1 := random 0x1f
+if V1 > 17 then
+V1 -= 17
 
-v5 := 1
-v6 := 8
-v7 := 15
-v8 := 22
+i := c0
+i += VE
+load V0
+
+if V0 == V1
+then jump inc_create
+
+VA := V0
+V0 <<= V0
+V0 <<= V0
+VA += V0
+
+V0 := V1
+i := c0
+i += VE
+save V0
+
+V1 <<= V1
+V1 <<= V1
+V0 += V1
 
 i := s0
-sprite v0 v5 5
-i := s1
-sprite v0 v6 5
-i := s2
-sprite v0 v7 5
-i := s3
-sprite v0 v8 5
+i += V0
+load V4
 
-i := s4
-sprite v1 v5 5
-i := s5
-sprite v1 v6 5
-i := s6
-sprite v1 v7 5
-i := s7
-sprite v1 v8 5
+V5 := V0
+V6 := V1
+V7 := V2
+V8 := V3
+V9 := V4
 
-i := s8
-sprite v2 v5 5
-i := s9
-sprite v2 v6 5
-i := sa
-sprite v2 v7 5
-i := sb
-sprite v2 v8 5
+i := s0
+i += VA
+load V4
 
-i := sc
-sprite v3 v5 5
-i := sd
-sprite v3 v6 5
-i := se
-sprite v3 v7 5
-i := sf
-sprite v3 v8 5
+V0 ^= V5
+V1 ^= V6
+V2 ^= V7
+V3 ^= V8
+V4 ^= V9
 
-i := sg
-sprite v4 v5 5
-i := ss
-sprite v4 v6 5
+i := e_
+i += VD
+save V4
 
-: main_loop
+: inc_create
+if VE == 15
+then jump done_create
+
+VE += 1
+VD += 7
+jump loop_create
+
+: done_create
+
 VE := 30
 delay := VE
 :call redraw
+
+i := iv
+load V6
+
+i := e0
+save V6
+i := e1
+save V6
+i := e2
+save V6
+i := e3
+save V6
+i := e4
+save V6
+i := e5
+save V6
+i := e6
+save V6
+i := e7
+save V6
+i := e8
+save V6
+i := e9
+save V6
+i := ea
+save V6
+i := eb
+save V6
+i := ec
+save V6
+i := ed
+save V6
+i := ee
+save V6
+i := ef
+save V6
 
 : retry
 VE := delay
@@ -71,30 +117,6 @@ then jump retry
 jump main_loop
 
 : redraw # proc
-
-#V0 := 0
-#V1 := 16
-#V2 := 32
-#V3 := 48
-
-#i := e0
-#sprite V0 V0 14
-#i := e2
-#sprite V1 V0 14
-#i := e4
-#sprite V2 V0 14
-#i := e6
-#sprite V3 V0 14
-#i := e8
-#sprite V0 V1 14
-#i := ea
-#sprite V1 V1 14
-#i := ec
-#sprite V2 V1 14
-#i := ee
-#sprite V3 V1 14
-
-#return
 
 V0 := 0
 V1 := 0
@@ -149,7 +171,6 @@ return
 
 # 5x5 symbols
 : s0 # 1 = 2^0
-#0x7C 0x74 0x74 0x74 0x7C # bold
 0x1C 0x36 0x36 0x36 0x1C # bold rounded
 : s1 # 2 = 2^1
 0x00 0x0C 0x04 0x04 0x0E # miniscule
@@ -190,43 +211,51 @@ return
 #: sy
 #0x00 0x60 0x20 0x20 0x70 # initial 1
 
-: buf0
-0 0 0 0 0 0
-: buf1
-0 0 0 0 0 0
+#: zeros
+#0 0 0 0 0 0 0
 
-: top
-0 0 0 0 0 0
+: iv # invert video
+255 255 255 255 255 255 255
 
-: bot
-0 0 0 0 0 0
-
-: zeros
-0 0 0 0 0 0 0
+: c0
+17 17 17 17
+17 17 17 17
+17 17 17 17
+17 17 17 17
 
 : e0
+0
+: e_
+0 0 0 0 0 0
+: e1
 0 0 0 0 0 0 0
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
 : e2
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: e3
 0 0 0 0 0 0 0
 : e4
 0 0 0 0 0 0 0
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: e5
+0 0 0 0 0 0 0
 : e6
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: e7
 0 0 0 0 0 0 0
 : e8
 0 0 0 0 0 0 0
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: e9
+0 0 0 0 0 0 0
 : ea
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: eb
 0 0 0 0 0 0 0
 : ec
 0 0 0 0 0 0 0
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+: ed
+0 0 0 0 0 0 0
 : ee
-0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0 0 0 0 0 0 0
+: ef
 0 0 0 0 0 0 0
 
 : rand0
