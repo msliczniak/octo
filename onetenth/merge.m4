@@ -1,4 +1,11 @@
-dnl include(loop.m4)
+dnl
+dnl GT(n, m)
+dnl
+define(`GT',`dnl
+# if $1 > $2
+  vF := $2
+  vF -= $1
+  if vF == 0')dnl
 
 : main
 
@@ -104,10 +111,7 @@ define(`MERGE',`dnl
  score += r$1
  r$1 += 8
 
- # if r$1 > maxsym
- vF := maxsym
- vF -= r$1
- if vF == 0
+ GT(r$1, maxsym)
  then maxsym := r$1
 
 ifelse($1, $2, `dnl
