@@ -1,50 +1,4 @@
-dnl define(`FOO', `0')dnl
-dnl a FOO
-dnl define(`FOO', `1')dnl
-dnl b FOO
-dnl define(`FOO', incr(FOO))dnl
-dnl b FOO
-dnl d defn(`FOO')
-dnl e FOO
-dnl m4exit(0)
-dnl include(`loop.m4')dnl
-dnl
-dnl GT(n, m)
-dnl
-define(`GT',`dnl
-# if ($1 > $2)
-  vF := $2
-  vF -= $1
-  if vF == 0')dnl
-dnl
-dnl PUSHREG(n)
-dnl
-:alias r0 v0
-:alias r1 v1
-:alias r2 v2
-:alias r3 v3
-:alias r4 v4
-:alias r5 v5
-:alias r6 v6
-:alias r7 v7
-:alias r8 v8
-:alias r9 v9
-:alias r10 va
-:alias r11 vb
-:alias r12 vc
-:alias r13 vd
-:alias r14 ve
-
-dnl
-define(`PUSHREG', `dnl
-ifelse(_R, `15', `errprint(`too many registers: $1
-')m4exit(1)')dnl
-dnl ifelse(_R, `15', `m4exit(1)')dnl
-define($1, `r''`_R)dnl
-`  # $1' `r''`_R dnl
-define(`_R'_R, `$1')dnl
-define(`_R', incr(_R))dnl
-')dnl
+include(`chip8.m4')dnl
 : main
 
 divert(incr(divnum))dnl
@@ -52,28 +6,27 @@ dnl
 divert(decr(divnum))dnl
 define(`BL',`0')dnl
 
-pushdef(`_R', `0')
-PUSHREG(`R3')
-PUSHREG(`R2')
-PUSHREG(`R1')
-PUSHREG(`R0')
-
-PUSHREG(`FREE')
-PUSHREG(`FREE0')
-PUSHREG(`FREE1')
-PUSHREG(`FREE2')
-PUSHREG(`FREE3')
-
-PUSHREG(`GHOST0')
-PUSHREG(`GHOST1')
-
-PUSHREG(`MAXSYM')
-PUSHREG(`SCORE')
-`#' _R
-
 divert(incr(divnum))dnl
 dnl
 : col
+
+REGS(`COL', 0)
+PUSHREG(`COL', `R3')
+PUSHREG(`COL', `R2')
+PUSHREG(`COL', `R1')
+PUSHREG(`COL', `R0')
+
+PUSHREG(`COL', `FREE')
+PUSHREG(`COL', `FREE0')
+PUSHREG(`COL', `FREE1')
+PUSHREG(`COL', `FREE2')
+PUSHREG(`COL', `FREE3')
+
+PUSHREG(`COL', `GHOST0')
+PUSHREG(`COL', `GHOST1')
+
+PUSHREG(`COL', `MAXSYM')
+PUSHREG(`COL', `SCORE')
 
 #  0x11 = 17
 dnl
@@ -210,3 +163,5 @@ FREE0   := 0
 if R3 == BL
 then FREE0 := 1
 return
+dnl
+POPREGS(`COL', 0)
