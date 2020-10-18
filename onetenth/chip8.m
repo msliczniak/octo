@@ -1,4 +1,3 @@
-#!/usr/bin/env m4
 include(loop.m)dnl
 dnl
 dnl GT(n, m)
@@ -51,3 +50,5 @@ FOR(`IX', $2, `decr(_$1)', `dnl
 )dnl'
 popdef(`$1')dnl
 )dnl
+dnl
+dnl vim: set filetype=m4: #modeline
