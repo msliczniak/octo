@@ -98,7 +98,9 @@ define(`MERGE',`dnl
  if R$1 == BL
  then jump _MERGE,b,$*
 
- if R$1 != `R''`incr($1)
+pushdef(`ex', R$`'1)dnl
+ if R$1 != ex(incr($1))
+popdef(`ex')dnl
  then jump _MERGE,incr($1),incr($2)
 
  SCORE += R$1
@@ -164,4 +166,4 @@ if R3 == BL
 then FREE0 := 1
 return
 dnl
-POPREGS(`COL', 0)
+dnl POPREGS(`COL', 0)
