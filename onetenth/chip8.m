@@ -1,3 +1,4 @@
+#!/usr/bin/env m4
 include(loop.m)dnl
 dnl
 dnl GT(n, m)

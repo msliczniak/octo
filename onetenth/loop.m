@@ -1,3 +1,4 @@
+#!/usr/bin/m4
 dnl https://mbreen.com/m4.html#toc19
 define(`FOR',`ifelse($#,0,``$0'',`ifelse(eval($2<=$3),1,
 `pushdef(`$1',$2)$4`'popdef(`$1')$0(`$1',incr($2),$3,`$4')')')')dnl
