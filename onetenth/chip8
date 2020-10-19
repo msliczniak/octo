@@ -1,0 +1,55 @@
+#!/usr/bin/env m4
+include(`chip8.m')dnl
+
+define(`Y', `y')dnl
+define(`Z', `z')dnl
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+REGS(`FOO', `9')
+PUSHREG(`FOO', `X')
+PUSHREG(`FOO', `Y')
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+REGS(`BAR', REGSLVL(`FOO'))
+PUSHREG(`BAR', `Z')
+PUSHREG(`BAR', `Y')
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+POPREGS(`BAR', incr(REGSLVL(`FOO')))
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+POPREGS(`BAR', REGSLVL(`FOO'))
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+POPREGS(`FOO', `9')
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
+
+X # X
+Y # Y
+Z # Z
+REGSLVL(`FOO') # REGSLVL(`FOO')
+REGSLVL(`BAR') # REGSLVL(`BAR')
