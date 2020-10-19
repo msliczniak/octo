@@ -48,12 +48,14 @@ dnl POPREGS(regset, oregset)
 dnl
 define(`POPREGS', `dnl
   # POPREGS $*
-FOR(`IX', $2, `decr(__CHIP8_REGS_$1)', `dnl
-	popdef(`__CHIP8_REGS_$1')dnl
-	popdef(defn(`__CHIP8_REGS_$1'))dnl
-	popdef(`__CHIP8_REGS_$1')'dnl
+FOR(`IX', incr($2), __CHIP8_REGS_$1, `dnl
+popdef(`__CHIP8_REGS_$1')dnl
+popdef(defn(`__CHIP8_REGS_$1'))dnl
+popdef(`__CHIP8_REGS_$1')'dnl
 )dnl
-dnl ifelse(`__CHIP8_REGS_$1', $2, popdef(`__CHIP8_REGS_$1'))dnl
-')dnl
+dnl ifelse(__CHIP8_REGS_$1, $2, popdef(``__CHIP8_REGS_$1''))dnl')dnl
 dnl
+define(`DELREGS', `dnl
+  # $0 $*
+popdef(`__CHIP8_REGS_$1')dnl')dnl
 dnl vim: set filetype=m4: #modeline
