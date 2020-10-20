@@ -1,5 +1,3 @@
-include(`chip8.m')dnl
-dnl
 : col
 
 REGS(`COL', 0)
