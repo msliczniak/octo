@@ -1,0 +1,23 @@
+LANG = C
+
+D = ./deps.sh   # dependency generator
+PP = ./pp.sh    # pre-processor
+MP = m4         # macro processor
+
+# GNU make stupidity
+.SUFFIXES :
+% : %.8o
+% : %.m
+% : %.deps
+% : %.m4
+
+.SUFFIXES : .8o .m .deps .m4
+
+.m.8o :
+	$(MP) $< >$@
+
+.m4.deps :
+	$(D) $* >$@
+
+.m4.m :
+	$(PP) <$< >$@
