@@ -1,5 +1,6 @@
-errprint(NAME`.m 'NAME`.deps : Makefile Makefile.deps pp.sh deps.sh ideps.awk
+errprint(NAME`.m 'NAME`.deps : Makefile Makefile.deps pp.awk deps.sh ideps.sh
 ')dnl
+q
 define(`m4_include', defn(`include'))dnl
 define(`include', `dnl
 syscmd(`"$MAKE" $MFLAGS -f Makefile.deps $1')dnl

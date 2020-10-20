@@ -8,5 +8,3 @@ define(`FE_',`ifelse(eval($#>2),1, `pushdef(`$1_',eval($#==3))dnl
 `'ifelse(eval($#>3),1,`$0(`$1',`$2',shift(shift(shift($@))))')')')dnl
 dnl
 define(`WHILE',`ifelse($#,0,``$0'',eval($1+0),1,`$2`'$0($@)')')dnl
-dnl
-dnl vim: set filetype=m4: #modeline

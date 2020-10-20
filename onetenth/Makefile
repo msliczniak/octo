@@ -4,6 +4,7 @@ NAME = onetenth
 
 all : ${NAME}.8o
 
+ID = ./ideps.sh         # list implicit dependencies
 AS = ../Octo/octo       # assembler
 CB = /usr/bin/pbcopy    # cut buffer
 RM = /bin/rm -f
@@ -26,8 +27,8 @@ cb : ${NAME}.8o
 
 clean :
 	$(RM) \
-	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt \
-	    `./ideps.awk n=$(NAME) $(NAME).deps`
+	    `$(ID) $(NAME)` \
+	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt 
 
 force :
 

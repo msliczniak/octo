@@ -58,4 +58,3 @@ dnl
 define(`DELREGS', `dnl
   # $0 $*
 popdef(`__CHIP8_REGS_$1')dnl')dnl
-dnl vim: set filetype=m4: #modeline
