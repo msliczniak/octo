@@ -34,8 +34,8 @@ dnl PUSHREG(regset, name)
 dnl
 define(`PUSHREG', `dnl
 pushdef(`rs', __CHIP8_REGS_$1)dnl
-ifelse(rs, `15', `errprint(`PUSHREG: too many registers: $*
-')m4exit(1)')dnl
+ifelse(rs, `15', `errprint(`PUSHREG: too many registers: $*' # vf is flag
+)m4exit(1)')dnl
 pushdef(`$2', `__CHIP8_R'rs)dnl
 pushdef(`__CHIP8_REGS_$1', `$2')dnl
 `  # PUSHREG '$2` $*'dnl

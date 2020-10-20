@@ -25,7 +25,9 @@ cb : ${NAME}.8o
 	$(CB) <${NAME}.8o
 
 clean :
-	$(RM) $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps
+	$(RM) \
+	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt \
+	    `./ideps.awk n=$(NAME) $(NAME).deps`
 
 force :
 

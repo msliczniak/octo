@@ -1,12 +1,4 @@
-include(`chip8.m4')dnl
-: main
-
-divert(incr(divnum))dnl
-dnl
-divert(decr(divnum))dnl
-define(`BL',`0')dnl
-
-divert(incr(divnum))dnl
+include(`chip8.m')dnl
 dnl
 : col
 
@@ -46,7 +38,7 @@ dnl
 define(`COLLAPSE', `dnl
 dnl
 : _COLLAPSE,$*
-ifelse($1, $2, `FREE0 := eval(17 << $1) # faster than extra jumps')
+ifelse($1, $2, `FREE0 := eval(17 << $1)')
 if R$1 == BL
 then jump _COLLAPSE,incr($1),$2
 GHOST0 := eval((17 << ($1 + 1)) & 255)
@@ -166,4 +158,5 @@ if R3 == BL
 then FREE0 := 1
 return
 dnl
-dnl POPREGS(`COL', 0)
+POPREGS(`COL', 0)
+DELREGS(`COL')

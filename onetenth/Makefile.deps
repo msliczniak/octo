@@ -4,6 +4,8 @@ D = ./deps.sh   # dependency generator
 PP = ./pp.sh    # pre-processor
 MP = m4         # macro processor
 
+MPFLAGS =
+
 # GNU make stupidity
 .SUFFIXES :
 % : %.8o
@@ -14,10 +16,10 @@ MP = m4         # macro processor
 .SUFFIXES : .8o .m .deps .m4
 
 .m.8o :
-	$(MP) $< >$@
+	$(MP) $(MPFLAGS) $< >$@
 
 .m4.deps :
-	$(D) $* >$@
+	SHELL=/bin/sh MAKE="$(MAKE)" MFLAGS="$(MFLAGS)" $(D) $* >$@
 
 .m4.m :
 	$(PP) <$< >$@
