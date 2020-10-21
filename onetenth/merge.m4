@@ -11,18 +11,18 @@ dnl
 divert(incr(divnum)) # merge.m4 dnl
 # there is nothing to merge
 : _COLLAPSE,4,0
-GHOST0  := 0
-FREE0   := 4
-divert(decr(divnum)) # merge.m4 dnl
+GHOST1  := 0
+FREE3   := 4
 return
+divert(decr(divnum)) # merge.m4 dnl
 dnl
 define(`COLLAPSE', `dnl
 dnl
 : _COLLAPSE,$*
-ifelse($1, $2, `FREE0 := eval(17 << $1)')
+ifelse($1, $2, `FREE3 := eval(17 << $1)')
 if R$1 == BL
 then jump _COLLAPSE,incr($1),$2
-GHOST0 := eval((17 << ($1 + 1)) & 255)
+GHOST1 := eval((17 << ($1 + 1)) & 255)
 # FALLTHRU
 ')dnl
 dnl
@@ -31,25 +31,25 @@ COLLAPSE(1, 1)
 COLLAPSE(2, 2)
 COLLAPSE(3, 3)
 : _COLLAPSE,4,4
-GHOST0  := 0
+GHOST1  := 0
 jump _COLLAPSE,4
 
 COLLAPSE(2, 0)
 COLLAPSE(3, 1)
 : _COLLAPSE,4,2
-GHOST0  -= FREE0
+GHOST1  -= FREE3
 jump _COLLAPSE,2
 
 COLLAPSE(3, 0)
 : _COLLAPSE,4,1
-GHOST0  -= FREE0
+GHOST1  -= FREE3
 jump _COLLAPSE,3
 
 COLLAPSE(1, 0)
 COLLAPSE(2, 1)
 COLLAPSE(3, 2)
 : _COLLAPSE,4,3
-GHOST0  -= FREE0
+GHOST1  -= FREE3
 # FALLTHRU
 
 : _COLLAPSE,1
@@ -84,7 +84,7 @@ popdef(`ex')dnl
 
 ifelse($1, $2, `dnl
  vF := eval(17 << $1)
- GHOST0 |= vF
+ GHOST1 |= vF
 ')dnl
 
  # FALLTHRU
@@ -92,7 +92,7 @@ ifelse($1, $2, `dnl
 
 MERGE(0, 0)
 MERGE(2, 1)
-FREE0   := 2
+FREE3   := 2
 R2      := BL
 R3      := BL
 return
@@ -100,41 +100,41 @@ return
 MERGE(1, 1) # <- merge(0, 0)
 R2 := R3
 R3 := BL
-FREE0   := 1
+FREE3   := 1
 if R2 == BL
-then FREE0 := 2
+then FREE3 := 2
 return
 
 MERGE(2, 2) # <- merge(1, 1)
-FREE0 := 1
+FREE3 := 1
 R3 := BL
 return
 
 : _MERGE,4,2 # <- merge(2, 2)
-FREE0   := 1
+FREE3   := 1
 R3      := BL
 return
 
 : _MERGE,b,0,0
-FREE0   := 4
+FREE3   := 4
 return
 
 : _MERGE,b,1,1
-FREE0   := 3
+FREE3   := 3
 return
 
 : _MERGE,b,2,1
-FREE0   := 3
+FREE3   := 3
 R1 := BL
 return
 
 : _MERGE,b,2,2
-FREE0   := 2
+FREE3   := 2
 return
 
 : _MERGE,3,2 # mere(2,1)
 : _MERGE,3,3 # <- merge(2, 2)
-FREE0   := 0
+FREE3   := 0
 if R3 == BL
-then FREE0 := 1
+then FREE3 := 1
 return
