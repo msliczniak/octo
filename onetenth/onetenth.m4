@@ -219,9 +219,51 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
+POPREGS(`MERGE', 0)
+DELREGS(`MERGE')
+
+ve := GHOST0
+i := prevboard0-6
+load vd
+v0 := 3
+v0 &= ve
+
+if v0 == 0
+then jump draw2
+
+i := sym0
+v0 >>= v0
+if vf != 0
+then jump fill0
+load v6
+i := sprite0
+save v6
+
+: draw1
+i := sym0
+v0 := 2
+v0 &= ve
+if v0 != 0
+then jump fill1
+load v6
+i := sprite0
+save v6
+
+: draw2
+
 clear
 
 jump input_loop
+
+: fill0
+i := isym0
+i += v6
+jump draw1
+
+: fill1
+i := isym0
+i += v7
+jump draw2
 
 include(`merge.m')
 POPREGS(`COL', 0)
@@ -234,5 +276,5 @@ DELREGS(`MAIN')
 
 include(`syms.m')
 include(`board.m')
-include(`sprites.m')
+include(`chars.m')
 include(`monitors.m')

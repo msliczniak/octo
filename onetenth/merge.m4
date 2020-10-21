@@ -23,6 +23,7 @@ ifelse($1, $2, `FREE3 := eval(17 << $1)')
 if R$1 == BL
 then jump _COLLAPSE,incr($1),$2
 GHOST1 := eval((17 << ($1 + 1)) & 255)
+R$2 := R$1
 # FALLTHRU
 ')dnl
 dnl
