@@ -1,22 +1,6 @@
+# merge.m4
+
 : col
-
-REGS(`COL', 0)
-PUSHREG(`COL', `R3')
-PUSHREG(`COL', `R2')
-PUSHREG(`COL', `R1')
-PUSHREG(`COL', `R0')
-
-PUSHREG(`COL', `FREE')
-PUSHREG(`COL', `FREE0')
-PUSHREG(`COL', `FREE1')
-PUSHREG(`COL', `FREE2')
-PUSHREG(`COL', `FREE3')
-
-PUSHREG(`COL', `GHOST0')
-PUSHREG(`COL', `GHOST1')
-
-PUSHREG(`COL', `MAXSYM')
-PUSHREG(`COL', `SCORE')
 
 #  0x11 = 17
 dnl
@@ -24,14 +8,13 @@ dnl COLLAPSE(i, j)
 dnl
 define(`_COLLAPSE', `_col_collapse')dnl
 dnl
-divert(decr(divnum))dnl
+divert(incr(divnum)) # merge.m4 dnl
 # there is nothing to merge
 : _COLLAPSE,4,0
 GHOST0  := 0
 FREE0   := 4
-
+divert(decr(divnum)) # merge.m4 dnl
 return
-divert(incr(divnum))dnl
 dnl
 define(`COLLAPSE', `dnl
 dnl
@@ -155,6 +138,3 @@ FREE0   := 0
 if R3 == BL
 then FREE0 := 1
 return
-dnl
-POPREGS(`COL', 0)
-DELREGS(`COL')
