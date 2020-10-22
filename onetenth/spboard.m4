@@ -31,8 +31,14 @@ then jump _SPBOARD,end,$*
 
 i := isym0
 i += B$1
+ifelse(`$1', `0', `dnl
 MASK >>= MASK
 if vf == 0
+', `dnl
+MASK := eval(1 << $1)
+MASK &= GHOST
+if MASK == 0
+')dnl
 then i := sym0
 load B0
 i := spritebu:eval(((($1) + ($2 >> 2)) - ($2 >> 2)) >> ($2 & 1))

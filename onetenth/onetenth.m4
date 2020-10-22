@@ -154,7 +154,7 @@ i := isym0
 i += MEM0
 sprite X Y 7
 
-:breakpoint input_loop
+_BP(`input_loop')
 
 REGS(`COL', 0)
 PUSHREG(`COL', `R3')
@@ -184,14 +184,14 @@ save vf
 
 MAXSYM := 8
 SCORE := 0
-MASK := 0xf
+MASK := 0xf0
 
 :call col
 i := board0
 save R0
 FREE0 := FREE3
-GHOST := 0xf0
-GHOST &= GHOST1
+GHOST0 := 0xf
+GHOST0 &= GHOST1
 
 i := board1
 load R0
@@ -199,8 +199,8 @@ load R0
 i := board1
 save R0
 FREE1 := FREE3
-GHOST0 &= MASK
-GHOST0 |= GHOST
+GHOST1 &= MASK
+GHOST0 |= GHOST1
 
 i := board2
 load R0
@@ -208,7 +208,7 @@ load R0
 i := board2
 save R0
 FREE2 := FREE3
-GHOST := 0xf0
+GHOST := 0xf
 GHOST &= GHOST1
 
 i := board3
@@ -242,24 +242,21 @@ load B7
 :call spbv
 
 REGS(`DRAW', 0)
+PUSHREG(`DRAW', `M0')
 PUSHREG(`DRAW', `X0')
 PUSHREG(`DRAW', `Y0')
-PUSHREG(`DRAW', `M0')
+PUSHREG(`DRAW', `M1')
 PUSHREG(`DRAW', `X1')
 PUSHREG(`DRAW', `Y1')
-PUSHREG(`DRAW', `M1')
+PUSHREG(`DRAW', `M2')
 PUSHREG(`DRAW', `X2')
 PUSHREG(`DRAW', `Y2')
-PUSHREG(`DRAW', `M2')
+PUSHREG(`DRAW', `M3')
 PUSHREG(`DRAW', `X3')
 PUSHREG(`DRAW', `Y3')
-PUSHREG(`DRAW', `M3')
-PUSHREG(`DRAW', `D0')
 
 i := drawbs0
-load M3
-D0 := 1
-delay := D0
+load Y3
 :call draw
 
 i := board0-6
@@ -267,7 +264,7 @@ load B7
 :call spbv
 
 i := drawbs0
-load M3
+load Y3
 :call draw
 
 
@@ -280,23 +277,21 @@ load B7
 :call spbv
 
 i := drawbs1
-load M3
-D0 := 1
-delay := D0
+load Y3
 :call draw
 
 i := board2-6
 load B7
 :call spbv
 
-i := drawbs0
-load M3
+i := drawbs1
+load Y3
 :call draw
 
 
 
-D0 := key
-clear
+# KEY := key
+# clear
 
 jump input_loop
 
