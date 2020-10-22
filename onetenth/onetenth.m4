@@ -184,13 +184,13 @@ save vf
 
 MAXSYM := 8
 SCORE := 0
-MASK := 0xf0
+MASK := 0xf
 
 :call col
 i := board0
 save R0
 FREE0 := FREE3
-GHOST0 := 0xf
+GHOST0 := 0xf0
 GHOST0 &= GHOST1
 
 i := board1
@@ -208,7 +208,7 @@ load R0
 i := board2
 save R0
 FREE2 := FREE3
-GHOST := 0xf
+GHOST := 0xf0
 GHOST &= GHOST1
 
 i := board3
