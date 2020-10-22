@@ -222,48 +222,83 @@ save SCORE
 POPREGS(`MERGE', 0)
 DELREGS(`MERGE')
 
-ve := GHOST0
+REGS(`SPRITES', 0)
+PUSHREG(`SPRITES', `MASK')
+
+REGS(`SPB', 6)
+PUSHREG(`SPB', `B0')
+PUSHREG(`SPB', `B1')
+PUSHREG(`SPB', `B2')
+PUSHREG(`SPB', `B3')
+PUSHREG(`SPB', `B4')
+PUSHREG(`SPB', `B5')
+PUSHREG(`SPB', `B6')
+PUSHREG(`SPB', `B7')
+PUSHREG(`SPB', `GHOST')
+
+GHOST := GHOST0
 i := prevboard0-6
-load vd
-v0 := 3
-v0 &= ve
+load B7
+:call spbv
 
-if v0 == 0
-then jump draw2
+REGS(`DRAW', 0)
+PUSHREG(`DRAW', `X0')
+PUSHREG(`DRAW', `Y0')
+PUSHREG(`DRAW', `M0')
+PUSHREG(`DRAW', `X1')
+PUSHREG(`DRAW', `Y1')
+PUSHREG(`DRAW', `M1')
+PUSHREG(`DRAW', `X2')
+PUSHREG(`DRAW', `Y2')
+PUSHREG(`DRAW', `M2')
+PUSHREG(`DRAW', `X3')
+PUSHREG(`DRAW', `Y3')
+PUSHREG(`DRAW', `M3')
+PUSHREG(`DRAW', `D0')
 
-i := sym0
-v0 >>= v0
-if vf != 0
-then jump fill0
-load v6
-i := sprite0
-save v6
+i := drawbs0
+load M3
+D0 := 1
+delay := D0
+:call draw
 
-: draw1
-i := sym0
-v0 := 2
-v0 &= ve
-if v0 != 0
-then jump fill1
-load v6
-i := sprite0
-save v6
+i := board0-6
+load B7
+:call spbv
 
-: draw2
+i := drawbs0
+load M3
+:call draw
 
+
+
+i := bghost1
+load MASK
+GHOST := MASK
+i := prevboard2-6
+load B7
+:call spbv
+
+i := drawbs1
+load M3
+D0 := 1
+delay := D0
+:call draw
+
+i := board2-6
+load B7
+:call spbv
+
+i := drawbs0
+load M3
+:call draw
+
+
+
+D0 := key
 clear
 
 jump input_loop
-
-: fill0
-i := isym0
-i += v6
-jump draw1
-
-: fill1
-i := isym0
-i += v7
-jump draw2
 
 include(`merge.m')
 POPREGS(`COL', 0)
@@ -276,5 +311,7 @@ DELREGS(`MAIN')
 
 include(`syms.m')
 include(`board.m')
+include(`spboard.m')
+include(`draw.m')
 include(`chars.m')
 include(`monitors.m')

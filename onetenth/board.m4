@@ -15,12 +15,25 @@ BL BL BL BL
 BL BL BL BL
 
 : boardf # free counts
-0 0
+: bfree0
+0
+: bfree1
+0
 : prevboard0-6
-0 0
+: bfree2
+0
+: bfree3
+0
 
 : boarde # extras
-0 0 0 0
+: bghost0
+0
+: bghost1
+0
+: bmaxsym
+0
+: bscore
+0
 
 : prevboard
 : prevboard0
@@ -33,3 +46,14 @@ BL BL BL BL
 BL BL BL BL
 : prevboard3
 BL BL BL BL
+
+: drawbs0
+ 0 16       0b11
+ 0  0     0b1100
+10 16   0b110000
+10  0 0b11000000
+: drawbs1
+20 16       0b11
+20  0     0b1100
+30 16   0b110000
+30  0 0b11000000
