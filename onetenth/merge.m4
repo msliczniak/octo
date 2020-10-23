@@ -69,55 +69,58 @@ define(`_MERGE', `_col_merge')dnl
 dnl
 define(`MERGE',`dnl
 :  _MERGE,$*
+ifelse(`$1', `0', `', `dnl
  if R$1 == BL
  then jump _MERGE,b,$*
+')dnl
 
-pushdef(`ex', R$`'1)dnl
- if R$1 != ex(incr($1))
-popdef(`ex')dnl
+ if R$1 != _CC(`R', incr($1))
  then jump _MERGE,incr($1),incr($2)
 
  SCORE += R$1
  R$1 += 8
+ifelse(`$1', `$2', `', `R$2 := R$1')
 
  GT(R$1, MAXSYM)
  then MAXSYM := R$1
 
-ifelse($1, $2, `dnl
- vF := eval(17 << $1)
- GHOST1 |= vF
-')dnl
+dnl ifelse($1, $2, `dnl
+dnl  FREE3 := eval(17 << $1)
+dnl  GHOST1 |= FREE3
+dnl ')dnl
 
  # FALLTHRU
 ')dnl
 
 MERGE(0, 0)
 MERGE(2, 1)
-FREE3   := 2
 R2      := BL
 R3      := BL
+GHOST1  := 0xff
+FREE3   := 2
 return
 
 MERGE(1, 1) # <- merge(0, 0)
 R2 := R3
 R3 := BL
-FREE3   := 1
-if R2 == BL
-then FREE3 := 2
+if R2 != BL
+then jump _MERGE,f1
+FREE3 := eval((17 << 2) | (17 << 1))
+GHOST1 |= FREE3
+FREE3 := 2
+return
+
+: _MERGE,f1
+FREE3 := eval((17 << 3) | (17 << 2) | (17 << 1))
+GHOST1 |= FREE3
+FREE3 := 1
 return
 
 MERGE(2, 2) # <- merge(1, 1)
-FREE3 := 1
 R3 := BL
-return
-
-: _MERGE,4,2 # <- merge(2, 2)
-FREE3   := 1
-R3      := BL
-return
-
-: _MERGE,b,0,0
-FREE3   := 4
+FREE3 := eval((17 << 3) | (17 << 2))
+GHOST1 |= FREE3
+FREE3 := 1
 return
 
 : _MERGE,b,1,1
@@ -125,15 +128,32 @@ FREE3   := 3
 return
 
 : _MERGE,b,2,1
+R1 :=   BL
+FREE3 := eval((17 << 1) | 17)
+GHOST1 |= FREE3
 FREE3   := 3
-R1 := BL
 return
 
 : _MERGE,b,2,2
 FREE3   := 2
 return
 
-: _MERGE,3,2 # mere(2,1)
+: _MERGE,3,2 # <- merge(2,1)
+R2 := R3
+R3 := BL
+if R2 == BL
+then jump _MERGE,f2
+FREE3 := eval((17 << 2) | (17 << 1) | 17)
+GHOST1 |= FREE3
+FREE3 := 1
+return
+
+: _MERGE,f2
+FREE3 := eval((17 << 1) | 17)
+GHOST1 |= FREE3
+FREE3 := 2
+return
+
 : _MERGE,3,3 # <- merge(2, 2)
 FREE3   := 0
 if R3 == BL
