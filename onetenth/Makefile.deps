@@ -7,6 +7,7 @@ MP = m4         # macro processor
 MPFLAGS =
 
 # GNU make stupidity
+.SECONDARY :
 .SUFFIXES :
 % : %.8o
 % : %.m
@@ -24,4 +25,5 @@ MPFLAGS =
 .m4.m :
 	$(PP) <$< >$@
 
+# help-out github
 # vim: set filetype=make: #modeline

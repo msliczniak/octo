@@ -7,16 +7,20 @@ all : ${NAME}.8o
 ID = ./ideps.sh         # list implicit dependencies
 AS = ../Octo/octo       # assembler
 CB = /usr/bin/pbcopy    # cut buffer
+DD = ./dd256.sh
 RM = /bin/rm -f
 
 # GNU make stupidity
+.SECONDARY :
 .SUFFIXES :
+% : %-eti.ch8
+% : %.c8x
 % : %.ch8
 % : %.8o
 % : %.m
 % : %.deps
 
-.SUFFIXES : .ch8 .8o .m .deps
+.SUFFIXES : -eti.ch8 .c8x .ch8 .8o .m .deps
 
 .PHONY : cb all clean force ${NAME}.m
 
@@ -27,16 +31,22 @@ cb : ${NAME}.8o
 
 clean :
 	$(RM) \
-	    `$(ID) $(NAME)` \
+	    `$(ID) $(NAME)` $(NAME)-eti.ch8 $(NAME).c8x \
 	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt 
 
 force :
 
+.m.8o :
+	$(MAKE) $(MFLAGS) -f Makefile.deps $@
+
 .8o.ch8 :
 	$(AS) $(AFLAGS) $< $@
 
-.m.8o :
-	$(MAKE) $(MFLAGS) -f Makefile.deps $@
+.ch8.c8x :
+	$(DD) 1 $< $@
+
+.c8x-eti.ch8 :
+	$(DD) 3 $< $@
 
 ${NAME}.m : ${NAME}.deps force
 	$(MAKE) $(MFLAGS) -f Makefile.deps -f - ${NAME}.deps $@ <${NAME}.deps
