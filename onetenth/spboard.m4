@@ -40,7 +40,7 @@ i := spritebu:eval(((($1) + ($2 >> 2)) - ($2 >> 2)) >> ($2 & 1))
 save B0
 
 i := isym0
-i += _(`B', eval($1 + $2))
+i += _CC(`B', eval($1 + $2))
 MASK := eval((128 >> $1) >> $2)
 MASK &= GHOST
 if MASK == 0
