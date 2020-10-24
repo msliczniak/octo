@@ -1,6 +1,6 @@
 # monitors.m4
 
-#:monitor board 32
+:assert "program too large" { HERE < 3216 }
 
 :monitor board0 "%x %x %x %x"
 :monitor board1 "%x %x %x %x"

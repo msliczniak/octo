@@ -27,7 +27,9 @@
 0 0 0 0 0 0 0 0
 : sprite7
 : spritebl:3
-0 0 0 0 0 0 0
+0 0 0 0 0 0
 0
-: board0-6 
+: board0-7
+0
+: board0-6
 0 0 0 0 0 0

@@ -4,7 +4,9 @@ include(`sprites.m')
 
 : board
 : board0
-BL BL
+BL
+: board2-7
+BL
 : board2-6
 BL BL
 : board1
@@ -17,6 +19,7 @@ BL BL BL BL
 : boardf # free counts
 : bfree0
 0
+: prevboard0-7
 : bfree1
 0
 : prevboard0-6

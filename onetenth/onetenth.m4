@@ -176,11 +176,14 @@ REGS(`MERGE', REGSLVL(`COL'))
 PUSHREG(`MERGE', `GHOST')
 PUSHREG(`MERGE', `MASK')
 
-# save board state
-i := board
-load vf
-i := prevboard
-save vf
+dnl # save board state
+dnl i := board
+dnl load vf
+dnl i := prevboard
+dnl save vf
+dnl try flipping twice to see how performant it is
+:call flip
+:call flip
 
 MAXSYM := 8
 SCORE := 0
@@ -306,6 +309,7 @@ DELREGS(`MAIN')
 
 include(`syms.m')
 include(`board.m')
+include(`trans.m')
 include(`spboard.m')
 include(`draw.m')
 include(`chars.m')
