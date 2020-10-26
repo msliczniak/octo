@@ -11,13 +11,15 @@ http://www.comx35.com/comx35.html
 
 http://www.cosmacelf.com/publications/data-sheets/
 
-https://chip-8.github.io/extensions/#improved-chip-8-modification-for-saving-and-restoring-variables
+https://chip-8.github.io/extensions/#chip-8-for-eti-660
 
 http://mattmik.com/files/chip8/mastering/chip8.html
 
 https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Extensions-Reference
 
 https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Technical-Reference
+
+https://github.com/trapexit/chip-8_documentation/tree/master/Misc
 
 ETI 660:
 Phil Cohen. “Programming in CHIP-8 — a crash course”. In: Electronics Today International (Nov. 1981), pp. 115–121.
