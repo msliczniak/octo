@@ -1,5 +1,34 @@
 include(`defines.m')
 
+i := isym0
+load v6
+
+i := sprite0
+save v6
+i := sprite1
+save v6
+i := sprite2
+save v6
+i := sprite3
+save v6
+i := sprite4
+save v6
+i := sprite5
+save v6
+i := sprite6
+save v6
+i := sprite7
+save v6
+ve := 0xff
+
+i := drawbs0
+load vb
+:call draw
+
+i := drawbs1
+load vb
+:call draw
+
 REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
 PUSHREG(`MAIN', `MEM1')
