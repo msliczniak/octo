@@ -71,7 +71,7 @@ jump handle_keye
 jump handle_keyf
 
 : handle_key0
-X := 10
+X := 8
 Y := 24
 S := 7
 jump input_loop0
@@ -83,13 +83,13 @@ S := 0
 jump input_loop0
 
 : handle_key2
-X := 10
+X := 8
 Y := 0
 S := 4
 jump input_loop0
 
 : handle_key3
-X := 20
+X := 16
 Y := 0
 S := 8
 jump input_loop0
@@ -101,13 +101,13 @@ S := 1
 jump input_loop0
 
 : handle_key5
-X := 10
+X := 8
 Y := 8
 S := 5
 jump input_loop0
 
 : handle_key6
-X := 20
+X := 16
 Y := 8
 S := 9
 jump input_loop0
@@ -119,13 +119,13 @@ S := 2
 jump input_loop0
 
 : handle_key8
-X := 10
+X := 8
 Y := 16
 S := 6
 jump input_loop0
 
 : handle_key9
-X := 20
+X := 16
 Y := 16
 S := 10
 jump input_loop0
@@ -137,31 +137,31 @@ S := 3
 jump input_loop0
 
 : handle_keyb
-X := 20
+X := 16
 Y := 24
 S := 11
 jump input_loop0
 
 : handle_keyc
-X := 30
+X := 24
 Y := 0
 S := 12
 jump input_loop0
 
 : handle_keyd
-X := 30
+X := 24
 Y := 8
 S := 13
 jump input_loop0
 
 : handle_keye
-X := 30
+X := 24
 Y := 16
 S := 14
 jump input_loop0
 
 : handle_keyf
-X := 30
+X := 24
 Y := 24
 S := 15
 # FALLTHRU
