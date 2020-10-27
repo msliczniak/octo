@@ -206,13 +206,16 @@ PUSHREG(`MERGE', `GHOST')
 PUSHREG(`MERGE', `MASK')
 
 # save board state
-i := board
-load vf
-i := prevboard
-save vf
+dnl i := board
+dnl load vf
+dnl i := prevboard
+dnl save vf
+dnl
 dnl try flipping twice to see how performant it is
 dnl :call flip
 dnl :call flip
+:call right
+:call right
 
 MAXSYM := 8
 SCORE := 0

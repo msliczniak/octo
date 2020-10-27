@@ -6,6 +6,7 @@ include(`sprites.m')
 : board0
 BL
 : board2-7
+: board-1
 BL
 : board2-6
 BL BL
