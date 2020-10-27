@@ -214,8 +214,10 @@ dnl
 dnl try flipping twice to see how performant it is
 dnl :call flip
 dnl :call flip
-:call right
-:call right
+dnl :call right
+dnl :call right
+:call left
+:call left
 
 MAXSYM := 8
 SCORE := 0

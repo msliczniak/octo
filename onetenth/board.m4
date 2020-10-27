@@ -15,7 +15,9 @@ BL BL BL BL
 : board2
 BL BL BL BL
 : board3
-BL BL BL BL
+BL BL BL
+: board-f
+BL
 
 : boardf # free counts
 : bfree0
