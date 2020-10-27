@@ -1,5 +1,7 @@
 include(`defines.m')
 
+hires
+
 i := isym0
 load v6
 
@@ -26,6 +28,14 @@ load vb
 :call draw
 
 i := drawbs1
+load vb
+:call draw
+
+i := drawbs0p
+load vb
+:call draw
+
+i := drawbs1p
 load vb
 :call draw
 
@@ -181,6 +191,9 @@ save MEM0
 
 i := isym0
 i += MEM0
+sprite X Y 7
+X += 32
+Y += 32
 sprite X Y 7
 
 _BP(`input_loop')
