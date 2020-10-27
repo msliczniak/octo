@@ -84,11 +84,6 @@ ifelse(`$1', `$2', `', `R$2 := R$1')
  GT(R$1, MAXSYM)
  then MAXSYM := R$1
 
-dnl ifelse($1, $2, `dnl
-dnl  FREE3 := eval(17 << $1)
-dnl  GHOST1 |= FREE3
-dnl ')dnl
-
  # FALLTHRU
 ')dnl
 
@@ -139,6 +134,7 @@ FREE3   := 2
 return
 
 : _MERGE,3,2 # <- merge(2,1)
+R1 := R2
 R2 := R3
 R3 := BL
 if R2 == BL
