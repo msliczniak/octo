@@ -185,6 +185,10 @@ KEY += 1
 KEY <<= KEY
 KEY <<= KEY
 KEY <<= KEY
+
+i := main_regs
+save v5
+
 i := board
 i += S
 save MEM0
@@ -192,6 +196,9 @@ save MEM0
 i := isym0
 i += MEM0
 sprite X Y 7
+
+i := sym0
+i += MEM0
 X += 32
 Y += 32
 sprite X Y 7
@@ -218,13 +225,93 @@ REGS(`MERGE', REGSLVL(`COL'))
 PUSHREG(`MERGE', `GHOST')
 PUSHREG(`MERGE', `MASK')
 
+dnl POPREGS(`MERGE', 0)
+dnl DELREGS(`MERGE')
+
+REGS(`SPRITES', 0)
+PUSHREG(`SPRITES', `SPMASK')
+
+REGS(`SPB', 6)
+PUSHREG(`SPB', `B0')
+PUSHREG(`SPB', `B1')
+PUSHREG(`SPB', `B2')
+PUSHREG(`SPB', `B3')
+PUSHREG(`SPB', `B4')
+PUSHREG(`SPB', `B5')
+PUSHREG(`SPB', `B6')
+PUSHREG(`SPB', `B7')
+PUSHREG(`SPB', `GHOST')
+
+REGS(`DRAW', 0)
+PUSHREG(`DRAW', `M0')
+PUSHREG(`DRAW', `X0')
+PUSHREG(`DRAW', `Y0')
+PUSHREG(`DRAW', `M1')
+PUSHREG(`DRAW', `X1')
+PUSHREG(`DRAW', `Y1')
+PUSHREG(`DRAW', `M2')
+PUSHREG(`DRAW', `X2')
+PUSHREG(`DRAW', `Y2')
+PUSHREG(`DRAW', `M3')
+PUSHREG(`DRAW', `X3')
+PUSHREG(`DRAW', `Y3')
+
+i := bghost0
+load SPMASK
+GHOST := SPMASK
+
+i := prevboard0-6
+load B7
+:call spbv
+
+i := drawbs0p
+load Y3
+:call draw
+
+i := board0-6
+load B7
+:call spbv
+
+i := drawbs0p
+load Y3
+:call draw
+
+i := bghost1
+load SPMASK
+GHOST := SPMASK
+i := prevboard2-6
+load B7
+:call spbv
+
+i := drawbs1p
+load Y3
+:call draw
+
+i := board2-6
+load B7
+:call spbv
+
+i := drawbs1p
+load Y3
+:call draw
+
+i := main_regs
+load v5
+
+i := board
+i += S
+save MEM0
+
+i := isym0
+i += MEM0
+sprite X Y 7
+# i := sym0
+# i += MEM0
+#X += 32
+#Y += 32
+#sprite X Y 7
+
 # save board state
-dnl i := board
-dnl load vf
-dnl i := prevboard
-dnl save vf
-dnl
-dnl try flipping twice to see how performant it is
 dnl :call flip
 dnl :call flip
 dnl :call right
@@ -269,41 +356,10 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-POPREGS(`MERGE', 0)
-DELREGS(`MERGE')
-
-REGS(`SPRITES', 0)
-PUSHREG(`SPRITES', `MASK')
-
-REGS(`SPB', 6)
-PUSHREG(`SPB', `B0')
-PUSHREG(`SPB', `B1')
-PUSHREG(`SPB', `B2')
-PUSHREG(`SPB', `B3')
-PUSHREG(`SPB', `B4')
-PUSHREG(`SPB', `B5')
-PUSHREG(`SPB', `B6')
-PUSHREG(`SPB', `B7')
-PUSHREG(`SPB', `GHOST')
-
 GHOST := GHOST0
 i := prevboard0-6
 load B7
 :call spbv
-
-REGS(`DRAW', 0)
-PUSHREG(`DRAW', `M0')
-PUSHREG(`DRAW', `X0')
-PUSHREG(`DRAW', `Y0')
-PUSHREG(`DRAW', `M1')
-PUSHREG(`DRAW', `X1')
-PUSHREG(`DRAW', `Y1')
-PUSHREG(`DRAW', `M2')
-PUSHREG(`DRAW', `X2')
-PUSHREG(`DRAW', `Y2')
-PUSHREG(`DRAW', `M3')
-PUSHREG(`DRAW', `X3')
-PUSHREG(`DRAW', `Y3')
 
 i := drawbs0
 load Y3
@@ -320,8 +376,8 @@ load Y3
 
 
 i := bghost1
-load MASK
-GHOST := MASK
+load SPMASK
+GHOST := SPMASK
 i := prevboard2-6
 load B7
 :call spbv
@@ -345,9 +401,12 @@ load Y3
 
 jump input_loop
 
+: main_regs
+0 0 0 0 0 0
+
 include(`merge.m')
-POPREGS(`COL', 0)
-DELREGS(`COL')
+dnl POPREGS(`COL', 0)
+dnl DELREGS(`COL')
 
 popdef(`X')
 popdef(`KEY')

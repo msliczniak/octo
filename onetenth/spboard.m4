@@ -24,16 +24,16 @@ dnl   j: offset to paired board element
 dnl
 pushdef(`_SPBOARD', `_spboard')dnl
 pushdef(`SPBOARD', `dnl
-MASK := eval(((128 >> $1) >> $2) | (128 >> $1))
-MASK &= GHOST
-if MASK == 0
+SPMASK := eval(((128 >> $1) >> $2) | (128 >> $1))
+SPMASK &= GHOST
+if SPMASK == 0
 then jump _SPBOARD,end,$*
 
 i := isym0
 i += B$1
-MASK := eval(128 >> $1)
-MASK &= GHOST
-if MASK == 0
+SPMASK := eval(128 >> $1)
+SPMASK &= GHOST
+if SPMASK == 0
 then i := sym0
 load B0
 i := spritebu:eval(((($1) + ($2 >> 2)) - ($2 >> 2)) >> ($2 & 1))
@@ -41,9 +41,9 @@ save B0
 
 i := isym0
 i += _CC(`B', eval($1 + $2))
-MASK := eval((128 >> $1) >> $2)
-MASK &= GHOST
-if MASK == 0
+SPMASK := eval((128 >> $1) >> $2)
+SPMASK &= GHOST
+if SPMASK == 0
 then i := sym0
 load B0
 i := spritebl:eval(((($1) + ($2 >> 2)) - ($2 >> 2)) >> ($2 & 1))
