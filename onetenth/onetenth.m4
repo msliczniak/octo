@@ -1,6 +1,21 @@
 include(`defines.m')
 
-hires
+i := main_regs
+vb := 0
+vc := 11
+vd := 22
+ve := 32
+
+: invert_loop
+sprite ve vb 11
+sprite ve vc 11
+sprite ve vd 10
+if ve == 56
+then jump inverted
+ve += 8
+jump invert_loop
+
+: inverted
 
 i := isym0
 load v6
@@ -271,12 +286,12 @@ save MEM0
 i := sym0
 i += MEM0
 sprite X Y 7
-X += 32
+X += 33
 Y += 32
 sprite X Y 7
 
 i := isym0
-X -= 32
+X -= 33
 Y -= 32
 MEM0 := 7
 :call key_loop
@@ -430,6 +445,9 @@ load MEM1
 i := spbz
 save MEM1
 
+if Z == 4
+then jump kn
+
 if Z != 0
 then return
 
@@ -455,8 +473,32 @@ save MEM1
 
 return
 
+: kn
+i := idraws1
+load MEM1
+i := drawaz
+save MEM1
+
+i := idraws0
+load MEM1
+i := drawbz
+save MEM1
+
+i := idraws1p
+load MEM1
+i := drawazp
+save MEM1
+
+i := idraws0p
+load MEM1
+i := drawbzp
+save MEM1
+
+return
+
+# 11 bytes to invert screen on startup
 : main_regs
-0 0 0 0 0 0
+255 255 255 255 255 255 255 255 255 255 255
 
 include(`merge.m')
 dnl POPREGS(`COL', 0)
