@@ -15,6 +15,8 @@ dnl >>> g(0, 4), g(1, 4), g(2, 4), g(3, 4)
 dnl (0, 1, 2, 3)
 dnl >>> g(0, 1), g(2, 1), g(4, 1), g(6, 1)
 dnl (0, 1, 2, 3)
+dnl >>> g(7, -1), g(5, -1), g(3, -1), g(1, -1)
+dnl (3, 2, 1, 0)
 
 dnl prepare sprites from board
 dnl
@@ -24,7 +26,12 @@ dnl   j: offset to paired board element
 dnl
 pushdef(`_SPBOARD', `_spboard')dnl
 pushdef(`SPBOARD', `dnl
-SPMASK := eval(((128 >> $1) >> $2) | (128 >> $1))
+ifelse(`$2', `-1', `dnl
+SPMASK := eval(((128 >> ($1 - 1)) >> 1) | (128 >> ($1 - 1))) dnl
+', `dnl
+SPMASK := eval(((128 >> $1) >> $2) | (128 >> $1)) dnl
+')dnl
+
 SPMASK &= GHOST
 if SPMASK == 0
 then jump _SPBOARD,end,$*
@@ -53,6 +60,8 @@ save B0
 ')dnl
 
 : spbv
+: spb0
+: spb8
 SPBOARD(0, 1)
 SPBOARD(2, 1)
 SPBOARD(4, 1)
@@ -60,8 +69,16 @@ SPBOARD(6, 1)
 return
 
 : spbh
+: spb4
 SPBOARD(0, 4)
 SPBOARD(1, 4)
 SPBOARD(2, 4)
 SPBOARD(3, 4)
+return
+
+: spbc
+SPBOARD(7, -1)
+SPBOARD(5, -1)
+SPBOARD(3, -1)
+SPBOARD(1, -1)
 return

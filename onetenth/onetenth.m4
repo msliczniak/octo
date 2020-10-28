@@ -39,6 +39,12 @@ i := drawbs1p
 load vb
 :call draw
 
+dnl Z is the orientation
+dnl
+dnl 0 |   4       8 |     C
+dnl   |    -----    |      -----
+dnl   |/       /   \|      \
+dnl
 REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
 PUSHREG(`MAIN', `MEM1')
@@ -48,6 +54,7 @@ PUSHREG(`MAIN', `S')
 PUSHREG(`MAIN', `M')
 pushdef(`KEY', `MEM0`'')
 pushdef(`X',   `MEM1`'')
+Z := 0
 
 : input_loop
 KEY := key

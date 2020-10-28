@@ -1,5 +1,9 @@
 # trans.m4
 
+# 0 4 8 C   F B 7 3
+# 1 5 9 D   E A 6 2
+# 2 6 A E   D 9 5 1
+# 3 7 B F   C 8 4 0
 : flip
 i := board2-7
 load ve
