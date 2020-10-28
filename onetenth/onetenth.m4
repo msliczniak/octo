@@ -23,21 +23,10 @@ i := sprite7
 save v6
 ve := 0xff
 
-i := drawbs0
-load vb
-:call draw
-
-i := drawbs1
-load vb
-:call draw
-
-i := drawbs0p
-load vb
-:call draw
-
-i := drawbs1p
-load vb
-:call draw
+:call drawaz
+:call drawbz
+:call drawazp
+:call drawbzp
 
 dnl Z is the orientation
 dnl
@@ -255,34 +244,22 @@ GHOST := SPMASK
 
 i := prevboard0-6
 :call spbz
-
-i := drawbs0p
-load Y3
-:call draw
+:call drawazp
 
 i := board0-6
 :call spbz
-
-i := drawbs0p
-load Y3
-:call draw
+:call drawazp
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
 :call spbz
-
-i := drawbs1p
-load Y3
-:call draw
+:call drawbzp
 
 i := board2-6
 :call spbz
-
-i := drawbs1p
-load Y3
-:call draw
+:call drawbzp
 
 i := main_regs
 load v5
@@ -369,34 +346,22 @@ save SCORE
 GHOST := GHOST0
 i := prevboard0-6
 :call spbz
-
-i := drawbs0
-load Y3
-:call draw
+:call drawaz
 
 i := board0-6
 :call spbz
-
-i := drawbs0
-load Y3
-:call draw
+:call drawaz
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
 :call spbz
-
-i := drawbs1
-load Y3
-:call draw
+:call drawbz
 
 i := board2-6
 :call spbz
-
-i := drawbs1
-load Y3
-:call draw
+:call drawbz
 
 jump input_loop
 
