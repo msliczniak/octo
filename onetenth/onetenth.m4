@@ -429,6 +429,30 @@ i += Z
 load MEM1
 i := spbz
 save MEM1
+
+if Z != 0
+then return
+
+i := idraws0
+load MEM1
+i := drawaz
+save MEM1
+
+i := idraws1
+load MEM1
+i := drawbz
+save MEM1
+
+i := idraws0p
+load MEM1
+i := drawazp
+save MEM1
+
+i := idraws1p
+load MEM1
+i := drawbzp
+save MEM1
+
 return
 
 : main_regs
