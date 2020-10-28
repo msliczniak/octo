@@ -302,19 +302,64 @@ X += 32
 Y += 32
 sprite X Y 7
 
-KEY := key
+PUSHREG(`MAIN', `KS')
+KS := 8
+PUSHREG(`MAIN', `KE')
+KE := 6
+PUSHREG(`MAIN', `KN')
+KN := 2
+PUSHREG(`MAIN', `KW')
+KW := 4
+
 i := isym0
 X -= 32
 Y -= 32
+MEM0 := 15
+
+: key_loop
+if KS key
+then jump ks
+if KE key
+then jump ke
+if KN key
+then jump kn
+if KW key
+then jump kw
+jump key_loop
+
+: ks
 sprite X Y 7
 
 # save board state
-dnl :call flip
-dnl :call flip
-dnl :call right
-dnl :call right
+i := board
+load vf
+i := prevboard
+save vf
+
+jump step_col
+
+: ke
+sprite X Y 7
+Z += 4
+Z &= MEM0
+:call right
+jump step_col
+
+: kn
+sprite X Y 7
+Z += 8
+Z &= MEM0
+:call flip
+jump step_col
+
+: kw
+sprite X Y 7
+Z += 12
+Z &= MEM0
 :call left
-:call left
+
+# FALLTHRU
+: step_col
 
 MAXSYM := 8
 SCORE := 0
@@ -370,8 +415,6 @@ i := drawbs0
 load Y3
 :call draw
 
-
-
 i := bghost1
 load SPMASK
 GHOST := SPMASK
@@ -390,11 +433,6 @@ load B7
 i := drawbs1
 load Y3
 :call draw
-
-
-
-# KEY := key
-# clear
 
 jump input_loop
 

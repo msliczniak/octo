@@ -2,6 +2,17 @@
 
 : col
 
+dnl >>> for i in xrange(4):
+dnl ...     for j in xrange(i):
+dnl ...             print bin((1 << i) - (1 << j))
+dnl ...
+dnl 0b1
+dnl 0b11
+dnl 0b10
+dnl 0b111
+dnl 0b110
+dnl 0b100
+dnl
 #  0x11 = 17
 dnl
 dnl COLLAPSE(i, j)
