@@ -192,21 +192,34 @@ Y := 24
 S := 15
 # FALLTHRU
 
+# highlight the picked cell
 : input_loop0
 i := isym0
-sprite OX OY 7
-OX := X
-OY := Y
-OX += 33
-OY += 32
 sprite X Y 7 
-sprite OX OY 7
 
 KEY := key
 KEY += 1
 KEY <<= KEY
 KEY <<= KEY
 KEY <<= KEY
+
+# draw the new sym
+i := sym0
+i += KEY
+sprite X Y 7
+
+:call key_loop
+
+# remove the highlight from the new sym
+i := isym0
+sprite X Y 7
+
+# remove the highlight from the last new sym of the prev board
+sprite OX OY 7
+OX := X
+OY := Y
+OX += 33
+OY += 32
 
 i := main_regs
 save v7
@@ -290,19 +303,24 @@ i := board2-6
 i := main_regs
 load v7
 
-i := board
-i += S
-save MEM0
-
-i := sym0
-i += MEM0
-sprite X Y 7
+# new sym of prev board in reverse video
+i := isym0
+i += KEY
 sprite OX OY 7
 
-i := isym0
-MEM0 := 7
-:call key_loop
-sprite X Y 7
+i := board
+i += S
+save KEY
+
+dnl i := sym0
+dnl i += MEM0
+dnl sprite X Y 7
+dnl sprite OX OY 7
+dnl 
+dnl i := isym0
+dnl MEM0 := 7
+dnl :call key_loop
+dnl sprite X Y 7
 
 # pressed direction key
 M -= 8
