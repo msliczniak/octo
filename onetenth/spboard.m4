@@ -61,7 +61,7 @@ save B0
 
 : spbv
 : spb0
-: spb8
+: spb4
 SPBOARD(0, 1)
 SPBOARD(2, 1)
 SPBOARD(4, 1)
@@ -69,14 +69,14 @@ SPBOARD(6, 1)
 return
 
 : spbh
-: spb4
+: spb2
 SPBOARD(0, 4)
 SPBOARD(1, 4)
 SPBOARD(2, 4)
 SPBOARD(3, 4)
 return
 
-: spbc
+: spb6
 SPBOARD(7, -1)
 SPBOARD(5, -1)
 SPBOARD(3, -1)

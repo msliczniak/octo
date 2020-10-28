@@ -41,7 +41,7 @@ load vb
 
 dnl Z is the orientation
 dnl
-dnl 0 |   4       8 |     C
+dnl 0 |   2       4 |     6
 dnl   |    -----    |      -----
 dnl   |/       /   \|      \
 dnl
@@ -302,33 +302,28 @@ X += 32
 Y += 32
 sprite X Y 7
 
-PUSHREG(`MAIN', `KS')
-KS := 8
-PUSHREG(`MAIN', `KE')
-KE := 6
-PUSHREG(`MAIN', `KN')
-KN := 2
-PUSHREG(`MAIN', `KW')
-KW := 4
-
 i := isym0
 X -= 32
 Y -= 32
-MEM0 := 15
-
-: key_loop
-if KS key
-then jump ks
-if KE key
-then jump ke
-if KN key
-then jump kn
-if KW key
-then jump kw
-jump key_loop
-
-: ks
+MEM0 := 7
+:call key_loop
 sprite X Y 7
+
+# pressed direction key
+M -= 8
+
+M += Z
+S := 7
+M &= S
+
+if M == 2
+then jump left
+
+if M == 4
+then jump flip
+
+if M == 6
+then jump right
 
 # save board state
 i := board
@@ -336,30 +331,7 @@ load vf
 i := prevboard
 save vf
 
-jump step_col
-
-: ke
-sprite X Y 7
-Z += 4
-Z &= MEM0
-:call right
-jump step_col
-
-: kn
-sprite X Y 7
-Z += 8
-Z &= MEM0
-:call flip
-jump step_col
-
-: kw
-sprite X Y 7
-Z += 12
-Z &= MEM0
-:call left
-
-# FALLTHRU
-: step_col
+: proceed
 
 MAXSYM := 8
 SCORE := 0
@@ -435,6 +407,70 @@ load Y3
 :call draw
 
 jump input_loop
+
+: key_loop
+M := 2
+: _key_loop_next
+if M key
+then return
+if M == 8
+then jump key_loop
+M += 2
+jump _key_loop_next
+
+: spbzt
+jump spb0
+jump spb2
+jump spb4
+jump spb6
+
+: spbz
+jump spb0
+
+: idraws0
+i := drawbs0
+: idraws1
+i := drawbs1
+: idrawe0
+i := drawbe0
+: idrawe1
+i := drawbe1
+: idraws0p
+i := drawbs0p
+: idraws1p
+i := drawbs1p
+: idrawe0p
+i := drawbe0p
+: idrawe1p
+i := drawbe1p
+
+: drawaz
+i := drawbs0
+load Y3
+jump draw
+
+: drawbz
+i := drawbs1
+load Y3
+jump draw
+
+: drawazp
+i := drawbs0p
+load Y3
+jump draw
+
+: drawbzp
+i := drawbs1p
+load Y3
+jump draw
+
+: munge
+i := spbzt
+i += Z
+load MEM1
+i := spbz
+save MEM1
+return
 
 : main_regs
 0 0 0 0 0 0

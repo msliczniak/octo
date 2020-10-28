@@ -5,6 +5,7 @@
 # 2 6 A E   D 9 5 1
 # 3 7 B F   C 8 4 0
 : flip
+:call munge
 i := board2-7
 load ve
 v0 := ve
@@ -35,13 +36,14 @@ i := prevboard0
 load v7
 i := board0
 save v7
-return
+jump proceed
 
 # <F. <3  <7  <B    .F>  0>  1>  2>
 # <0  <4. <8  <C     3> .4>  5>  6>
 # <1  <5  <9. <D     7>  8> .9>  A>
 # <2  <6  <A  <E.    B>  C>  D> .E>
 : right
+:call munge
 i := board-1
 load ve
 dnl V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF
@@ -79,13 +81,14 @@ i := board
 save ve
 i := prevboard
 save vf
-return
+jump proceed
 
 # <F  <3  <7  <B.    E>  D>  C> .B>
 # <0  <4  <8. <C     A>  9> .8>  7>
 # <1  <5. <9  <D     6> .5>  4>  3>
 # <2. <6  <A  <E    .2>  1>  0>  F>
 : left
+:call munge
 i := board-1
 load vd
 dnl V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF
@@ -124,4 +127,4 @@ i := board
 save vf
 i := prevboard
 save vf
-return
+jump proceed
