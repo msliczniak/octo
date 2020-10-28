@@ -18,7 +18,7 @@ eval((($1 << 4) | $1) ^ 255) dnl
 eval((($2 << 4) | $2) ^ 255) dnl
 eval((($3 << 4) | $3) ^ 255) dnl
 eval((($4 << 4) | $4) ^ 255) dnl
-eval((($5 << 4) | $5) ^ 255) dnl
+eval((($5 << 4) | $5) ^ 255)
 divert(decr(divnum))dnl
 popdef(`I')dnl
 ')dnl

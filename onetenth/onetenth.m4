@@ -189,20 +189,6 @@ KEY <<= KEY
 i := main_regs
 save v5
 
-i := board
-i += S
-save MEM0
-
-i := isym0
-i += MEM0
-sprite X Y 7
-
-i := sym0
-i += MEM0
-X += 32
-Y += 32
-sprite X Y 7
-
 _BP(`input_loop')
 
 REGS(`COL', 0)
@@ -302,14 +288,18 @@ i := board
 i += S
 save MEM0
 
-i := isym0
+i := sym0
 i += MEM0
 sprite X Y 7
-# i := sym0
-# i += MEM0
-#X += 32
-#Y += 32
-#sprite X Y 7
+X += 32
+Y += 32
+sprite X Y 7
+
+KEY := key
+i := isym0
+X -= 32
+Y -= 32
+sprite X Y 7
 
 # save board state
 dnl :call flip
