@@ -1,25 +1,26 @@
 include(`defines.m')
 
 i := main_regs
-vb := 0
-vc := 11
-vd := 22
-ve := 32
+vd := 32
+vc := 32
+vb := 43
+va := 54
 
 : invert_loop
-sprite ve vb 11
-sprite ve vc 11
-sprite ve vd 10
-if ve == 56
+sprite vd vc 11
+sprite vd vb 11
+sprite vd va 10
+if vd == 56
 then jump inverted
-ve += 8
+vd += 8
 jump invert_loop
 
 : inverted
-
 i := isym0
-load v6
+vc += 1 # gives a nice box effect
+sprite vd vc 7
 
+load v6
 i := sprite0
 save v6
 i := sprite1
@@ -56,9 +57,13 @@ PUSHREG(`MAIN', `Y')
 PUSHREG(`MAIN', `Z')
 PUSHREG(`MAIN', `S')
 PUSHREG(`MAIN', `M')
+PUSHREG(`MAIN', `OX')
+PUSHREG(`MAIN', `OY')
 pushdef(`KEY', `MEM0`'')
 pushdef(`X',   `MEM1`'')
 Z := 0
+OX := vd
+OY := vc
 
 : input_loop
 KEY := key
@@ -189,7 +194,13 @@ S := 15
 
 : input_loop0
 i := isym0
+sprite OX OY 7
+OX := X
+OY := Y
+OX += 33
+OY += 32
 sprite X Y 7 
+sprite OX OY 7
 
 KEY := key
 KEY += 1
@@ -198,7 +209,7 @@ KEY <<= KEY
 KEY <<= KEY
 
 i := main_regs
-save v5
+save v7
 
 _BP(`input_loop')
 
@@ -277,7 +288,7 @@ i := board2-6
 :call drawbzp
 
 i := main_regs
-load v5
+load v7
 
 i := board
 i += S
@@ -286,13 +297,9 @@ save MEM0
 i := sym0
 i += MEM0
 sprite X Y 7
-X += 33
-Y += 32
-sprite X Y 7
+sprite OX OY 7
 
 i := isym0
-X -= 33
-Y -= 32
 MEM0 := 7
 :call key_loop
 sprite X Y 7
@@ -378,6 +385,8 @@ i := board2-6
 :call spbz
 :call drawbz
 
+i := main_regs
+load v7
 jump input_loop
 
 : key_loop
