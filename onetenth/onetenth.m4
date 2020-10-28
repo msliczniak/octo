@@ -254,7 +254,6 @@ load SPMASK
 GHOST := SPMASK
 
 i := prevboard0-6
-load B7
 :call spbz
 
 i := drawbs0p
@@ -262,7 +261,6 @@ load Y3
 :call draw
 
 i := board0-6
-load B7
 :call spbz
 
 i := drawbs0p
@@ -273,7 +271,6 @@ i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
-load B7
 :call spbz
 
 i := drawbs1p
@@ -281,7 +278,6 @@ load Y3
 :call draw
 
 i := board2-6
-load B7
 :call spbz
 
 i := drawbs1p
@@ -372,7 +368,6 @@ save SCORE
 
 GHOST := GHOST0
 i := prevboard0-6
-load B7
 :call spbz
 
 i := drawbs0
@@ -380,7 +375,6 @@ load Y3
 :call draw
 
 i := board0-6
-load B7
 :call spbz
 
 i := drawbs0
@@ -391,7 +385,6 @@ i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
-load B7
 :call spbz
 
 i := drawbs1
@@ -399,7 +392,6 @@ load Y3
 :call draw
 
 i := board2-6
-load B7
 :call spbz
 
 i := drawbs1
@@ -425,6 +417,8 @@ jump spb4
 jump spb6
 
 : spbz
+load B7
+: _spbzt
 jump spb0
 
 : idraws0
@@ -465,7 +459,7 @@ load Y3
 jump draw
 
 : munge
-i := spbzt
+i := _spbzt
 i += Z
 load MEM1
 i := spbz
