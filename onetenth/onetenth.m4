@@ -255,7 +255,7 @@ GHOST := SPMASK
 
 i := prevboard0-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs0p
 load Y3
@@ -263,7 +263,7 @@ load Y3
 
 i := board0-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs0p
 load Y3
@@ -274,7 +274,7 @@ load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs1p
 load Y3
@@ -282,7 +282,7 @@ load Y3
 
 i := board2-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs1p
 load Y3
@@ -373,7 +373,7 @@ save SCORE
 GHOST := GHOST0
 i := prevboard0-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs0
 load Y3
@@ -381,7 +381,7 @@ load Y3
 
 i := board0-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs0
 load Y3
@@ -392,7 +392,7 @@ load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs1
 load Y3
@@ -400,7 +400,7 @@ load Y3
 
 i := board2-6
 load B7
-:call spbv
+:call spbz
 
 i := drawbs1
 load Y3
