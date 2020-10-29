@@ -1,4 +1,5 @@
 include(`defines.m')
+clear   # in case of reset
 
 i := main_regs
 vd := 32
@@ -312,16 +313,6 @@ i := board
 i += S
 save KEY
 
-dnl i := sym0
-dnl i += MEM0
-dnl sprite X Y 7
-dnl sprite OX OY 7
-dnl 
-dnl i := isym0
-dnl MEM0 := 7
-dnl :call key_loop
-dnl sprite X Y 7
-
 # pressed direction key
 M -= 8
 
@@ -528,8 +519,8 @@ return
 255 255 255 255 255 255 255 255 255 255 255
 
 include(`merge.m')
-dnl POPREGS(`COL', 0)
-dnl DELREGS(`COL')
+POPREGS(`COL', 0)
+DELREGS(`COL')
 
 popdef(`X')
 popdef(`KEY')
