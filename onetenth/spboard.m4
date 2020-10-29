@@ -80,7 +80,6 @@ dnl
 dnl 2 6   A E  |  7 6   5 4  |  C 8 4 0
 dnl 3 7   B F     3 2   1 0     D 9 5 1
 
-dnl XXX u and l swapped
 dnl 0 4   8 C     0 1   2 3     0 4 8 C
 dnl 1 5   9 D  |  4 5   6 7  |  1 5 9 D
 dnl
