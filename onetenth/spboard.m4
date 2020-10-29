@@ -59,11 +59,17 @@ save B0
 : _SPBOARD,end,$*
 ')dnl
 
-dnl 0 4   8 C     0 4   8 C     0 4 8 C
-dnl 1 5   9 D  |  1 5   9 D  |  1 5 9 D
+dnl 0 4   8 C     F E   D C     2 6 A E   0 4 8 C
+dnl 1 5   9 D  <  B A   9 8  |  3 7 B F   1 5 9 D
 dnl
-dnl 2 6   A E  |  2 6   A E  |  2 6 A E
-dnl 3 7   B F     3 7   B F     3 7 B F
+dnl 2 6   A E  |  7 6   5 4
+dnl 3 7   B F     3 2   1 0
+
+dnl 0 4   8 C     0 4   8 C     6 4 2 0   E C A 8
+dnl 1 5   9 D  V  1 5   9 D  |  7 5 3 1   F D B 9
+dnl
+dnl 2 6   A E  |  2 6   A E
+dnl 3 7   B F     3 7   B F
 : spbv
 : spb0
 : spb4
@@ -73,18 +79,11 @@ SPBOARD(4, 1)
 SPBOARD(6, 1)
 return
 
-dnl XXX u and l swapped
-dnl 0 4   8 C     F E   D C     E A 6 2
-dnl 1 5   9 D  |  B A   9 8  |  F B 7 3
+dnl 0 4   8 C     0 1   2 3     0 4 8 C   2 6 A E
+dnl 1 5   9 D  >  4 5   6 7  |  1 5 9 D   3 7 B F
 dnl
-dnl 2 6   A E  |  7 6   5 4  |  C 8 4 0
-dnl 3 7   B F     3 2   1 0     D 9 5 1
-
-dnl 0 4   8 C     0 1   2 3     0 4 8 C
-dnl 1 5   9 D  |  4 5   6 7  |  1 5 9 D
-dnl
-dnl 2 6   A E  |  8 9   A B  |  2 6 A E
-dnl 3 7   B F     C D   E F     3 7 B F
+dnl 2 6   A E  |  8 9   A B
+dnl 3 7   B F     C D   E F
 : spbh
 : spb2
 SPBOARD(0, 4)
@@ -93,11 +92,11 @@ SPBOARD(2, 4)
 SPBOARD(3, 4)
 return
 
-dnl 0 4   8 C     F B   7 3     E A 6 2
-dnl 1 5   9 D  |  E A   6 2  |  F B 7 3
+dnl 0 4   8 C     F B   7 3     E C A 8   6 4 2 0
+dnl 1 5   9 D  ^  E A   6 2  |  F D B 9   7 5 3 1
 dnl
-dnl 2 6   A E  |  D 9   5 1  |  C 8 4 0
-dnl 3 7   B F     C 8   4 0     D 9 5 1
+dnl 2 6   A E  |  D 9   5 1
+dnl 3 7   B F     C 8   4 0
 : spb6
 SPBOARD(7, -1)
 SPBOARD(5, -1)
