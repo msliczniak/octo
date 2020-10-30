@@ -40,16 +40,24 @@ i := sprite7
 save v6
 ve := 0xff
 
-:call drawaz
-:call drawbz
-:call drawazp
-:call drawbzp
+ i := draw,s,a
+ load vb
+:call draw
+ i := draw,s,b
+ load vb
+:call draw
+ i := draw,s,a,p
+ load vb
+:call draw
+ i := draw,s,b,p
+ load vb
+:call draw
 
 dnl Z is the orientation
 dnl
-dnl 0 |   2       4 |     6
-dnl   |    -----    |      -----
-dnl   |/       /   \|      \
+dnl 8 |   6       2 /|   4 
+dnl   |    -----     |     -----
+dnl   |/       /     |     \
 dnl
 REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
@@ -62,7 +70,7 @@ PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 pushdef(`KEY', `MEM0`'')
 pushdef(`X',   `MEM1`'')
-Z := 0
+Z := 8
 OX := vd
 OY := vc
 
@@ -209,7 +217,25 @@ i := sym0
 i += KEY
 sprite X Y 7
 
+# Z is conveniently both the key and orientation
 :call key_loop
+
+# patch code based on key press
+pushdef(`PATCH', `dnl
+i := _$1
+i += Z
+load MEM1
+i := $1
+save MEM1
+')
+
+PATCH(`transform')
+PATCH(`draw,z,a')
+PATCH(`draw,z,a,p')
+PATCH(`draw,z,b')
+PATCH(`draw,z,b,p')
+
+popdef(`PATCH')
 
 # remove the highlight from the new sym
 i := isym0
@@ -283,23 +309,19 @@ load SPMASK
 GHOST := SPMASK
 
 i := prevboard0-6
-:call spbz
-:call drawazp
+:call draw,z,a,p
 
 i := board0-6
-:call spbz
-:call drawazp
+:call draw,z,a,p
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
-:call spbz
-:call drawbzp
+:call draw,z,b,p
 
 i := board2-6
-:call spbz
-:call drawbzp
+:call draw,z,b,p
 
 i := main_regs
 load v7
@@ -313,29 +335,8 @@ i := board
 i += S
 save KEY
 
-# pressed direction key
-M -= 8
-
-M += Z
-S := 7
-M &= S
-
-if M == 2
-then jump left
-
-if M == 4
-then jump flip
-
-if M == 6
-then jump right
-
-# save board state
-i := board
-load vf
-i := prevboard
-save vf
-
-: proceed
+# rot/flip board so pieces fall down
+:call transform
 
 MAXSYM := 8
 SCORE := 0
@@ -374,145 +375,95 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
+# put the board right side-up again
+:call transform
+
 GHOST := GHOST0
 i := prevboard0-6
-:call spbz
-:call drawaz
+:call draw,z,a
 
 i := board0-6
-:call spbz
-:call drawaz
+:call draw,z,a
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 i := prevboard2-6
-:call spbz
-:call drawbz
+:call draw,z,b
 
 i := board2-6
-:call spbz
-:call drawbz
+:call draw,z,b
 
 i := main_regs
 load v7
 jump input_loop
 
 : key_loop
-M := 2
+Z := 2
 : _key_loop_next
-if M key
+if Z key
 then return
-if M == 8
+if Z == 8
 then jump key_loop
-M += 2
+Z += 2
 jump _key_loop_next
 
-: spbzt
-jump spb0
-jump spb2
-jump spb4
-jump spb6
+: transform
+: _transform
+jump ts     # up is convenietly 2, the same length as this one instruction
 
-: spbz
-load B7
-: _spbzt
-jump spb0
+jump tn
+jump tw
+jump te
+jump ts
 
-: idraws0
-i := drawbs0
-: idraws1
-i := drawbs1
-: idrawe0
-i := drawbe0
-: idrawe1
-i := drawbe1
-: idraws0p
-i := drawbs0p
-: idraws1p
-i := drawbs1p
-: idrawe0p
-i := drawbe0p
-: idrawe1p
-i := drawbe1p
-
-: drawaz
-i := drawbs0
+pushdef(`DRAW', `dnl
+: _draw,$*
+:call spb,$1
+i := draw,$*
 load Y3
 jump draw
+')
 
-: drawbz
-i := drawbs1
-load Y3
-jump draw
+DRAW(`n', `a')
+DRAW(`n', `a', `p')
+DRAW(`n', `b')
+DRAW(`n', `b', `p')
 
-: drawazp
-i := drawbs0p
-load Y3
-jump draw
+DRAW(`w', `a')
+DRAW(`w', `a', `p')
+DRAW(`w', `b')
+DRAW(`w', `b', `p')
 
-: drawbzp
-i := drawbs1p
-load Y3
-jump draw
+DRAW(`e', `a')
+DRAW(`e', `a', `p')
+DRAW(`e', `b')
+DRAW(`e', `b', `p')
 
-: munge
-i := _spbzt
-i += Z
-load MEM1
-i := spbz
-save MEM1
+DRAW(`s', `a')
+DRAW(`s', `a', `p')
+DRAW(`s', `b')
+DRAW(`s', `b', `p')
 
-if Z == 4
-then jump kn
+popdef(`DRAW')
 
-if Z != 0
-then return
+pushdef(`DRAW', `dnl
+: draw,z,$*
+: _draw,z,$*
+jump _draw,s,$*
 
-i := idraws0
-load MEM1
-i := drawaz
-save MEM1
+jump _draw,n,$*
+jump _draw,w,$*
+jump _draw,e,$*
+jump _draw,s,$*
+')
 
-i := idraws1
-load MEM1
-i := drawbz
-save MEM1
+DRAW(`a')
+DRAW(`a', `p')
+DRAW(`b')
+DRAW(`b', `p')
 
-i := idraws0p
-load MEM1
-i := drawazp
-save MEM1
-
-i := idraws1p
-load MEM1
-i := drawbzp
-save MEM1
-
-return
-
-: kn
-i := idraws1
-load MEM1
-i := drawaz
-save MEM1
-
-i := idraws0
-load MEM1
-i := drawbz
-save MEM1
-
-i := idraws1p
-load MEM1
-i := drawazp
-save MEM1
-
-i := idraws0p
-load MEM1
-i := drawbzp
-save MEM1
-
-return
+popdef(`DRAW')
 
 # 11 bytes to invert screen on startup
 : main_regs
@@ -532,5 +483,6 @@ include(`board.m')
 include(`trans.m')
 include(`spboard.m')
 include(`draw.m')
-include(`chars.m')
+dnl need some breathing-room for testing
+dnl include(`chars.m')
 include(`monitors.m')

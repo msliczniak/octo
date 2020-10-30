@@ -1,0 +1,1756 @@
+# defines.m4
+
+
+	#@@	include(`chip8.m')
+
+	#@@	define(`BL',`0')
+
+: main	#@@	: main
+v0 := 0	#@@	v0 := 0
+	#@@	_BP(`main')
+buzzer := v0	#@@	buzzer := v0
+jump _entry_point	#@@	jump _entry_point
+0x40 0x28 0x23 0x29 0x6f 0x6e 0x65 0x74 0x65 0x6e 0x74 0x68 0 
+:org 0x300  # CHIP-8X
+v0 := 0	#@@	v0 := 0
+buzzer := v0	#@@	buzzer := v0
+
+# colormap at 0xc00 on 1862/1864
+# NB: must use these registers! https://chip-8.github.io/extensions/#chip-8x
+
+v1 := 0x70  # x: start at region 0 and color 7 + 1 regions
+v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
+vc := 7     # white
+0xb1 0xc0	#@@	0xb1 0xc0
+
+jump _entry_point	#@@	jump _entry_point
+
+:org 0x600  # ETI660
+v0 := 0	#@@	v0 := 0
+buzzer := v0	#@@	buzzer := v0
+
+# FALLTHRU
+: _entry_point	#@@	: _entry_point
+	#@@	include(`defines.m')
+clear   # in case of reset
+
+i := main_regs	#@@	i := main_regs
+vd := 32	#@@	vd := 32
+vc := 32	#@@	vc := 32
+vb := 43	#@@	vb := 43
+va := 54	#@@	va := 54
+
+: invert_loop	#@@	: invert_loop
+sprite vd vc 11	#@@	sprite vd vc 11
+sprite vd vb 11	#@@	sprite vd vb 11
+sprite vd va 10	#@@	sprite vd va 10
+if vd == 56	#@@	if vd == 56
+then jump inverted	#@@	then jump inverted
+vd += 8	#@@	vd += 8
+jump invert_loop	#@@	jump invert_loop
+
+: inverted	#@@	: inverted
+i := isym0	#@@	i := isym0
+vc += 1 # gives a nice box effect
+sprite vd vc 7	#@@	sprite vd vc 7
+
+load v6	#@@	load v6
+i := sprite0	#@@	i := sprite0
+save v6	#@@	save v6
+i := sprite1	#@@	i := sprite1
+save v6	#@@	save v6
+i := sprite2	#@@	i := sprite2
+save v6	#@@	save v6
+i := sprite3	#@@	i := sprite3
+save v6	#@@	save v6
+i := sprite4	#@@	i := sprite4
+save v6	#@@	save v6
+i := sprite5	#@@	i := sprite5
+save v6	#@@	save v6
+i := sprite6	#@@	i := sprite6
+save v6	#@@	save v6
+i := sprite7	#@@	i := sprite7
+save v6	#@@	save v6
+ve := 0xff	#@@	ve := 0xff
+
+ i := draw,s,a	#@@	 i := draw,s,a
+ load vb	#@@	 load vb
+:call draw	#@@	:call draw
+ i := draw,s,b	#@@	 i := draw,s,b
+ load vb	#@@	 load vb
+:call draw	#@@	:call draw
+ i := draw,s,a,p	#@@	 i := draw,s,a,p
+ load vb	#@@	 load vb
+:call draw	#@@	:call draw
+ i := draw,s,b,p	#@@	 i := draw,s,b,p
+ load vb	#@@	 load vb
+:call draw	#@@	:call draw
+
+  # REGS MAIN,0
+  # PUSHREG v0 MAIN,MEM0	#@@	PUSHREG(`MAIN', `MEM0')
+  # PUSHREG v1 MAIN,MEM1	#@@	PUSHREG(`MAIN', `MEM1')
+  # PUSHREG v2 MAIN,Y	#@@	PUSHREG(`MAIN', `Y')
+  # PUSHREG v3 MAIN,Z	#@@	PUSHREG(`MAIN', `Z')
+  # PUSHREG v4 MAIN,S	#@@	PUSHREG(`MAIN', `S')
+  # PUSHREG v5 MAIN,M	#@@	PUSHREG(`MAIN', `M')
+  # PUSHREG v6 MAIN,OX	#@@	PUSHREG(`MAIN', `OX')
+  # PUSHREG v7 MAIN,OY	#@@	PUSHREG(`MAIN', `OY')
+	#@@	pushdef(`KEY', `MEM0`'')
+	#@@	pushdef(`X',   `MEM1`'')
+v3 := 8	#@@	Z := 8
+v6 := vd	#@@	OX := vd
+v7 := vc	#@@	OY := vc
+
+: input_loop	#@@	: input_loop
+v0 := key	#@@	KEY := key
+
+v0 <<= v0	#@@	KEY <<= KEY
+i := keytable	#@@	i := keytable
+i += v0	#@@	i += KEY
+load v1	#@@	load MEM1
+i := input_loop_trampoline0	#@@	i := input_loop_trampoline0
+save v1	#@@	save MEM1
+
+: input_loop_trampoline0	#@@	: input_loop_trampoline0
+jump input_loop_trampoline0	#@@	jump input_loop_trampoline0
+
+: keytable	#@@	: keytable
+jump handle_key0	#@@	jump handle_key0
+jump handle_key1	#@@	jump handle_key1
+jump handle_key2	#@@	jump handle_key2
+jump handle_key3	#@@	jump handle_key3
+jump handle_key4	#@@	jump handle_key4
+jump handle_key5	#@@	jump handle_key5
+jump handle_key6	#@@	jump handle_key6
+jump handle_key7	#@@	jump handle_key7
+jump handle_key8	#@@	jump handle_key8
+jump handle_key9	#@@	jump handle_key9
+jump handle_keya	#@@	jump handle_keya
+jump handle_keyb	#@@	jump handle_keyb
+jump handle_keyc	#@@	jump handle_keyc
+jump handle_keyd	#@@	jump handle_keyd
+jump handle_keye	#@@	jump handle_keye
+jump handle_keyf	#@@	jump handle_keyf
+
+: handle_key0	#@@	: handle_key0
+v1 := 8	#@@	X := 8
+v2 := 24	#@@	Y := 24
+v4 := 7	#@@	S := 7
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key1	#@@	: handle_key1
+v1 := 0	#@@	X := 0
+v2 := 0	#@@	Y := 0
+v4 := 0	#@@	S := 0
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key2	#@@	: handle_key2
+v1 := 8	#@@	X := 8
+v2 := 0	#@@	Y := 0
+v4 := 4	#@@	S := 4
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key3	#@@	: handle_key3
+v1 := 16	#@@	X := 16
+v2 := 0	#@@	Y := 0
+v4 := 8	#@@	S := 8
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key4	#@@	: handle_key4
+v1 := 0	#@@	X := 0
+v2 := 8	#@@	Y := 8
+v4 := 1	#@@	S := 1
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key5	#@@	: handle_key5
+v1 := 8	#@@	X := 8
+v2 := 8	#@@	Y := 8
+v4 := 5	#@@	S := 5
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key6	#@@	: handle_key6
+v1 := 16	#@@	X := 16
+v2 := 8	#@@	Y := 8
+v4 := 9	#@@	S := 9
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key7	#@@	: handle_key7
+v1 := 0	#@@	X := 0
+v2 := 16	#@@	Y := 16
+v4 := 2	#@@	S := 2
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key8	#@@	: handle_key8
+v1 := 8	#@@	X := 8
+v2 := 16	#@@	Y := 16
+v4 := 6	#@@	S := 6
+jump input_loop0	#@@	jump input_loop0
+
+: handle_key9	#@@	: handle_key9
+v1 := 16	#@@	X := 16
+v2 := 16	#@@	Y := 16
+v4 := 10	#@@	S := 10
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keya	#@@	: handle_keya
+v1 := 0	#@@	X := 0
+v2 := 24	#@@	Y := 24
+v4 := 3	#@@	S := 3
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keyb	#@@	: handle_keyb
+v1 := 16	#@@	X := 16
+v2 := 24	#@@	Y := 24
+v4 := 11	#@@	S := 11
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keyc	#@@	: handle_keyc
+v1 := 24	#@@	X := 24
+v2 := 0	#@@	Y := 0
+v4 := 12	#@@	S := 12
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keyd	#@@	: handle_keyd
+v1 := 24	#@@	X := 24
+v2 := 8	#@@	Y := 8
+v4 := 13	#@@	S := 13
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keye	#@@	: handle_keye
+v1 := 24	#@@	X := 24
+v2 := 16	#@@	Y := 16
+v4 := 14	#@@	S := 14
+jump input_loop0	#@@	jump input_loop0
+
+: handle_keyf	#@@	: handle_keyf
+v1 := 24	#@@	X := 24
+v2 := 24	#@@	Y := 24
+v4 := 15	#@@	S := 15
+# FALLTHRU
+
+# highlight the picked cell
+: input_loop0	#@@	: input_loop0
+i := isym0	#@@	i := isym0
+sprite v1 v2 7 	#@@	sprite X Y 7 
+
+v0 := key	#@@	KEY := key
+v0 += 1	#@@	KEY += 1
+v0 <<= v0	#@@	KEY <<= KEY
+v0 <<= v0	#@@	KEY <<= KEY
+v0 <<= v0	#@@	KEY <<= KEY
+
+# draw the new sym
+i := sym0	#@@	i := sym0
+i += v0	#@@	i += KEY
+sprite v1 v2 7	#@@	sprite X Y 7
+
+# Z is conveniently both the key and orientation
+:call key_loop	#@@	:call key_loop
+
+# patch code based on key press
+	#@@	')
+
+i := _transform	#@@	i := _transform
+i += v3	#@@	i += Z
+load v1	#@@	load MEM1
+i := transform	#@@	i := transform
+save v1	#@@	save MEM1
+	#@@	PATCH(`transform')
+i := _draw,z,a	#@@	i := _draw,z,a
+i += v3	#@@	i += Z
+load v1	#@@	load MEM1
+i := draw,z,a	#@@	i := draw,z,a
+save v1	#@@	save MEM1
+	#@@	PATCH(`draw,z,a')
+i := _draw,z,a,p	#@@	i := _draw,z,a,p
+i += v3	#@@	i += Z
+load v1	#@@	load MEM1
+i := draw,z,a,p	#@@	i := draw,z,a,p
+save v1	#@@	save MEM1
+	#@@	PATCH(`draw,z,a,p')
+i := _draw,z,b	#@@	i := _draw,z,b
+i += v3	#@@	i += Z
+load v1	#@@	load MEM1
+i := draw,z,b	#@@	i := draw,z,b
+save v1	#@@	save MEM1
+	#@@	PATCH(`draw,z,b')
+i := _draw,z,b,p	#@@	i := _draw,z,b,p
+i += v3	#@@	i += Z
+load v1	#@@	load MEM1
+i := draw,z,b,p	#@@	i := draw,z,b,p
+save v1	#@@	save MEM1
+	#@@	PATCH(`draw,z,b,p')
+
+	#@@	popdef(`PATCH')
+
+# remove the highlight from the new sym
+i := isym0	#@@	i := isym0
+sprite v1 v2 7	#@@	sprite X Y 7
+
+# remove the highlight from the last new sym of the prev board
+sprite v6 v7 7	#@@	sprite OX OY 7
+v6 := v1	#@@	OX := X
+v7 := v2	#@@	OY := Y
+v6 += 33	#@@	OX += 33
+v7 += 32	#@@	OY += 32
+
+i := main_regs	#@@	i := main_regs
+save v7	#@@	save v7
+
+	#@@	_BP(`input_loop')
+
+  # REGS COL,0
+  # PUSHREG v0 COL,R3	#@@	PUSHREG(`COL', `R3')
+  # PUSHREG v1 COL,R2	#@@	PUSHREG(`COL', `R2')
+  # PUSHREG v2 COL,R1	#@@	PUSHREG(`COL', `R1')
+  # PUSHREG v3 COL,R0	#@@	PUSHREG(`COL', `R0')
+
+  # PUSHREG v4 COL,FREE0	#@@	PUSHREG(`COL', `FREE0')
+  # PUSHREG v5 COL,FREE1	#@@	PUSHREG(`COL', `FREE1')
+  # PUSHREG v6 COL,FREE2	#@@	PUSHREG(`COL', `FREE2')
+  # PUSHREG v7 COL,FREE3	#@@	PUSHREG(`COL', `FREE3')
+
+  # PUSHREG v8 COL,GHOST0	#@@	PUSHREG(`COL', `GHOST0')
+  # PUSHREG v9 COL,GHOST1	#@@	PUSHREG(`COL', `GHOST1')
+  # PUSHREG va COL,MAXSYM	#@@	PUSHREG(`COL', `MAXSYM')
+  # PUSHREG vb COL,SCORE	#@@	PUSHREG(`COL', `SCORE')
+
+  # REGS MERGE,12
+  # PUSHREG vc MERGE,GHOST	#@@	PUSHREG(`MERGE', `GHOST')
+  # PUSHREG vd MERGE,MASK	#@@	PUSHREG(`MERGE', `MASK')
+
+
+  # REGS SPRITES,0
+  # PUSHREG v0 SPRITES,SPMASK	#@@	PUSHREG(`SPRITES', `SPMASK')
+
+  # REGS SPB,6
+  # PUSHREG v6 SPB,B0	#@@	PUSHREG(`SPB', `B0')
+  # PUSHREG v7 SPB,B1	#@@	PUSHREG(`SPB', `B1')
+  # PUSHREG v8 SPB,B2	#@@	PUSHREG(`SPB', `B2')
+  # PUSHREG v9 SPB,B3	#@@	PUSHREG(`SPB', `B3')
+  # PUSHREG va SPB,B4	#@@	PUSHREG(`SPB', `B4')
+  # PUSHREG vb SPB,B5	#@@	PUSHREG(`SPB', `B5')
+  # PUSHREG vc SPB,B6	#@@	PUSHREG(`SPB', `B6')
+  # PUSHREG vd SPB,B7	#@@	PUSHREG(`SPB', `B7')
+  # PUSHREG ve SPB,GHOST	#@@	PUSHREG(`SPB', `GHOST')
+
+  # REGS DRAW,0
+  # PUSHREG v0 DRAW,M0	#@@	PUSHREG(`DRAW', `M0')
+  # PUSHREG v1 DRAW,X0	#@@	PUSHREG(`DRAW', `X0')
+  # PUSHREG v2 DRAW,Y0	#@@	PUSHREG(`DRAW', `Y0')
+  # PUSHREG v3 DRAW,M1	#@@	PUSHREG(`DRAW', `M1')
+  # PUSHREG v4 DRAW,X1	#@@	PUSHREG(`DRAW', `X1')
+  # PUSHREG v5 DRAW,Y1	#@@	PUSHREG(`DRAW', `Y1')
+  # PUSHREG v6 DRAW,M2	#@@	PUSHREG(`DRAW', `M2')
+  # PUSHREG v7 DRAW,X2	#@@	PUSHREG(`DRAW', `X2')
+  # PUSHREG v8 DRAW,Y2	#@@	PUSHREG(`DRAW', `Y2')
+  # PUSHREG v9 DRAW,M3	#@@	PUSHREG(`DRAW', `M3')
+  # PUSHREG va DRAW,X3	#@@	PUSHREG(`DRAW', `X3')
+  # PUSHREG vb DRAW,Y3	#@@	PUSHREG(`DRAW', `Y3')
+
+i := bghost0	#@@	i := bghost0
+load v0	#@@	load SPMASK
+ve := v0	#@@	GHOST := SPMASK
+
+i := prevboard0-6	#@@	i := prevboard0-6
+:call draw,z,a,p	#@@	:call draw,z,a,p
+
+i := board0-6	#@@	i := board0-6
+:call draw,z,a,p	#@@	:call draw,z,a,p
+
+i := bghost1	#@@	i := bghost1
+load v0	#@@	load SPMASK
+ve := v0	#@@	GHOST := SPMASK
+i := prevboard2-6	#@@	i := prevboard2-6
+:call draw,z,b,p	#@@	:call draw,z,b,p
+
+i := board2-6	#@@	i := board2-6
+:call draw,z,b,p	#@@	:call draw,z,b,p
+
+i := main_regs	#@@	i := main_regs
+load v7	#@@	load v7
+
+# new sym of prev board in reverse video
+i := isym0	#@@	i := isym0
+i += v0	#@@	i += KEY
+sprite v6 v7 7	#@@	sprite OX OY 7
+
+i := board	#@@	i := board
+i += v4	#@@	i += S
+save v0	#@@	save KEY
+
+# rot/flip board so pieces fall down
+:call transform	#@@	:call transform
+
+va := 8	#@@	MAXSYM := 8
+vb := 0	#@@	SCORE := 0
+vd := 0xf	#@@	MASK := 0xf
+
+:call col	#@@	:call col
+i := board0	#@@	i := board0
+save v3	#@@	save R0
+v4 := v7	#@@	FREE0 := FREE3
+v8 := 0xf0	#@@	GHOST0 := 0xf0
+v8 &= v9	#@@	GHOST0 &= GHOST1
+
+i := board1	#@@	i := board1
+load v3	#@@	load R0
+:call col	#@@	:call col
+i := board1	#@@	i := board1
+save v3	#@@	save R0
+v5 := v7	#@@	FREE1 := FREE3
+v9 &= vd	#@@	GHOST1 &= MASK
+v8 |= v9	#@@	GHOST0 |= GHOST1
+
+i := board2	#@@	i := board2
+load v3	#@@	load R0
+:call col	#@@	:call col
+i := board2	#@@	i := board2
+save v3	#@@	save R0
+v6 := v7	#@@	FREE2 := FREE3
+ve := 0xf0	#@@	GHOST := 0xf0
+ve &= v9	#@@	GHOST &= GHOST1
+
+i := board3	#@@	i := board3
+load v3	#@@	load R0
+:call col	#@@	:call col
+v9 &= vd	#@@	GHOST1 &= MASK
+v9 |= ve	#@@	GHOST1 |= GHOST
+i := board3	#@@	i := board3
+save vb	#@@	save SCORE
+
+# put the board right side-up again
+:call transform	#@@	:call transform
+
+ve := v8	#@@	GHOST := GHOST0
+i := prevboard0-6	#@@	i := prevboard0-6
+:call draw,z,a	#@@	:call draw,z,a
+
+i := board0-6	#@@	i := board0-6
+:call draw,z,a	#@@	:call draw,z,a
+
+i := bghost1	#@@	i := bghost1
+load v0	#@@	load SPMASK
+ve := v0	#@@	GHOST := SPMASK
+i := prevboard2-6	#@@	i := prevboard2-6
+:call draw,z,b	#@@	:call draw,z,b
+
+i := board2-6	#@@	i := board2-6
+:call draw,z,b	#@@	:call draw,z,b
+
+i := main_regs	#@@	i := main_regs
+load v7	#@@	load v7
+jump input_loop	#@@	jump input_loop
+
+: key_loop	#@@	: key_loop
+v3 := 2	#@@	Z := 2
+: _key_loop_next	#@@	: _key_loop_next
+if v3 key	#@@	if Z key
+then return	#@@	then return
+if v3 == 8	#@@	if Z == 8
+then jump key_loop	#@@	then jump key_loop
+v3 += 2	#@@	Z += 2
+jump _key_loop_next	#@@	jump _key_loop_next
+
+: transform	#@@	: transform
+: _transform	#@@	: _transform
+jump ts     # up is convenietly 2, the same length as this one instruction
+
+jump tn	#@@	jump tn
+jump tw	#@@	jump tw
+jump te	#@@	jump te
+jump ts	#@@	jump ts
+
+	#@@	')
+
+: _draw,n,a	#@@	: _draw,n,a
+:call spb,n	#@@	:call spb,n
+i := draw,n,a	#@@	i := draw,n,a
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`n', `a')
+: _draw,n,a,p	#@@	: _draw,n,a,p
+:call spb,n	#@@	:call spb,n
+i := draw,n,a,p	#@@	i := draw,n,a,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`n', `a', `p')
+: _draw,n,b	#@@	: _draw,n,b
+:call spb,n	#@@	:call spb,n
+i := draw,n,b	#@@	i := draw,n,b
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`n', `b')
+: _draw,n,b,p	#@@	: _draw,n,b,p
+:call spb,n	#@@	:call spb,n
+i := draw,n,b,p	#@@	i := draw,n,b,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`n', `b', `p')
+
+: _draw,w,a	#@@	: _draw,w,a
+:call spb,w	#@@	:call spb,w
+i := draw,w,a	#@@	i := draw,w,a
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`w', `a')
+: _draw,w,a,p	#@@	: _draw,w,a,p
+:call spb,w	#@@	:call spb,w
+i := draw,w,a,p	#@@	i := draw,w,a,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`w', `a', `p')
+: _draw,w,b	#@@	: _draw,w,b
+:call spb,w	#@@	:call spb,w
+i := draw,w,b	#@@	i := draw,w,b
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`w', `b')
+: _draw,w,b,p	#@@	: _draw,w,b,p
+:call spb,w	#@@	:call spb,w
+i := draw,w,b,p	#@@	i := draw,w,b,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`w', `b', `p')
+
+: _draw,e,a	#@@	: _draw,e,a
+:call spb,e	#@@	:call spb,e
+i := draw,e,a	#@@	i := draw,e,a
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`e', `a')
+: _draw,e,a,p	#@@	: _draw,e,a,p
+:call spb,e	#@@	:call spb,e
+i := draw,e,a,p	#@@	i := draw,e,a,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`e', `a', `p')
+: _draw,e,b	#@@	: _draw,e,b
+:call spb,e	#@@	:call spb,e
+i := draw,e,b	#@@	i := draw,e,b
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`e', `b')
+: _draw,e,b,p	#@@	: _draw,e,b,p
+:call spb,e	#@@	:call spb,e
+i := draw,e,b,p	#@@	i := draw,e,b,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`e', `b', `p')
+
+: _draw,s,a	#@@	: _draw,s,a
+:call spb,s	#@@	:call spb,s
+i := draw,s,a	#@@	i := draw,s,a
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`s', `a')
+: _draw,s,a,p	#@@	: _draw,s,a,p
+:call spb,s	#@@	:call spb,s
+i := draw,s,a,p	#@@	i := draw,s,a,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`s', `a', `p')
+: _draw,s,b	#@@	: _draw,s,b
+:call spb,s	#@@	:call spb,s
+i := draw,s,b	#@@	i := draw,s,b
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`s', `b')
+: _draw,s,b,p	#@@	: _draw,s,b,p
+:call spb,s	#@@	:call spb,s
+i := draw,s,b,p	#@@	i := draw,s,b,p
+load vb	#@@	load Y3
+jump draw	#@@	jump draw
+	#@@	DRAW(`s', `b', `p')
+
+	#@@	popdef(`DRAW')
+
+	#@@	')
+
+: draw,z,a	#@@	: draw,z,a
+: _draw,z,a	#@@	: _draw,z,a
+jump _draw,s,a	#@@	jump _draw,s,a
+
+jump _draw,n,a	#@@	jump _draw,n,a
+jump _draw,w,a	#@@	jump _draw,w,a
+jump _draw,e,a	#@@	jump _draw,e,a
+jump _draw,s,a	#@@	jump _draw,s,a
+	#@@	DRAW(`a')
+: draw,z,a,p	#@@	: draw,z,a,p
+: _draw,z,a,p	#@@	: _draw,z,a,p
+jump _draw,s,a,p	#@@	jump _draw,s,a,p
+
+jump _draw,n,a,p	#@@	jump _draw,n,a,p
+jump _draw,w,a,p	#@@	jump _draw,w,a,p
+jump _draw,e,a,p	#@@	jump _draw,e,a,p
+jump _draw,s,a,p	#@@	jump _draw,s,a,p
+	#@@	DRAW(`a', `p')
+: draw,z,b	#@@	: draw,z,b
+: _draw,z,b	#@@	: _draw,z,b
+jump _draw,s,b	#@@	jump _draw,s,b
+
+jump _draw,n,b	#@@	jump _draw,n,b
+jump _draw,w,b	#@@	jump _draw,w,b
+jump _draw,e,b	#@@	jump _draw,e,b
+jump _draw,s,b	#@@	jump _draw,s,b
+	#@@	DRAW(`b')
+: draw,z,b,p	#@@	: draw,z,b,p
+: _draw,z,b,p	#@@	: _draw,z,b,p
+jump _draw,s,b,p	#@@	jump _draw,s,b,p
+
+jump _draw,n,b,p	#@@	jump _draw,n,b,p
+jump _draw,w,b,p	#@@	jump _draw,w,b,p
+jump _draw,e,b,p	#@@	jump _draw,e,b,p
+jump _draw,s,b,p	#@@	jump _draw,s,b,p
+	#@@	DRAW(`b', `p')
+
+	#@@	popdef(`DRAW')
+
+# 11 bytes to invert screen on startup
+: main_regs	#@@	: main_regs
+255 255 255 255 255 255 255 255 255 255 255	#@@	255 255 255 255 255 255 255 255 255 255 255
+
+# merge.m4
+
+: col	#@@	: col
+
+#  0x11 = 17
+ # merge.m4 dnl
+: _col_collapse,0,0	#@@	: _COLLAPSE,0,0
+v7 := 17	#@@	ifelse(0, 0, `FREE3 := eval(17 << 0)')
+if v3 == 0	#@@	if R0 == BL
+then jump _col_collapse,1,0	#@@	then jump _COLLAPSE,incr(0),0
+v9 := 34	#@@	GHOST1 := eval((17 << (0 + 1)) & 255)
+	#@@	ifelse(0, 0, `', `R0 := R0')
+# FALLTHRU
+	#@@	COLLAPSE(0, 0)
+: _col_collapse,1,1	#@@	: _COLLAPSE,1,1
+v7 := 34	#@@	ifelse(1, 1, `FREE3 := eval(17 << 1)')
+if v2 == 0	#@@	if R1 == BL
+then jump _col_collapse,2,1	#@@	then jump _COLLAPSE,incr(1),1
+v9 := 68	#@@	GHOST1 := eval((17 << (1 + 1)) & 255)
+	#@@	ifelse(1, 1, `', `R1 := R1')
+# FALLTHRU
+	#@@	COLLAPSE(1, 1)
+: _col_collapse,2,2	#@@	: _COLLAPSE,2,2
+v7 := 68	#@@	ifelse(2, 2, `FREE3 := eval(17 << 2)')
+if v1 == 0	#@@	if R2 == BL
+then jump _col_collapse,3,2	#@@	then jump _COLLAPSE,incr(2),2
+v9 := 136	#@@	GHOST1 := eval((17 << (2 + 1)) & 255)
+	#@@	ifelse(2, 2, `', `R2 := R2')
+# FALLTHRU
+	#@@	COLLAPSE(2, 2)
+: _col_collapse,3,3	#@@	: _COLLAPSE,3,3
+v7 := 136	#@@	ifelse(3, 3, `FREE3 := eval(17 << 3)')
+if v0 == 0	#@@	if R3 == BL
+then jump _col_collapse,4,3	#@@	then jump _COLLAPSE,incr(3),3
+v9 := 16	#@@	GHOST1 := eval((17 << (3 + 1)) & 255)
+	#@@	ifelse(3, 3, `', `R3 := R3')
+# FALLTHRU
+	#@@	COLLAPSE(3, 3)
+: _col_collapse,4,4	#@@	: _COLLAPSE,4,4
+v9  := 0	#@@	GHOST1  := 0
+jump _col_collapse,4	#@@	jump _COLLAPSE,4
+
+: _col_collapse,1,0	#@@	: _COLLAPSE,1,0
+	#@@	ifelse(1, 0, `FREE3 := eval(17 << 1)')
+if v2 == 0	#@@	if R1 == BL
+then jump _col_collapse,2,0	#@@	then jump _COLLAPSE,incr(1),0
+v9 := 68	#@@	GHOST1 := eval((17 << (1 + 1)) & 255)
+v3 := v2	#@@	ifelse(1, 0, `', `R0 := R1')
+# FALLTHRU
+	#@@	COLLAPSE(1, 0)
+: _col_collapse,2,1	#@@	: _COLLAPSE,2,1
+	#@@	ifelse(2, 1, `FREE3 := eval(17 << 2)')
+if v1 == 0	#@@	if R2 == BL
+then jump _col_collapse,3,1	#@@	then jump _COLLAPSE,incr(2),1
+v9 := 136	#@@	GHOST1 := eval((17 << (2 + 1)) & 255)
+v2 := v1	#@@	ifelse(2, 1, `', `R1 := R2')
+# FALLTHRU
+	#@@	COLLAPSE(2, 1)
+: _col_collapse,3,2	#@@	: _COLLAPSE,3,2
+	#@@	ifelse(3, 2, `FREE3 := eval(17 << 3)')
+if v0 == 0	#@@	if R3 == BL
+then jump _col_collapse,4,2	#@@	then jump _COLLAPSE,incr(3),2
+v9 := 16	#@@	GHOST1 := eval((17 << (3 + 1)) & 255)
+v1 := v0	#@@	ifelse(3, 2, `', `R2 := R3')
+# FALLTHRU
+	#@@	COLLAPSE(3, 2)
+: _col_collapse,4,3	#@@	: _COLLAPSE,4,3
+v9  -= v7	#@@	GHOST1  -= FREE3
+jump _col_collapse,3	#@@	jump _COLLAPSE,3
+
+: _col_collapse,2,0	#@@	: _COLLAPSE,2,0
+	#@@	ifelse(2, 0, `FREE3 := eval(17 << 2)')
+if v1 == 0	#@@	if R2 == BL
+then jump _col_collapse,3,0	#@@	then jump _COLLAPSE,incr(2),0
+v9 := 136	#@@	GHOST1 := eval((17 << (2 + 1)) & 255)
+v3 := v1	#@@	ifelse(2, 0, `', `R0 := R2')
+# FALLTHRU
+	#@@	COLLAPSE(2, 0)
+: _col_collapse,3,1	#@@	: _COLLAPSE,3,1
+	#@@	ifelse(3, 1, `FREE3 := eval(17 << 3)')
+if v0 == 0	#@@	if R3 == BL
+then jump _col_collapse,4,1	#@@	then jump _COLLAPSE,incr(3),1
+v9 := 16	#@@	GHOST1 := eval((17 << (3 + 1)) & 255)
+v2 := v0	#@@	ifelse(3, 1, `', `R1 := R3')
+# FALLTHRU
+	#@@	COLLAPSE(3, 1)
+: _col_collapse,4,2	#@@	: _COLLAPSE,4,2
+v9  -= v7	#@@	GHOST1  -= FREE3
+jump _col_collapse,2	#@@	jump _COLLAPSE,2
+
+: _col_collapse,3,0	#@@	: _COLLAPSE,3,0
+	#@@	ifelse(3, 0, `FREE3 := eval(17 << 3)')
+if v0 == 0	#@@	if R3 == BL
+then jump _col_collapse,4,0	#@@	then jump _COLLAPSE,incr(3),0
+v9 := 16	#@@	GHOST1 := eval((17 << (3 + 1)) & 255)
+v3 := v0	#@@	ifelse(3, 0, `', `R0 := R3')
+# FALLTHRU
+	#@@	COLLAPSE(3, 0)
+: _col_collapse,4,1	#@@	: _COLLAPSE,4,1
+v9  -= v7	#@@	GHOST1  -= FREE3
+# FALLTHRU
+
+: _col_collapse,1	#@@	: _COLLAPSE,1
+v2 := 0	#@@	R1 := BL
+: _col_collapse,2	#@@	: _COLLAPSE,2
+v1 := 0	#@@	R2 := BL
+: _col_collapse,3	#@@	: _COLLAPSE,3
+v0 := 0	#@@	R3 := BL
+: _col_collapse,4	#@@	: _COLLAPSE,4
+# FALLTHRU
+
+
+:  _col_merge,0,0	#@@	:  _MERGE,0,0
+
+ if v3 != v2	#@@	 if R0 != _CC(`R', incr(0))
+ then jump _col_merge,1,1	#@@	 then jump _MERGE,incr(0),incr(0)
+
+ vb += v3	#@@	 SCORE += R0
+ v3 += 8	#@@	 R0 += 8
+	#@@	ifelse(`0', `0', `', `R0 := R0')
+
+ # if (v3 > va)
+  vF := va	#@@	  vF := va
+  vF -= v3	#@@	  vF -= v3
+  if vF == 0	#@@	 GT(R0, MAXSYM)
+ then va := v3	#@@	 then MAXSYM := R0
+
+ # FALLTHRU
+	#@@	MERGE(0, 0)
+:  _col_merge,2,1	#@@	:  _MERGE,2,1
+ if v1 == 0	#@@	 if R2 == BL
+ then jump _col_merge,b,2,1	#@@	 then jump _MERGE,b,2,1
+
+ if v1 != v0	#@@	 if R2 != _CC(`R', incr(2))
+ then jump _col_merge,3,2	#@@	 then jump _MERGE,incr(2),incr(1)
+
+ vb += v1	#@@	 SCORE += R2
+ v1 += 8	#@@	 R2 += 8
+v2 := v1	#@@	ifelse(`2', `1', `', `R1 := R2')
+
+ # if (v1 > va)
+  vF := va	#@@	  vF := va
+  vF -= v1	#@@	  vF -= v1
+  if vF == 0	#@@	 GT(R2, MAXSYM)
+ then va := v1	#@@	 then MAXSYM := R2
+
+ # FALLTHRU
+	#@@	MERGE(2, 1)
+v1      := 0	#@@	R2      := BL
+v0      := 0	#@@	R3      := BL
+v9  := 0xff	#@@	GHOST1  := 0xff
+v7   := 2	#@@	FREE3   := 2
+return	#@@	return
+
+:  _col_merge,1,1	#@@	:  _MERGE,1,1
+ if v2 == 0	#@@	 if R1 == BL
+ then jump _col_merge,b,1,1	#@@	 then jump _MERGE,b,1,1
+
+ if v2 != v1	#@@	 if R1 != _CC(`R', incr(1))
+ then jump _col_merge,2,2	#@@	 then jump _MERGE,incr(1),incr(1)
+
+ vb += v2	#@@	 SCORE += R1
+ v2 += 8	#@@	 R1 += 8
+	#@@	ifelse(`1', `1', `', `R1 := R1')
+
+ # if (v2 > va)
+  vF := va	#@@	  vF := va
+  vF -= v2	#@@	  vF -= v2
+  if vF == 0	#@@	 GT(R1, MAXSYM)
+ then va := v2	#@@	 then MAXSYM := R1
+
+ # FALLTHRU
+ # <- merge(0, 0)
+v1 := v0	#@@	R2 := R3
+v0 := 0	#@@	R3 := BL
+if v1 != 0	#@@	if R2 != BL
+then jump _col_merge,f1	#@@	then jump _MERGE,f1
+v7 := 102	#@@	FREE3 := eval((17 << 2) | (17 << 1))
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7 := 2	#@@	FREE3 := 2
+return	#@@	return
+
+: _col_merge,f1	#@@	: _MERGE,f1
+v7 := 238	#@@	FREE3 := eval((17 << 3) | (17 << 2) | (17 << 1))
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7 := 1	#@@	FREE3 := 1
+return	#@@	return
+
+:  _col_merge,2,2	#@@	:  _MERGE,2,2
+ if v1 == 0	#@@	 if R2 == BL
+ then jump _col_merge,b,2,2	#@@	 then jump _MERGE,b,2,2
+
+ if v1 != v0	#@@	 if R2 != _CC(`R', incr(2))
+ then jump _col_merge,3,3	#@@	 then jump _MERGE,incr(2),incr(2)
+
+ vb += v1	#@@	 SCORE += R2
+ v1 += 8	#@@	 R2 += 8
+	#@@	ifelse(`2', `2', `', `R2 := R2')
+
+ # if (v1 > va)
+  vF := va	#@@	  vF := va
+  vF -= v1	#@@	  vF -= v1
+  if vF == 0	#@@	 GT(R2, MAXSYM)
+ then va := v1	#@@	 then MAXSYM := R2
+
+ # FALLTHRU
+ # <- merge(1, 1)
+v0 := 0	#@@	R3 := BL
+v7 := 204	#@@	FREE3 := eval((17 << 3) | (17 << 2))
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7 := 1	#@@	FREE3 := 1
+return	#@@	return
+
+: _col_merge,b,1,1	#@@	: _MERGE,b,1,1
+v7   := 3	#@@	FREE3   := 3
+return	#@@	return
+
+: _col_merge,b,2,1	#@@	: _MERGE,b,2,1
+v2 :=   0	#@@	R1 :=   BL
+v7 := 51	#@@	FREE3 := eval((17 << 1) | 17)
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7   := 3	#@@	FREE3   := 3
+return	#@@	return
+
+: _col_merge,b,2,2	#@@	: _MERGE,b,2,2
+v7   := 2	#@@	FREE3   := 2
+return	#@@	return
+
+: _col_merge,3,2 # <- merge(2,1)
+v2 := v1	#@@	R1 := R2
+v1 := v0	#@@	R2 := R3
+v0 := 0	#@@	R3 := BL
+if v1 == 0	#@@	if R2 == BL
+then jump _col_merge,f2	#@@	then jump _MERGE,f2
+v7 := 119	#@@	FREE3 := eval((17 << 2) | (17 << 1) | 17)
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7 := 1	#@@	FREE3 := 1
+return	#@@	return
+
+: _col_merge,f2	#@@	: _MERGE,f2
+v7 := 51	#@@	FREE3 := eval((17 << 1) | 17)
+v9 |= v7	#@@	GHOST1 |= FREE3
+v7 := 2	#@@	FREE3 := 2
+return	#@@	return
+
+: _col_merge,3,3 # <- merge(2, 2)
+v7   := 0	#@@	FREE3   := 0
+if v0 == 0	#@@	if R3 == BL
+then v7 := 1	#@@	then FREE3 := 1
+return	#@@	return
+	#@@	include(`merge.m')
+  # POPREGS COL,0
+  # DELREGS COL
+
+	#@@	popdef(`X')
+	#@@	popdef(`KEY')
+  # POPREGS MAIN,0
+  # DELREGS MAIN
+
+# syms.m4
+
+
+# 5x5 symbols
+: sym0	#@@	`: sym'I
+0 0 0 0 0 0 0 0  # blank space
+: sym1	#@@	`: sym'I
+0 56 108 108 108 56 0 0  #   1 =  2^0     bold rounded
+: sym2	#@@	`: sym'I
+0 0 24 8 8 28 0 0  #   2 =  2^1     miniscule
+: sym3	#@@	`: sym'I
+0 124 4 124 64 124 0 0  #   4 =  2^2
+: sym4	#@@	`: sym'I
+0 120 28 124 28 120 0 0  #   8 =  2^3     bold rounded
+: sym5	#@@	`: sym'I
+0 0 8 40 60 8 0 0  #  16 =  2^4     miniscule
+: sym6	#@@	`: sym'I
+0 60 64 124 4 124 0 0  #  32 =  2^5
+: sym7	#@@	`: sym'I
+0 60 48 124 116 60 0 0  #  64 =  2^6     bold rounded
+: sym8	#@@	`: sym'I
+0 0 60 4 8 16 0 0  # 128 =  2^7     miniscule
+: sym9	#@@	`: sym'I
+0 60 36 124 68 124 0 0  # 256 =  2^8
+: sym10	#@@	`: sym'I
+0 124 92 124 28 28 0 0  # 512 =  2^9     bold
+: sym11	#@@	`: sym'I
+0 0 24 36 60 36 0 0  #  1K = 2^10
+: sym12	#@@	`: sym'I
+0 120 68 124 68 120 0 0  #  2K = 2^11
+: sym13	#@@	`: sym'I
+0 60 124 112 124 60 0 0  #  4K = 2^12     bold rounded
+: sym14	#@@	`: sym'I
+0 0 56 36 36 56 0 0  #  8K = 2^13     miniscule
+: sym15	#@@	`: sym'I
+0 124 64 112 64 124 0 0  # 16K = 2^14
+: sym16	#@@	`: sym'I
+0 124 112 120 112 112 0 0  # 32K = 2^15     bold
+: sym17	#@@	`: sym'I
+0 0 92 84 84 92 0 0  # 64K = 2^16     miniscule
+
+	#@@	include(`syms.m')
+# board.m4
+
+# sprites.m4
+
+# screen update sprites
+
+: spritebu:7	#@@	: spritebu:7
+: spritebl:7	#@@	: spritebl:7
+: spritebu:6	#@@	: spritebu:6
+: spritebl:6	#@@	: spritebl:6
+: spritebu:5	#@@	: spritebu:5
+: spritebl:5	#@@	: spritebl:5
+: spritebu:4	#@@	: spritebu:4
+: spritebl:4	#@@	: spritebl:4
+
+: sprites	#@@	: sprites
+: sprite0	#@@	: sprite0
+: spritebu:0	#@@	: spritebu:0
+0 0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0 0
+: sprite1	#@@	: sprite1
+: spritebl:0	#@@	: spritebl:0
+0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0
+: sprite2	#@@	: sprite2
+: spritebu:1	#@@	: spritebu:1
+0 0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0 0
+: sprite3	#@@	: sprite3
+: spritebl:1	#@@	: spritebl:1
+0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0
+: sprite4	#@@	: sprite4
+: spritebu:2	#@@	: spritebu:2
+0 0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0 0
+: sprite5	#@@	: sprite5
+: spritebl:2	#@@	: spritebl:2
+0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0
+0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0
+: sprite6	#@@	: sprite6
+: spritebu:3	#@@	: spritebu:3
+0 0 0 0 0 0 0 0	#@@	0 0 0 0 0 0 0 0
+: sprite7	#@@	: sprite7
+: spritebl:3	#@@	: spritebl:3
+0 0 0 0 0 0	#@@	0 0 0 0 0 0
+0	#@@	0
+: board0-7	#@@	: board0-7
+0	#@@	0
+: board0-6	#@@	: board0-6
+0 0 0 0 0 0	#@@	0 0 0 0 0 0
+	#@@	include(`sprites.m')
+
+: board	#@@	: board
+: board0	#@@	: board0
+0	#@@	BL
+: board2-7	#@@	: board2-7
+: board-1	#@@	: board-1
+0	#@@	BL
+: board2-6	#@@	: board2-6
+0 0	#@@	BL BL
+: board1	#@@	: board1
+0 0 0 0	#@@	BL BL BL BL
+: board2	#@@	: board2
+0 0 0 0	#@@	BL BL BL BL
+: board3	#@@	: board3
+0 0 0	#@@	BL BL BL
+: board-f	#@@	: board-f
+0	#@@	BL
+
+: boardf # free counts
+: bfree0	#@@	: bfree0
+0	#@@	0
+: prevboard0-7	#@@	: prevboard0-7
+: bfree1	#@@	: bfree1
+0	#@@	0
+: prevboard0-6	#@@	: prevboard0-6
+: bfree2	#@@	: bfree2
+0	#@@	0
+: bfree3	#@@	: bfree3
+0	#@@	0
+
+: boarde # extras
+: bghost0	#@@	: bghost0
+0	#@@	0
+: bghost1	#@@	: bghost1
+0	#@@	0
+: bmaxsym	#@@	: bmaxsym
+0	#@@	0
+: bscore	#@@	: bscore
+0	#@@	0
+
+: prevboard	#@@	: prevboard
+: prevboard0	#@@	: prevboard0
+0 0	#@@	BL BL
+: prevboard2-6	#@@	: prevboard2-6
+0 0	#@@	BL BL
+: prevboard1	#@@	: prevboard1
+0 0 0 0	#@@	BL BL BL BL
+: prevboard2	#@@	: prevboard2
+0 0 0 0	#@@	BL BL BL BL
+: prevboard3	#@@	: prevboard3
+0 0 0 0	#@@	BL BL BL BL
+
+: draw,s,a	#@@	: draw,s,a
+: draw,n,b	#@@	: draw,n,b
+ 0b11000000  0  0	#@@	 0b11000000  0  0
+   0b110000  0 16	#@@	   0b110000  0 16
+     0b1100  8  0	#@@	     0b1100  8  0
+       0b11  8 16	#@@	       0b11  8 16
+
+: draw,s,b	#@@	: draw,s,b
+: draw,n,a	#@@	: draw,n,a
+ 0b11000000 16  0	#@@	 0b11000000 16  0
+   0b110000 16 16	#@@	   0b110000 16 16
+     0b1100 24  0	#@@	     0b1100 24  0
+       0b11 24 16	#@@	       0b11 24 16
+
+: draw,e,a	#@@	: draw,e,a
+: draw,w,b	#@@	: draw,w,b
+ 0b10001000  0  0	#@@	 0b10001000  0  0
+  0b1000100  8  0	#@@	  0b1000100  8  0
+   0b100010 16  0	#@@	   0b100010 16  0
+    0b10001 24  0	#@@	    0b10001 24  0
+
+: draw,e,b	#@@	: draw,e,b
+: draw,w,a	#@@	: draw,w,a
+ 0b10001000  0 16	#@@	 0b10001000  0 16
+  0b1000100  8 16	#@@	  0b1000100  8 16
+   0b100010 16 16	#@@	   0b100010 16 16
+    0b10001 24 16	#@@	    0b10001 24 16
+
+: draw,s,a,p	#@@	: draw,s,a,p
+: draw,n,b,p	#@@	: draw,n,b,p
+ 0b11000000 33 32	#@@	 0b11000000 33 32
+   0b110000 33 48	#@@	   0b110000 33 48
+     0b1100 41 32	#@@	     0b1100 41 32
+       0b11 41 48	#@@	       0b11 41 48
+
+: draw,s,b,p	#@@	: draw,s,b,p
+: draw,n,a,p	#@@	: draw,n,a,p
+ 0b11000000 49 32	#@@	 0b11000000 49 32
+   0b110000 49 48	#@@	   0b110000 49 48
+     0b1100 57 32	#@@	     0b1100 57 32
+       0b11 57 48	#@@	       0b11 57 48
+
+: draw,e,a,p	#@@	: draw,e,a,p
+: draw,w,b,p	#@@	: draw,w,b,p
+ 0b10001000 33 32	#@@	 0b10001000 33 32
+  0b1000100 41 32	#@@	  0b1000100 41 32
+   0b100010 49 32	#@@	   0b100010 49 32
+    0b10001 57 32	#@@	    0b10001 57 32
+
+: draw,e,b,p	#@@	: draw,e,b,p
+: draw,w,a,p	#@@	: draw,w,a,p
+ 0b10001000 33 48	#@@	 0b10001000 33 48
+  0b1000100 41 48	#@@	  0b1000100 41 48
+   0b100010 49 48	#@@	   0b100010 49 48
+    0b10001 57 48	#@@	    0b10001 57 48
+	#@@	include(`board.m')
+# trans.m4
+
+# 0 4 8 C   F B 7 3
+# 1 5 9 D   E A 6 2
+# 2 6 A E   D 9 5 1
+# 3 7 B F   C 8 4 0
+: tn	#@@	: tn
+i := board2-7	#@@	i := board2-7
+load ve	#@@	load ve
+v0 := ve	#@@	v0 := ve
+v1 := vd	#@@	v1 := vd
+v2 := vc	#@@	v2 := vc
+v3 := vb	#@@	v3 := vb
+v4 := va	#@@	v4 := va
+v5 := v9	#@@	v5 := v9
+v6 := v8	#@@	v6 := v8
+i := prevboard0	#@@	i := prevboard0
+save v7	#@@	save v7
+
+i := board0-7	#@@	i := board0-7
+load ve	#@@	load ve
+v0 := ve	#@@	v0 := ve
+v1 := vd	#@@	v1 := vd
+v2 := vc	#@@	v2 := vc
+v3 := vb	#@@	v3 := vb
+v4 := va	#@@	v4 := va
+v5 := v9	#@@	v5 := v9
+v6 := v8	#@@	v6 := v8
+i := prevboard2	#@@	i := prevboard2
+save v7	#@@	save v7
+i := board2	#@@	i := board2
+save v7	#@@	save v7
+
+i := prevboard0	#@@	i := prevboard0
+load v7	#@@	load v7
+i := board0	#@@	i := board0
+save v7	#@@	save v7
+return	#@@	return
+
+# <F. <3  <7  <B    .F>  0>  1>  2>
+# <0  <4. <8  <C     3> .4>  5>  6>
+# <1  <5  <9. <D     7>  8> .9>  A>
+# <2  <6  <A  <E.    B>  C>  D> .E>
+: te	#@@	: te
+i := board-1	#@@	i := board-1
+load ve	#@@	load ve
+
+vf := ve	#@@	vf := ve
+ve := va	#@@	ve := va
+va := v9	#@@	va := v9
+v9 := v5	#@@	v9 := v5
+v5 := v4	#@@	v5 := v4
+v4 := v0	#@@	v4 := v0
+v0 := vd	#@@	v0 := vd
+
+vd := v6	#@@	vd := v6
+v6 := v8	#@@	v6 := v8
+v8 := v1	#@@	v8 := v1
+v1 := v3	#@@	v1 := v3
+v3 := vb	#@@	v3 := vb
+vb := v0	#@@	vb := v0
+v0 := vc	#@@	v0 := vc
+
+vc := v2	#@@	vc := v2
+v2 := v7	#@@	v2 := v7
+v7 := v0	#@@	v7 := v0
+i := board	#@@	i := board
+load v0	#@@	load v0
+
+i := board	#@@	i := board
+save ve	#@@	save ve
+i := prevboard	#@@	i := prevboard
+save vf	#@@	save vf
+return	#@@	return
+
+# <F  <3  <7  <B.    E>  D>  C> .B>
+# <0  <4  <8. <C     A>  9> .8>  7>
+# <1  <5. <9  <D     6> .5>  4>  3>
+# <2. <6  <A  <E    .2>  1>  0>  F>
+: tw	#@@	: tw
+# :call munge
+i := board-1	#@@	i := board-1
+load vd	#@@	load vd
+
+ve := v3	#@@	ve := v3
+v3 := v2	#@@	v3 := v2
+v2 := v6	#@@	v2 := v6
+v6 := v5	#@@	v6 := v5
+v5 := v9	#@@	v5 := v9
+v9 := v8	#@@	v9 := v8
+v8 := vc	#@@	v8 := vc
+vc := vb	#@@	vc := vb
+vb := v0	#@@	vb := v0
+v0 := vd	#@@	v0 := vd
+
+vd := v7	#@@	vd := v7
+v7 := v1	#@@	v7 := v1
+v1 := va	#@@	v1 := va
+va := v4	#@@	va := v4
+v4 := v0	#@@	v4 := v0
+
+i := board	#@@	i := board
+load v0	#@@	load v0
+vf := v0	#@@	vf := v0
+i := board-f	#@@	i := board-f
+load v0	#@@	load v0
+
+i := board	#@@	i := board
+save vf	#@@	save vf
+i := prevboard	#@@	i := prevboard
+save vf	#@@	save vf
+return	#@@	return
+
+# only save the board state
+: ts	#@@	: ts
+i := board	#@@	i := board
+load vf	#@@	load vf
+i := prevboard	#@@	i := prevboard
+save vf	#@@	save vf
+return	#@@	return
+	#@@	include(`trans.m')
+# spboard.m4
+
+
+
+
+#dnl 0 4   8 C     F E   D C     2 6 A E   0 4 8 C
+#dnl 1 5   9 D  <  B A   9 8  |  3 7 B F   1 5 9 D
+#dnl
+#dnl 2 6   A E  |  7 6   5 4
+#dnl 3 7   B F     3 2   1 0
+: spb,w	#@@	: spb,w
+v0 := 1 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,7,-4	#@@	then jump _SPBOARD,end,7,-4
+
+i := isym0	#@@	i := isym0
+i += vd	#@@	i += B7
+v0 := 1	#@@	SPMASK := eval(128 >> 7)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:7	#@@	i := spritebu:eval((((7) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v9	#@@	i += _CC(`B', eval(7 + -4))
+v0 := 0	#@@	SPMASK := eval((128 >> 7) >> -4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:7	#@@	i := spritebl:eval((((7) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,7,-4	#@@	: _SPBOARD,end,7,-4
+	#@@	SPBOARD(7, -4)
+v0 := 2 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,6,-4	#@@	then jump _SPBOARD,end,6,-4
+
+i := isym0	#@@	i := isym0
+i += vc	#@@	i += B6
+v0 := 2	#@@	SPMASK := eval(128 >> 6)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:6	#@@	i := spritebu:eval((((6) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v8	#@@	i += _CC(`B', eval(6 + -4))
+v0 := 0	#@@	SPMASK := eval((128 >> 6) >> -4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:6	#@@	i := spritebl:eval((((6) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,6,-4	#@@	: _SPBOARD,end,6,-4
+	#@@	SPBOARD(6, -4)
+v0 := 4 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,5,-4	#@@	then jump _SPBOARD,end,5,-4
+
+i := isym0	#@@	i := isym0
+i += vb	#@@	i += B5
+v0 := 4	#@@	SPMASK := eval(128 >> 5)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:5	#@@	i := spritebu:eval((((5) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v7	#@@	i += _CC(`B', eval(5 + -4))
+v0 := 0	#@@	SPMASK := eval((128 >> 5) >> -4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:5	#@@	i := spritebl:eval((((5) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,5,-4	#@@	: _SPBOARD,end,5,-4
+	#@@	SPBOARD(5, -4)
+v0 := 8 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,4,-4	#@@	then jump _SPBOARD,end,4,-4
+
+i := isym0	#@@	i := isym0
+i += va	#@@	i += B4
+v0 := 8	#@@	SPMASK := eval(128 >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:4	#@@	i := spritebu:eval((((4) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v6	#@@	i += _CC(`B', eval(4 + -4))
+v0 := 0	#@@	SPMASK := eval((128 >> 4) >> -4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:4	#@@	i := spritebl:eval((((4) + (-4 >> 2)) - (-4 >> 2)) >> (-4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,4,-4	#@@	: _SPBOARD,end,4,-4
+	#@@	SPBOARD(4, -4)
+return	#@@	return
+#
+#dnl 0 4   8 C     0 4   8 C     6 4 2 0   E C A 8
+#dnl 1 5   9 D  V  1 5   9 D  |  7 5 3 1   F D B 9
+#dnl
+#dnl 2 6   A E  |  2 6   A E
+#dnl 3 7   B F     3 7   B F
+#: spbv
+: spb,s	#@@	: spb,s
+v0 := 192 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,0,1	#@@	then jump _SPBOARD,end,0,1
+
+i := isym0	#@@	i := isym0
+i += v6	#@@	i += B0
+v0 := 128	#@@	SPMASK := eval(128 >> 0)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:0	#@@	i := spritebu:eval((((0) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v7	#@@	i += _CC(`B', eval(0 + 1))
+v0 := 64	#@@	SPMASK := eval((128 >> 0) >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:0	#@@	i := spritebl:eval((((0) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,0,1	#@@	: _SPBOARD,end,0,1
+	#@@	SPBOARD(0, 1)
+v0 := 48 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,2,1	#@@	then jump _SPBOARD,end,2,1
+
+i := isym0	#@@	i := isym0
+i += v8	#@@	i += B2
+v0 := 32	#@@	SPMASK := eval(128 >> 2)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:1	#@@	i := spritebu:eval((((2) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v9	#@@	i += _CC(`B', eval(2 + 1))
+v0 := 16	#@@	SPMASK := eval((128 >> 2) >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:1	#@@	i := spritebl:eval((((2) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,2,1	#@@	: _SPBOARD,end,2,1
+	#@@	SPBOARD(2, 1)
+v0 := 12 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,4,1	#@@	then jump _SPBOARD,end,4,1
+
+i := isym0	#@@	i := isym0
+i += va	#@@	i += B4
+v0 := 8	#@@	SPMASK := eval(128 >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:2	#@@	i := spritebu:eval((((4) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vb	#@@	i += _CC(`B', eval(4 + 1))
+v0 := 4	#@@	SPMASK := eval((128 >> 4) >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:2	#@@	i := spritebl:eval((((4) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,4,1	#@@	: _SPBOARD,end,4,1
+	#@@	SPBOARD(4, 1)
+v0 := 3 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,6,1	#@@	then jump _SPBOARD,end,6,1
+
+i := isym0	#@@	i := isym0
+i += vc	#@@	i += B6
+v0 := 2	#@@	SPMASK := eval(128 >> 6)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:3	#@@	i := spritebu:eval((((6) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vd	#@@	i += _CC(`B', eval(6 + 1))
+v0 := 1	#@@	SPMASK := eval((128 >> 6) >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:3	#@@	i := spritebl:eval((((6) + (1 >> 2)) - (1 >> 2)) >> (1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,6,1	#@@	: _SPBOARD,end,6,1
+	#@@	SPBOARD(6, 1)
+return	#@@	return
+#
+#dnl 0 4   8 C     0 1   2 3     0 4 8 C   2 6 A E
+#dnl 1 5   9 D  >  4 5   6 7  |  1 5 9 D   3 7 B F
+#dnl
+#dnl 2 6   A E  |  8 9   A B
+#dnl 3 7   B F     C D   E F
+#: spbh
+: spb,e	#@@	: spb,e
+v0 := 136 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,0,4	#@@	then jump _SPBOARD,end,0,4
+
+i := isym0	#@@	i := isym0
+i += v6	#@@	i += B0
+v0 := 128	#@@	SPMASK := eval(128 >> 0)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:0	#@@	i := spritebu:eval((((0) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += va	#@@	i += _CC(`B', eval(0 + 4))
+v0 := 8	#@@	SPMASK := eval((128 >> 0) >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:0	#@@	i := spritebl:eval((((0) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,0,4	#@@	: _SPBOARD,end,0,4
+	#@@	SPBOARD(0, 4)
+v0 := 68 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,1,4	#@@	then jump _SPBOARD,end,1,4
+
+i := isym0	#@@	i := isym0
+i += v7	#@@	i += B1
+v0 := 64	#@@	SPMASK := eval(128 >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:1	#@@	i := spritebu:eval((((1) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vb	#@@	i += _CC(`B', eval(1 + 4))
+v0 := 4	#@@	SPMASK := eval((128 >> 1) >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:1	#@@	i := spritebl:eval((((1) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,1,4	#@@	: _SPBOARD,end,1,4
+	#@@	SPBOARD(1, 4)
+v0 := 34 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,2,4	#@@	then jump _SPBOARD,end,2,4
+
+i := isym0	#@@	i := isym0
+i += v8	#@@	i += B2
+v0 := 32	#@@	SPMASK := eval(128 >> 2)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:2	#@@	i := spritebu:eval((((2) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vc	#@@	i += _CC(`B', eval(2 + 4))
+v0 := 2	#@@	SPMASK := eval((128 >> 2) >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:2	#@@	i := spritebl:eval((((2) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,2,4	#@@	: _SPBOARD,end,2,4
+	#@@	SPBOARD(2, 4)
+v0 := 17 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,3,4	#@@	then jump _SPBOARD,end,3,4
+
+i := isym0	#@@	i := isym0
+i += v9	#@@	i += B3
+v0 := 16	#@@	SPMASK := eval(128 >> 3)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:3	#@@	i := spritebu:eval((((3) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vd	#@@	i += _CC(`B', eval(3 + 4))
+v0 := 1	#@@	SPMASK := eval((128 >> 3) >> 4)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:3	#@@	i := spritebl:eval((((3) + (4 >> 2)) - (4 >> 2)) >> (4 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,3,4	#@@	: _SPBOARD,end,3,4
+	#@@	SPBOARD(3, 4)
+return	#@@	return
+#
+#dnl 0 4   8 C     F B   7 3     E C A 8   6 4 2 0
+#dnl 1 5   9 D  ^  E A   6 2  |  F D B 9   7 5 3 1
+#dnl
+#dnl 2 6   A E  |  D 9   5 1
+#dnl 3 7   B F     C 8   4 0
+: spb,n	#@@	: spb,n
+v0 := 1 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,7,-1	#@@	then jump _SPBOARD,end,7,-1
+
+i := isym0	#@@	i := isym0
+i += vd	#@@	i += B7
+v0 := 1	#@@	SPMASK := eval(128 >> 7)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:3	#@@	i := spritebu:eval((((7) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += vc	#@@	i += _CC(`B', eval(7 + -1))
+v0 := 0	#@@	SPMASK := eval((128 >> 7) >> -1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:3	#@@	i := spritebl:eval((((7) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,7,-1	#@@	: _SPBOARD,end,7,-1
+	#@@	SPBOARD(7, -1)
+v0 := 4 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,5,-1	#@@	then jump _SPBOARD,end,5,-1
+
+i := isym0	#@@	i := isym0
+i += vb	#@@	i += B5
+v0 := 4	#@@	SPMASK := eval(128 >> 5)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:2	#@@	i := spritebu:eval((((5) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += va	#@@	i += _CC(`B', eval(5 + -1))
+v0 := 0	#@@	SPMASK := eval((128 >> 5) >> -1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:2	#@@	i := spritebl:eval((((5) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,5,-1	#@@	: _SPBOARD,end,5,-1
+	#@@	SPBOARD(5, -1)
+v0 := 16 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,3,-1	#@@	then jump _SPBOARD,end,3,-1
+
+i := isym0	#@@	i := isym0
+i += v9	#@@	i += B3
+v0 := 16	#@@	SPMASK := eval(128 >> 3)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:1	#@@	i := spritebu:eval((((3) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v8	#@@	i += _CC(`B', eval(3 + -1))
+v0 := 0	#@@	SPMASK := eval((128 >> 3) >> -1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:1	#@@	i := spritebl:eval((((3) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,3,-1	#@@	: _SPBOARD,end,3,-1
+	#@@	SPBOARD(3, -1)
+v0 := 64 
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then jump _spboard,end,1,-1	#@@	then jump _SPBOARD,end,1,-1
+
+i := isym0	#@@	i := isym0
+i += v7	#@@	i += B1
+v0 := 64	#@@	SPMASK := eval(128 >> 1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebu:0	#@@	i := spritebu:eval((((1) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+i := isym0	#@@	i := isym0
+i += v6	#@@	i += _CC(`B', eval(1 + -1))
+v0 := 0	#@@	SPMASK := eval((128 >> 1) >> -1)
+v0 &= ve	#@@	SPMASK &= GHOST
+if v0 == 0	#@@	if SPMASK == 0
+then i := sym0	#@@	then i := sym0
+load v6	#@@	load B0
+i := spritebl:0	#@@	i := spritebl:eval((((1) + (-1 >> 2)) - (-1 >> 2)) >> (-1 & 1))
+save v6	#@@	save B0
+
+: _spboard,end,1,-1	#@@	: _SPBOARD,end,1,-1
+	#@@	SPBOARD(1, -1)
+return	#@@	return
+	#@@	include(`spboard.m')
+# draw.m4
+
+: draw	#@@	: draw
+
+v0 &= ve	#@@	M0 &= GHOST
+	#@@	_BP(`draw')
+if v0 == 0	#@@	if M0 == 0
+then jump _draw1	#@@	then jump _draw1
+
+i := spritebu:0	#@@	i := spritebu:0
+sprite v1 v2 15	#@@	sprite X0 Y0 15
+
+: _draw1	#@@	: _draw1
+v3 &= ve	#@@	M1 &= GHOST
+if v3 == 0	#@@	if M1 == 0
+then jump _draw2	#@@	then jump _draw2
+
+i := spritebu:1	#@@	i := spritebu:1
+sprite v4 v5 15	#@@	sprite X1 Y1 15
+
+: _draw2	#@@	: _draw2
+v6 &= ve	#@@	M2 &= GHOST
+if v6 == 0	#@@	if M2 == 0
+then jump _draw3	#@@	then jump _draw3
+
+i := spritebu:2	#@@	i := spritebu:2
+sprite v7 v8 15	#@@	sprite X2 Y2 15
+
+: _draw3	#@@	: _draw3
+v9 &= ve	#@@	M3 &= GHOST
+if v9 == 0	#@@	if M3 == 0
+then return	#@@	then return
+
+i := spritebu:3	#@@	i := spritebu:3
+sprite va vb 15	#@@	sprite X3 Y3 15
+return	#@@	return
+	#@@	include(`draw.m')
+# monitors.m4
+
+# :assert "program too large" { HERE < 3728 }
+
+:monitor board0 "%x %x %x %x"	#@@	:monitor board0 "%x %x %x %x"
+:monitor board1 "%x %x %x %x"	#@@	:monitor board1 "%x %x %x %x"
+:monitor board2 "%x %x %x %x"	#@@	:monitor board2 "%x %x %x %x"
+:monitor board3 "%x %x %x %x"	#@@	:monitor board3 "%x %x %x %x"
+
+:monitor boardf "%x %x %x %x"	#@@	:monitor boardf "%x %x %x %x"
+:monitor boarde "%x %x %x %x"	#@@	:monitor boarde "%x %x %x %x"
+
+:monitor prevboard0 "%x %x %x %x"	#@@	:monitor prevboard0 "%x %x %x %x"
+:monitor prevboard1 "%x %x %x %x"	#@@	:monitor prevboard1 "%x %x %x %x"
+:monitor prevboard2 "%x %x %x %x"	#@@	:monitor prevboard2 "%x %x %x %x"
+:monitor prevboard3 "%x %x %x %x"	#@@	:monitor prevboard3 "%x %x %x %x"
+	#@@	include(`monitors.m')
+ # merge.m4 dnl
+# there is nothing to merge
+: _col_collapse,4,0	#@@	: _COLLAPSE,4,0
+v9  := 0	#@@	GHOST1  := 0
+v7   := 4	#@@	FREE3   := 4
+return	#@@	return
+: isym0	#@@	`: isym'I
+254 254 254 254 254 254 254 0	#@@	254 0
+: isym1	#@@	`: isym'I
+254 198 146 146 146 198 254 0	#@@	254 0
+: isym2	#@@	`: isym'I
+254 254 230 246 246 226 254 0	#@@	254 0
+: isym3	#@@	`: isym'I
+254 130 250 130 190 130 254 0	#@@	254 0
+: isym4	#@@	`: isym'I
+254 134 226 130 226 134 254 0	#@@	254 0
+: isym5	#@@	`: isym'I
+254 254 246 214 194 246 254 0	#@@	254 0
+: isym6	#@@	`: isym'I
+254 194 190 130 250 130 254 0	#@@	254 0
+: isym7	#@@	`: isym'I
+254 194 206 130 138 194 254 0	#@@	254 0
+: isym8	#@@	`: isym'I
+254 254 194 250 246 238 254 0	#@@	254 0
+: isym9	#@@	`: isym'I
+254 194 218 130 186 130 254 0	#@@	254 0
+: isym10	#@@	`: isym'I
+254 130 162 130 226 226 254 0	#@@	254 0
+: isym11	#@@	`: isym'I
+254 254 230 218 194 218 254 0	#@@	254 0
+: isym12	#@@	`: isym'I
+254 134 186 130 186 134 254 0	#@@	254 0
+: isym13	#@@	`: isym'I
+254 194 130 142 130 194 254 0	#@@	254 0
+: isym14	#@@	`: isym'I
+254 254 198 218 218 198 254 0	#@@	254 0
+: isym15	#@@	`: isym'I
+254 130 190 142 190 130 254 0	#@@	254 0
+: isym16	#@@	`: isym'I
+254 130 142 134 142 142 254 0	#@@	254 0
+: isym17	#@@	`: isym'I
+254 254 162 170 170 162 254 0	#@@	254 0
