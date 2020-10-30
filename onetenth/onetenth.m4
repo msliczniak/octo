@@ -40,6 +40,7 @@ i := sprite7
 save v6
 ve := 0xff
 
+vd := 0
  i := draw,s,a
  load vb
 :call draw
@@ -71,8 +72,8 @@ PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 PUSHREG(`MAIN', `Z')
 Z := 8
-OX := vd
-OY := vc
+OX := 56
+OY := 33
 
 : input_loop
 KEY := key
@@ -270,11 +271,12 @@ PUSHREG(`COL', `MAXSYM')
 PUSHREG(`COL', `SCORE')
 
 REGS(`MERGE', REGSLVL(`COL'))
-PUSHREG(`MERGE', `GHOST')
+dnl PUSHREG(`MERGE', `GHOST')
 PUSHREG(`MERGE', `MASK')
 
 REGS(`SPRITES', 0)
 PUSHREG(`SPRITES', `SPMASK')
+PUSHREG(`SPRITES', `SPOFF')
 
 REGS(`SPB', 6)
 PUSHREG(`SPB', `B0')
@@ -288,35 +290,42 @@ PUSHREG(`SPB', `B7')
 PUSHREG(`SPB', `GHOST')
 
 REGS(`DRAW', 0)
-PUSHREG(`DRAW', `M0')
-PUSHREG(`DRAW', `X0')
-PUSHREG(`DRAW', `Y0')
-PUSHREG(`DRAW', `M1')
-PUSHREG(`DRAW', `X1')
-PUSHREG(`DRAW', `Y1')
-PUSHREG(`DRAW', `M2')
-PUSHREG(`DRAW', `X2')
-PUSHREG(`DRAW', `Y2')
-PUSHREG(`DRAW', `M3')
-PUSHREG(`DRAW', `X3')
-PUSHREG(`DRAW', `Y3')
+PUSHREG(`DRAW', `M0')dnl v0
+PUSHREG(`DRAW', `X0')dnl v1
+PUSHREG(`DRAW', `Y0')dnl v2
+PUSHREG(`DRAW', `M1')dnl v3
+PUSHREG(`DRAW', `X1')dnl v4
+PUSHREG(`DRAW', `Y1')dnl v5
+PUSHREG(`DRAW', `M2')dnl v6
+PUSHREG(`DRAW', `X2')dnl v7
+PUSHREG(`DRAW', `Y2')dnl v8
+PUSHREG(`DRAW', `M3')dnl v9
+PUSHREG(`DRAW', `X3')dnl vA
+PUSHREG(`DRAW', `Y3')dnl vB
+PUSHREG(`DRAW', `COLOR')dnl vC
+PUSHREG(`DRAW', `DSPOFF')dnl vD
 
 i := bghost0
 load SPMASK
 GHOST := SPMASK
 
+vf := 0
 i := prevboard0-6
 :call draw,z,a,p
 
+vf := 0
 i := board0-6
 :call draw,z,a,p
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
+
+vf := 0
 i := prevboard2-6
 :call draw,z,b,p
 
+vf := 0
 i := board2-6
 :call draw,z,b,p
 
@@ -374,18 +383,22 @@ i := board3
 save SCORE
 
 GHOST := GHOST0
+vf := 0
 i := prevboard0-6
 :call draw,z,a
 
+vf := 0
 i := board0-6
 :call draw,z,a
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
+vf := 0
 i := prevboard2-6
 :call draw,z,b
 
+vf := 0
 i := board2-6
 :call draw,z,b
 

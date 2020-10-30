@@ -29,11 +29,12 @@ v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
 vc := 7     # white
 0xb1 0xc0
 
-jump _entry_point
-
-:org 0x600  # ETI660
-v0 := 0
-buzzer := v0
+dnl need extra headroom for testing
+#jump _entry_point
+#
+#:org 0x600  # ETI660
+#v0 := 0
+#buzzer := v0
 
 # FALLTHRU
 : _entry_point
