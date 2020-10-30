@@ -356,9 +356,27 @@ load R0
 :call col
 i := board1
 save R0
+
+i := board3
+load R0
 FREE1 := FREE3
 GHOST1 &= MASK
 GHOST0 |= GHOST1
+i := board3
+save SCORE
+
+GHOST := GHOST0
+vf := 0
+i := prevboard0-6
+:call draw,z,a
+
+vf := 60
+i := board0-6
+:call draw,z,a
+
+i := board3
+load SCORE
+MASK := 0xf
 
 i := board2
 load R0
@@ -376,15 +394,6 @@ GHOST1 &= MASK
 GHOST1 |= GHOST
 i := board3
 save SCORE
-
-GHOST := GHOST0
-vf := 0
-i := prevboard0-6
-:call draw,z,a
-
-vf := 60
-i := board0-6
-:call draw,z,a
 
 i := bghost1
 load SPMASK
