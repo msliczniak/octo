@@ -328,15 +328,16 @@ i := isym0
 i += KEY
 sprite OX OY 7
 
+MEM0 := KEY
 i := board
 i += S
 save MEM0
 
-# tuck-away the current board
-i := board
-load vf
-i := prevboard
-save vf
+dnl # tuck-away the current board
+dnl i := board
+dnl load vf
+dnl i := prevboard
+dnl save vf
 
 # rot/flip board so pieces fall down
 :call transform
@@ -378,12 +379,13 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-# put the board right side-up again
-:call transform
+dnl # put the board right side-up again
+dnl :call transform
 
-i := bghost0
-load SPMASK
-GHOST := SPMASK
+dnl i := bghost0
+dnl load SPMASK
+dnl GHOST := SPMASK
+GHOST := GHOST0
 i := prevboard0-6
 :call draw,z,a
 
