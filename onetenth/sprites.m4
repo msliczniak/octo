@@ -2,15 +2,6 @@
 
 # screen update sprites
 
-: spritebu:7
-: spritebl:7
-: spritebu:6
-: spritebl:6
-: spritebu:5
-: spritebl:5
-: spritebu:4
-: spritebl:4
-
 : sprites
 : sprite0
 : spritebu:0

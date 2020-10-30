@@ -62,14 +62,14 @@ dnl
 REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
 PUSHREG(`MAIN', `MEM1')
+PUSHREG(`MAIN', `KEY')
+PUSHREG(`MAIN', `X')
 PUSHREG(`MAIN', `Y')
-PUSHREG(`MAIN', `Z')
 PUSHREG(`MAIN', `S')
 PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
-pushdef(`KEY', `MEM0`'')
-pushdef(`X',   `MEM1`'')
+PUSHREG(`MAIN', `Z')
 Z := 8
 OX := vd
 OY := vc
@@ -249,7 +249,7 @@ OX += 33
 OY += 32
 
 i := main_regs
-save v7
+save Z
 
 _BP(`input_loop')
 
@@ -272,9 +272,6 @@ PUSHREG(`COL', `SCORE')
 REGS(`MERGE', REGSLVL(`COL'))
 PUSHREG(`MERGE', `GHOST')
 PUSHREG(`MERGE', `MASK')
-
-dnl POPREGS(`MERGE', 0)
-dnl DELREGS(`MERGE')
 
 REGS(`SPRITES', 0)
 PUSHREG(`SPRITES', `SPMASK')
@@ -324,7 +321,7 @@ i := board2-6
 :call draw,z,b,p
 
 i := main_regs
-load v7
+load Z
 
 # new sym of prev board in reverse video
 i := isym0
@@ -333,7 +330,7 @@ sprite OX OY 7
 
 i := board
 i += S
-save KEY
+save MEM0
 
 # rot/flip board so pieces fall down
 :call transform
@@ -378,7 +375,9 @@ save SCORE
 # put the board right side-up again
 :call transform
 
-GHOST := GHOST0
+i := bghost0
+load SPMASK
+GHOST := SPMASK
 i := prevboard0-6
 :call draw,z,a
 
@@ -395,7 +394,7 @@ i := board2-6
 :call draw,z,b
 
 i := main_regs
-load v7
+load Z
 jump input_loop
 
 : key_loop
@@ -473,8 +472,6 @@ include(`merge.m')
 POPREGS(`COL', 0)
 DELREGS(`COL')
 
-popdef(`X')
-popdef(`KEY')
 POPREGS(`MAIN', 0)
 DELREGS(`MAIN')
 
