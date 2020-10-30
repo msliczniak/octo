@@ -53,14 +53,6 @@ BL BL BL BL
 : prevboard3
 BL BL BL BL
 
-dnl : zboard
-dnl : zboard0
-dnl BL BL BL BL
-dnl BL BL BL BL
-dnl : zboard2
-dnl BL BL BL BL
-dnl BL BL BL BL
-
 : draw,s,a
 : draw,n,b
  0b11000000  0  0

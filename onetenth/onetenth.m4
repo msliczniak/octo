@@ -333,12 +333,6 @@ i := board
 i += S
 save MEM0
 
-dnl # tuck-away the current board
-dnl i := board
-dnl load vf
-dnl i := prevboard
-dnl save vf
-
 # rot/flip board so pieces fall down
 :call transform
 
@@ -379,12 +373,6 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-dnl # put the board right side-up again
-dnl :call transform
-
-dnl i := bghost0
-dnl load SPMASK
-dnl GHOST := SPMASK
 GHOST := GHOST0
 i := prevboard0-6
 :call draw,z,a
