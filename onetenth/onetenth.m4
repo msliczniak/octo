@@ -332,6 +332,12 @@ i := board
 i += S
 save MEM0
 
+# tuck-away the current board
+i := board
+load vf
+i := prevboard
+save vf
+
 # rot/flip board so pieces fall down
 :call transform
 

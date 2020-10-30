@@ -14,7 +14,7 @@ v3 := vb
 v4 := va
 v5 := v9
 v6 := v8
-i := prevboard0
+i := zboard0
 save v7
 
 i := board0-7
@@ -26,12 +26,12 @@ v3 := vb
 v4 := va
 v5 := v9
 v6 := v8
-i := prevboard2
+i := zboard2
 save v7
 i := board2
 save v7
 
-i := prevboard0
+i := zboard0
 load v7
 i := board0
 save v7
@@ -77,7 +77,7 @@ dnl  F 3> 7> B> 0> 4> 8> C> 1> >5 9> D> 2> 6> A> E>
 
 i := board
 save ve
-i := prevboard
+i := zboard
 save vf
 return
 
@@ -123,7 +123,7 @@ dnl E> A> 6> 2> D> 9> 5> 1> C> 8> 4> 0> B> 7> 3> F>
 
 i := board
 save vf
-i := prevboard
+i := zboard
 save vf
 return
 
@@ -131,6 +131,6 @@ return
 : ts
 i := board
 load vf
-i := prevboard
+i := zboard
 save vf
 return
