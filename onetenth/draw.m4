@@ -8,6 +8,7 @@ if M0 == 0
 then jump _draw1
 
 i := spritebu:0
+i += DSPOFF
 sprite X0 Y0 15
 
 : _draw1
@@ -16,6 +17,7 @@ if M1 == 0
 then jump _draw2
 
 i := spritebu:1
+i += DSPOFF
 sprite X1 Y1 15
 
 : _draw2
@@ -24,6 +26,7 @@ if M2 == 0
 then jump _draw3
 
 i := spritebu:2
+i += DSPOFF
 sprite X2 Y2 15
 
 : _draw3
@@ -32,5 +35,6 @@ if M3 == 0
 then return
 
 i := spritebu:3
+i += DSPOFF
 sprite X3 Y3 15
 return

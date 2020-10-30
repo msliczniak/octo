@@ -309,11 +309,11 @@ i := bghost0
 load SPMASK
 GHOST := SPMASK
 
-vf := 0
+vf := 60
 i := prevboard0-6
 :call draw,z,a,p
 
-vf := 0
+vf := 60
 i := board0-6
 :call draw,z,a,p
 
@@ -321,11 +321,11 @@ i := bghost1
 load SPMASK
 GHOST := SPMASK
 
-vf := 0
+vf := 60
 i := prevboard2-6
 :call draw,z,b,p
 
-vf := 0
+vf := 60
 i := board2-6
 :call draw,z,b,p
 
@@ -383,22 +383,22 @@ i := board3
 save SCORE
 
 GHOST := GHOST0
-vf := 0
+vf := 60
 i := prevboard0-6
 :call draw,z,a
 
-vf := 0
+vf := 60
 i := board0-6
 :call draw,z,a
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
-vf := 0
+vf := 60
 i := prevboard2-6
 :call draw,z,b
 
-vf := 0
+vf := 60
 i := board2-6
 :call draw,z,b
 
