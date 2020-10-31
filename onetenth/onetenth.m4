@@ -56,7 +56,7 @@ vd := 0
 
 dnl Z is the orientation
 dnl
-dnl 8 |   6       2 /|   4 
+dnl 0 |   2       4 /|   6 
 dnl   |    -----     |     -----
 dnl   |/       /     |     \
 dnl
@@ -71,7 +71,7 @@ PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 PUSHREG(`MAIN', `Z')
-Z := 8
+Z := 0
 OX := 56
 OY := 33
 
@@ -218,13 +218,22 @@ i := sym0
 i += KEY
 sprite X Y 7
 
-# Z is conveniently both the key and orientation
 :call key_loop
+
+M -= Z
+MEM0 := 7
+M &= MEM0
+
+if M == Z
+then jump nopatches
+
+Z += M
+Z &= MEM0
 
 # patch code based on key press
 pushdef(`PATCH', `dnl
 i := _$1
-i += Z
+i += M
 load MEM1
 i := $1
 save MEM1
@@ -237,6 +246,8 @@ PATCH(`draw,z,a,p')
 PATCH(`draw,z,b,p')
 
 popdef(`PATCH')
+
+: nopatches
 
 # remove the highlight from the new sym
 i := isym0
@@ -314,6 +325,9 @@ DSPOFF := 0
 DSPOFF := 64
 :call draw,z,a,p
 
+#DSPOFF := 64
+#:call draw,z,a,p
+
 i := bghost1
 load SPMASK
 GHOST := SPMASK
@@ -323,6 +337,9 @@ DSPOFF := 128
 
 DSPOFF := 192
 :call draw,z,b,p
+
+#DSPOFF := 128
+#:call draw,z,b,p
 
 i := main_regs
 load Z
@@ -421,23 +438,41 @@ load Z
 jump input_loop
 
 : key_loop
-Z := 2
-: _key_loop_next
-if Z key
-then return
-if Z == 8
+M := 2
+if M -key
+then jump _key_loop_w
+M := 4
+return
+
+: _key_loop_w
+M := 4
+if M -key
+then jump _key_loop_e
+M := 6
+return
+
+: _key_loop_e
+M := 6
+if M -key
+then jump _key_loop_s
+M := 2
+return
+
+: _key_loop_s
+M := 8
+if M -key
 then jump key_loop
-Z += 2
-jump _key_loop_next
+M := 0
+return
 
 : transform
-: _transform
-jump ts     # up is convenietly 2, the same length as this one instruction
+jump ts
 
+: _transform
+jump ts
+jump te
 jump tn
 jump tw
-jump te
-jump ts
 
 pushdef(`DRAW', `dnl
 : _draw,$*
@@ -471,13 +506,13 @@ popdef(`DRAW')
 
 pushdef(`DRAW', `dnl
 : draw,z,$*
-: _draw,z,$*
 jump _draw,s,$*
 
+: _draw,z,$*
+jump _draw,s,$*
+jump _draw,e,$*
 jump _draw,n,$*
 jump _draw,w,$*
-jump _draw,e,$*
-jump _draw,s,$*
 ')
 
 DRAW(`a')
