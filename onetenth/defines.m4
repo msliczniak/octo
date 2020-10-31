@@ -1,5 +1,11 @@
 # defines.m4
 
+changequote(<!,!>)dnl
+:stringmode safe <!" !\"#$%&'()*+,-./0123456789:;<=>?"!> { :byte { CHAR } } #
+:stringmode safe <!"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"!> { :byte { CHAR } } #
+:stringmode safe <!"`abcdefghijklmnopqrstuvwxyz{|}~"!>   { :byte { CHAR } } #
+changequote`'dnl
+
 dnl concat
 define(`_CC', `$1$2$3$4$5$6$7$8$9')dnl
 dnl
@@ -11,11 +17,23 @@ include(`chip8.m')
 define(`BL',`0')
 
 : main
-v0 := 0
+vf := 0
 _BP(`main')
-buzzer := v0
+buzzer := vf
+jump _handheld
+
+:byte 0
+safe "@(#)onetenth "
+changequote(<!,!>)dnl
+safe "syscmd(<!/bin/date -ju '+%Y-%m-%d %H:%M:%S-%Z"'!>)
+changequote`'dnl
+:byte 0
+
+: _handheld
+:call reset
 jump _entry_point
-0x40 0x28 0x23 0x29 0x6f 0x6e 0x65 0x74 0x65 0x6e 0x74 0x68 0 dnl @(#)onetenth.
+
+:assert "handheld entry polint too large" { HERE <= 0x300 }
 
 :org 0x300  # CHIP-8X
 v0 := 0
@@ -29,6 +47,18 @@ v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
 vc := 7     # white
 0xb1 0xc0
 
+i := _pt0
+load v1
+i := _skip0_prevboard
+save v1
+
+jump root
+
+: _pt0
+jump skip0_prevboard
+
+:assert "chip-8x entry polint too large" { HERE <= 0x600 }
+
 dnl need extra headroom for testing
 #jump _entry_point
 #
@@ -36,5 +66,4 @@ dnl need extra headroom for testing
 #v0 := 0
 #buzzer := v0
 
-# FALLTHRU
 : _entry_point

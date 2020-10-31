@@ -1,7 +1,14 @@
 include(`defines.m')
-clear   # in case of reset
+:call reset
 
-i := main_regs
+ i := draw,s,a,p
+ load vb
+:call draw
+ i := draw,s,b,p
+ load vb
+:call draw
+
+i := ff11
 vd := 32
 vc := 32
 vb := 43
@@ -21,39 +28,6 @@ i := isym0
 vc += 1 # gives a nice box effect
 sprite vd vc 7
 
-load v6
-i := sprite0
-save v6
-i := sprite1
-save v6
-i := sprite2
-save v6
-i := sprite3
-save v6
-i := sprite4
-save v6
-i := sprite5
-save v6
-i := sprite6
-save v6
-i := sprite7
-save v6
-ve := 0xff
-
-vd := 0
- i := draw,s,a
- load vb
-:call draw
- i := draw,s,b
- load vb
-:call draw
- i := draw,s,a,p
- load vb
-:call draw
- i := draw,s,b,p
- load vb
-:call draw
-
 dnl Z is the orientation
 dnl
 dnl 0 |   2       4 /|   6 
@@ -71,6 +45,7 @@ PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 PUSHREG(`MAIN', `Z')
+: root
 Z := 0
 OX := 56
 OY := 33
@@ -253,6 +228,7 @@ popdef(`PATCH')
 i := isym0
 sprite X Y 7
 
+: _skip0_prevboard
 # remove the highlight from the last new sym of the prev board
 sprite OX OY 7
 OX := X
@@ -349,6 +325,7 @@ i := isym0
 i += KEY
 sprite OX OY 7
 
+: skip0_prevboard
 MEM0 := KEY
 i := board
 i += S
@@ -522,8 +499,11 @@ DRAW(`b', `p')
 
 popdef(`DRAW')
 
-# 11 bytes to invert screen on startup
 : main_regs
+0 0 0 0 0 0 0 0 0 0
+
+# 11 bytes to invert screen on startup
+: ff11
 255 255 255 255 255 255 255 255 255 255 255
 
 include(`merge.m')
@@ -581,6 +561,40 @@ DELREGS(`MAIN')
 #
 #POPREGS(`XSP', 0)
 #DELREGS(`XSP')
+
+# in case of reset
+: reset
+clear
+
+i := isym0
+load v6
+i := sprite0
+save v6
+i := sprite1
+save v6
+i := sprite2
+save v6
+i := sprite3
+save v6
+i := sprite4
+save v6
+i := sprite5
+save v6
+i := sprite6
+save v6
+i := sprite7
+save v6
+GHOST := 0xff
+
+DSPOFF := 0
+ i := draw,s,a
+ load vb
+:call draw
+ i := draw,s,b
+ load vb
+:call draw
+
+return
 
 include(`syms.m')
 include(`board.m')
