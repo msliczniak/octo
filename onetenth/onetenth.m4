@@ -167,15 +167,8 @@ sprite X Y 7
 
 :call key_loop
 
-M -= Z
-MEM0 := 7
-M &= MEM0
-
 if M == Z
 then jump nopatches
-
-Z += M
-Z &= MEM0
 
 # patch code based on key press
 pushdef(`PATCH', `dnl
@@ -187,12 +180,34 @@ save MEM1
 ')
 
 PATCH(`transform')
+
+i := _magic
+
+# 0 or 1
+MEM0 := 2
+MEM0 &= Z
+MEM0 >>= MEM0
+i += MEM0
+
+GT(M, 5)
+then jump magic
+MEM0 := M
+M := 10
+M -= MEM0
+
+: magic
+i += MEM0
+load MEM0
+M := MEM0
+
 PATCH(`draw,z,a')
 PATCH(`draw,z,b')
 PATCH(`draw,z,a,p')
 PATCH(`draw,z,b,p')
 
 popdef(`PATCH')
+
+Z := M
 
 : nopatches
 
@@ -398,12 +413,12 @@ jump _key_loop_next
 
 : transform
 : _transform
-jump ts     # up is convenietly 2, the same length as this one instruction
+jump tt     # up is convenietly 2, the same length as this one instruction
 
-jump ts
-jump te
-jump tn
-jump tw
+jump tf
+jump tccw
+jump tcw
+jump tt
 
 pushdef(`DRAW', `dnl
 : _draw,$*
@@ -454,7 +469,15 @@ DRAW(`b', `p')
 popdef(`DRAW')
 
 : main_regs
-0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+
+: _magic
+0 0
+
+2 4
+4 2
+6 8
+8 6
 
 # 11 bytes to invert screen on startup
 : ff11
