@@ -311,17 +311,17 @@ GHOST := SPMASK
 DSPOFF := 0
 :call draw,z,a,p
 
-DSPOFF := 60
+DSPOFF := 64
 :call draw,z,a,p
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 
-DSPOFF := 120
+DSPOFF := 128
 :call draw,z,b,p
 
-DSPOFF := 180
+DSPOFF := 192
 :call draw,z,b,p
 
 i := main_regs
@@ -370,7 +370,7 @@ vf := 0
 i := prevboard0-6
 :call draw,z,a
 
-vf := 60
+vf := 64
 i := board0-6
 :call draw,z,a
 
@@ -401,11 +401,11 @@ save SCORE
 i := bghost1
 load SPMASK
 GHOST := SPMASK
-vf := 120
+vf := 128
 i := prevboard2-6
 :call draw,z,b
 
-vf := 180
+vf := 196
 i := board2-6
 :call draw,z,b
 
