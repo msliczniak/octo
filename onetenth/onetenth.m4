@@ -374,6 +374,9 @@ vf := 60
 i := board0-6
 :call draw,z,a
 
+dnl vE := 0
+dnl :call xorsp
+
 i := board3
 load SCORE
 MASK := 0xf
@@ -487,6 +490,55 @@ DELREGS(`COL')
 
 POPREGS(`MAIN', 0)
 DELREGS(`MAIN')
+
+REGS(`XSP', 0)
+PUSHREG(`XSP', `A0')
+PUSHREG(`XSP', `A1')
+PUSHREG(`XSP', `A2')
+PUSHREG(`XSP', `A3')
+PUSHREG(`XSP', `A4')
+PUSHREG(`XSP', `A5')
+PUSHREG(`XSP', `A6')
+PUSHREG(`XSP', `B0')
+PUSHREG(`XSP', `B1')
+PUSHREG(`XSP', `B2')
+PUSHREG(`XSP', `B3')
+PUSHREG(`XSP', `B4')
+PUSHREG(`XSP', `B5')
+PUSHREG(`XSP', `B6')
+PUSHREG(`XSP', `XC')
+
+: xorsp
+i := sprite:8-7
+i += XC
+load B6
+i := sprite:0
+i += XC
+load A6
+
+A0 ^= B0
+A1 ^= B1
+A2 ^= B2
+A3 ^= B3
+A4 ^= B4
+A5 ^= B5
+A6 ^= B6
+
+i := sprite:8
+i += XC
+save A6
+
+XC += 8
+A0 := 63
+A0 &= XC
+
+if A0 == 0
+then return
+
+jump xorsp
+
+POPREGS(`XSP', 0)
+DELREGS(`XSP')
 
 include(`syms.m')
 include(`board.m')
