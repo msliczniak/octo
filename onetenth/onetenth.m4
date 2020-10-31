@@ -545,24 +545,25 @@ clear
 
 i := isym0
 load v6
-i := sprite0
-save v6
-i := sprite1
-save v6
-i := sprite2
-save v6
-i := sprite3
-save v6
-i := sprite4
-save v6
-i := sprite5
-save v6
-i := sprite6
-save v6
-i := sprite7
-save v6
-GHOST := 0xff
+v7 := 0
+v8 := 0
 
+: _clear_board_sprites
+i := sprite0
+i += v8
+save v7
+v8 += 8
+if v8 != 0
+then jump _clear_board_sprites
+
+i := sym0
+load v6
+i := board0
+save v7
+i := board2
+save v7
+
+GHOST := 0xff
 DSPOFF := 0
  i := draw,s,a
  load vb
