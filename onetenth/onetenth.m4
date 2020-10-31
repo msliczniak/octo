@@ -1,32 +1,4 @@
 include(`defines.m')
-:call reset
-
- i := draw,s,a,p
- load vb
-:call draw
- i := draw,s,b,p
- load vb
-:call draw
-
-i := ff11
-vd := 32
-vc := 32
-vb := 43
-va := 54
-
-: invert_loop
-sprite vd vc 11
-sprite vd vb 11
-sprite vd va 10
-if vd == 56
-then jump inverted
-vd += 8
-jump invert_loop
-
-: inverted
-i := isym0
-vc += 1 # gives a nice box effect
-sprite vd vc 7
 
 dnl Z is the orientation
 dnl
