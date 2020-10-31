@@ -18,7 +18,7 @@ PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 PUSHREG(`MAIN', `Z')
 : root
-Z := 0
+Z := 8
 OX := 56
 OY := 33
 
@@ -388,36 +388,18 @@ jump input_loop
 
 : key_loop
 M := 2
-if M -key
-then jump _key_loop_w
-M := 4
-return
-
-: _key_loop_w
-M := 4
-if M -key
-then jump _key_loop_e
-M := 6
-return
-
-: _key_loop_e
-M := 6
-if M -key
-then jump _key_loop_s
-M := 2
-return
-
-: _key_loop_s
-M := 8
-if M -key
+: _key_loop_next
+if M key
+then return
+if M == 8
 then jump key_loop
-M := 0
-return
+M += 2
+jump _key_loop_next
 
 : transform
-jump ts
-
 : _transform
+jump ts     # up is convenietly 2, the same length as this one instruction
+
 jump ts
 jump te
 jump tn
@@ -455,13 +437,13 @@ popdef(`DRAW')
 
 pushdef(`DRAW', `dnl
 : draw,z,$*
-jump _draw,s,$*
-
 : _draw,z,$*
 jump _draw,s,$*
-jump _draw,e,$*
+
 jump _draw,n,$*
 jump _draw,w,$*
+jump _draw,e,$*
+jump _draw,s,$*
 ')
 
 DRAW(`a')
