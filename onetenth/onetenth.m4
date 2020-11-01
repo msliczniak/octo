@@ -167,6 +167,7 @@ sprite X Y 7
 
 :call key_loop
 
+dnl XXX: seems I will need to force trivial transform after the first time
 if M == Z
 then jump nopatches
 
@@ -189,6 +190,7 @@ MEM0 &= Z
 MEM0 >>= MEM0
 i += MEM0
 
+dnl XXX: seems wrong but broke emma2
 dnl GT(Z, 5)
 GT(M, 5)
 then jump magic

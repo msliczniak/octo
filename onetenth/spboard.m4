@@ -81,10 +81,10 @@ dnl
 dnl 2 6   A E  |  D 9   5 1
 dnl 3 7   B F     C 8   4 0
 : spb,n
-SPBOARD(0, 1, 128, 64, 1, 0)
-SPBOARD(2, 3,  32, 16, 3, 2)
-SPBOARD(4, 5,   8,  4, 5, 4)
-SPBOARD(6, 7,   2,  1, 7, 6)
+SPBOARD(0, 1, 128, 64, 7, 6)
+SPBOARD(2, 3,  32, 16, 5, 4)
+SPBOARD(4, 5,   8,  4, 3, 2)
+SPBOARD(6, 7,   2,  1, 1, 0)
 return
 
 dnl 0 4   8 C     0 1   2 3     0 4 8 C   2 6 A E
