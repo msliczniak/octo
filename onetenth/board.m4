@@ -45,13 +45,13 @@ BL
 0
 
 : boarde # extras
-: bghost0
-0
-: bghost1
-0
 : bmaxsym
 0
 : bscore
+0
+: bghost0
+0
+: bghost1
 0
 
 : prevboard

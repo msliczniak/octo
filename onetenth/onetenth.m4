@@ -170,10 +170,6 @@ sprite X Y 7
 
 :call key_loop
 
-dnl XXX: seems I will need to force trivial transform after the first time
-if M == Z
-then jump nopatches
-
 # patch code based on key press
 pushdef(`PATCH', `dnl
 i := _$1
@@ -185,37 +181,10 @@ save MEM1
 
 PATCH(`transform')
 
-i := _magic
-
-# 0 or 1
-MEM0 := 2
-MEM0 &= Z
-MEM0 >>= MEM0
-i += MEM0
-
-dnl XXX: seems wrong but broke emma2
-dnl GT(Z, 5)
-GT(M, 5)
-then jump magic
-MEM0 := M
-M := 10
-M -= MEM0
-
-: magic
-i += M
-load MEM0
-M := MEM0
-
-PATCH(`draw,z,a')
-PATCH(`draw,z,b')
-PATCH(`draw,z,a,p')
-PATCH(`draw,z,b,p')
-
 popdef(`PATCH')
 
-Z := M
-
-: nopatches
+dnl try not to care about orientation
+dnl Z := M
 
 # remove the highlight from the new sym
 i := isym0
@@ -245,10 +214,10 @@ PUSHREG(`COL', `FREE1')
 PUSHREG(`COL', `FREE2')
 PUSHREG(`COL', `FREE3')
 
-PUSHREG(`COL', `GHOST0')
-PUSHREG(`COL', `GHOST1')
 PUSHREG(`COL', `MAXSYM')
 PUSHREG(`COL', `SCORE')
+PUSHREG(`COL', `GHOST0')
+PUSHREG(`COL', `GHOST1')
 
 REGS(`MERGE', REGSLVL(`COL'))
 PUSHREG(`MERGE', `MASK')
@@ -370,7 +339,12 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-GHOST := GHOST0
+:call tghosts
+:call transform
+
+i := bghost0
+load SPMASK
+GHOST := SPMASK
 #vf := 128
 vf := 0
 i := prevboard0-6
@@ -399,8 +373,6 @@ i := board2-6
 
 #vE := 0
 #:call xorsp
-
-:call transform
 
 i := main_regs
 load Z
@@ -474,22 +446,15 @@ DRAW(`b', `p')
 popdef(`DRAW')
 
 : main_regs
-0 0 0 0 0 0 0 0
-: _magic
-0 0
-
-2 4
-4 2
-6 8
-8 6
+0 0 0 0 0 0 0 0 0 0
 
 # 11 bytes to invert screen on startup
 : ff11
 255 255 255 255 255 255 255 255 255 255 255
 
 include(`merge.m')
-POPREGS(`COL', 0)
-DELREGS(`COL')
+dnl POPREGS(`COL', 0)
+dnl DELREGS(`COL')
 
 POPREGS(`MAIN', 0)
 DELREGS(`MAIN')

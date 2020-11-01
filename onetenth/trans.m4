@@ -1,5 +1,33 @@
 # trans.m4
 
+: tghosts
+jump tgt
+
+jump tgf
+jump tgccw
+jump tgcw
+jump tgt
+
+: tgccw
+return
+
+: tgcw
+return
+
+# prep
+: tg
+v0 := 0
+v1 := 0
+v2 :=   1
+v3 :=   2
+v4 :=   4
+v5 :=   8
+v6 :=  16
+v7 :=  32
+v8 :=  64
+v9 := 128
+return
+
 # flip
 # 0 4 8 C   F B 7 3
 # 1 5 9 D   E A 6 2
@@ -36,6 +64,77 @@ i := zboard0
 load v7
 i := board0
 save v7
+return
+
+: tgf
+:call tg
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v9
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v8
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v7
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v6
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v5
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v4
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v3
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= v2
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v9
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v8
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v7
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v6
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v5
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v4
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v3
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= v2
+
+i := bghost0
+save v1
 return
 
 # clockwise
@@ -136,4 +235,11 @@ i := board
 load vf
 i := zboard
 save vf
+return
+
+: tgt
+v0 := GHOST0
+v1 := GHOST1
+i := bghost0
+save v1
 return
