@@ -196,7 +196,7 @@ M := 10
 M -= MEM0
 
 : magic
-i += MEM0
+i += M
 load MEM0
 M := MEM0
 
@@ -470,7 +470,6 @@ popdef(`DRAW')
 
 : main_regs
 0 0 0 0 0 0 0 0
-
 : _magic
 0 0
 
