@@ -2,6 +2,19 @@
 
 include(`sprites.m')
 
+# scrathpad
+: zboard
+: zboard0
+BL BL BL BL
+BL BL BL BL
+: zboard2
+BL
+: board0-7
+BL
+: board0-6
+BL BL
+BL BL BL BL
+
 : board
 : board0
 BL

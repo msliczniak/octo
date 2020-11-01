@@ -154,11 +154,14 @@ S := 15
 i := isym0
 sprite X Y 7 
 
+# multiply by seven
 KEY := key
 KEY += 1
+M := KEY
 KEY <<= KEY
 KEY <<= KEY
 KEY <<= KEY
+KEY -= M
 
 # draw the new sym
 i := sym0
@@ -321,6 +324,12 @@ i := board
 i += S
 save MEM0
 
+# tuck-away board
+i := board
+load vf
+i := prevboard
+save vf
+
 # rot/flip board so pieces fall down
 :call transform
 
@@ -340,32 +349,9 @@ load R0
 :call col
 i := board1
 save R0
-
-i := board3
-load R0
 FREE1 := FREE3
 GHOST1 &= MASK
 GHOST0 |= GHOST1
-i := board3
-save SCORE
-
-GHOST := GHOST0
-#vf := 128
-vf := 0
-i := prevboard0-6
-:call draw,z,a
-
-#vf := 64
-vf := 64
-i := board0-6
-:call draw,z,a
-
-#vE := 64
-#:call xorsp
-
-i := board3
-load SCORE
-MASK := 0xf
 
 i := board2
 load R0
@@ -384,6 +370,20 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
+GHOST := GHOST0
+#vf := 128
+vf := 0
+i := prevboard0-6
+:call draw,z,a
+
+#vf := 64
+vf := 64
+i := board0-6
+:call draw,z,a
+
+#vE := 64
+#:call xorsp
+
 i := bghost1
 load SPMASK
 GHOST := SPMASK
@@ -399,6 +399,8 @@ i := board2-6
 
 #vE := 0
 #:call xorsp
+
+:call transform
 
 i := main_regs
 load Z

@@ -7,7 +7,7 @@ pushdef(`I', IX)dnl
 popdef(`IX')dnl
 pushdef(`IX', incr(I))dnl
 `: sym'I
-0 $1 $2 $3 $4 $5 0 0 dnl
+0 $1 $2 $3 $4 $5 0 dnl
 divert(incr(divnum))dnl
 `: isym'I
 254 dnl
@@ -16,7 +16,7 @@ eval($2 ^ 254) dnl
 eval($3 ^ 254) dnl
 eval($4 ^ 254) dnl
 eval($5 ^ 254) dnl
-254 0
+254
 divert(decr(divnum))dnl
 popdef(`I')dnl
 ')dnl
