@@ -189,7 +189,7 @@ MEM0 &= Z
 MEM0 >>= MEM0
 i += MEM0
 
-GT(M, 5)
+GT(Z, 5)
 then jump magic
 MEM0 := M
 M := 10
