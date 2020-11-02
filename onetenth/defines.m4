@@ -32,10 +32,12 @@ changequote`'dnl
 : _handheld
 :call reset
 
- i := draw,s,a,p
+vd := 0
+ve := 255
+ i := draw,z,a,p
  load vb
 :call draw
- i := draw,s,b,p
+ i := draw,z,b,p
  load vb
 :call draw
 

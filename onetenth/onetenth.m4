@@ -257,27 +257,27 @@ i := bghost0
 load SPMASK
 GHOST := SPMASK
 
-DSPOFF := 0
-:call draw,z,a,p
+vd := 0
+:call _draw,z,a,p
 
-DSPOFF := 64
-:call draw,z,a,p
+vd := 64
+:call _draw,z,a,p
 
-#DSPOFF := 64
-#:call draw,z,a,p
+#vd := 64
+#:call _draw,z,a,p
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 
-DSPOFF := 128
-:call draw,z,b,p
+vd := 128
+:call _draw,z,b,p
 
-DSPOFF := 192
-:call draw,z,b,p
+vd := 192
+:call _draw,z,b,p
 
-#DSPOFF := 128
-#:call draw,z,b,p
+#vd := 128
+#:call _draw,z,b,p
 
 i := main_regs
 load Z
@@ -348,12 +348,12 @@ GHOST := SPMASK
 #vf := 128
 vf := 0
 i := prevboard0-6
-:call draw,z,a
+:call _draw,z,a
 
 #vf := 64
 vf := 64
 i := board0-6
-:call draw,z,a
+:call _draw,z,a
 
 #vE := 64
 #:call xorsp
@@ -364,12 +364,12 @@ GHOST := SPMASK
 #vf := 64
 vf := 128
 i := prevboard2-6
-:call draw,z,b
+:call _draw,z,b
 
 #vf := 0
 vf := 192
 i := board2-6
-:call draw,z,b
+:call _draw,z,b
 
 #vE := 0
 #:call xorsp
@@ -407,41 +407,11 @@ load Y3
 jump draw
 ')dnl
 
-DRAW(`n', `a')
-DRAW(`n', `b')
-DRAW(`w', `a')
-DRAW(`w', `b')
-DRAW(`e', `a')
-DRAW(`e', `b')
-DRAW(`s', `a')
-DRAW(`s', `b')
+DRAW(`z', `a')
+DRAW(`z', `b')
 
-DRAW(`n', `a', `p')
-DRAW(`n', `b', `p')
-DRAW(`w', `a', `p')
-DRAW(`w', `b', `p')
-DRAW(`e', `a', `p')
-DRAW(`e', `b', `p')
-DRAW(`s', `a', `p')
-DRAW(`s', `b', `p')
-
-popdef(`DRAW')
-
-pushdef(`DRAW', `dnl
-: draw,z,$*
-: _draw,z,$*
-jump _draw,s,$*
-
-jump _draw,n,$*
-jump _draw,w,$*
-jump _draw,e,$*
-jump _draw,s,$*
-')
-
-DRAW(`a')
-DRAW(`a', `p')
-DRAW(`b')
-DRAW(`b', `p')
+DRAW(`z', `a', `p')
+DRAW(`z', `b', `p')
 
 popdef(`DRAW')
 
@@ -528,10 +498,10 @@ save v7
 
 GHOST := 0xff
 DSPOFF := 0
- i := draw,s,a
+ i := draw,z,a
  load vb
 :call draw
- i := draw,s,b
+ i := draw,z,b
  load vb
 :call draw
 
