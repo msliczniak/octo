@@ -1,5 +1,15 @@
 # trans.m4
 
+REGS(`TRANS', 2)
+PUSHREG(`TRANS', `B0')
+PUSHREG(`TRANS', `B1')
+PUSHREG(`TRANS', `B2')
+PUSHREG(`TRANS', `B3')
+PUSHREG(`TRANS', `B4')
+PUSHREG(`TRANS', `B5')
+PUSHREG(`TRANS', `B6')
+PUSHREG(`TRANS', `B7')
+
 : tghosts
 jump tgt
 
@@ -18,15 +28,90 @@ return
 : tg
 v0 := 0
 v1 := 0
-v2 :=   1
-v3 :=   2
-v4 :=   4
-v5 :=   8
-v6 :=  16
-v7 :=  32
-v8 :=  64
-v9 := 128
+B0 :=   1
+B1 :=   2
+B2 :=   4
+B3 :=   8
+B4 :=  16
+B5 :=  32
+B6 :=  64
+B7 := 128
 return
+
+# flip ghost bits
+: tgf
+:call tg
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B7
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B6
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B5
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B4
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B3
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B2
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B1
+
+GHOST1 >>= GHOST1
+if vf != 0
+then v0 &= B1
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B7
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B6
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B5
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B4
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B3
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B2
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B1
+
+GHOST0 >>= GHOST0
+if vf != 0
+then v1 &= B0
+
+i := bghost0
+save v1
+return
+
+POPREGS(`TRANS', 2)
+DELREGS(`TRANS')
 
 # flip
 # 0 4 8 C   F B 7 3
@@ -64,77 +149,6 @@ i := zboard0
 load v7
 i := board0
 save v7
-return
-
-: tgf
-:call tg
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v9
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v8
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v7
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v6
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v5
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v4
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v3
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= v2
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v9
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v8
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v7
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v6
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v5
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v4
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v3
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= v2
-
-i := bghost0
-save v1
 return
 
 # clockwise
