@@ -162,7 +162,7 @@ B0   :=  eval(48 | 3)
 B0   &= GHOST0
 B0 <<= B0
 B0 <<= B0
-MEM1 &= B0
+MEM1 |= B0
 
 MEM0 := eval(192 | 12)
 MEM0 &= GHOST0
@@ -170,7 +170,7 @@ B0   := eval(192 | 12)
 B0   &= GHOST1
 B0 >>= B0
 B0 >>= B0
-MEM0 &= B0
+MEM0 |= B0
 return
 
 : tgcw
