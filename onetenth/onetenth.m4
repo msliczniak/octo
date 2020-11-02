@@ -173,18 +173,18 @@ sprite X Y 7
 # patch code based on key press
 pushdef(`PATCH', `dnl
 i := _$1
-i += M
+i += Z
 load MEM1
 i := $1
 save MEM1
-')
-
+')dnl
 PATCH(`transform')
-
-popdef(`PATCH')
-
-dnl try not to care about orientation
-dnl Z := M
+popdef(`PATCH')dnl
+i := _tghosts
+i += Z
+load MEM1
+i := tghosts
+save MEM1
 
 # remove the highlight from the new sym
 i := isym0
@@ -339,7 +339,8 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-:call tghosts
+: tghosts
+:call tgt
 :call transform
 
 i := bghost0
@@ -379,23 +380,14 @@ load Z
 jump input_loop
 
 : key_loop
-M := 2
+Z := 2
 : _key_loop_next
-if M key
+if Z key
 then return
-if M == 8
+if Z == 8
 then jump key_loop
-M += 2
+Z += 2
 jump _key_loop_next
-
-: transform
-: _transform
-jump tt     # up is convenietly 2, the same length as this one instruction
-
-jump tf
-jump tccw
-jump tcw
-jump tt
 
 pushdef(`DRAW', `dnl
 : _draw,$*

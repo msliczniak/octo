@@ -155,41 +155,6 @@ PUSHREG(`TRANS', `B5')
 PUSHREG(`TRANS', `B6')
 PUSHREG(`TRANS', `B7')
 
-: tghosts
-jump tgt
-
-jump tgf
-jump tgccw
-jump tgcw
-: _tgf
-jump tgt
-  1
-  2
-  4
-  8
- 16
- 32
-: _tgcw
- 64
-128
-  1
- 16
-  4
- 64
-  2
- 32
-: _tgccw
-  8
-128
- 32
-  2
-128
-  8
- 16
-  1
- 64
-  4
-
 : _rot
 MEM1 := eval(48 | 3)
 MEM1 &= GHOST1
@@ -238,9 +203,9 @@ ve := 128
 pushdef(`M', `dnl
 MEM1 >>= MEM1
 MEM0 := B$1
-MEM0 &= GHOST1
+MEM0 &= GHOST0
 if MEM0 != 0
-then MEM1 &= ve
+then MEM1 |= ve
 ')dnl
 M(0)
 M(1)
@@ -254,9 +219,9 @@ popdef(`M')dnl
 
 pushdef(`M', `dnl
 MEM0 >>= MEM0
-B$1 &= GHOST0
+B$1 &= GHOST1
 if B$1 != 0
-then MEM0 &= ve
+then MEM0 |= ve
 ')dnl
 M(0)
 M(1)
@@ -269,8 +234,52 @@ M(7)
 popdef(`M')dnl
 
 i := bghost0
-save v1
+save MEM1
 return
 
 POPREGS(`TRANS', 2)
 DELREGS(`TRANS')
+
+: transform
+: _transform
+jump tt     # up is convenietly 2, the same length as this one instruction
+jump tf
+jump tccw
+jump tcw
+: _tghosts
+jump tt
+
+:call tgf
+:call tgccw
+:call tgcw
+: _tgf
+:call tgt
+
+128
+ 64
+ 32
+ 16
+  8
+  4
+: _tgcw
+  2
+  1
+
+  1
+ 16
+  4
+ 64
+  2
+ 32
+: _tgccw
+  8
+128
+
+ 32
+  2
+128
+  8
+ 16
+  1
+ 64
+  4
