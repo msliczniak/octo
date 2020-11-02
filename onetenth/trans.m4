@@ -1,118 +1,5 @@
 # trans.m4
 
-REGS(`TRANS', 2)
-PUSHREG(`TRANS', `B0')
-PUSHREG(`TRANS', `B1')
-PUSHREG(`TRANS', `B2')
-PUSHREG(`TRANS', `B3')
-PUSHREG(`TRANS', `B4')
-PUSHREG(`TRANS', `B5')
-PUSHREG(`TRANS', `B6')
-PUSHREG(`TRANS', `B7')
-
-: tghosts
-jump tgt
-
-jump tgf
-jump tgccw
-jump tgcw
-jump tgt
-
-: tgccw
-return
-
-: tgcw
-return
-
-# prep
-: tg
-v0 := 0
-v1 := 0
-B0 :=   1
-B1 :=   2
-B2 :=   4
-B3 :=   8
-B4 :=  16
-B5 :=  32
-B6 :=  64
-B7 := 128
-return
-
-# flip ghost bits
-: tgf
-:call tg
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B7
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B6
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B5
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B4
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B3
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B2
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B1
-
-GHOST1 >>= GHOST1
-if vf != 0
-then v0 &= B1
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B7
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B6
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B5
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B4
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B3
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B2
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B1
-
-GHOST0 >>= GHOST0
-if vf != 0
-then v1 &= B0
-
-i := bghost0
-save v1
-return
-
-POPREGS(`TRANS', 2)
-DELREGS(`TRANS')
-
 # flip
 # 0 4 8 C   F B 7 3
 # 1 5 9 D   E A 6 2
@@ -257,3 +144,133 @@ v1 := GHOST1
 i := bghost0
 save v1
 return
+
+REGS(`TRANS', 2)
+PUSHREG(`TRANS', `B0')
+PUSHREG(`TRANS', `B1')
+PUSHREG(`TRANS', `B2')
+PUSHREG(`TRANS', `B3')
+PUSHREG(`TRANS', `B4')
+PUSHREG(`TRANS', `B5')
+PUSHREG(`TRANS', `B6')
+PUSHREG(`TRANS', `B7')
+
+: tghosts
+jump tgt
+
+jump tgf
+jump tgccw
+jump tgcw
+: _tgf
+jump tgt
+  1
+  2
+  4
+  8
+ 16
+ 32
+: _tgcw
+ 64
+128
+  1
+ 16
+  4
+ 64
+  2
+ 32
+: _tgccw
+  8
+128
+ 32
+  2
+128
+  8
+ 16
+  1
+ 64
+  4
+
+: _rot
+MEM1 := eval(48 | 3)
+MEM1 &= GHOST1
+B0   :=  eval(48 | 3)
+B0   &= GHOST0
+B0 <<= B0
+B0 <<= B0
+MEM1 &= B0
+
+MEM0 := eval(192 | 12)
+MEM0 &= GHOST0
+B0   := eval(192 | 12)
+B0   &= GHOST1
+B0 >>= B0
+B0 >>= B0
+MEM0 &= B0
+return
+
+: tgcw
+:call _rot
+
+GHOST0 := MEM0
+GHOST1 := MEM1
+i := _tgcw
+jump _tg
+
+: tgccw
+B0     := GHOST0
+GHOST0 := GHOST1
+GHOST1 := B0
+:call _rot
+
+GHOST0 := MEM1
+GHOST1 := MEM0
+i := _tgccw
+jump _tg
+
+: tgf
+i := _tgf
+
+# FALLTHRU
+: _tg
+load B7
+ve := 128
+
+pushdef(`M', `dnl
+MEM1 >>= MEM1
+MEM0 := B$1
+MEM0 &= GHOST1
+if MEM0 != 0
+then MEM1 &= ve
+')dnl
+M(0)
+M(1)
+M(2)
+M(3)
+M(4)
+M(5)
+M(6)
+M(7)
+popdef(`M')dnl
+
+pushdef(`M', `dnl
+MEM0 >>= MEM0
+B$1 &= GHOST0
+if B$1 != 0
+then MEM0 &= ve
+')dnl
+M(0)
+M(1)
+M(2)
+M(3)
+M(4)
+M(5)
+M(6)
+M(7)
+popdef(`M')dnl
+
+i := bghost0
+save v1
+return
+
+POPREGS(`TRANS', 2)
+DELREGS(`TRANS')

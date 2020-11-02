@@ -453,12 +453,6 @@ popdef(`DRAW')
 255 255 255 255 255 255 255 255 255 255 255
 
 include(`merge.m')
-dnl POPREGS(`COL', 0)
-dnl DELREGS(`COL')
-
-POPREGS(`MAIN', 0)
-DELREGS(`MAIN')
-
 #REGS(`XSP', 0)
 #PUSHREG(`XSP', `A0')
 #PUSHREG(`XSP', `A1')
