@@ -149,8 +149,14 @@ Y := 24
 S := 15
 # FALLTHRU
 
-# highlight the picked cell
 : input_loop0
+i := board
+i += S
+load MEM0
+if MEM0 != BL
+then jump input_loop
+
+# highlight the picked cell
 i := isym0
 sprite X Y 7 
 
