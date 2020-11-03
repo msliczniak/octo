@@ -155,6 +155,21 @@ PUSHREG(`TRANS', `B5')
 PUSHREG(`TRANS', `B6')
 PUSHREG(`TRANS', `B7')
 
+: tgf
+i := _tgf
+jump _tg
+
+: tgcw
+i := _tgcw
+jump _rot
+
+: tgccw
+i := _tgccw
+B0     := GHOST0
+GHOST0 := GHOST1
+GHOST1 := B0
+
+# FALLTHRU
 : _rot
 MEM1 := eval(48 | 3)
 MEM1 &= GHOST1
@@ -171,29 +186,9 @@ B0   &= GHOST1
 B0 >>= B0
 B0 >>= B0
 MEM0 |= B0
-return
-
-: tgcw
-:call _rot
 
 GHOST0 := MEM0
 GHOST1 := MEM1
-i := _tgcw
-jump _tg
-
-: tgccw
-B0     := GHOST0
-GHOST0 := GHOST1
-GHOST1 := B0
-:call _rot
-
-GHOST0 := MEM1
-GHOST1 := MEM0
-i := _tgccw
-jump _tg
-
-: tgf
-i := _tgf
 
 # FALLTHRU
 : _tg
