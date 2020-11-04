@@ -263,27 +263,15 @@ i := bghost0
 load SPMASK
 GHOST := SPMASK
 
-vd := 0
+DSPOFF := 60
 :call _draw,z,a,p
-
-vd := 64
-:call _draw,z,a,p
-
-#vd := 64
-#:call _draw,z,a,p
 
 i := bghost1
 load SPMASK
 GHOST := SPMASK
 
-vd := 128
+DSPOFF := 120
 :call _draw,z,b,p
-
-vd := 192
-:call _draw,z,b,p
-
-#vd := 128
-#:call _draw,z,b,p
 
 i := main_regs
 load Z
@@ -349,41 +337,132 @@ save SCORE
 :call tgt
 :call transform
 
+REGS(`XSP', 0)
+PUSHREG(`XSP', `A0')
+PUSHREG(`XSP', `A1')
+PUSHREG(`XSP', `A2')
+PUSHREG(`XSP', `A3')
+PUSHREG(`XSP', `A4')
+PUSHREG(`XSP', `A5')
+PUSHREG(`XSP', `A6')
+PUSHREG(`XSP', `B0')
+PUSHREG(`XSP', `B1')
+PUSHREG(`XSP', `B2')
+PUSHREG(`XSP', `B3')
+PUSHREG(`XSP', `B4')
+PUSHREG(`XSP', `B5')
+PUSHREG(`XSP', `B6')
+
+pushdef(`M', `dnl
+A0 := eval(3 << (6 - ($2 * 2)))
+A0 &= GHOST
+if A0 == 0
+then jump $*
+
+i := sprite:decr($3)
+vf := eval($2 * 15)
+:call _xorsp
+i := sprite:$3
+save A6
+
+i := sprite:incr($3):-7
+vf := eval(($2 * 15) + 8)
+:call _xorsp
+i := sprite:incr($3)
+save A6
+
+: $*
+')dnl
+
+divert(incr(divnum))dnl
+
+: _xorsp
+load B6
+i := sprite:0
+i += vf
+load A6
+
+A0 ^= B0
+A1 ^= B1
+A2 ^= B2
+A3 ^= B3
+A4 ^= B4
+A5 ^= B5
+A6 ^= B6
+
+return
+divert(decr(divnum))dnl
+
+# `L'
 i := bghost0
-load SPMASK
-GHOST := SPMASK
-#vf := 128
-vf := 0
+load MEM0
+GHOST := MEM0
+
+# `L' sprite ghost
+vf := 60
 i := prevboard0-6
+:call spb,z
+
+# `L' draw  ghost
+DSPOFF := 60
 :call _draw,z,a
 
-#vf := 64
-vf := 64
-i := board0-6
-:call _draw,z,a
-
-#vE := 64
-#:call xorsp
-
+# `R'
 i := bghost1
-load SPMASK
-GHOST := SPMASK
-#vf := 64
-vf := 128
+load MEM0
+GHOST := MEM0
+
+# `R' sprite ghost
+vf := 120
 i := prevboard2-6
+:call spb,z
+
+# `R' draw  ghost
+DSPOFF := 120
 :call _draw,z,b
 
-#vf := 0
-vf := 192
+# `R' sprite new
+vf := 0
 i := board2-6
+:call spb,z
+
+# `R' sprite xor
+M(`_xorsp', `0', `16')
+M(`_xorsp', `1', `18')
+M(`_xorsp', `2', `20')
+M(`_xorsp', `3', `22')
+
+# `R' draw  new
+DSPOFF := 0
 :call _draw,z,b
 
-#vE := 0
-#:call xorsp
+# `L'
+i := bghost0
+load MEM0
+GHOST := MEM0
+
+# `L' sprite new
+vf := 0
+i := board0-6
+:call spb,z
+
+# `L' draw  new
+DSPOFF := 0
+:call _draw,z,a
+
+# `L' sprite xor
+M(`_xorsp', `0', `8')
+M(`_xorsp', `1', `10')
+M(`_xorsp', `2', `12')
+M(`_xorsp', `3', `14')
 
 i := main_regs
 load Z
 jump input_loop
+
+popdef(`M')
+POPREGS(`XSP', 0)
+DELREGS(`XSP')
 
 : key_loop
 Z := 2
@@ -397,9 +476,6 @@ jump _key_loop_next
 
 pushdef(`DRAW', `dnl
 : _draw,$*
-ifelse(`$3', `', `dnl
-:call spb,$1
-')dnl
 i := draw,$*
 load Y3
 jump draw
@@ -420,70 +496,28 @@ popdef(`DRAW')
 : ff11
 255 255 255 255 255 255 255 255 255 255 255
 
-include(`merge.m')
-#REGS(`XSP', 0)
-#PUSHREG(`XSP', `A0')
-#PUSHREG(`XSP', `A1')
-#PUSHREG(`XSP', `A2')
-#PUSHREG(`XSP', `A3')
-#PUSHREG(`XSP', `A4')
-#PUSHREG(`XSP', `A5')
-#PUSHREG(`XSP', `A6')
-#PUSHREG(`XSP', `B0')
-#PUSHREG(`XSP', `B1')
-#PUSHREG(`XSP', `B2')
-#PUSHREG(`XSP', `B3')
-#PUSHREG(`XSP', `B4')
-#PUSHREG(`XSP', `B5')
-#PUSHREG(`XSP', `B6')
-#PUSHREG(`XSP', `XC')
-#
-#: xorsp
-#i := sprite:8-7
-#i += XC
-#load B6
-#i := sprite:0
-#i += XC
-#load A6
-#
-#A0 ^= B0
-#A1 ^= B1
-#A2 ^= B2
-#A3 ^= B3
-#A4 ^= B4
-#A5 ^= B5
-#A6 ^= B6
-#
-#i := sprite:8
-#i += XC
-#save A6
-#
-#XC += 8
-#A0 := 63
-#A0 &= XC
-#
-#if A0 == 0
-#then return
-#
-#jump xorsp
-#
-#POPREGS(`XSP', 0)
-#DELREGS(`XSP')
-
 # in case of reset
 : reset
 clear
 
+i := bghost0
+v0 := 0
+v1 := 0
+save v1
+
 i := isym0
 load v6
 v7 := 0
-v8 := 0
+v8 := 60
 
 : _clear_board_sprites
-i := sprite0
+v8 -= 15
+i := sprite:0
 i += v8
 save v7
-v8 += 8
+i := sprite:1
+i += v8
+save v6
 if v8 != 0
 then jump _clear_board_sprites
 
@@ -505,6 +539,7 @@ DSPOFF := 0
 
 return
 
+include(`merge.m')
 include(`syms.m')
 include(`board.m')
 include(`trans.m')

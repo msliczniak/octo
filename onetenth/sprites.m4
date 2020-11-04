@@ -2,68 +2,69 @@
 
 # screen update sprites
 
-: sprites
-: sprite0
 : sprite:0
-: spritebu:0
 0 0 0 0 0 0 0 0
-: sprite1
 : sprite:1
-: spritebl:0
-0 0 0 0 0 0 0 0
-: sprite2
+0 0 0 0 0 0 0
 : sprite:2
-: spritebu:1
 0 0 0 0 0 0 0 0
-: sprite3
 : sprite:3
-: spritebl:1
-0 0 0 0 0 0 0 0
-: sprite4
+0 0 0 0 0 0 0
 : sprite:4
-: spritebu:2
 0 0 0 0 0 0 0 0
-: sprite5
 : sprite:5
-: spritebl:2
-0 0 0 0 0 0 0 0
-: sprite6
+0 0 0 0 0 0 0
 : sprite:6
-: spritebu:3
 0 0 0 0 0 0 0 0
-: sprite7
 : sprite:7
-: spritebl:3
-0
-: sprite:8-7
 0 0 0 0 0 0 0
 
 : sprite:8
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
+0
+: sprite:9:-7
+0 0 0 0 0 0 0
+: sprite:9
+0 0 0 0 0 0 0
+: sprite:10
+0
+: sprite:11:-7
+0 0 0 0 0 0 0
+: sprite:11
+0 0 0 0 0 0 0
+: sprite:12
+0
+: sprite:13:-7
+0 0 0 0 0 0 0
+: sprite:13
+0 0 0 0 0 0 0
+: sprite:14
+0
+: sprite:15:-7
+0 0 0 0 0 0 0
+: sprite:15
+0 0 0 0 0 0 0
 
 : sprite:16
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-
-: sprite:24
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0
+0
+: sprite:17:-7
+0 0 0 0 0 0 0
+: sprite:17
+0 0 0 0 0 0 0
+: sprite:18
+0
+: sprite:19:-7
+0 0 0 0 0 0 0
+: sprite:19
+0 0 0 0 0 0 0
+: sprite:20
+0
+: sprite:21:-7
+0 0 0 0 0 0 0
+: sprite:21
+0 0 0 0 0 0 0
+: sprite:22
+0
+: sprite:23:-7
+0 0 0 0 0 0 0
+: sprite:23
+0 0 0 0 0 0 0

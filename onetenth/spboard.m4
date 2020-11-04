@@ -55,10 +55,10 @@ ifelse(`$1', `0', `dnl
 pushdef(`R', `_CC(B, `$2')')dnl
 R := SPOFF
 ')dnl
-ifelse(`$2', `7', `dnl
-DSPOFF := R
-popdef(`R')dnl
-')dnl
+dnl ifelse(`$2', `7', `dnl
+dnl DSPOFF := R
+dnl popdef(`R')dnl
+dnl ')dnl
 ')dnl
 
 pushdef(`R', `vf')dnl

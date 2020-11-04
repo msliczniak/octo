@@ -29,6 +29,25 @@ safe "syscmd(<!/bin/date -ju '+%Y-%m-%d %H:%M:%S-%Z"'!>)
 changequote`'dnl
 :byte 0
 
+:assert "handheld entry polint too large" { HERE <= 0x300 }
+
+:org 0x300  # CHIP-8X
+vf := 0
+buzzer := vf
+
+# colormap at 0xc00 on 1862/1864
+# NB: must use these registers! https://chip-8.github.io/extensions/#chip-8x
+
+v1 := 0x70  # x: start at region 0 and color 7 + 1 regions
+v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
+vc := 7     # white
+0xb1 0xc0
+
+dnl i := _pt0
+dnl load v1
+dnl i := _skip0_prevboard
+dnl save v1
+
 : _handheld
 :call reset
 
@@ -61,28 +80,6 @@ i := isym0
 vc += 1 # gives a nice box effect
 sprite vd vc 7
 
-jump _entry_point
-
-:assert "handheld entry polint too large" { HERE <= 0x300 }
-
-:org 0x300  # CHIP-8X
-vf := 0
-buzzer := vf
-
-# colormap at 0xc00 on 1862/1864
-# NB: must use these registers! https://chip-8.github.io/extensions/#chip-8x
-
-v1 := 0x70  # x: start at region 0 and color 7 + 1 regions
-v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
-vc := 7     # white
-0xb1 0xc0
-
-i := _pt0
-load v1
-i := _skip0_prevboard
-save v1
-
-:call reset
 jump root
 
 : _pt0
