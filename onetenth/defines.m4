@@ -66,18 +66,22 @@ jump root
 :assert "handheld entry polint too large" { HERE <= 0x300 }
 
 :org 0x300  # CHIP-8X
+0x02 0xa0   # black on black
 vf := 0
 buzzer := vf
 
 # colormap at 0xc00 on 1862/1864
 # NB: must use these registers! https://chip-8.github.io/extensions/#chip-8x
 
-v1 := 0x70  # x: start at region 0 and color 7 + 1 regions
+v1 := 0x34  # x: start at region 4 and color 3 + 1 regions
 v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
 vc := 7     # white
 0xb1 0xc0
 
-:call reset
+v1 := 0x30  # x: start at region 0 and color 3 + 1 regions
+v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
+vc := 0     # black
+0xb1 0xc0
 
 i := _pt0
 load v1
@@ -93,6 +97,17 @@ i := _pt2
 load v1
 i := _skip2_prevboard
 save v1
+
+:call reset
+
+#0x02 0xa0   # black on green
+#0x02 0xa0   # black on red
+#0x02 0xa0   # black on blue
+
+v1 := 0x30  # x: start at region 0 and color 3 + 1 regions
+v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
+vc := 7     # white
+0xb1 0xc0
 
 jump root
 
