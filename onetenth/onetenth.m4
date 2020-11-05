@@ -426,11 +426,13 @@ vf := 0
 i := board2-6
 :call spb,z
 
+: _skip1_prevboard
 # `R' sprite xor
 M(`_xorsp', `0', `16')
 M(`_xorsp', `1', `18')
 M(`_xorsp', `2', `20')
 M(`_xorsp', `3', `22')
+: skip1_prevboard
 
 # `R' draw  new
 DSPOFF := 0
@@ -450,11 +452,13 @@ i := board0-6
 DSPOFF := 0
 :call _draw,z,a
 
+: _skip2_prevboard
 # `L' sprite xor
 M(`_xorsp', `0', `8')
 M(`_xorsp', `1', `10')
 M(`_xorsp', `2', `12')
 M(`_xorsp', `3', `14')
+: skip2_prevboard
 
 i := main_regs
 load Z
