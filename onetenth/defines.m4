@@ -71,17 +71,17 @@ vf := 0
 buzzer := vf
 
 # colormap at 0xc00 on 1862/1864
-# NB: must use these registers! https://chip-8.github.io/extensions/#chip-8x
+# use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
-v1 := 0x34  # x: start at region 4 and color 3 + 1 regions
-v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
-vc := 7     # white
-0xb1 0xc0
+vd := 7     # white
+ve := 0x34  # h: start at region 4 and color 3 + 1 regions
+vf := 0x70  # v: start at region 0 and color 7 + 1 regions
+0xbe 0xd0
 
-v1 := 0x30  # x: start at region 0 and color 3 + 1 regions
-v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
-vc := 0     # black
-0xb1 0xc0
+vd := 0     # black
+ve := 0x30  # h: start at region 0 and color 3 + 1 regions
+vf := 0x70  # v: start at region 0 and color 7 + 1 regions
+0xbe 0xd0
 
 i := _pt0
 load v1
@@ -104,10 +104,10 @@ save v1
 #0x02 0xa0   # black on red
 #0x02 0xa0   # black on blue
 
-v1 := 0x30  # x: start at region 0 and color 3 + 1 regions
-v2 := 0x70  # y: start at region 0 and color 7 + 1 regions
-vc := 7     # white
-0xb1 0xc0
+vd := 2     # blue
+ve := 0x30  # h: start at region 0 and color 3 + 1 regions
+vf := 0x70  # v: start at region 0 and color 7 + 1 regions
+0xbe 0xd0
 
 jump root
 
