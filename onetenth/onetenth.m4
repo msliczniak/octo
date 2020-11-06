@@ -462,6 +462,14 @@ M(`_xorsp', `3', `14')
 
 i := main_regs
 load Z
+
+: __bb0
+vd := 2     # blue
+ve := 0x30  # h: start at region 0 and color 3 + 1 regions
+vf := 0x70  # v: start at region 0 and color 7 + 1 regions
+0xbe 0xd0
+
+: _bb0
 jump input_loop
 
 popdef(`M')

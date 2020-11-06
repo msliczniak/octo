@@ -17,9 +17,9 @@ include(`chip8.m')
 define(`BL',`0')
 
 : main
-vf := 0
+v0 := 0
 _BP(`main')
-buzzer := vf
+buzzer := v0
 jump _handheld
 
 :byte 0
@@ -30,6 +30,15 @@ changequote`'dnl
 :byte 0
 
 : _handheld
+# patch around chip-8x code
+v1 := 0xee  # return from subroutine
+i := _bb1
+save v1
+i := _bb0
+load v1
+i := __bb0
+save v1
+
 :call reset
 
 vd := 0

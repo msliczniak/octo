@@ -79,9 +79,7 @@ dnl  F 3> 7> B> 0> 4> 8> C> 1> >5 9> D> 2> 6> A> E>
 
 i := board
 save ve
-i := zboard
-save vf
-return
+jump _trotret
 
 # counter clockwise
 # <F  <3  <7  <B.    E>  D>  C> .B>
@@ -89,7 +87,6 @@ return
 # <1  <5. <9  <D     6> .5>  4>  3>
 # <2. <6  <A  <E    .2>  1>  0>  F>
 : tccw
-# :call munge
 i := board-1
 load vd
 dnl V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF
@@ -126,6 +123,7 @@ dnl E> A> 6> 2> D> 9> 5> 1> C> 8> 4> 0> B> 7> 3> F>
 
 i := board
 save vf
+: _trotret
 i := zboard
 save vf
 return
@@ -141,9 +139,7 @@ return
 : tgt
 v0 := GHOST0
 v1 := GHOST1
-i := bghost0
-save v1
-return
+jump _tgret
 
 REGS(`TRANS', 2)
 PUSHREG(`TRANS', `B0')
@@ -228,8 +224,47 @@ M(6)
 M(7)
 popdef(`M')dnl
 
+: _tgret
 i := bghost0
 save MEM1
+
+dnl ghost the screen
+: _bb1
+vd := 0     # black
+v2 := 0
+
+: _tgreth0
+v3 := 0x10
+
+: _tgretv0
+MEM0 <<= MEM0
+if vf != 0
+then 0xb2 0xd0
+
+v3 += 2
+if v3 != 0x18
+then jump _tgretv0
+
+v2 += 1
+if v2 != 2
+then jump _tgreth0
+
+: _tgreth1
+v3 := 0x10
+
+: _tgretv1
+MEM1 <<= MEM1
+if vf != 0
+then 0xb2 0xd0
+
+v3 += 2
+if v3 != 0x18
+then jump _tgretv1
+
+v2 += 1
+if v2 != 4
+then jump _tgreth1
+
 return
 
 POPREGS(`TRANS', 2)
