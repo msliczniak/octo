@@ -126,14 +126,9 @@ save vf
 : _trotret
 i := zboard
 save vf
-return
 
-# trivial - only save the board state
-: tt
-i := board
-load vf
-i := zboard
-save vf
+# FALLTHRU
+: tt    # trivial
 return
 
 : tgt
@@ -155,36 +150,48 @@ PUSHREG(`TRANS', `B7')
 i := _tgf
 jump _tg
 
-: tgcw
-i := _tgcw
-jump _rot
-
 : tgccw
 i := _tgccw
-B0     := GHOST0
-GHOST0 := GHOST1
-GHOST1 := B0
-
-# FALLTHRU
-: _rot
-MEM1 := eval(48 | 3)
+MEM0 := eval(48 | 3)
+MEM1 := eval(192 | 12)
+B1 := MEM1
 MEM1 &= GHOST1
-B0   :=  eval(48 | 3)
-B0   &= GHOST0
-B0 <<= B0
-B0 <<= B0
-MEM1 |= B0
+B1   &= GHOST0
+B1 >>= B1
+B1 >>= B1
+MEM1 |= B1
 
-MEM0 := eval(192 | 12)
+B0 := MEM0
 MEM0 &= GHOST0
-B0   := eval(192 | 12)
+B0   &= GHOST1
+B0 <<= B0
+B0 <<= B0
+MEM0 |= B0
+
+GHOST0 := MEM1
+GHOST1 := MEM0
+jump _tg
+
+: tgcw
+i := _tgcw
+MEM0 := eval(192 | 12)
+MEM1 := eval(48 | 3)
+B1 := MEM1
+MEM1 &= GHOST1
+B1   &= GHOST0
+B1 <<= B1
+B1 <<= B1
+MEM1 |= B1
+
+B0 := MEM0
+MEM0 &= GHOST0
 B0   &= GHOST1
 B0 >>= B0
 B0 >>= B0
 MEM0 |= B0
 
-GHOST0 := MEM0
-GHOST1 := MEM1
+GHOST0 := MEM1
+GHOST1 := MEM0
 
 # FALLTHRU
 : _tg
