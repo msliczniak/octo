@@ -207,6 +207,7 @@ OY += 32
 i := main_regs
 save Z
 
+vd := 0     # black
 _BP(`input_loop')
 
 REGS(`COL', 0)
@@ -452,29 +453,154 @@ i := board0-6
 DSPOFF := 0
 :call _draw,z,a
 
+dnl color the screen
+: __bb2
+v8 := GHOST
+va := 0x10
+vc := 0x12
+ve := 0x14
+v9 := 0
+vb := 0
+vd := 0
+i := board0
+:call bbc8
+
+i := bghost1
+load v0
+v8 := v0
+v9 := 2
+vb := 2
+vd := 2
+i := board2
+:call bbc8
+
 : _skip2_prevboard
 # `L' sprite xor
 M(`_xorsp', `0', `8')
 M(`_xorsp', `1', `10')
 M(`_xorsp', `2', `12')
 M(`_xorsp', `3', `14')
+popdef(`M')
+POPREGS(`XSP', 0)
+DELREGS(`XSP')
 : skip2_prevboard
 
 i := main_regs
 load Z
 
-: __bb0
-vd := 2     # blue
-ve := 0x30  # h: start at region 0 and color 3 + 1 regions
+: __bb0     # show prevboard
+vd := 7     # white
+ve := 0x34  # h: start at region 4 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
 
 : _bb0
 jump input_loop
 
+: _bb2
+jump _skip2_prevboard
+
+dnl black on black color routines
+pushdef(`M', `dnl
+v8 <<= v8
+if vf == 0
+then jump _bbc8:$*
+
+ifelse($1, 0, `', `v0 := v$1')
+:call bbc
+0xb$2 0
+
+: _bbc8:$*
+')dnl
+: bbc8
+load v7
+M(0, 9)
+M(1, b)
+M(2, d)
+v1 := v9
+v2 := 0x16
+M(3, 1)
+v9 += 1
+vb += 1
+vd += 1
+v1 += 1
+M(4, 9)
+M(5, b)
+M(6, d)
+M(7, 1)
+return
 popdef(`M')
-POPREGS(`XSP', 0)
-DELREGS(`XSP')
+
+: bbc
+pushdef(`H', 7)
+if v0 == 0
+then jump _bbcx
+
+dnl >>> H = 7
+dnl >>> for i in xrange(6):
+dnl ...     j = i * 7 + 84
+dnl ...     k = j - (12 * H + 1)
+dnl ...     l = k & 7
+dnl ...     print i, j, k, l
+dnl ... 
+dnl 0 84 -1 7
+dnl 1 91 6 6
+dnl 2 98 13 5
+dnl 3 105 20 4
+dnl 4 112 27 3
+dnl 5 119 34 2
+vf := eval((12 * H) + 1)
+v0 -= vf
+if vf != 0
+then jump _bbcx
+
+dnl >>> ((6 * H) - (12 * H)) & 255
+dnl 214
+dnl >>> for i in xrange(7):
+dnl ...     j = i * 7 + 42
+dnl ...     j = j - (12 * H + 1)
+dnl ...     j &= 255
+dnl ...     k = j - (((6 * H) - (12 * H)) & 255)
+dnl ...     l = k & 7
+dnl ...     print i, i * 7 + 42, j, k, l
+dnl ... 
+dnl 0 42 213 -1 7
+dnl 1 49 220 6 6
+dnl 2 56 227 13 5
+dnl 3 63 234 20 4
+dnl 4 70 241 27 3
+dnl 5 77 248 34 2
+dnl 6 84 255 41 1
+vf := eval(((6 * H) - (12 * H)) & 255)
+v0 -= vf
+if vf != 0
+then jump _bbcx
+
+dnl >>> for i in xrange(7):
+dnl ...     j = i * 7
+dnl ...     j = j - (12 * H + 1)
+dnl ...     j &= 255
+dnl ...     j = j - (((6 * H) - (12 * H)) & 255)
+dnl ...     j &= 255
+dnl ...     k = j + 2
+dnl ...     l = k & 7
+dnl ...     print i, i * 7, j, k, l
+dnl ...
+dnl 0 0 213 215 7
+dnl 1 7 220 222 6
+dnl 2 14 227 229 5
+dnl 3 21 234 236 4
+dnl 4 28 241 243 3
+dnl 5 35 248 250 2
+dnl 6 42 255 257 1
+v0 += 2
+
+: _bbcx
+v0 += 1
+vf := 7
+v0 &= vf
+return
+popdef(`H')dnl
 
 : key_loop
 Z := 2

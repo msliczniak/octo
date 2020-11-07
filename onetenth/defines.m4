@@ -38,6 +38,10 @@ i := _bb0
 load v1
 i := __bb0
 save v1
+i := _bb2
+load v1
+i := __bb2
+save v1
 
 :call reset
 
@@ -113,7 +117,7 @@ save v1
 #0x02 0xa0   # black on red
 #0x02 0xa0   # black on blue
 
-vd := 2     # blue
+vd := 1     # red
 ve := 0x30  # h: start at region 0 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
