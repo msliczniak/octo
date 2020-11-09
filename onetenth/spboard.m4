@@ -25,10 +25,10 @@ then i := sym0
 ifelse(`$1', `0', `dnl
 vf := SPOFF
 ')dnl
-load B0
-i := sprite:$5
+load v4
+i := sprite:$5:1
 i += R
-save B0
+save v4
 
 i := isym0
 i += B$2
@@ -42,10 +42,10 @@ then i := sym0
 ifelse(`$1', `0', `dnl
 vf := SPOFF
 ')dnl
-load B0
-i := sprite:$6
+load v4
+i := sprite:$6:1
 i += R
-save B0
+save v4
 
 ifelse(`$1', `0', `dnl
 SPOFF := vf

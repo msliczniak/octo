@@ -45,34 +45,34 @@ save v1
 
 :call reset
 
-vd := 0
-ve := 255
- i := draw,z,a,p
- load vb
-:call draw
- i := draw,z,b,p
- load vb
-:call draw
-
-i := ff11
-vd := 32
-vc := 32
-vb := 43
-va := 54
-
-: invert_loop
-sprite vd vc 11
-sprite vd vb 11
-sprite vd va 10
-if vd == 56
-then jump inverted
-vd += 8
-jump invert_loop
-
-: inverted
-i := isym0
-vc += 1 # gives a nice box effect
-sprite vd vc 7
+#vd := 0
+#ve := 255
+# i := draw,z,a,p
+# load vb
+#:call draw
+# i := draw,z,b,p
+# load vb
+#:call draw
+#
+#i := ff11
+#vd := 32
+#vc := 32
+#vb := 43
+#va := 54
+#
+#: invert_loop
+#sprite vd vc 11
+#sprite vd vb 11
+#sprite vd va 10
+#if vd == 56
+#then jump inverted
+#vd += 8
+#jump invert_loop
+#
+#: inverted
+#i := isym0
+#vc += 1 # gives a nice box effect
+#sprite vd vc 7
 
 jump root
 
@@ -96,21 +96,6 @@ ve := 0x30  # h: start at region 0 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
 
-i := _pt0
-load v1
-i := _skip0_prevboard
-save v1
-
-i := _pt1
-load v1
-i := _skip1_prevboard
-save v1
-
-i := _pt2
-load v1
-i := _skip2_prevboard
-save v1
-
 :call reset
 
 #0x02 0xa0   # black on green
@@ -123,15 +108,6 @@ vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
 
 jump root
-
-: _pt0
-jump skip0_prevboard
-
-: _pt1
-jump skip1_prevboard
-
-: _pt2
-jump skip2_prevboard
 
 :assert "chip-8x entry polint too large" { HERE <= 0x600 }
 

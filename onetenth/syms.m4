@@ -7,16 +7,15 @@ pushdef(`I', IX)dnl
 popdef(`IX')dnl
 pushdef(`IX', incr(I))dnl
 `: sym'I
-0 $1 $2 $3 $4 $5 0 dnl
+$1 $2 $3 $4 $5 dnl
 divert(incr(divnum))dnl
 `: isym'I
-254 dnl
+dnl
 eval($1 ^ 254) dnl
 eval($2 ^ 254) dnl
 eval($3 ^ 254) dnl
 eval($4 ^ 254) dnl
 eval($5 ^ 254) dnl
-254
 divert(decr(divnum))dnl
 popdef(`I')dnl
 ')dnl
@@ -40,6 +39,5 @@ NI(  0,  56,  36,  36,  56) #  8K = 2^13     miniscule
 NI(124,  64, 112,  64, 124) # 16K = 2^14
 NI(124, 112, 120, 112, 112) # 32K = 2^15     bold
 NI(  0,  92,  84,  84,  92) # 64K = 2^16     miniscule
-
 popdef(`NI')dnl
 popdef(`IX')dnl

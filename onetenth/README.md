@@ -1,6 +1,6 @@
 in inspector add attribude:
 
-style="position:absolute; top:50px;"
+style="position:absolute; top:50px; right:200px;"
 
 to add implicit sources:
 

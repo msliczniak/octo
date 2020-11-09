@@ -55,97 +55,97 @@ jump handle_keyf
 
 : handle_key0
 X := 8
-Y := 24
+Y := 25
 S := 7
 jump input_loop0
 
 : handle_key1
 X := 0
-Y := 0
+Y := 1
 S := 0
 jump input_loop0
 
 : handle_key2
 X := 8
-Y := 0
+Y := 1
 S := 4
 jump input_loop0
 
 : handle_key3
 X := 16
-Y := 0
+Y := 1
 S := 8
 jump input_loop0
 
 : handle_key4
 X := 0
-Y := 8
+Y := 9
 S := 1
 jump input_loop0
 
 : handle_key5
 X := 8
-Y := 8
+Y := 9
 S := 5
 jump input_loop0
 
 : handle_key6
 X := 16
-Y := 8
+Y := 9
 S := 9
 jump input_loop0
 
 : handle_key7
 X := 0
-Y := 16
+Y := 17
 S := 2
 jump input_loop0
 
 : handle_key8
 X := 8
-Y := 16
+Y := 17
 S := 6
 jump input_loop0
 
 : handle_key9
 X := 16
-Y := 16
+Y := 17
 S := 10
 jump input_loop0
 
 : handle_keya
 X := 0
-Y := 24
+Y := 25
 S := 3
 jump input_loop0
 
 : handle_keyb
 X := 16
-Y := 24
+Y := 25
 S := 11
 jump input_loop0
 
 : handle_keyc
 X := 24
-Y := 0
+Y := 1
 S := 12
 jump input_loop0
 
 : handle_keyd
 X := 24
-Y := 8
+Y := 9
 S := 13
 jump input_loop0
 
 : handle_keye
 X := 24
-Y := 16
+Y := 17
 S := 14
 jump input_loop0
 
 : handle_keyf
 X := 24
-Y := 24
+Y := 25
 S := 15
 # FALLTHRU
 
@@ -158,21 +158,20 @@ then jump input_loop
 
 # highlight the picked cell
 i := isym0
-sprite X Y 7 
+sprite X Y 5
 
-# multiply by seven
+# multiply by five
 KEY := key
 KEY += 1
 M := KEY
 KEY <<= KEY
 KEY <<= KEY
-KEY <<= KEY
-KEY -= M
+KEY += M
 
 # draw the new sym
 i := sym0
 i += KEY
-sprite X Y 7
+sprite X Y 5
 
 :call key_loop
 
@@ -194,11 +193,11 @@ save MEM1
 
 # remove the highlight from the new sym
 i := isym0
-sprite X Y 7
+sprite X Y 5
 
 : _skip0_prevboard
 # remove the highlight from the last new sym of the prev board
-sprite OX OY 7
+#sprite OX OY 7
 OX := X
 OY := Y
 OX += 33
@@ -260,27 +259,27 @@ PUSHREG(`DRAW', `Y3')dnl        vB
 PUSHREG(`DRAW', `COLOR')dnl     vC
 PUSHREG(`DRAW', `DSPOFF')dnl    vD
 
-i := bghost0
-load SPMASK
-GHOST := SPMASK
-
-DSPOFF := 60
-:call _draw,z,a,p
-
-i := bghost1
-load SPMASK
-GHOST := SPMASK
-
-DSPOFF := 120
-:call _draw,z,b,p
-
-i := main_regs
-load Z
-
-# new sym of prev board in reverse video
-i := isym0
-i += KEY
-sprite OX OY 7
+#i := bghost0
+#load SPMASK
+#GHOST := SPMASK
+#
+#DSPOFF := 56
+#:call _draw,z,a,p
+#
+#i := bghost1
+#load SPMASK
+#GHOST := SPMASK
+#
+#DSPOFF := 112
+#:call _draw,z,b,p
+#
+#i := main_regs
+#load Z
+#
+## new sym of prev board in reverse video
+#i := isym0
+#i += KEY
+#sprite OX OY 7
 
 : skip0_prevboard
 MEM0 := KEY
@@ -338,74 +337,18 @@ save SCORE
 :call tgt
 :call transform
 
-REGS(`XSP', 0)
-PUSHREG(`XSP', `A0')
-PUSHREG(`XSP', `A1')
-PUSHREG(`XSP', `A2')
-PUSHREG(`XSP', `A3')
-PUSHREG(`XSP', `A4')
-PUSHREG(`XSP', `A5')
-PUSHREG(`XSP', `A6')
-PUSHREG(`XSP', `B0')
-PUSHREG(`XSP', `B1')
-PUSHREG(`XSP', `B2')
-PUSHREG(`XSP', `B3')
-PUSHREG(`XSP', `B4')
-PUSHREG(`XSP', `B5')
-PUSHREG(`XSP', `B6')
-
-pushdef(`M', `dnl
-A0 := eval(3 << (6 - ($2 * 2)))
-A0 &= GHOST
-if A0 == 0
-then jump $*
-
-i := sprite:decr($3)
-vf := eval($2 * 15)
-:call _xorsp
-i := sprite:$3
-save A6
-
-i := sprite:incr($3):-7
-vf := eval(($2 * 15) + 8)
-:call _xorsp
-i := sprite:incr($3)
-save A6
-
-: $*
-')dnl
-
-divert(incr(divnum))dnl
-
-: _xorsp
-load B6
-i := sprite:0
-i += vf
-load A6
-
-A0 ^= B0
-A1 ^= B1
-A2 ^= B2
-A3 ^= B3
-A4 ^= B4
-A5 ^= B5
-A6 ^= B6
-
-return
-divert(decr(divnum))dnl
-
 # `L'
 i := bghost0
 load MEM0
 GHOST := MEM0
 
 # `L' sprite ghost
-vf := 60
+vf := 56
 i := prevboard0-6
 :call spb,z
 
 # `L' draw  ghost
-DSPOFF := 60
+DSPOFF := 56
 :call _draw,z,a
 
 # `R'
@@ -414,26 +357,18 @@ load MEM0
 GHOST := MEM0
 
 # `R' sprite ghost
-vf := 120
+vf := 112
 i := prevboard2-6
 :call spb,z
 
 # `R' draw  ghost
-DSPOFF := 120
+DSPOFF := 112
 :call _draw,z,b
 
 # `R' sprite new
 vf := 0
 i := board2-6
 :call spb,z
-
-: _skip1_prevboard
-# `R' sprite xor
-M(`_xorsp', `0', `16')
-M(`_xorsp', `1', `18')
-M(`_xorsp', `2', `20')
-M(`_xorsp', `3', `22')
-: skip1_prevboard
 
 # `R' draw  new
 DSPOFF := 0
@@ -475,16 +410,6 @@ i := board2
 :call bbc8
 
 : _skip2_prevboard
-# `L' sprite xor
-M(`_xorsp', `0', `8')
-M(`_xorsp', `1', `10')
-M(`_xorsp', `2', `12')
-M(`_xorsp', `3', `14')
-popdef(`M')
-POPREGS(`XSP', 0)
-DELREGS(`XSP')
-: skip2_prevboard
-
 i := main_regs
 load Z
 
@@ -622,8 +547,8 @@ jump draw
 DRAW(`z', `a')
 DRAW(`z', `b')
 
-DRAW(`z', `a', `p')
-DRAW(`z', `b', `p')
+#DRAW(`z', `a', `p')
+#DRAW(`z', `b', `p')
 
 popdef(`DRAW')
 
@@ -631,8 +556,8 @@ popdef(`DRAW')
 0 0 0 0 0 0 0 0 0 0
 
 # 11 bytes to invert screen on startup
-: ff11
-255 255 255 255 255 255 255 255 255 255 255
+#: ff11
+#255 255 255 255 255 255 255 255 255 255 255
 
 # in case of reset
 : reset
@@ -644,27 +569,30 @@ v1 := 0
 save v1
 
 i := isym0
-load v6
-v7 := 0
-v8 := 60
+load v4
+v8 := 56
 
 : _clear_board_sprites
-v8 -= 15
-i := sprite:0
+v8 -= 14
+i := sprite:0:1
 i += v8
-save v7
-i := sprite:1
+save v4
+i := sprite:1:1
 i += v8
-save v6
+save v4
 if v8 != 0
 then jump _clear_board_sprites
 
 i := sym0
-load v6
+load v3
 i := board0
-save v7
+save v3
+i := board1
+save v3
 i := board2
-save v7
+save v3
+i := board3
+save v3
 
 GHOST := 0xff
 DSPOFF := 0
