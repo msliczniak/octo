@@ -457,73 +457,75 @@ return
 popdef(`M')
 
 : bbc
-pushdef(`H', 7)
-if v0 == 0
-then jump _bbcx
+pushdef(`H', 5)
+v0 += 2
+if v0 == 2
+then return
 
-dnl >>> H = 7
+dnl >>> H = 5
 dnl >>> for i in xrange(6):
-dnl ...     j = i * 7 + 84
-dnl ...     k = j - (12 * H + 1)
+dnl ...     j = i * H + 60 + 2
+dnl ...     k = j - (12 * H + 1 + 2)
 dnl ...     l = k & 7
-dnl ...     print i, j, k, l
-dnl ... 
-dnl 0 84 -1 7
-dnl 1 91 6 6
-dnl 2 98 13 5
-dnl 3 105 20 4
-dnl 4 112 27 3
-dnl 5 119 34 2
-vf := eval((12 * H) + 1)
+dnl ...     print i, j - 2, k, l
+dnl ...
+dnl 0 60 -1 7
+dnl 1 65 4 4
+dnl 2 70 9 1
+dnl 3 75 14 6
+dnl 4 80 19 3
+dnl 5 85 24 0
+vf := eval((12 * H) + 1 + 2)
 v0 -= vf
 if vf != 0
 then jump _bbcx
 
-dnl >>> ((6 * H) - (12 * H)) & 255
-dnl 214
+dnl >>> (((6 * H) - (12 * H)) & 255)
+dnl 226
 dnl >>> for i in xrange(7):
-dnl ...     j = i * 7 + 42
-dnl ...     j = j - (12 * H + 1)
+dnl ...     j = i * H + 30 + 2
+dnl ...     j = j - (12 * H + 1 + 2)
 dnl ...     j &= 255
 dnl ...     k = j - (((6 * H) - (12 * H)) & 255)
 dnl ...     l = k & 7
-dnl ...     print i, i * 7 + 42, j, k, l
-dnl ... 
-dnl 0 42 213 -1 7
-dnl 1 49 220 6 6
-dnl 2 56 227 13 5
-dnl 3 63 234 20 4
-dnl 4 70 241 27 3
-dnl 5 77 248 34 2
-dnl 6 84 255 41 1
+dnl ...     print i, i * H + 30, j, k, l
+dnl ...
+dnl 0 30 225 -1 7
+dnl 1 35 230 4 4
+dnl 2 40 235 9 1
+dnl 3 45 240 14 6
+dnl 4 50 245 19 3
+dnl 5 55 250 24 0
+dnl 6 60 255 29 5
 vf := eval(((6 * H) - (12 * H)) & 255)
 v0 -= vf
 if vf != 0
 then jump _bbcx
 
 dnl >>> for i in xrange(7):
-dnl ...     j = i * 7
-dnl ...     j = j - (12 * H + 1)
+dnl ...     j = i * H + 2
+dnl ...     j = j - (12 * H + 1 + 2)
 dnl ...     j &= 255
 dnl ...     j = j - (((6 * H) - (12 * H)) & 255)
 dnl ...     j &= 255
-dnl ...     k = j + 2
+dnl ...     k = j + (6 * H)
 dnl ...     l = k & 7
-dnl ...     print i, i * 7, j, k, l
+dnl ...     print i, i * H, j, k, l
 dnl ...
-dnl 0 0 213 215 7
-dnl 1 7 220 222 6
-dnl 2 14 227 229 5
-dnl 3 21 234 236 4
-dnl 4 28 241 243 3
-dnl 5 35 248 250 2
-dnl 6 42 255 257 1
-v0 += 2
+dnl 0 0 225 255 7
+dnl 1 5 230 260 4
+dnl 2 10 235 265 1
+dnl 3 15 240 270 6
+dnl 4 20 245 275 3
+dnl 5 25 250 280 0
+dnl 6 30 255 285 5
+v0 += eval(6 * H)
 
 : _bbcx
-v0 += 1
 vf := 7
 v0 &= vf
+if v0 == 0
+then v0 := 7
 return
 popdef(`H')dnl
 
