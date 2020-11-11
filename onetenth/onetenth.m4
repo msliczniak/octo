@@ -462,16 +462,18 @@ save v1
 
 i := isym0
 load v4
+v5 := v0
+v6 := v0
 v8 := 56
 
 : _clear_board_sprites
 v8 -= 14
-i := sprite:0:1
+i := sprite:0
 i += v8
-save v4
-i := sprite:1:1
+save v6
+i := sprite:1
 i += v8
-save v4
+save v6
 if v8 != 0
 then jump _clear_board_sprites
 
