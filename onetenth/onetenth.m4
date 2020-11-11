@@ -71,6 +71,8 @@ PUSHREG(`DRAW', `DSPOFF')dnl    vC
 PUSHREG(`DRAW', `COLOR')dnl     vD
 
 : root
+Z := 255
+delay := Z
 Z := 8
 GHOST0 := 0
 GHOST1 := 0
@@ -148,7 +150,38 @@ GHOST := MEM0
 DSPOFF := 56
 :call _draw,z,a
 
-dnl color the screen
+# runtime
+MEM0 := 255
+Z := delay
+MEM0 -= Z
+divert(incr(divnum))dnl
+: bcd0
+:byte 0
+: bcd1
+:byte 0
+: bcd2
+:byte 0
+divert(decr(divnum))dnl
+i := bcd0
+bcd MEM0
+MEM1 := 8
+i := bcd0
+load MEM0
+i := hex MEM0
+MEM0 := 40
+sprite MEM0 MEM1 5
+i := bcd1
+load MEM0
+i := hex MEM0
+MEM0 := 46
+sprite MEM0 MEM1 5
+i := bcd2
+load MEM0
+i := hex MEM0
+MEM0 := 52
+sprite MEM0 MEM1 5
+
+dnl color the screen - takes about 8 frames
 : __bb2
 v8 := GHOST
 va := 0x10
