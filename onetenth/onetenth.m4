@@ -548,7 +548,7 @@ return
 : xorsp
 XAOFF := 0
 XBOFF := DSPOFF
-XBOFF -= 60
+XBOFF -= 56
 COLOR := GHOST
 i := sprite:0:-4
 
@@ -573,7 +573,7 @@ COLOR <<= COLOR
 :call _xorsp
 XAOFF += 8
 XBOFF += 8
-i := sprite:8:1
+i := sprite:0:-4
 i += XBOFF
 :call _xorsp
 
@@ -583,7 +583,7 @@ then return
 
 XAOFF += 6
 XBOFF += 6
-i := sprite:8:1
+i := sprite:0:-4
 i += XBOFF
 jump _xorspl
 divert(decr(divnum))dnl
