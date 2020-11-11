@@ -3,102 +3,102 @@
 # screen update sprites
 
 : sprite:0
-254
+0x00
 : sprite:0:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:1
-254
+0x00
 : sprite:1:1
 0 0 0 0 0
 : sprite:2
-254
+0x00
 : sprite:2:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:3
-254
+0x00
 : sprite:3:1
 0 0 0 0 0
 : sprite:4
-254
+0x00
 : sprite:4:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:5
-254
+0x00
 : sprite:5:1
 0 0 0 0 0
 : sprite:6
-254
+0x00
 : sprite:6:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:7
-254
+0x00
 : sprite:7:1
 0 0 0 0 0
 
 : sprite:8
-254
+0x00
 : sprite:8:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:9
-254
+0x00
 : sprite:9:1
 0 0 0 0 0
 : sprite:10
-254
+0x00
 : sprite:10:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:11
-254
+0x00
 : sprite:11:1
 0 0 0 0 0
 : sprite:12
-254
+0x00
 : sprite:12:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:13
-254
+0x00
 : sprite::13:1
 0 0 0 0 0
 : sprite:14
-254
+0x00
 : sprite:14:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:15
-254
+0x00
 : sprite::15:1
 0 0 0 0 0
 
 : sprite:16
-254
+0x00
 : sprite:16:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:17
-254
+0x00
 : sprite:17:1
 0 0 0 0 0
 : sprite:18
-254
+0x00
 : sprite:18:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:19
-254
+0x00
 : sprite:19:1
 0 0 0 0 0
 : sprite:20
-254
+0x00
 : sprite:20:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:21
-254
+0x00
 : sprite::21:1
 0 0 0 0 0
 : sprite:22
-254
+0x00
 : sprite:22:1
-0 0 0 0 0 254 0
+0 0 0 0 0 0x00 0
 : sprite:23
-254
+0x00
 : sprite::23:1
 0 0 0 0 0
 
-254
+0x00

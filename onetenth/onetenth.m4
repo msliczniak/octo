@@ -17,88 +17,22 @@ PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
 PUSHREG(`MAIN', `Z')
-: root
-Z := 8
-OX := 56
-OY := 33
-
-S := random 15
-Y := 3
-Y &= S
-Y <<= Y
-Y <<= Y
-Y <<= Y
-Y <<= Y
-Y += 1
-X := 12
-X &= S
-X <<= X
-
-: input_loop
-
-# highlight the picked cell
-#i := isym0
-#sprite X Y 5
-
-# multiply by five
-KEY := 5
-
-# draw the new sym
-i := isym0
-i += KEY
-sprite X Y 5
-
-:call key_loop
-
-# patch code based on key press
-pushdef(`PATCH', `dnl
-i := _$1
-i += Z
-load MEM1
-i := $1
-save MEM1
-')dnl
-PATCH(`transform')
-popdef(`PATCH')dnl
-i := _tghosts
-i += Z
-load MEM1
-i := tghosts
-save MEM1
-
-# remove the highlight from the new sym
-i := isym0
-sprite X Y 5
-
-: _skip0_prevboard
-# remove the highlight from the last new sym of the prev board
-#sprite OX OY 7
-OX := X
-OY := Y
-OX += 33
-OY += 32
-
-i := main_regs
-save Z
-
-vd := 0     # black
-_BP(`input_loop')
 
 REGS(`COL', 0)
-PUSHREG(`COL', `R3')
-PUSHREG(`COL', `R2')
-PUSHREG(`COL', `R1')
-PUSHREG(`COL', `R0')
+PUSHREG(`COL', `R3')dnl		v0
+PUSHREG(`COL', `R2')dnl		 1
+PUSHREG(`COL', `R1')dnl 	 2
+PUSHREG(`COL', `R0')dnl 	 3
 
-PUSHREG(`COL', `FREE0')
-PUSHREG(`COL', `FREE1')
-PUSHREG(`COL', `FREE2')
-PUSHREG(`COL', `FREE3')
+PUSHREG(`COL', `FREE0')dnl	v4
+PUSHREG(`COL', `FREE1')dnl	 5
+PUSHREG(`COL', `FREE2')dnl	 6
+PUSHREG(`COL', `FREE3')dnl	 7
 
-PUSHREG(`COL', `MAXSYM')
-PUSHREG(`COL', `SCORE')
-PUSHREG(`COL', `GHOST0')
-PUSHREG(`COL', `GHOST1')
+PUSHREG(`COL', `MAXSYM')dnl	v8
+PUSHREG(`COL', `SCORE')dnl	 9
+PUSHREG(`COL', `GHOST0')dnl	 a
+PUSHREG(`COL', `GHOST1')dnl	 b
 
 REGS(`MERGE', REGSLVL(`COL'))
 PUSHREG(`MERGE', `MASK')
@@ -134,6 +68,147 @@ PUSHREG(`DRAW', `Y3')dnl        vB
 PUSHREG(`DRAW', `DSPOFF')dnl    vC
 PUSHREG(`DRAW', `COLOR')dnl     vD
 
+: root
+Z := 8
+GHOST0 := 0
+GHOST1 := 0
+S := random 15
+MEM0 := 5
+
+: input_loop
+_BP(`input_loop')
+i := board
+i += S
+save MEM0
+
+S <<= S
+i := _ghost_magic_table
+i += S
+load MEM1
+i := _ghost_magic
+save MEM1
+
+0x60
+: _ghost_magic
+0 0
+1
+
+: tghosts
+:call tgt
+:call transform
+
+# `L'
+i := bghost0
+load MEM0
+GHOST := MEM0
+
+# `L' sprite new
+vf := 0
+i := board0-6
+:call spb,z
+
+# `L' sprite ghost
+vf := 56
+i := prevboard0-6
+:call spb,z
+
+# `L' sprite xor
+DSPOFF := 56
+:call xorsp
+
+# `R'
+i := bghost1
+load MEM0
+GHOST := MEM0
+
+# `R' sprite new
+vf := 0
+i := board2-6
+:call spb,z
+
+# `R' sprite ghost
+vf := 112
+i := prevboard2-6
+:call spb,z
+
+# `R' draw  xor
+DSPOFF := 112
+:call xorsp
+DSPOFF := 112
+:call _draw,z,b
+
+# `L'
+i := bghost0
+load MEM0
+GHOST := MEM0
+
+# `L' draw  xor
+DSPOFF := 56
+:call _draw,z,a
+
+dnl color the screen
+: __bb2
+v8 := GHOST
+va := 0x10
+vc := 0x12
+ve := 0x14
+v9 := 0
+vb := 0
+vd := 0
+i := board0
+:call bbc8
+
+i := bghost1
+load v0
+v8 := v0
+v9 := 2
+vb := 2
+vd := 2
+i := board2
+:call bbc8
+
+: _skip2_prevboard
+i := main_regs
+load Z
+
+: __bb0     # show prevboard
+vd := 7     # white
+ve := 0x34  # h: start at region 4 and color 3 + 1 regions
+vf := 0x70  # v: start at region 0 and color 7 + 1 regions
+0xbe 0xd0
+
+: _bb0
+
+:call key_loop
+
+# patch code based on key press
+pushdef(`PATCH', `dnl
+i := _$1
+i += Z
+load MEM1
+i := $1
+save MEM1
+')dnl
+PATCH(`transform')
+popdef(`PATCH')dnl
+i := _tghosts
+i += Z
+load MEM1
+i := tghosts
+save MEM1
+
+: _skip0_prevboard
+# remove the highlight from the last new sym of the prev board
+#sprite OX OY 7
+OX := X
+OY := Y
+OX += 33
+OY += 32
+
+i := main_regs
+save Z
+
+vd := 0     # black
 #i := bghost0
 #load SPMASK
 #GHOST := SPMASK
@@ -157,10 +232,6 @@ PUSHREG(`DRAW', `COLOR')dnl     vD
 #sprite OX OY 7
 
 : skip0_prevboard
-MEM0 := KEY
-i := board
-i += S
-save MEM0
 
 # tuck-away board
 i := board
@@ -208,83 +279,6 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
-: tghosts
-:call tgt
-:call transform
-
-# `L'
-i := bghost0
-load MEM0
-GHOST := MEM0
-
-# `L' sprite new
-vf := 0
-i := board0-6
-:call spb,z
-
-# `L' sprite ghost
-vf := 56
-i := prevboard0-6
-:call spb,z
-
-# `L' draw  ghost
-DSPOFF := 56
-:call xorsp
-:call _draw,z,a
-
-# `R'
-i := bghost1
-load MEM0
-GHOST := MEM0
-
-# `R' sprite new
-vf := 0
-i := board2-6
-:call spb,z
-
-# `R' sprite ghost
-vf := 112
-i := prevboard2-6
-:call spb,z
-
-# `R' draw  ghost
-DSPOFF := 112
-:call xorsp
-:call _draw,z,b
-
-dnl color the screen
-: __bb2
-v8 := GHOST
-va := 0x10
-vc := 0x12
-ve := 0x14
-v9 := 0
-vb := 0
-vd := 0
-i := board0
-:call bbc8
-
-i := bghost1
-load v0
-v8 := v0
-v9 := 2
-vb := 2
-vd := 2
-i := board2
-:call bbc8
-
-: _skip2_prevboard
-i := main_regs
-load Z
-
-: __bb0     # show prevboard
-vd := 7     # white
-ve := 0x34  # h: start at region 4 and color 3 + 1 regions
-vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-0xbe 0xd0
-
-: _bb0
-
 #v1 := 0
 #if v0 == 1
 #then return
@@ -309,6 +303,12 @@ vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 #v0 >>= v0
 #: _urandt
 #v1 := v0
+
+S >>= S
+S >>= S
+S >>= S
+
+MEM0 := 5
 
 jump input_loop
 
@@ -589,6 +589,24 @@ jump _xorspl
 divert(decr(divnum))dnl
 POPREGS(`XSP', 0)
 DELREGS(`XSP')
+
+: _ghost_magic_table
+:byte 0x80 0x8a
+:byte 0x40 0x8a
+:byte 0x20 0x8a
+:byte 0x10 0x8a
+:byte 0x08 0x8a
+:byte 0x04 0x8a
+:byte 0x02 0x8a
+:byte 0x01 0x8a
+:byte 0x80 0x8b
+:byte 0x40 0x8b
+:byte 0x20 0x8b
+:byte 0x10 0x8b
+:byte 0x08 0x8b
+:byte 0x04 0x8b
+:byte 0x02 0x8b
+:byte 0x01 0x8b
 
 include(`merge.m')
 include(`syms.m')
