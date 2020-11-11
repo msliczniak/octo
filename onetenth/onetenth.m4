@@ -41,7 +41,7 @@ REGS(`SPRITES', 0)
 PUSHREG(`SPRITES', `SPMASK')
 PUSHREG(`SPRITES', `SPOFF')
 
-REGS(`SPB', 6)
+REGS(`SPB', 4)
 PUSHREG(`SPB', `B0')
 PUSHREG(`SPB', `B1')
 PUSHREG(`SPB', `B2')
@@ -50,6 +50,8 @@ PUSHREG(`SPB', `B4')
 PUSHREG(`SPB', `B5')
 PUSHREG(`SPB', `B6')
 PUSHREG(`SPB', `B7')
+PUSHREG(`SPB', `SPARE0')
+PUSHREG(`SPB', `SPARE0')
 PUSHREG(`SPB', `GHOST')
 
 REGS(`DRAW', 0)
@@ -73,7 +75,7 @@ Z := 8
 GHOST0 := 0
 GHOST1 := 0
 S := random 15
-S := 0
+#S := 0
 MEM0 := 5
 
 : input_loop
@@ -105,12 +107,12 @@ GHOST := MEM0
 
 # `L' sprite new
 vf := 0
-i := board0-6
+i := board0:-4
 :call spb,z
 
 # `L' sprite ghost
 vf := 56
-i := prevboard0-6
+i := prevboard0:-4
 :call spb,z
 
 # `L' sprite xor
@@ -124,12 +126,12 @@ GHOST := MEM0
 
 # `R' sprite new
 vf := 0
-i := board2-6
+i := board2:-4
 :call spb,z
 
 # `R' sprite ghost
 vf := 112
-i := prevboard2-6
+i := prevboard2:-4
 :call spb,z
 
 # `R' draw  xor
