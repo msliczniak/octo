@@ -116,39 +116,55 @@ vf := 56
 i := prevboard0:-4
 :call spb,z
 
-# `L' sprite xor
+# `L' draw  ghost
 DSPOFF := 56
-:call xorsp
+:call _draw,z,a
+
+# # `L' sprite xor
+# DSPOFF := 56
+# :call xorsp
 
 # `R'
 i := bghost1
 load MEM0
 GHOST := MEM0
 
-# `R' sprite new
-vf := 0
-i := board2:-4
-:call spb,z
-
 # `R' sprite ghost
 vf := 112
 i := prevboard2:-4
 :call spb,z
 
-# `R' draw  xor
-DSPOFF := 112
-:call xorsp
+# `R' draw  ghost
 DSPOFF := 112
 :call _draw,z,b
+
+# `R' sprite new
+vf := 112
+i := board2:-4
+:call spb,z
+
+# `R' draw  new
+DSPOFF := 112
+:call _draw,z,b
+
+# # `R' draw  xor
+# DSPOFF := 112
+# :call xorsp
+# DSPOFF := 112
+# :call _draw,z,b
 
 # `L'
 i := bghost0
 load MEM0
 GHOST := MEM0
 
-# `L' draw  xor
-DSPOFF := 56
+# `L' draw  new
+DSPOFF := 0
 :call _draw,z,a
+
+# # `L' draw  xor
+# DSPOFF := 56
+# :call _draw,z,a
 
 # runtime
 MEM0 := 255
