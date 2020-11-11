@@ -22,154 +22,29 @@ Z := 8
 OX := 56
 OY := 33
 
+S := random 15
+Y := 3
+Y &= S
+Y <<= Y
+Y <<= Y
+Y <<= Y
+Y <<= Y
+Y += 1
+X := 12
+X &= S
+X <<= X
+
 : input_loop
-KEY := key
-
-KEY <<= KEY
-i := keytable
-i += KEY
-load MEM1
-i := input_loop_trampoline0
-save MEM1
-
-: input_loop_trampoline0
-jump input_loop_trampoline0
-
-: keytable
-jump handle_key0
-jump handle_key1
-jump handle_key2
-jump handle_key3
-jump handle_key4
-jump handle_key5
-jump handle_key6
-jump handle_key7
-jump handle_key8
-jump handle_key9
-jump handle_keya
-jump handle_keyb
-jump handle_keyc
-jump handle_keyd
-jump handle_keye
-jump handle_keyf
-
-: handle_key0
-X := 8
-Y := 25
-S := 7
-jump input_loop0
-
-: handle_key1
-X := 0
-Y := 1
-S := 0
-jump input_loop0
-
-: handle_key2
-X := 8
-Y := 1
-S := 4
-jump input_loop0
-
-: handle_key3
-X := 16
-Y := 1
-S := 8
-jump input_loop0
-
-: handle_key4
-X := 0
-Y := 9
-S := 1
-jump input_loop0
-
-: handle_key5
-X := 8
-Y := 9
-S := 5
-jump input_loop0
-
-: handle_key6
-X := 16
-Y := 9
-S := 9
-jump input_loop0
-
-: handle_key7
-X := 0
-Y := 17
-S := 2
-jump input_loop0
-
-: handle_key8
-X := 8
-Y := 17
-S := 6
-jump input_loop0
-
-: handle_key9
-X := 16
-Y := 17
-S := 10
-jump input_loop0
-
-: handle_keya
-X := 0
-Y := 25
-S := 3
-jump input_loop0
-
-: handle_keyb
-X := 16
-Y := 25
-S := 11
-jump input_loop0
-
-: handle_keyc
-X := 24
-Y := 1
-S := 12
-jump input_loop0
-
-: handle_keyd
-X := 24
-Y := 9
-S := 13
-jump input_loop0
-
-: handle_keye
-X := 24
-Y := 17
-S := 14
-jump input_loop0
-
-: handle_keyf
-X := 24
-Y := 25
-S := 15
-# FALLTHRU
-
-: input_loop0
-i := board
-i += S
-load MEM0
-if MEM0 != BL
-then jump input_loop
 
 # highlight the picked cell
-i := isym0
-sprite X Y 5
+#i := isym0
+#sprite X Y 5
 
 # multiply by five
-KEY := key
-KEY += 1
-M := KEY
-KEY <<= KEY
-KEY <<= KEY
-KEY += M
+KEY := 5
 
 # draw the new sym
-i := sym0
+i := isym0
 i += KEY
 sprite X Y 5
 
@@ -256,8 +131,8 @@ PUSHREG(`DRAW', `Y2')dnl        v8
 PUSHREG(`DRAW', `M3')dnl        v9
 PUSHREG(`DRAW', `X3')dnl        vA
 PUSHREG(`DRAW', `Y3')dnl        vB
-PUSHREG(`DRAW', `COLOR')dnl     vC
-PUSHREG(`DRAW', `DSPOFF')dnl    vD
+PUSHREG(`DRAW', `DSPOFF')dnl    vC
+PUSHREG(`DRAW', `COLOR')dnl     vD
 
 #i := bghost0
 #load SPMASK
@@ -342,6 +217,11 @@ i := bghost0
 load MEM0
 GHOST := MEM0
 
+# `L' sprite new
+vf := 0
+i := board0-6
+:call spb,z
+
 # `L' sprite ghost
 vf := 56
 i := prevboard0-6
@@ -349,12 +229,18 @@ i := prevboard0-6
 
 # `L' draw  ghost
 DSPOFF := 56
+:call xorsp
 :call _draw,z,a
 
 # `R'
 i := bghost1
 load MEM0
 GHOST := MEM0
+
+# `R' sprite new
+vf := 0
+i := board2-6
+:call spb,z
 
 # `R' sprite ghost
 vf := 112
@@ -363,30 +249,8 @@ i := prevboard2-6
 
 # `R' draw  ghost
 DSPOFF := 112
+:call xorsp
 :call _draw,z,b
-
-# `R' sprite new
-vf := 0
-i := board2-6
-:call spb,z
-
-# `R' draw  new
-DSPOFF := 0
-:call _draw,z,b
-
-# `L'
-i := bghost0
-load MEM0
-GHOST := MEM0
-
-# `L' sprite new
-vf := 0
-i := board0-6
-:call spb,z
-
-# `L' draw  new
-DSPOFF := 0
-:call _draw,z,a
 
 dnl color the screen
 : __bb2
@@ -420,6 +284,32 @@ vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
 
 : _bb0
+
+#v1 := 0
+#if v0 == 1
+#then return
+#
+#i := _urandt
+#v0 <<= v0
+#i += v0
+#load v1
+#i := _urandm
+#save v0
+#
+#: _urandl
+#0xc0        # opcode for random into v0
+#: _urandm
+#0           # mask for the opcode
+#v0 -= v1
+#if vf == 0
+#jump _urandl
+#
+#v0 >>= v0
+#v0 >>= v0
+#v0 >>= v0
+#: _urandt
+#v1 := v0
+
 jump input_loop
 
 : _bb2
@@ -603,9 +493,102 @@ DSPOFF := 0
 :call draw
  i := draw,z,b
  load vb
+: _urandt
 :call draw
-
 return
+
+eval(1 << 3)    0               # 2
+
+eval(3 << 3)    eval(1 << 3)    # 3
+eval(3 << 3)    0               # 4
+
+eval(7 << 3)    eval(3 << 3)    # 5
+eval(7 << 3)    eval(2 << 3)    # 6
+eval(7 << 3)    eval(1 << 3)    # 7
+eval(7 << 3)    0               # 8
+
+eval(15 << 3)   eval(7 << 3)    # 9
+eval(15 << 3)   eval(6 << 3)    # 10
+eval(15 << 3)   eval(5 << 3)    # 11
+eval(15 << 3)   eval(4 << 3)    # 12
+eval(15 << 3)   eval(3 << 3)    # 13
+eval(15 << 3)   eval(2 << 3)    # 14
+eval(15 << 3)   eval(1 << 3)    # 15
+
+REGS(`XSP', 0)
+PUSHREG(`XSP', `A0')    # v0
+PUSHREG(`XSP', `A1')    #  1
+PUSHREG(`XSP', `A2')    #  2
+PUSHREG(`XSP', `A3')    #  3
+PUSHREG(`XSP', `A4')    #  4
+PUSHREG(`XSP', `B0')    # v5
+PUSHREG(`XSP', `B1')    #  6
+PUSHREG(`XSP', `B2')    #  7
+PUSHREG(`XSP', `B3')    #  8
+PUSHREG(`XSP', `B4')    #  9
+PUSHREG(`XSP', `XAOFF') # va
+PUSHREG(`XSP', `XBOFF') #  b
+divert(incr(divnum))dnl
+: _xorsp
+load B4
+i := sprite:8:1
+i += XAOFF
+load A4
+
+A0 ^= B0
+A1 ^= B1
+A2 ^= B2
+A3 ^= B3
+A4 ^= B4
+i := sprite:8:1
+i += XAOFF
+save A4
+return
+
+: xorsp
+XAOFF := 0
+XBOFF := DSPOFF
+XBOFF -= 60
+COLOR := GHOST
+i := sprite:0:-4
+
+: _xorspl
+COLOR <<= COLOR
+if vf == 1
+then jump _xorsp1
+
+COLOR <<= COLOR
+if vf == 1
+then jump _xorsp0
+
+XAOFF += 8
+XBOFF += 8
+jump _xorspc
+
+: _xorsp1
+COLOR <<= COLOR
+
+# FALLTHRU
+: _xorsp0
+:call _xorsp
+XAOFF += 8
+XBOFF += 8
+i := sprite:8:1
+i += XBOFF
+:call _xorsp
+
+: _xorspc
+if COLOR == 0
+then return
+
+XAOFF += 6
+XBOFF += 6
+i := sprite:8:1
+i += XBOFF
+jump _xorspl
+divert(decr(divnum))dnl
+POPREGS(`XSP', 0)
+DELREGS(`XSP')
 
 include(`merge.m')
 include(`syms.m')

@@ -1,7 +1,5 @@
 # board.m4
 
-include(`sprites.m')
-
 # scrathpad
 : zboard
 : zboard0
@@ -64,7 +62,10 @@ BL BL BL BL
 : prevboard2
 BL BL BL BL
 : prevboard3
+: sprite:0:-4
 BL BL BL BL
+
+include(`sprites.m')
 
 : draw,z,a
  0b11000000  0  0
