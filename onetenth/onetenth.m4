@@ -75,7 +75,6 @@ Z := 8
 GHOST0 := 0
 GHOST1 := 0
 S := random 15
-#S := 0
 MEM0 := 5
 
 : input_loop
@@ -498,8 +497,12 @@ DSPOFF := 0
 :call draw
  i := draw,z,b
  load vb
-: _urandt
 :call draw
+
+v0 := 0
+i := sprite:8
+: _urandt
+save v0
 return
 
 eval(1 << 3)    0               # 2
