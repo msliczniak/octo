@@ -73,6 +73,7 @@ Z := 8
 GHOST0 := 0
 GHOST1 := 0
 S := random 15
+S := 0
 MEM0 := 5
 
 : input_loop
@@ -534,7 +535,7 @@ divert(incr(divnum))dnl
 : _xorsp
 load B4
 i := sprite:8:1
-i += XAOFF
+i += XBOFF
 load A4
 
 A0 ^= B0
@@ -543,7 +544,7 @@ A2 ^= B2
 A3 ^= B3
 A4 ^= B4
 i := sprite:8:1
-i += XAOFF
+i += XBOFF
 save A4
 return
 
@@ -576,7 +577,7 @@ COLOR <<= COLOR
 XAOFF += 8
 XBOFF += 8
 i := sprite:0:-4
-i += XBOFF
+i += XAOFF
 :call _xorsp
 
 : _xorspc
@@ -586,7 +587,7 @@ then return
 XAOFF += 6
 XBOFF += 6
 i := sprite:0:-4
-i += XBOFF
+i += XAOFF
 jump _xorspl
 divert(decr(divnum))dnl
 POPREGS(`XSP', 0)
