@@ -120,10 +120,6 @@ i := prevboard0:-4
 DSPOFF := 56
 :call _draw,z,a
 
-# # `L' sprite xor
-# DSPOFF := 56
-# :call xorsp
-
 # `R'
 i := bghost1
 load MEM0
@@ -147,12 +143,6 @@ i := board2:-4
 DSPOFF := 112
 :call _draw,z,b
 
-# # `R' draw  xor
-# DSPOFF := 112
-# :call xorsp
-# DSPOFF := 112
-# :call _draw,z,b
-
 # `L'
 i := bghost0
 load MEM0
@@ -161,41 +151,6 @@ GHOST := MEM0
 # `L' draw  new
 DSPOFF := 0
 :call _draw,z,a
-
-# # `L' draw  xor
-# DSPOFF := 56
-# :call _draw,z,a
-
-# runtime
-MEM0 := 255
-Z := delay
-MEM0 -= Z
-divert(incr(divnum))dnl
-: bcd0
-:byte 0
-: bcd1
-:byte 0
-: bcd2
-:byte 0
-divert(decr(divnum))dnl
-i := bcd0
-bcd MEM0
-MEM1 := 8
-i := bcd0
-load MEM0
-i := hex MEM0
-MEM0 := 40
-sprite MEM0 MEM1 5
-i := bcd1
-load MEM0
-i := hex MEM0
-MEM0 := 46
-sprite MEM0 MEM1 5
-i := bcd2
-load MEM0
-i := hex MEM0
-MEM0 := 52
-sprite MEM0 MEM1 5
 
 dnl color the screen - takes about 8 frames
 : __bb2
@@ -546,12 +501,8 @@ DSPOFF := 0
 :call draw
  i := draw,z,b
  load vb
-:call draw
-
-v0 := 0
-i := sprite:8
 : _urandt
-save v0
+:call draw
 return
 
 eval(1 << 3)    0               # 2
