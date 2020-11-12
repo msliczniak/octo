@@ -172,6 +172,7 @@ vb := 2
 vd := 2
 i := board2
 :call bbc8
+: __bb2_e
 
 : _skip2_prevboard
 i := main_regs
@@ -182,8 +183,7 @@ vd := 7     # white
 ve := 0x34  # h: start at region 4 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
-
-: _bb0
+: __bb0_e
 
 :call key_loop
 
@@ -319,7 +319,9 @@ MEM0 := 5
 jump input_loop
 
 : _bb2
-jump _skip2_prevboard
+jump __bb2_e
+: _bb0
+jump __bb0_e
 
 dnl black on black color routines
 pushdef(`M', `dnl
