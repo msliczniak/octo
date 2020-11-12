@@ -92,6 +92,10 @@ load MEM1
 i := _ghost_magic
 save MEM1
 
+MEM0 := S
+i := main_regs_s
+save MEM0
+
 0x60
 : _ghost_magic
 0 0
@@ -174,10 +178,6 @@ i := board2
 :call bbc8
 : __bb2_e
 
-: _skip2_prevboard
-i := main_regs
-load Z
-
 : __bb0     # show prevboard
 vd := 7     # white
 ve := 0x34  # h: start at region 4 and color 3 + 1 regions
@@ -185,6 +185,9 @@ vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 0xbe 0xd0
 : __bb0_e
 
+: _skip2_prevboard
+i := main_regs
+load Z
 :call key_loop
 
 # patch code based on key press
@@ -284,6 +287,27 @@ GHOST1 &= MASK
 GHOST1 |= GHOST
 i := board3
 save SCORE
+:breakpoint foo
+dnl if nothing shifted or merged, then don't add a new sym
+i := main_regs
+load S
+
+i := _ghost_magic_table
+i += S
+load MEM1
+i := _ghost_magic_xor
+save MEM1
+MEM0 := S
+
+0x60
+: _ghost_magic_xor
+0 0
+3
+
+MASK := GHOST0
+MASK |= GHOST1
+if MASK == 0
+then jump _skip2_prevboard
 
 #v1 := 0
 #if v0 == 1
@@ -453,7 +477,9 @@ DRAW(`z', `b')
 popdef(`DRAW')
 
 : main_regs
-0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0
+: main_regs_s
+0 0 0 0 0
 
 # 11 bytes to invert screen on startup
 #: ff11
