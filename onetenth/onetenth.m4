@@ -81,6 +81,7 @@ S := random 15
 : input_loop
 _BP(`input_loop')
 MEM0 := 5
+S := 0
 i := board
 i += S
 save MEM0
@@ -274,6 +275,9 @@ GHOST1 |= GHOST
 i := board3
 save SCORE
 
+i := main_regs
+load Z
+
 dnl if nothing shifted or merged, then don't add a new sym
 MASK := GHOST0
 MASK |= GHOST1
@@ -305,12 +309,8 @@ then jump _skip2_prevboard
 #: _urandt
 #v1 := v0
 
-S >>= S
-S >>= S
-S >>= S
-
-MEM0 := 5
-
+i := sym1
+sprite X Y 7
 jump input_loop
 
 : _bb2
