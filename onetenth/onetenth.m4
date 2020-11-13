@@ -10,12 +10,12 @@ REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
 PUSHREG(`MAIN', `MEM1')
 PUSHREG(`MAIN', `KEY')
-PUSHREG(`MAIN', `X')
-PUSHREG(`MAIN', `Y')
-PUSHREG(`MAIN', `S')
-PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
+PUSHREG(`MAIN', `S')
+PUSHREG(`MAIN', `M')
+PUSHREG(`MAIN', `X')
+PUSHREG(`MAIN', `Y')
 PUSHREG(`MAIN', `Z')
 
 REGS(`COL', 0)
@@ -77,32 +77,18 @@ Z := 8
 GHOST0 := 0
 GHOST1 := 0
 S := random 15
-MEM0 := 5
 
 : input_loop
 _BP(`input_loop')
+MEM0 := 5
 i := board
 i += S
 save MEM0
 
-S <<= S
-i := _ghost_magic_table
-i += S
-load MEM1
-i := _ghost_magic
-save MEM1
-
-MEM0 := S
-i := main_regs_s
-save MEM0
-
-0x60
-: _ghost_magic
-0 0
-1
-
 : tghosts
 :call tgt
+i := sym1
+sprite X Y 7
 :call transform
 
 # `L'
@@ -279,7 +265,7 @@ save R0
 FREE2 := FREE3
 GHOST := 0xf0
 GHOST &= GHOST1
-
+:breakpoint foo
 i := board3
 load R0
 :call col
@@ -287,23 +273,8 @@ GHOST1 &= MASK
 GHOST1 |= GHOST
 i := board3
 save SCORE
-:breakpoint foo
+
 dnl if nothing shifted or merged, then don't add a new sym
-i := main_regs
-load S
-
-i := _ghost_magic_table
-i += S
-load MEM1
-i := _ghost_magic_xor
-save MEM1
-MEM0 := S
-
-0x60
-: _ghost_magic_xor
-0 0
-3
-
 MASK := GHOST0
 MASK |= GHOST1
 if MASK == 0
@@ -550,24 +521,6 @@ eval(15 << 3)   eval(4 << 3)    # 12
 eval(15 << 3)   eval(3 << 3)    # 13
 eval(15 << 3)   eval(2 << 3)    # 14
 eval(15 << 3)   eval(1 << 3)    # 15
-
-: _ghost_magic_table
-:byte 0x80 0x8a
-:byte 0x40 0x8a
-:byte 0x20 0x8a
-:byte 0x10 0x8a
-:byte 0x08 0x8a
-:byte 0x04 0x8a
-:byte 0x02 0x8a
-:byte 0x01 0x8a
-:byte 0x80 0x8b
-:byte 0x40 0x8b
-:byte 0x20 0x8b
-:byte 0x10 0x8b
-:byte 0x08 0x8b
-:byte 0x04 0x8b
-:byte 0x02 0x8b
-:byte 0x01 0x8b
 
 include(`merge.m')
 include(`syms.m')

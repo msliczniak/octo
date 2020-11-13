@@ -131,7 +131,19 @@ save vf
 : tt    # trivial
 return
 
+: txy
+X := 12
+X &= S
+X <<= X
+Y := 3
+Y &= S
+Y <<= Y
+Y <<= Y
+Y <<= Y
+return
+
 : tgt
+:call txy
 v0 := GHOST0
 v1 := GHOST1
 jump _tgret
@@ -147,10 +159,21 @@ PUSHREG(`TRANS', `B6')
 PUSHREG(`TRANS', `B7')
 
 : tgf
+:call txy
+S := 24
+X =- S
+Y =- S
 i := _tgf
 jump _tg
 
 : tgccw
+:call txy
+S := X
+X := Y
+Y := S
+S := 24
+X =- S
+Y =- S
 i := _tgccw
 MEM0 := eval(48 | 3)
 MEM1 := eval(192 | 12)
@@ -173,6 +196,10 @@ GHOST1 := MEM0
 jump _tg
 
 : tgcw
+:call txy
+S := X
+X := Y
+Y := S
 i := _tgcw
 MEM0 := eval(192 | 12)
 MEM1 := eval(48 | 3)

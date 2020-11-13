@@ -38,3 +38,5 @@ popdef(`NI')dnl
 popdef(`IX')dnl
 : sym0
 0 0 0 0 0 0 0
+: sym1
+254 254 254 254 254 254 254
