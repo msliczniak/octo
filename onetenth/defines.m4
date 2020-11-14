@@ -86,6 +86,21 @@ buzzer := vf
 # colormap at 0xc00 on 1862/1864
 # use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
+# these two patches:
+# VIPER v3 #4 3.04.05
+# VIPER v1 #2 p19
+v0 := 0xec  # SEC, 2 cycles
+
+# have sprite just copy instead of xor
+i := 0xbf
+save v0
+i := 0xcf
+save v0
+
+# don't wait for VBLANK, replace IDLE with next instruction
+i := 0xac
+save v0
+
 vd := 7     # white
 ve := 0x34  # h: start at region 4 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions

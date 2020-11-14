@@ -1,7 +1,7 @@
 # monitors.m4
 
 divert(incr(divnum))dnl
-:assert "program too large" { HERE < eval(3728 - 256) } # hires
+:assert "program too large" { HERE < 3728 } # hires
 
 :monitor board0 "%x %x %x %x"
 :monitor board1 "%x %x %x %x"
@@ -33,13 +33,4 @@ divert(incr(divnum))dnl
 :monitor sprite:13 "%x %x%x%x%x%x"
 :monitor sprite:14 "%x %x%x%x%x%x %x%x"
 :monitor sprite:15 "%x %x%x%x%x%x"
-
-:monitor sprite:16 "%x %x%x%x%x%x %x%x"
-:monitor sprite:17 "%x %x%x%x%x%x"
-:monitor sprite:18 "%x %x%x%x%x%x %x%x"
-:monitor sprite:19 "%x %x%x%x%x%x"
-:monitor sprite:20 "%x %x%x%x%x%x %x%x"
-:monitor sprite:21 "%x %x%x%x%x%x"
-:monitor sprite:22 "%x %x%x%x%x%x %x%x"
-:monitor sprite:23 "%x %x%x%x%x%x %x"
 divert(decr(divnum))dnl

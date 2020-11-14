@@ -1,0 +1,15 @@
+> The space between M(02A5) and M(02FA) is available for other machine
+> language subroutines and is planned to contain routines for future
+> expansions (i.e. Joy Sticks etc.).
+> ...
+> Memory locations 02A4 through 02F9 can have any value without
+> affecting the operation of CHIP-8X.
+
+VP580, VP585, VP590, VP595 Instruction Manual Including CHIP-8X,
+II-4 & II-5
+
+chip-8x:
+02a4: 00  .
+*
+02fa: 02  .
+

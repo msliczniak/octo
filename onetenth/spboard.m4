@@ -1,79 +1,37 @@
 # spboard.m4
 
-pushdef(`_SPBOARD', `_spboard')dnl
-dnl SPBOARD(i, j, Mi, Mj, Su, Sl)
-dnl   i: upper board position
-dnl   j: lower paired board element
-dnl   M: masks for i and j
-dnl   S: upper/lower sprite
-pushdef(`SPBOARD', `dnl
-ifelse(`$1', `0', `dnl
-load B7
-SPOFF := vf
-')dnl
-SPMASK := eval($3 | $4)
-SPMASK &= GHOST
-if SPMASK == 0
-then jump _SPBOARD,end,$*
-
-i := isym0
-i += B$1
-SPMASK := $3
-SPMASK &= GHOST
-if SPMASK == 0
-then i := sym0
-ifelse(`$1', `0', `dnl
-vf := SPOFF
-')dnl
-load v4
-i := sprite:$5:1
-i += R
-save v4
-
-i := isym0
-i += B$2
-SPMASK := $4
-ifelse(`$1', `0', `dnl
-SPOFF := vf
-')dnl
-SPMASK &= GHOST
-if SPMASK == 0
-then i := sym0
-ifelse(`$1', `0', `dnl
-vf := SPOFF
-')dnl
-load v4
-i := sprite:$6:1
-i += R
-save v4
-
-ifelse(`$1', `0', `dnl
-SPOFF := vf
-')dnl
-: _SPBOARD,end,$*
-ifelse(`$1', `0', `dnl
-pushdef(`R', `_CC(B, `$2')')dnl
-R := SPOFF
-')dnl
-dnl ifelse(`$2', `7', `dnl
-dnl DSPOFF := R
-dnl popdef(`R')dnl
-dnl ')dnl
-')dnl
-
-pushdef(`R', `vf')dnl
-
-dnl 0 4   8 C     0 4   8 C     6 4 2 0   E C A 8
-dnl 1 5   9 D  V  1 5   9 D  |  7 5 3 1   F D B 9
-dnl
-dnl 2 6   A E  |  2 6   A E
-dnl 3 7   B F     3 7   B F
+dnl v5 := 0 or 8    # board sym
+dnl v6 := 0 or 56   # board sprite
 : spb,z
-SPBOARD(0, 1, 128, 64, 0, 1)
-SPBOARD(2, 3,  32, 16, 2, 3)
-SPBOARD(4, 5,   8,  4, 4, 5)
-SPBOARD(6, 7,   2,  1, 6, 7)
-return
+v7 := 8
+v8 := 14
+COLOR := GHOST
 
-popdef(`R')dnl
-popdef(`SPBOARD')dnl
+: _spbl
+COLOR <<= COLOR
+if vf == 0
+then jump _spbn
+
+# sym
+i := board
+i += v5
+load v0
+
+# sprite
+i := isym0
+i += v0
+load B4
+
+# board
+i := sprite:0:1
+i += v6
+save B4
+
+: _spbn
+if COLOR == 0
+then return
+
+v5 += 1
+v6 += v7
+v7 ^= v8
+jump _spbl

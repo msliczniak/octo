@@ -98,9 +98,9 @@ load MEM0
 GHOST := MEM0
 
 # `L' sprite new
-vf := 0
-i := board0:-4
-:call spb,z
+#vf := 0
+#i := board0:-4
+#:call spb,z
 
 # `L' sprite ghost
 vf := 56
@@ -126,22 +126,22 @@ DSPOFF := 112
 :call _draw,z,b
 
 # `R' sprite new
-vf := 112
-i := board2:-4
-:call spb,z
+#vf := 112
+#i := board2:-4
+#:call spb,z
 
 # `R' draw  new
-DSPOFF := 112
-:call _draw,z,b
+#DSPOFF := 112
+#:call _draw,z,b
 
 # `L'
-i := bghost0
-load MEM0
-GHOST := MEM0
+#i := bghost0
+#load MEM0
+#GHOST := MEM0
 
 # `L' draw  new
-DSPOFF := 0
-:call _draw,z,a
+#DSPOFF := 0
+#:call _draw,z,a
 
 dnl color the screen - takes about 8 frames
 : __bb2
