@@ -96,52 +96,13 @@ sprite X Y 7
 i := bghost0
 load MEM0
 GHOST := MEM0
-
-# `L' sprite new
-#vf := 0
-#i := board0:-4
-#:call spb,z
-
-# `L' sprite ghost
-vf := 56
-i := prevboard0:-4
-:call spb,z
-
-# `L' draw  ghost
-DSPOFF := 56
-:call _draw,z,a
+:call spb
 
 # `R'
 i := bghost1
 load MEM0
 GHOST := MEM0
-
-# `R' sprite ghost
-vf := 112
-i := prevboard2:-4
-:call spb,z
-
-# `R' draw  ghost
-DSPOFF := 112
-:call _draw,z,b
-
-# `R' sprite new
-#vf := 112
-#i := board2:-4
-#:call spb,z
-
-# `R' draw  new
-#DSPOFF := 112
-#:call _draw,z,b
-
-# `L'
-#i := bghost0
-#load MEM0
-#GHOST := MEM0
-
-# `L' draw  new
-#DSPOFF := 0
-#:call _draw,z,a
+:call spb
 
 dnl color the screen - takes about 8 frames
 : __bb2
@@ -527,7 +488,7 @@ include(`syms.m')
 include(`board.m')
 include(`trans.m')
 include(`spboard.m')
-include(`draw.m')
+dnl include(`draw.m')
 dnl need some breathing-room for testing
 dnl include(`chars.m')
 include(`monitors.m')

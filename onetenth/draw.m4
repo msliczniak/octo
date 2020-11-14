@@ -1,10 +1,14 @@
 # draw.m4
 
 dnl v5 := 
-dnl v6 := X # 0 or 33
-dnl v7 := Y # 0 or 1
+dnl v6 := X # 248 8 25 41
+dnl v7 := Y
 : draw
 COLOR := GHOST
+
+: _draws
+v6 += 8
+v7 := 0
 
 : _drawl
 COLOR <<= COLOR
@@ -19,8 +23,8 @@ sprite v6 v7 5
 if COLOR == 0
 then return
 
-v8 := 24
-
+if v7 == 24
+then jump _draws
 
 v5 += 5
 v6 += v7
