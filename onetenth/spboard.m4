@@ -9,7 +9,7 @@ COLOR := GHOST
 
 : _spbs
 v7 += 8
-v8 := 0
+v8 := 1
 
 : _spbl
 COLOR <<= COLOR
@@ -30,7 +30,7 @@ sprite v7 v8 5
 if COLOR == 0
 then return
 
-if v8 == 24
+if v8 == 25
 then jump _spbs
 
 v5 += 1

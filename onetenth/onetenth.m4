@@ -96,12 +96,18 @@ sprite X Y 7
 i := bghost0
 load MEM0
 GHOST := MEM0
+v5 := 0
+v6 := 0
+v7 := 248
 :call spb
 
 # `R'
 i := bghost1
 load MEM0
 GHOST := MEM0
+v5 := 8
+v6 := 0
+v7 := 8
 :call spb
 
 dnl color the screen - takes about 8 frames
@@ -393,21 +399,6 @@ then jump key_loop
 Z += 2
 jump _key_loop_next
 
-pushdef(`DRAW', `dnl
-: _draw,$*
-i := draw,$*
-load Y3
-jump draw
-')dnl
-
-DRAW(`z', `a')
-DRAW(`z', `b')
-
-#DRAW(`z', `a', `p')
-#DRAW(`z', `b', `p')
-
-popdef(`DRAW')
-
 : main_regs
 0 0 0 0 0
 : main_regs_s
@@ -426,23 +417,6 @@ v0 := 0
 v1 := 0
 save v1
 
-i := isym0
-load v4
-v5 := v0
-v6 := v0
-v8 := 56
-
-: _clear_board_sprites
-v8 -= 14
-i := sprite:0
-i += v8
-save v6
-i := sprite:1
-i += v8
-save v6
-if v8 != 0
-then jump _clear_board_sprites
-
 i := sym0
 load v3
 i := board0
@@ -454,15 +428,74 @@ save v3
 i := board3
 save v3
 
-GHOST := 0xff
-DSPOFF := 0
- i := draw,z,a
- load vb
-:call draw
- i := draw,z,b
- load vb
+v0 := 0
+v1 := 0
+i := sym1
+sprite v0 v1 7
+
+v1 := 8
+i := sym1
+sprite v0 v1 7
+
+v1 := 16
+i := sym1
+sprite v0 v1 7
+
+v1 := 24
+i := sym1
+sprite v0 v1 7
+
+v0 := 8
+v1 := 0
+i := sym1
+sprite v0 v1 7
+
+v1 := 8
+i := sym1
+sprite v0 v1 7
+
+v1 := 16
+i := sym1
+sprite v0 v1 7
+
+v1 := 24
+i := sym1
+sprite v0 v1 7
+
+v0 := 16
+v1 := 0
+i := sym1
+sprite v0 v1 7
+
+v1 := 8
+i := sym1
+sprite v0 v1 7
+
+v1 := 16
+i := sym1
+sprite v0 v1 7
+
+v1 := 24
+i := sym1
+sprite v0 v1 7
+
+v0 := 24
+v1 := 0
+i := sym1
+sprite v0 v1 7
+
+v1 := 8
+i := sym1
+sprite v0 v1 7
+
+v1 := 16
+i := sym1
+sprite v0 v1 7
+
+v1 := 24
+i := sym1
 : _urandt
-:call draw
+sprite v0 v1 7
 return
 
 eval(1 << 3)    0               # 2
