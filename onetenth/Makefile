@@ -14,13 +14,14 @@ RM = /bin/rm -f
 .SECONDARY :
 .SUFFIXES :
 % : %-eti.ch8
+% : %.hex
 % : %.c8x
 % : %.ch8
 % : %.8o
 % : %.m
 % : %.deps
 
-.SUFFIXES : -eti.ch8 .c8x .ch8 .8o .m .deps
+.SUFFIXES : .hex -eti.ch8 .c8x .ch8 .8o .m .deps
 
 .PHONY : cb all clean force ${NAME}.m
 
@@ -44,6 +45,9 @@ force :
 
 .ch8.c8x :
 	$(DD) 1 $< $@
+
+.c8x.hex :
+	./hex.sh $< >$@
 
 .c8x-eti.ch8 :
 	$(DD) 3 $< $@

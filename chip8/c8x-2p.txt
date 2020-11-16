@@ -1,0 +1,182 @@
+0015: 02 New starting address for CHIP 8 instructions.
+0018: f8   (based on VIPER 4.03.05-07)
+
+005b: 02 New starting address for B instruction.
+006b: 50
+
+0055: 00 New starting address for 5 instruction.
+0065: fe
+
+0092: f5
+
+00ec: 3a Relocated portion of 2 page erase sereen (00E0) instruction.
+00ed: b3
+00ee: 30
+00ef: d9
+
+00f0: 42 Reloacted return from CHIP 8 subroutne instruction.
+00f1: b5   Use 00F0 instead of 00EE!
+00f2: 42
+00f3: a5
+00f4: d4
+
+00f5: 8d Relocated part of display routine.
+00f6: a7
+00f7: 87
+00f8: 32
+00f9: ac
+00fa: 2a
+00fb: 27
+00fc: 30
+00fd: f7
+
+00fe: 05 Go to 5XY1 or other 5XTN instructions.
+00ff: f6
+0100: 33
+0101: a4
+0102: 30
+0103: 95
+
+01a4: e6   5XY1 instruction.
+01a5: 06
+01a6: fa
+01a7: ff
+01a8: 56
+01a9: 07
+01aa: fa
+01ab: ff
+01ac: f4
+01ad: fa
+01ae: ff
+01af: d4
+01b0: 15
+01b1: d4
+01b2: 00
+01b3: 00
+
+01f2: 37   EXF2 and EXF5 instructions.
+01f3: 88
+01f4: d4
+01f5: 3f
+01f6: 88
+01f7: d4
+
+01f8: e6   FXF8 and FXFB instructions.
+01f9: 63
+01fa: d4
+01fb: e6
+01fc: 3f
+01fd: fc
+01fe: 6b
+01ff: d4
+
+0250: 92   Color soubroutine (BXYN).
+0251: bd
+0252: f8
+0253: 9f
+0254: ad
+0255: 0d
+0256: 32
+0257: 5a
+0258: 45
+0259: d4
+025a: 00
+025b: 45
+025c: fa
+025d: 0f
+025e: af
+025f: 32
+0260: 8e
+0261: 46
+0262: fa
+0263: 3f
+0264: f6
+0265: f6
+0266: f6
+0267: 22
+0268: 52
+0269: e2
+026a: 06
+026b: fa
+026c: 3f
+026d: fe
+026e: fe
+026f: fe
+0270: f1
+0271: ac
+0272: 12
+0273: f8
+0274: d2
+0275: bc
+0276: 3b
+0277: 84
+0278: 9c
+0279: ff
+027a: d2
+027b: 32
+027c: 81
+027d: f8
+027e: d2
+027f: 30
+0280: 83
+0281: f8
+0282: d3
+0283: bc
+0284: 07
+0285: 5c
+0286: 8c
+0287: fc
+0288: 08
+0289: ac
+028a: 2f
+028b: 8f
+028c: 3a
+028d: 76
+028e: d4
+
+0290: 92 Scan for Color Board.
+0291: bd
+0292: f8
+0293: 9f
+0294: ad
+0295: f8
+0296: c0
+0297: bc
+0298: 94
+0299: ac
+029a: f8
+029b: aa
+029c: 5c
+029d: 94
+029e: bc
+029f: ac
+02a0: 0c
+02a1: fb
+02a2: 91
+02a3: 32
+02a4: ac
+02a5: f8
+02a6: 91
+02a7: 5c
+02a8: f8
+02a9: 01
+02aa: 5d
+02ab: d4
+02ac: f8
+02ad: 00
+02ae: 5d
+02af: d4
+
+02f0: e2 Switch background color subroutine (02F0).
+02f1: 65
+02f2: 22
+02f3: d4
+
+02f8: 02 Adjust to 2 page display
+02f9: 45   (CHIP 8 initialization)
+02fa: 02 Scan for color board
+02fb: 90
+02fc: 02 Erase display pages
+02fd: 30
+02fe: 00 TV on
+02ff: 4b
