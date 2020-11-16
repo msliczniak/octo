@@ -1,5 +1,7 @@
 # defines.m4
 
+define(`return', `:byte 0 240')dnl
+
 changequote(<!,!>)dnl
 <!:stringmode safe " !\"#$%&'()*+,-./0123456789:;<=>?" { :byte { CHAR } }!> #
 <!:stringmode safe "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_" { :byte { CHAR } }!> #
@@ -31,7 +33,8 @@ changequote`'dnl
 
 : _handheld
 # patch around chip-8x code
-v1 := 0xee  # return from subroutine
+#v1 := 0xee  # return from subroutine
+v1 := 0xf0  # return from subroutine
 i := _bb1
 save v1
 i := _bb0
@@ -79,7 +82,7 @@ jump root
 :assert "handheld entry polint too large" { HERE <= 0x300 }
 
 :org 0x300  # CHIP-8X
-0x02 0xa0   # black on black
+# 0x02 0xf0   # black on black
 vf := 0
 buzzer := vf
 
@@ -93,23 +96,23 @@ v0 := 0xec  # SEC, 2 cycles
 
 # have sprite just copy instead of xor
 i := 0xbf
-save v0
+# save v0
 i := 0xcf
-save v0
+# save v0
 
 # don't wait for VBLANK, replace IDLE with next instruction
 i := 0xac
-save v0
+# save v0
 
 vd := 7     # white
 ve := 0x34  # h: start at region 4 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-0xbe 0xd0
+#0xbe 0xd0
 
 vd := 0     # black
 ve := 0x30  # h: start at region 0 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-0xbe 0xd0
+#0xbe 0xd0
 
 :call reset
 
@@ -120,7 +123,7 @@ vf := 0x70  # v: start at region 0 and color 7 + 1 regions
 vd := 2     # blue
 ve := 0x30  # h: start at region 0 and color 3 + 1 regions
 vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-0xbe 0xd0
+#0xbe 0xd0
 
 jump root
 
