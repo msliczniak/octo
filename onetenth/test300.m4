@@ -74,38 +74,71 @@ ve := eval(8 * 6)
 ve := eval(8 * 7)
 0xbe 0xdf
 
-sprite v0 v0 15
-sprite v1 v0 15
-sprite v2 v0 15
-sprite v3 v0 15
-sprite v4 v0 15
-sprite v5 v0 15
-sprite v6 v0 15
-sprite v7 v0 15
-sprite v0 v2 15
-sprite v1 v2 15
-sprite v2 v2 15
-sprite v3 v2 15
-sprite v4 v2 15
-sprite v5 v2 15
-sprite v6 v2 15
-sprite v7 v2 15
-sprite v0 v4 15
-sprite v1 v4 15
-sprite v2 v4 15
-sprite v3 v4 15
-sprite v4 v4 15
-sprite v5 v4 15
-sprite v6 v4 15
-sprite v7 v4 15
-sprite v0 v6 15
-sprite v1 v6 15
-sprite v2 v6 15
-sprite v3 v6 15
-sprite v4 v6 15
-sprite v5 v6 15
-sprite v6 v6 15
-sprite v7 v6 15
+sprite v0 v0 7
+sprite v1 v0 7
+sprite v2 v0 7
+sprite v3 v0 7
+sprite v4 v0 7
+sprite v5 v0 7
+sprite v6 v0 7
+sprite v7 v0 7
+sprite v0 v2 7
+sprite v1 v2 7
+sprite v2 v2 7
+sprite v3 v2 7
+sprite v4 v2 7
+sprite v5 v2 7
+sprite v6 v2 7
+sprite v7 v2 7
+sprite v0 v4 7
+sprite v1 v4 7
+sprite v2 v4 7
+sprite v3 v4 7
+sprite v4 v4 7
+sprite v5 v4 7
+sprite v6 v4 7
+sprite v7 v4 7
+sprite v0 v6 7
+sprite v1 v6 7
+sprite v2 v6 7
+sprite v3 v6 7
+sprite v4 v6 7
+sprite v5 v6 7
+sprite v6 v6 7
+sprite v7 v6 7
+
+sprite v0 v1 7
+sprite v1 v1 7
+sprite v2 v1 7
+sprite v3 v1 7
+sprite v4 v1 7
+sprite v5 v1 7
+sprite v6 v1 7
+sprite v7 v1 7
+sprite v0 v3 7
+sprite v1 v3 7
+sprite v2 v3 7
+sprite v3 v3 7
+sprite v4 v3 7
+sprite v5 v3 7
+sprite v6 v3 7
+sprite v7 v3 7
+sprite v0 v5 7
+sprite v1 v5 7
+sprite v2 v5 7
+sprite v3 v5 7
+sprite v4 v5 7
+sprite v5 v5 7
+sprite v6 v5 7
+sprite v7 v5 7
+sprite v0 v7 7
+sprite v1 v7 7
+sprite v2 v7 7
+sprite v3 v7 7
+sprite v4 v7 7
+sprite v5 v7 7
+sprite v6 v7 7
+sprite v7 v7 7
 
 vd := 7     # white
 ve := eval(8 * 0)
@@ -142,5 +175,4 @@ vd := 0     # black
 jump _mainl
 
 : sp
-254 254 254 254 254 254 254 0
 254 254 254 254 254 254 254
