@@ -52,6 +52,7 @@ sprite v3 v6 7
 #sprite v1 v7 7
 sprite v2 v7 7
 sprite v3 v7 7
+va := 0
 
 : _mainl
 v8 := 255
@@ -208,7 +209,7 @@ vd := key
 vd :=  7    # black
 
 i := hex v9
-sprite v1 vf 5
+sprite v1 v7 5
 v9 >>= v9
 v9 >>= v9
 v9 >>= v9
@@ -217,7 +218,11 @@ i := hex v9
 sprite v0 v7 5
 
 i := sp
+vf := 7
+va ^= vf
+i += va
 jump _mainl
 
 : sp
-254 254 254 254 254 254 254
+ 92 170  92 170  92 170  92
+170  92 170  92 170  92 170
