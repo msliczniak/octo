@@ -16,6 +16,11 @@ i := 0xcf
 i := 0xac
 save v0
 
+# don't wait for VBLANK in BXYN, replace IDLE with nop
+v0 := 0xc4  # CONT, 3 cycles
+i := 0x25a
+save v0
+
 v0 := eval(8 * 0)
 v1 := eval(8 * 1)
 v2 := eval(8 * 2)
