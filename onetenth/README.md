@@ -8,5 +8,6 @@ $ make onetenth.deps && git add `./ideps.sh onetenth | sed 's/$/4/'`
 
 rebuild everything with breakpoints:
 
-$ make MPFLAGS=-D_DEBUG clean onetenth-eti.ch8 cb && \
+$ make MPFLAGS=-D_DEBUG clean \
+  test300.hex onetenth-eti.ch8 onetenth.hex cb && \
   ls -l onetenth.ch8 | awk '{ print 2960 - $(NF - 4); exit }'

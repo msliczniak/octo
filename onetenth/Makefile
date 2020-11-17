@@ -33,7 +33,8 @@ cb : ${NAME}.8o
 clean :
 	$(RM) \
 	    `$(ID) $(NAME)` $(NAME)-eti.ch8 $(NAME).c8x \
-	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt 
+	  $(NAME).8o $(NAME).ch8 $(NAME).m $(NAME).deps $(NAME).txt \
+	  test300.8o test300.c8x test300.ch8 test300.hex
 
 force :
 
@@ -51,6 +52,15 @@ force :
 
 .c8x-eti.ch8 :
 	$(DD) 3 $< $@
+
+test300.hex : test300.c8x
+
+test300.c8x : test300.ch8
+
+test300.ch8 : test300.8o
+
+test300.8o : test300.m4
+	m4 test300.m4 >$@
 
 ${NAME}.m : ${NAME}.deps force
 	$(MAKE) $(MFLAGS) -f Makefile.deps -f - ${NAME}.deps $@ <${NAME}.deps
