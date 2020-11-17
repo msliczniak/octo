@@ -14,7 +14,7 @@ i := 0xcf
 
 # don't wait for VBLANK, replace IDLE with next instruction
 i := 0xac
-# save v0
+save v0
 
 v0 := eval(8 * 0)
 v1 := eval(8 * 1)
@@ -74,70 +74,38 @@ ve := eval(8 * 6)
 ve := eval(8 * 7)
 0xbe 0xdf
 
-sprite v0 v0 8
-sprite v1 v0 8
-sprite v2 v0 8
-sprite v3 v0 8
-sprite v4 v0 8
-sprite v5 v0 8
-sprite v6 v0 8
-sprite v7 v0 8
-sprite v0 v1 8
-sprite v1 v1 8
-sprite v2 v1 8
-sprite v3 v1 8
-sprite v4 v1 8
-sprite v5 v1 8
-sprite v6 v1 8
-sprite v7 v1 8
-sprite v0 v2 8
-sprite v1 v2 8
-sprite v2 v2 8
-sprite v3 v2 8
-sprite v4 v2 8
-sprite v5 v2 8
-sprite v6 v2 8
-sprite v7 v2 8
-sprite v0 v3 8
-sprite v1 v3 8
-sprite v2 v3 8
-sprite v3 v3 8
-sprite v4 v3 8
-sprite v5 v3 8
-sprite v6 v3 8
-sprite v7 v3 8
-sprite v0 v4 8
-sprite v1 v4 8
-sprite v2 v4 8
-sprite v3 v4 8
-sprite v4 v4 8
-sprite v5 v4 8
-sprite v6 v4 8
-sprite v7 v4 8
-sprite v0 v5 8
-sprite v1 v5 8
-sprite v2 v5 8
-sprite v3 v5 8
-sprite v4 v5 8
-sprite v5 v5 8
-sprite v6 v5 8
-sprite v7 v5 8
-sprite v0 v6 8
-sprite v1 v6 8
-sprite v2 v6 8
-sprite v3 v6 8
-sprite v4 v6 8
-sprite v5 v6 8
-sprite v6 v6 8
-sprite v7 v6 8
-sprite v0 v7 8
-sprite v1 v7 8
-sprite v2 v7 8
-sprite v3 v7 8
-sprite v4 v7 8
-sprite v5 v7 8
-sprite v6 v7 8
-sprite v7 v7 8
+sprite v0 v0 15
+sprite v1 v0 15
+sprite v2 v0 15
+sprite v3 v0 15
+sprite v4 v0 15
+sprite v5 v0 15
+sprite v6 v0 15
+sprite v7 v0 15
+sprite v0 v2 15
+sprite v1 v2 15
+sprite v2 v2 15
+sprite v3 v2 15
+sprite v4 v2 15
+sprite v5 v2 15
+sprite v6 v2 15
+sprite v7 v2 15
+sprite v0 v4 15
+sprite v1 v4 15
+sprite v2 v4 15
+sprite v3 v4 15
+sprite v4 v4 15
+sprite v5 v4 15
+sprite v6 v4 15
+sprite v7 v4 15
+sprite v0 v6 15
+sprite v1 v6 15
+sprite v2 v6 15
+sprite v3 v6 15
+sprite v4 v6 15
+sprite v5 v6 15
+sprite v6 v6 15
+sprite v7 v6 15
 
 vd := 7     # white
 ve := eval(8 * 0)
@@ -174,4 +142,5 @@ vd := 0     # black
 jump _mainl
 
 : sp
+254 254 254 254 254 254 254 0
 254 254 254 254 254 254 254
