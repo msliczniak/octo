@@ -8,9 +8,9 @@ v0 := 0xec  # SEC, 2 cycles
 
 # have sprite just copy instead of xor
 i := 0xbf
-# save v0
+save v0
 i := 0xcf
-# save v0
+save v0
 
 # don't wait for VBLANK, replace IDLE with next instruction
 i := 0xac
