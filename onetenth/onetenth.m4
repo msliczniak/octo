@@ -113,21 +113,21 @@ v7 := 8
 dnl color the screen - takes about 8 frames
 : __bb2
 v8 := GHOST
-va :=  0
-vc :=  8
-ve := 16
-v9 := 0
-vb := 0
-vd := 0
-i := board0
-:call bbc8
-
-i := bghost1
-load v0
-v8 := v0
 v9 := 16
 vb := 16
 vd := 16
+va :=  0
+vc :=  8
+ve := 16
+i := board0
+:call bbc8
+
+i := bghost0
+load v0
+v8 := v0
+v9 := 0
+vb := 0
+vd := 0
 i := board2
 :call bbc8
 : __bb2_e
@@ -226,7 +226,6 @@ save R0
 FREE2 := FREE3
 GHOST := 0xf0
 GHOST &= GHOST1
-:breakpoint foo
 i := board3
 load R0
 :call col
@@ -284,6 +283,7 @@ then jump _bbc8:$*
 
 ifelse($1, 0, `', `v0 := v$1')
 :call bbc
+: _bbc8:$1
 :byte 0xb$2 0x07
 
 : _bbc8:$*

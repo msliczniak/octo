@@ -29,18 +29,98 @@ safe "@(#)onetenth "
 changequote(<!,!>)dnl
 safe "syscmd(<!/bin/date -ju '+%Y-%m-%d %H:%M:%S-%Z"'!>)
 changequote`'dnl
-:byte 0
+dnl :byte 0 # first byte of return below is 0
+: bxyn
+:breakpoint BXYN
+v0 += 0
+return
+
+: bedf
+:call bxyn
+return
+: _bedf
+:call bedf
+
+: b2d7
+:call bxyn
+return
+: _b2d7
+:call b2d7
+
+: b907
+:call bxyn
+return
+: _b907
+:call b907
+
+: bb07
+:call bxyn
+return
+: _bb07
+:call bb07
+
+: bd07
+:call bxyn
+return
+: _bd07
+:call bd07
+
+: b107
+:call bxyn
+return
+: _b107
+:call b107
 
 : _handheld
-# patch around chip-8x code
-#v1 := 0xee  # return from subroutine
-v1 := 0xf0  # return from subroutine
-i := _bb1
-save v1
-i := _bb2
+
+# patch chip-8x code for debugging
+i := _bedf
 load v1
-i := __bb2
+i :=  _c4x4l
 save v1
+
+i := _b2d7
+load v1
+i := __tgretv0
+save v1
+i := __tgretv1
+save v1
+
+i := _b907
+i := _bbc8:0
+save v1
+i := _bbc8:4
+save v1
+
+i := _bb07
+load v1
+i := _bbc8:1
+save v1
+i := _bbc8:5
+save v1
+
+i := _bd07
+load v1
+i := _bbc8:2
+save v1
+i := _bbc8:6
+save v1
+
+i := _b107
+load v1
+i := _bbc8:3
+save v1
+i := _bbc8:7
+save v1
+
+#i := _return
+#load v1
+#i := _bb1
+#save v1
+#i := _bb2
+#load v1
+#i := __bb2
+#save v1
 
 :call reset
 
@@ -74,6 +154,8 @@ save v1
 #sprite vd vc 7
 
 jump root
+
+return
 
 :assert "handheld entry polint too large" { HERE <= 0x300 }
 

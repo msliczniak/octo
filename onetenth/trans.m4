@@ -273,10 +273,10 @@ v3 := 0
 : _tgretv0
 MEM0 <<= MEM0
 if vf != 0
-then :byte 0xb2 0xd7
+then : __tgretv0 :byte 0xb2 0xd7
 
 v3 += 8
-if v3 != 24
+if v3 != 32
 then jump _tgretv0
 
 v2 += 8
@@ -289,10 +289,10 @@ v3 := 0
 : _tgretv1
 MEM1 <<= MEM1
 if vf != 0
-then :byte 0xb2 0xd7
+then : __tgretv1 :byte 0xb2 0xd7
 
 v3 += 8
-if v3 != 24
+if v3 != 32
 then jump _tgretv1
 
 v2 += 8
