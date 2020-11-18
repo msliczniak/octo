@@ -113,9 +113,9 @@ v7 := 8
 dnl color the screen - takes about 8 frames
 : __bb2
 v8 := GHOST
-va := 0x10
-vc := 0x12
-ve := 0x14
+va :=  0
+vc :=  8
+ve := 16
 v9 := 0
 vb := 0
 vd := 0
@@ -125,19 +125,12 @@ i := board0
 i := bghost1
 load v0
 v8 := v0
-v9 := 2
-vb := 2
-vd := 2
+v9 := 16
+vb := 16
+vd := 16
 i := board2
 :call bbc8
 : __bb2_e
-
-: __bb0     # show prevboard
-vd := 7     # white
-ve := 0x34  # h: start at region 4 and color 3 + 1 regions
-vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-0xbe 0xd0
-: __bb0_e
 
 : _skip2_prevboard
 i := main_regs
@@ -282,8 +275,6 @@ jump input_loop
 
 : _bb2
 jump __bb2_e
-: _bb0
-jump __bb0_e
 
 dnl black on black color routines
 pushdef(`M', `dnl
@@ -293,7 +284,7 @@ then jump _bbc8:$*
 
 ifelse($1, 0, `', `v0 := v$1')
 :call bbc
-0xb$2 0
+:byte 0xb$2 0x07
 
 : _bbc8:$*
 ')dnl
@@ -303,12 +294,12 @@ M(0, 9)
 M(1, b)
 M(2, d)
 v1 := v9
-v2 := 0x16
+v2 := 24
 M(3, 1)
-v9 += 1
-vb += 1
-vd += 1
-v1 += 1
+v9 += 8
+vb += 8
+vd += 8
+v1 += 8
 M(4, 9)
 M(5, b)
 M(6, d)
@@ -390,6 +381,8 @@ return
 popdef(`H')dnl
 
 : key_loop
+Z := 255
+delay := Z
 Z := 2
 : _key_loop_next
 if Z key
@@ -410,8 +403,6 @@ jump _key_loop_next
 
 # in case of reset
 : reset
-clear
-
 i := bghost0
 v0 := 0
 v1 := 0

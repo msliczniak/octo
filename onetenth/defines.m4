@@ -37,10 +37,6 @@ changequote`'dnl
 v1 := 0xf0  # return from subroutine
 i := _bb1
 save v1
-i := _bb0
-load v1
-i := __bb0
-save v1
 i := _bb2
 load v1
 i := __bb2
@@ -81,13 +77,12 @@ jump root
 
 :assert "handheld entry polint too large" { HERE <= 0x300 }
 
-:org 0x300  # CHIP-8X
-# 0x02 0xf0   # black on black
+:org 0x300  # 2 page CHIP-8X
+# differs from 02A0 on RCA's CHIP-8X
+:byte 0x02 0xf0   # black on black
+
 vf := 0
 buzzer := vf
-
-# colormap at 0xc00 on 1862/1864
-# use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
 # these two patches:
 # VIPER v3 #4 3.04.05
@@ -96,36 +91,61 @@ v0 := 0xec  # SEC, 2 cycles
 
 # have sprite just copy instead of xor
 i := 0xbf
-# save v0
-i := 0xcf
-# save v0
+save v0
+
+dnl this second location is not needed plus it causes flicker
+dnl and a bug in the lower page display
+dnl i := 0xcf
+dnl save v0
 
 # don't wait for VBLANK, replace IDLE with next instruction
 i := 0xac
-# save v0
+save v0
 
+# don't wait for VBLANK in BXYN, replace IDLE with nop
+# this can cause a slight visual disturbance as columns are momentarily
+# shifted up slightly
+v0 := 0xc4  # CONT, 3 cycles
+i := 0x25a
+save v0
+
+# colormap at 0xc00 on 1862/1864
+# use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
+
+ve := 32
 vd := 7     # white
-ve := 0x34  # h: start at region 4 and color 3 + 1 regions
-vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-#0xbe 0xd0
+:call c4x4
 
+ve := 0
 vd := 0     # black
-ve := 0x30  # h: start at region 0 and color 3 + 1 regions
-vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-#0xbe 0xd0
+:call c4x4
 
 :call reset
 
-#0x02 0xa0   # black on green
-#0x02 0xa0   # black on red
-#0x02 0xa0   # black on blue
-
+ve := 0
 vd := 2     # blue
-ve := 0x30  # h: start at region 0 and color 3 + 1 regions
-vf := 0x70  # v: start at region 0 and color 7 + 1 regions
-#0xbe 0xd0
+:call c4x4
+
+dnl : forever
+dnl vf := key
+dnl jump forever
 
 jump root
+
+dnl 2p CHIP-8X does not support BXY0, use BXYN instead
+: c4x4
+vf := 120
+
+: _c4x4l
+:byte 0xbe 0xdf
+
+if vf == 0
+then return
+
+ve += 66
+vf -= 8
+jump _c4x4l
+
 
 :assert "chip-8x entry polint too large" { HERE <= 0x600 }
 

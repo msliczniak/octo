@@ -27,7 +27,7 @@ i := 0x25a
 save v0
 
 vd :=  7    # white
-vf := 16
+vf := 48
 ve := eval(8 * 4)
 0xbe 0xdf
 ve := eval(8 * 5)
@@ -36,7 +36,7 @@ ve := eval(8 * 6)
 0xbe 0xdf
 ve := eval(8 * 7)
 0xbe 0xdf
-vf := 0
+vf := 32
 ve := eval(8 * 4)
 0xbe 0xdf
 ve := eval(8 * 5)
@@ -138,7 +138,7 @@ sprite v6 v7 7
 sprite v7 v7 7
 
 vd := 2     # blue
-vf := 16
+vf := 48
 ve := eval(8 * 0)
 0xbe 0xdf
 ve := eval(8 * 1)
@@ -147,7 +147,7 @@ ve := eval(8 * 2)
 0xbe 0xdf
 ve := eval(8 * 3)
 0xbe 0xdf
-vf := 0
+vf := 32
 ve := eval(8 * 0)
 0xbe 0xdf
 ve := eval(8 * 1)

@@ -268,35 +268,35 @@ vd := 0     # black
 v2 := 0
 
 : _tgreth0
-v3 := 0x10
+v3 := 0
 
 : _tgretv0
 MEM0 <<= MEM0
 if vf != 0
-then 0xb2 0xd0
+then :byte 0xb2 0xd7
 
-v3 += 2
-if v3 != 0x18
+v3 += 8
+if v3 != 24
 then jump _tgretv0
 
-v2 += 1
-if v2 != 2
+v2 += 8
+if v2 != 16
 then jump _tgreth0
 
 : _tgreth1
-v3 := 0x10
+v3 := 0
 
 : _tgretv1
 MEM1 <<= MEM1
 if vf != 0
-then 0xb2 0xd0
+then :byte 0xb2 0xd7
 
-v3 += 2
-if v3 != 0x18
+v3 += 8
+if v3 != 24
 then jump _tgretv1
 
-v2 += 1
-if v2 != 4
+v2 += 8
+if v2 != 32
 then jump _tgreth1
 
 return
