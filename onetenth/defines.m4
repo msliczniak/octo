@@ -113,15 +113,6 @@ save v1
 i := _bbc8:7
 save v1
 
-#i := _return
-#load v1
-#i := _bb1
-#save v1
-#i := _bb2
-#load v1
-#i := __bb2
-#save v1
-
 :call reset
 
 #vd := 0

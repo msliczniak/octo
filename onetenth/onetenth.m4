@@ -111,7 +111,6 @@ v7 := 8
 :call spb
 
 dnl color the screen - takes about 8 frames
-: __bb2
 v8 := GHOST
 v9 := 16
 vb := 16
@@ -130,7 +129,6 @@ vb := 0
 vd := 0
 i := board2
 :call bbc8
-: __bb2_e
 
 : _skip2_prevboard
 i := main_regs
@@ -271,9 +269,6 @@ then jump _skip2_prevboard
 i := sym1
 sprite X Y 7
 jump input_loop
-
-: _bb2
-jump __bb2_e
 
 dnl black on black color routines
 pushdef(`M', `dnl
