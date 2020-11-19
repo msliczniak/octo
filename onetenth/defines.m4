@@ -32,7 +32,7 @@ safe "syscmd(<!/bin/date -ju '+%Y-%m-%d %H:%M:%S-%Z"'!>)
 changequote`'dnl
 dnl :byte 0 # first byte of return below is 0
 : bxyn
-:breakpoint BXYN
+#:breakpoint BXYN
 v0 += 0
 return
 

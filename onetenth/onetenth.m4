@@ -80,7 +80,7 @@ S := random 15
 
 : input_loop
 _BP(`input_loop')
-MEM0 := 5
+MEM0 := 6
 S := 0
 i := board
 i += S
@@ -110,7 +110,10 @@ v6 := 0
 v7 := 8
 :call spb
 
-dnl color the screen - takes about 8 frames
+dnl color the screen
+if GHOST == 0
+then jump _skip_first_ghost
+
 v8 := GHOST
 v9 := 16
 vb := 16
@@ -123,6 +126,10 @@ i := board2
 
 i := bghost0
 load v0
+if v0 == 0
+then jump _skip2_prevboard
+
+: _do_second_ghost
 v8 := v0
 v9 := 0
 vb := 0
@@ -270,14 +277,28 @@ i := sym1
 sprite X Y 7
 jump input_loop
 
+: _skip_first_ghost
+i := bghost0
+load v0
+
+if v0 == 0
+then jump _skip2_prevboard
+
+va :=  0
+vc :=  8
+ve := 16
+jump _do_second_ghost
+
 dnl black on black color routines
 pushdef(`M', `dnl
 v8 <<= v8
 if vf == 0
 then jump _bbc8:$*
 
-ifelse($1, 0, `', `v0 := v$1')
-:call bbc
+i := isym0:5
+i += v$1
+load v0
+
 : _bbc8:$1
 :byte 0xb$2 0x07
 
@@ -301,79 +322,6 @@ M(6, d)
 M(7, 1)
 return
 popdef(`M')
-
-: bbc
-pushdef(`H', 5)
-v0 += 2
-if v0 == 2
-then return
-
-dnl >>> H = 5
-dnl >>> for i in xrange(6):
-dnl ...     j = i * H + 60 + 2
-dnl ...     k = j - (12 * H + 1 + 2)
-dnl ...     l = k & 7
-dnl ...     print i, j - 2, k, l
-dnl ...
-dnl 0 60 -1 7
-dnl 1 65 4 4
-dnl 2 70 9 1
-dnl 3 75 14 6
-dnl 4 80 19 3
-dnl 5 85 24 0
-vf := eval((12 * H) + 1 + 2)
-v0 -= vf
-if vf != 0
-then jump _bbcx
-
-dnl >>> (((6 * H) - (12 * H)) & 255)
-dnl 226
-dnl >>> for i in xrange(7):
-dnl ...     j = i * H + 30 + 2
-dnl ...     j = j - (12 * H + 1 + 2)
-dnl ...     j &= 255
-dnl ...     k = j - (((6 * H) - (12 * H)) & 255)
-dnl ...     l = k & 7
-dnl ...     print i, i * H + 30, j, k, l
-dnl ...
-dnl 0 30 225 -1 7
-dnl 1 35 230 4 4
-dnl 2 40 235 9 1
-dnl 3 45 240 14 6
-dnl 4 50 245 19 3
-dnl 5 55 250 24 0
-dnl 6 60 255 29 5
-vf := eval(((6 * H) - (12 * H)) & 255)
-v0 -= vf
-if vf != 0
-then jump _bbcx
-
-dnl >>> for i in xrange(7):
-dnl ...     j = i * H + 2
-dnl ...     j = j - (12 * H + 1 + 2)
-dnl ...     j &= 255
-dnl ...     j = j - (((6 * H) - (12 * H)) & 255)
-dnl ...     j &= 255
-dnl ...     k = j + (6 * H)
-dnl ...     l = k & 7
-dnl ...     print i, i * H, j, k, l
-dnl ...
-dnl 0 0 225 255 7
-dnl 1 5 230 260 4
-dnl 2 10 235 265 1
-dnl 3 15 240 270 6
-dnl 4 20 245 275 3
-dnl 5 25 250 280 0
-dnl 6 30 255 285 5
-v0 += eval(6 * H)
-
-: _bbcx
-vf := 7
-v0 &= vf
-if v0 == 0
-then v0 := 7
-return
-popdef(`H')dnl
 
 : key_loop
 Z := 255
