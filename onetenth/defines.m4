@@ -1,6 +1,6 @@
 # defines.m4
 
-define(`return', `:byte 0 240')dnl
+ifdef(`_DEBUG', `', `define(`return', `:byte 0 240')')dnl
 
 changequote(<!,!>)dnl
 <!:stringmode safe " !\"#$%&'()*+,-./0123456789:;<=>?" { :byte { CHAR } }!> #
@@ -13,6 +13,7 @@ define(`_CC', `$1$2$3$4$5$6$7$8$9')dnl
 dnl
 dnl breakpoint
 define(`_BP', `ifdef(`_DEBUG', `:breakpoint _$*')')dnl
+define(`_BP')dnl
 
 include(`chip8.m')
 
@@ -87,6 +88,7 @@ i := __tgretv1
 save v1
 
 i := _b907
+load v1
 i := _bbc8:0
 save v1
 i := _bbc8:4

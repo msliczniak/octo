@@ -118,7 +118,7 @@ vd := 16
 va :=  0
 vc :=  8
 ve := 16
-i := board0
+i := board2
 :call bbc8
 
 i := bghost0
@@ -127,7 +127,7 @@ v8 := v0
 v9 := 0
 vb := 0
 vd := 0
-i := board2
+i := board0
 :call bbc8
 
 : _skip2_prevboard
