@@ -14,14 +14,6 @@ eval($2 ^ 254) dnl
 eval($3 ^ 254) dnl
 eval($4 ^ 254) dnl
 eval($5 ^ 254)
-
-`: sym'I
-:byte dnl
-eval(($1 >> 1) | 128) dnl
-eval(($2 >> 1) | 128) dnl
-eval(($3 >> 1) | 128) dnl
-eval(($4 >> 1) | 128) dnl
-eval(($5 >> 1) | 128)
 popdef(`I')dnl
 ')dnl
 # 5x5 symbols

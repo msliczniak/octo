@@ -80,7 +80,7 @@ S := random 15
 
 : input_loop
 _BP(`input_loop')
-MEM0 := 11
+MEM0 := 6
 S := 0
 i := board
 i += S
@@ -362,34 +362,6 @@ save v3
 i := board3
 save v3
 
-#v7 := 11
-#
-#: _resets
-#v6 := 254
-#i := symc
-#i += v7
-#load v5
-#v0 := 254
-#i := ISYM
-#i += v7
-#save v6
-#v0 := 0
-#v1 ^= v6
-#v2 ^= v6
-#v3 ^= v6
-#v4 ^= v6
-#v5 ^= v6
-#v6 := 0
-#i := SYM
-#i += v7
-#save v6
-#if v7 == 22
-#then jump _resetse
-#
-#v7 += 11
-#jump _resets
-#
-#: _resetse
 i := isym0
 v1 := 0
 
@@ -421,13 +393,9 @@ v1 := 160
 v0 := 32
 
 : _resetp
-i := ff
-sprite v0 v1 1
-i := sym0
-v1 += 1
-sprite v0 v1 3
-v1 += 3
 sprite v0 v1 4
+v1 += 4
+sprite v0 v1 3
 v1 -= 4
 if v0 == 56
 then jump _resetph

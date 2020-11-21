@@ -89,7 +89,7 @@ ifelse(`$1', `0', `', `dnl
  then jump _MERGE,incr($1),incr($2)
 
  SCORE += R$1
- R$1 += 11
+ R$1 += 6
 ifelse(`$1', `$2', `', `R$2 := R$1')
 
  GT(R$1, MAXSYM)
