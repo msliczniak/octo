@@ -80,7 +80,7 @@ S := random 15
 
 : input_loop
 _BP(`input_loop')
-MEM0 := 6
+MEM0 := 11
 S := 0
 i := board
 i += S
@@ -88,8 +88,10 @@ save MEM0
 
 : tghosts
 :call tgt
-i := sym1
-sprite X Y 7
+i := isym1
+Y += 1
+sprite X Y 5
+Y -= 1
 :call transform
 
 # `L'
@@ -273,8 +275,8 @@ then jump _skip2_prevboard
 #: _urandt
 #v1 := v0
 
-i := sym1
-sprite X Y 7
+#i := sym1
+#sprite X Y 7
 jump input_loop
 
 : _skip_first_ghost
@@ -295,7 +297,7 @@ v8 <<= v8
 if vf == 0
 then jump _bbc8:$*
 
-i := isym0:5
+i := symc
 i += v$1
 load v0
 
@@ -340,10 +342,6 @@ jump _key_loop_next
 : main_regs_s
 0 0 0 0 0
 
-# 11 bytes to invert screen on startup
-#: ff11
-#255 255 255 255 255 255 255 255 255 255 255
-
 # in case of reset
 : reset
 i := bghost0
@@ -351,8 +349,10 @@ v0 := 0
 v1 := 0
 save v1
 
-i := sym0
-load v3
+v0 := 0
+v1 := 0
+v2 := 0
+v3 := 0
 i := board0
 save v3
 i := board1
@@ -362,75 +362,85 @@ save v3
 i := board3
 save v3
 
+#v7 := 11
+#
+#: _resets
+#v6 := 254
+#i := symc
+#i += v7
+#load v5
+#v0 := 254
+#i := ISYM
+#i += v7
+#save v6
+#v0 := 0
+#v1 ^= v6
+#v2 ^= v6
+#v3 ^= v6
+#v4 ^= v6
+#v5 ^= v6
+#v6 := 0
+#i := SYM
+#i += v7
+#save v6
+#if v7 == 22
+#then jump _resetse
+#
+#v7 += 11
+#jump _resets
+#
+#: _resetse
+i := isym0
+v1 := 0
+
+: _resetbv
 v0 := 0
-v1 := 0
-i := sym1
-sprite v0 v1 7
 
-v1 := 8
-i := sym1
-sprite v0 v1 7
+: _resetb
+sprite v0 v1 4
+v1 += 4
+sprite v0 v1 3
+v1 -= 4
+if v0 == 24
+then jump _resetbh
 
-v1 := 16
-i := sym1
-sprite v0 v1 7
+v0 += 8
+jump _resetb
 
-v1 := 24
-i := sym1
-sprite v0 v1 7
+: _resetbh
+if v1 == 24
+then jump _resetbe
 
-v0 := 8
-v1 := 0
-i := sym1
-sprite v0 v1 7
+v1 += 8
+jump _resetbv
 
-v1 := 8
-i := sym1
-sprite v0 v1 7
+: _resetbe
+v1 := 160
 
-v1 := 16
-i := sym1
-sprite v0 v1 7
+: _resetpv
+v0 := 32
 
-v1 := 24
-i := sym1
-sprite v0 v1 7
+: _resetp
+i := ff
+sprite v0 v1 1
+i := sym0
+v1 += 1
+sprite v0 v1 3
+v1 += 3
+sprite v0 v1 4
+v1 -= 4
+if v0 == 56
+then jump _resetph
 
-v0 := 16
-v1 := 0
-i := sym1
-sprite v0 v1 7
+v0 += 8
+jump _resetp
 
-v1 := 8
-i := sym1
-sprite v0 v1 7
+: _resetph
+if v1 == 184
+then return
 
-v1 := 16
-i := sym1
-sprite v0 v1 7
-
-v1 := 24
-i := sym1
-sprite v0 v1 7
-
-v0 := 24
-v1 := 0
-i := sym1
-sprite v0 v1 7
-
-v1 := 8
-i := sym1
-sprite v0 v1 7
-
-v1 := 16
-i := sym1
-sprite v0 v1 7
-
-v1 := 24
-i := sym1
-: _urandt
-sprite v0 v1 7
-return
+v1 += 8
+jump _resetpv
 
 eval(1 << 3)    0               # 2
 

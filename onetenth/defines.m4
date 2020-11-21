@@ -17,7 +17,11 @@ define(`_BP')dnl
 
 include(`chip8.m')
 
-define(`BL',`0')
+# 64 bytes free 2b0-2ef
+define(`FILLER',`688')dnl
+define(`ISYM', `eval(FILLER - 11)')dnl
+define(`SYM',  `eval(FILLER + 7)')dnl
+define(`BL',`0')dnl
 
 : main
 v0 := 0
@@ -115,6 +119,7 @@ save v1
 i := _bbc8:7
 save v1
 
+hires
 :call reset
 
 #vd := 0
@@ -157,6 +162,7 @@ return
 :byte 0x02 0xf0   # black on black
 
 vf := 0
+: ff
 buzzer := vf
 
 # these two patches:
@@ -168,8 +174,8 @@ v0 := 0xec  # SEC, 2 cycles
 i := 0xbf
 save v0
 
-dnl this second location is not needed plus it causes flicker
-dnl and a bug in the lower page display
+dnl this second location is not needed wshe sprites are aligned
+dnl plus it causes flicker and a bug in the lower page display
 dnl i := 0xcf
 dnl save v0
 
