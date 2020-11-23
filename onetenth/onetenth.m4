@@ -97,26 +97,25 @@ Y -= 1
 # `L'
 i := bghost0
 load MEM0
-GHOST := MEM0
+v1 := 0
+v2 := 1
+v4 := 25
 v5 := 0
-v6 := 0
-v7 := 248
 :call spb
 
 # `R'
 i := bghost1
 load MEM0
-GHOST := MEM0
+v8 := MEM0
+v1 := 16
+v2 := 1
 v5 := 8
-v6 := 0
-v7 := 8
 :call spb
 
 dnl color the screen
-if GHOST == 0
+if v8 == 0
 then jump _skip_first_ghost
 
-v8 := GHOST
 v9 := 16
 vb := 16
 vd := 16
@@ -282,7 +281,6 @@ jump input_loop
 : _skip_first_ghost
 i := bghost0
 load v0
-
 if v0 == 0
 then jump _skip2_prevboard
 
