@@ -174,9 +174,9 @@ save Z
 i := bghost0
 load MEM0
 v1 := 32
-v2 := 33
-v4 := 57
-v5 := 24
+v2 := 162
+v4 := 186
+v5 := 0
 :call spb
 
 # `R'
@@ -184,8 +184,8 @@ i := bghost1
 load MEM0
 v8 := MEM0
 v1 := 48
-v2 := 33
-v5 := 32
+v2 := 162
+v5 := 8
 :call spb
 
 #vd := 0     # black
@@ -403,7 +403,7 @@ v1 += 8
 jump _resetbv
 
 : _resetbe
-v1 := 160
+v1 := 161
 
 : _resetpv
 v0 := 32
@@ -420,7 +420,7 @@ v0 += 8
 jump _resetp
 
 : _resetph
-if v1 == 184
+if v1 == 185
 then return
 
 v1 += 8
