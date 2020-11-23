@@ -431,7 +431,6 @@ include(`syms.m')
 include(`board.m')
 include(`trans.m')
 include(`spboard.m')
-dnl include(`draw.m')
 dnl need some breathing-room for testing
 dnl include(`chars.m')
 include(`monitors.m')

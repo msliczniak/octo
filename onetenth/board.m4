@@ -67,8 +67,3 @@ BL BL BL BL
 BL BL BL BL
 : prevboard3
 BL BL BL BL
-
-include(`sprites.m')
-
-: draw,z,a
-: draw,z,b
