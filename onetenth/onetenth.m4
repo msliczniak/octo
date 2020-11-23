@@ -170,7 +170,25 @@ OY += 32
 i := main_regs
 save Z
 
-vd := 0     # black
+# `L'
+i := bghost0
+load MEM0
+v1 := 32
+v2 := 33
+v4 := 57
+v5 := 24
+:call spb
+
+# `R'
+i := bghost1
+load MEM0
+v8 := MEM0
+v1 := 48
+v2 := 33
+v5 := 32
+:call spb
+
+#vd := 0     # black
 #i := bghost0
 #load SPMASK
 #GHOST := SPMASK
