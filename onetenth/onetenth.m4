@@ -88,10 +88,7 @@ save MEM0
 
 : tghosts
 :call tgt
-i := isym1
-Y += 1
-sprite X Y 5
-Y -= 1
+save Z
 :call transform
 
 # `L'
@@ -141,6 +138,8 @@ i := board0
 : _skip2_prevboard
 i := main_regs
 load Z
+i := hsym1
+sprite X Y 7
 :call key_loop
 
 # patch code based on key press
@@ -292,8 +291,8 @@ then jump _skip2_prevboard
 #: _urandt
 #v1 := v0
 
-#i := sym1
-#sprite X Y 7
+i := hisym1
+sprite X Y 7
 jump input_loop
 
 : _skip_first_ghost
