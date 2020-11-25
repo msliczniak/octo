@@ -160,7 +160,8 @@ save MEM1
 
 : _skip0_prevboard
 # remove the highlight from the last new sym of the prev board
-#sprite OX OY 7
+i := hisym0
+sprite OX OY 7
 OX := X
 OY := Y
 OX += 33
@@ -187,28 +188,10 @@ v2 := 162
 v5 := 8
 :call spb
 
-#vd := 0     # black
-#i := bghost0
-#load SPMASK
-#GHOST := SPMASK
-#
-#DSPOFF := 56
-#:call _draw,z,a,p
-#
-#i := bghost1
-#load SPMASK
-#GHOST := SPMASK
-#
-#DSPOFF := 112
-#:call _draw,z,b,p
-#
-#i := main_regs
-#load Z
-#
-## new sym of prev board in reverse video
-#i := isym0
+# new sym of prev board in reverse video
+i := hisym0
 #i += KEY
-#sprite OX OY 7
+sprite OX OY 7
 
 : skip0_prevboard
 
