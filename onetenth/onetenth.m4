@@ -160,12 +160,12 @@ save MEM1
 
 : _skip0_prevboard
 # remove the highlight from the last new sym of the prev board
-i := hisym0
-sprite OX OY 7
+#i := hisym0
+#sprite OX OY 7
 OX := X
 OY := Y
-OX += 33
-OY += 32
+OX += 32
+OY += 33
 
 i := main_regs
 save Z
@@ -188,13 +188,7 @@ v2 := 162
 v5 := 8
 :call spb
 
-# new sym of prev board in reverse video
-i := hisym0
-#i += KEY
-sprite OX OY 7
-
 : skip0_prevboard
-
 # tuck-away board
 i := board
 load vf
@@ -242,6 +236,10 @@ save SCORE
 
 i := main_regs
 load Z
+
+# new sym of prev board in reverse video
+i := hisym1
+sprite OX OY 7
 
 dnl if nothing shifted or merged, then don't add a new sym
 MASK := GHOST0
