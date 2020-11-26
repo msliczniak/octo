@@ -137,6 +137,9 @@ i := board0
 : _skip2_prevboard
 i := main_regs
 load Z
+
+vd := 4
+: _color :byte 0xb7 0xd7
 i := hsym1
 sprite X Y 7
 :call key_loop
