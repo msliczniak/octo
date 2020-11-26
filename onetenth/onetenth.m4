@@ -10,10 +10,10 @@ REGS(`MAIN', 0)
 PUSHREG(`MAIN', `MEM0')
 PUSHREG(`MAIN', `MEM1')
 PUSHREG(`MAIN', `KEY')
+PUSHREG(`MAIN', `M')
+PUSHREG(`MAIN', `S')
 PUSHREG(`MAIN', `OX')
 PUSHREG(`MAIN', `OY')
-PUSHREG(`MAIN', `S')
-PUSHREG(`MAIN', `M')
 PUSHREG(`MAIN', `X')
 PUSHREG(`MAIN', `Y')
 PUSHREG(`MAIN', `Z')
@@ -249,31 +249,6 @@ MASK |= GHOST1
 if MASK == 0
 then jump _skip2_prevboard
 
-#v1 := 0
-#if v0 == 1
-#then return
-#
-#i := _urandt
-#v0 <<= v0
-#i += v0
-#load v1
-#i := _urandm
-#save v0
-#
-#: _urandl
-#0xc0        # opcode for random into v0
-#: _urandm
-#0           # mask for the opcode
-#v0 -= v1
-#if vf == 0
-#jump _urandl
-#
-#v0 >>= v0
-#v0 >>= v0
-#v0 >>= v0
-#: _urandt
-#v1 := v0
-
 i := hisym1
 sprite X Y 7
 jump input_loop
@@ -407,6 +382,34 @@ then return
 
 v1 += 8
 jump _resetpv
+
+: urand
+v1 := 0
+if v0 == 1
+then return
+
+i := _urandt
+v0 <<= v0
+i += v0
+load v1
+i := _urandm
+save v0
+
+: _urandl
+0xc0        # opcode for random into v0
+: _urandm
+0           # mask for the opcode
+v0 -= v1
+if vf == 0
+then jump _urandl
+
+v0 >>= v0
+v0 >>= v0
+v0 >>= v0
+v1 := v0
+
+: _urandt
+return
 
 eval(1 << 3)    0               # 2
 
