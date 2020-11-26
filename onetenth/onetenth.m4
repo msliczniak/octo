@@ -170,7 +170,7 @@ save MEM1
 OX := X
 OY := Y
 OX += 32
-OY += 33
+#OY += 33
 
 i := main_regs
 save Z
@@ -179,8 +179,10 @@ save Z
 i := bghost0
 load MEM0
 v1 := 32
-v2 := 162
-v4 := 186
+#v2 := 162
+#v4 := 186
+v2 := 1
+v4 := 25
 v5 := 0
 :call spb
 
@@ -189,7 +191,8 @@ i := bghost1
 load MEM0
 v8 := MEM0
 v1 := 48
-v2 := 162
+#v2 := 162
+v2 := 1
 v5 := 8
 :call spb
 
@@ -413,7 +416,8 @@ v1 += 8
 jump _resetbv
 
 : _resetbe
-v1 := 161
+#v1 := 161
+v1 := 0
 
 : _resetpv
 v0 := 32
@@ -430,7 +434,8 @@ v0 += 8
 jump _resetp
 
 : _resetph
-if v1 == 185
+#if v1 == 185
+if v1 == 24
 then return
 
 v1 += 8
