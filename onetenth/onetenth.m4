@@ -81,7 +81,7 @@ S := random 15
 : input_loop
 _BP(`input_loop')
 MEM0 := 6
-S := 0
+#S := 0
 i := board
 i += S
 save MEM0
@@ -249,8 +249,49 @@ MASK |= GHOST1
 if MASK == 0
 then jump _skip2_prevboard
 
+dnl remove highlight from newest sym
 i := hisym1
 sprite X Y 7
+
+i := bfree0
+load M
+MEM0 += MEM1
+MEM0 += KEY
+MEM0 += M
+
+if MEM0 == 0
+then : forever jump forever
+
+S := MEM1
+MEM0 -= 1
+if MEM0 != 0
+then :call urand
+
+MEM1 := S
+S := 12
+
+GT(M, MEM0)
+then jump _s_found
+
+MEM0 -= M
+S -= 4
+
+GT(KEY, MEM0)
+then jump _s_found
+
+MEM0 -= KEY
+S -= 4
+
+GT(MEM1, MEM0)
+then jump _s_found
+
+MEM0 -= MEM1
+S -= 4
+
+# FALLTHRU
+: _s_found
+S += MEM0
+
 jump input_loop
 
 : _skip_first_ghost
@@ -384,10 +425,6 @@ v1 += 8
 jump _resetpv
 
 : urand
-v1 := 0
-if v0 == 1
-then return
-
 i := _urandt
 v0 <<= v0
 i += v0
@@ -406,7 +443,6 @@ then jump _urandl
 v0 >>= v0
 v0 >>= v0
 v0 >>= v0
-v1 := v0
 
 : _urandt
 return
