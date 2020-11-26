@@ -150,13 +150,13 @@ R2 := R3
 R3 := BL
 if R2 == BL
 then jump _MERGE,f2
-FREE3 := eval((17 << 2) | (17 << 1) | 17)
+FREE3 := eval((17 << 3) | (17 << 2) | (17 << 1) | 17)
 GHOST1 |= FREE3
 FREE3 := 1
 return
 
 : _MERGE,f2
-FREE3 := eval((17 << 1) | 17)
+FREE3 := eval((17 << 2) | (17 << 1) | 17)
 GHOST1 |= FREE3
 FREE3 := 2
 return
