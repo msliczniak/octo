@@ -50,11 +50,11 @@ return
 : _b2d7
 :call b2d7
 
-: b7d7
+: b707
 :call bxyn
 return
-: _b7d7
-:call b7d7
+: _b707
+:call b707
 
 : b907
 :call bxyn
@@ -95,7 +95,7 @@ save v1
 i := __tgretv1
 save v1
 
-i := _b7d7
+i := _b707
 load v1
 i := _color
 save v1

@@ -76,15 +76,15 @@ delay := Z
 Z := 8
 GHOST0 := 0
 GHOST1 := 0
+MEM0 := 6
 S := random 15
 
 : input_loop
 _BP(`input_loop')
-MEM0 := 6
-#S := 0
 i := board
 i += S
 save MEM0
+M := MEM0
 
 : tghosts
 :call tgt
@@ -138,9 +138,12 @@ i := board0
 i := main_regs
 load Z
 
-vd := 4
-: _color :byte 0xb7 0xd7
-i := hsym1
+i := symc
+i += M
+load v0
+: _color :byte 0xb7 0x07
+i := hsym0
+i += M
 sprite X Y 7
 :call key_loop
 
@@ -240,7 +243,8 @@ i := main_regs
 load Z
 
 # new sym of prev board in reverse video
-i := hisym1
+i := hisym0
+i += M
 sprite OX OY 7
 
 dnl if nothing shifted or merged, then don't add a new sym
@@ -250,7 +254,8 @@ if MASK == 0
 then jump _skip2_prevboard
 
 dnl remove highlight from newest sym
-i := hisym1
+i := hisym0
+i +=  M
 sprite X Y 7
 
 i := bfree0
@@ -291,6 +296,13 @@ S -= 4
 # FALLTHRU
 : _s_found
 S += MEM0
+
+MEM0 := 9
+:call urand
+MEM1 := MEM0
+MEM0 := 6
+if MEM1 == 0
+then MEM0 := 12
 
 jump input_loop
 
