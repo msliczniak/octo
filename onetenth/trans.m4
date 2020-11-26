@@ -131,6 +131,23 @@ save vf
 : tt    # trivial
 return
 
+dnl >>> def xy(s):
+dnl ...     x = 12
+dnl ...     x &= s
+dnl ...     x <<= 1
+dnl ...     y = 3
+dnl ...     y &= s
+dnl ...     y <<= 3
+dnl ...     return x, y
+dnl ...
+dnl >>> xy(0)
+dnl (0, 0)
+dnl >>> xy(3)
+dnl (0, 24)
+dnl >>> xy(12)
+dnl (24, 0)
+dnl >>> xy(15)
+dnl (24, 24)
 : txy
 X := 12
 X &= S
@@ -140,10 +157,12 @@ Y &= S
 Y <<= Y
 Y <<= Y
 Y <<= Y
+i := main_regs
 return
 
 : tgt
 :call txy
+save Z
 v0 := GHOST0
 v1 := GHOST1
 jump _tgret
@@ -158,14 +177,48 @@ PUSHREG(`TRANS', `B5')
 PUSHREG(`TRANS', `B6')
 PUSHREG(`TRANS', `B7')
 
+dnl >>> def f(s):
+dnl ...     x, y = xy(s)
+dnl ...     s = 24
+dnl ...     x = s - x
+dnl ...     y = s - y
+dnl ...     return x, y
+dnl ...
+dnl >>> f(0)
+dnl (24, 24)
+dnl >>> f(3)
+dnl (24, 0)
+dnl >>> f(12)
+dnl (0, 24)
+dnl >>> f(15)
+dnl (0, 0)
 : tgf
 :call txy
 S := 24
 X =- S
 Y =- S
+save Z
 i := _tgf
 jump _tg
 
+dnl >>> def ccw(s):
+dnl ...     x, y = xy(s)
+dnl ...     s = x
+dnl ...     x = y
+dnl ...     y = s
+dnl ...     s = 24
+dnl ...     x = s - x
+dnl ...     y = s - y
+dnl ...     return x, y
+dnl ...
+dnl >>> ccw(0)
+dnl (24, 24)
+dnl >>> ccw(3)
+dnl (0, 24)
+dnl >>> ccw(12)
+dnl (24, 0)
+dnl >>> ccw(15)
+dnl (0, 0)
 : tgccw
 :call txy
 S := X
@@ -174,6 +227,7 @@ Y := S
 S := 24
 X =- S
 Y =- S
+save Z
 i := _tgccw
 MEM0 := eval(48 | 3)
 MEM1 := eval(192 | 12)
@@ -195,11 +249,27 @@ GHOST0 := MEM1
 GHOST1 := MEM0
 jump _tg
 
+dnl >>> def cw(s):
+dnl ...     x, y = xy(s)
+dnl ...     s = x
+dnl ...     x = y
+dnl ...     y = s
+dnl ...     return x, y
+dnl ...
+dnl >>> cw(0)
+dnl (0, 0)
+dnl >>> cw(3)
+dnl (24, 0)
+dnl >>> cw(12)
+dnl (0, 24)
+dnl >>> cw(15)
+dnl (24, 24)
 : tgcw
 :call txy
 S := X
 X := Y
 Y := S
+save Z
 i := _tgcw
 MEM0 := eval(192 | 12)
 MEM1 := eval(48 | 3)

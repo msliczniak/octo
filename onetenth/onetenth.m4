@@ -88,7 +88,6 @@ save MEM0
 
 : tghosts
 :call tgt
-save Z
 :call transform
 
 # `L'
