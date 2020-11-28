@@ -181,7 +181,10 @@ v0 := 0xec  # SEC, 2 cycles
 
 # have sprite just copy instead of xor
 i := 0xbf
-save v0
+#save v0
+:byte 0xf0
+: h55
+:byte 0x55
 
 dnl this second location is not needed when sprites are aligned
 dnl plus it causes flicker and a bug in the lower page display
@@ -219,6 +222,13 @@ vd := 2     # blue
 dnl : forever
 dnl vf := key
 dnl jump forever
+
+v1 := 63
+i := h55
+v0 := 48
+sprite v0 v1 1
+v0 := 56
+sprite v0 v1 1
 
 jump root
 
