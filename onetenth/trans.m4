@@ -78,7 +78,7 @@ dnl V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF
 dnl  F 3> 7> B> 0> 4> 8> C> 1> >5 9> D> 2> 6> A> E>
 
 i := board
-save ve
+save vf
 jump _trotret
 
 # counter clockwise
