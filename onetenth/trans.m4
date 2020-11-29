@@ -6,36 +6,38 @@
 # 2 6 A E   D 9 5 1
 # 3 7 B F   C 8 4 0
 : tf
-i := board2-7
-load ve
-v0 := ve
-v1 := vd
-v2 := vc
-v3 := vb
-v4 := va
-v5 := v9
-v6 := v8
-i := zboard0
-save v7
-
-i := board0-7
-load ve
-v0 := ve
-v1 := vd
-v2 := vc
-v3 := vb
-v4 := va
-v5 := v9
-v6 := v8
-i := zboard2
-save v7
-i := board2
-save v7
-
-i := zboard0
-load v7
 i := board0
-save v7
+load v7
+vf := v0
+ve := v1
+vd := v2
+vc := v3
+vb := v4
+va := v5
+v9 := v6
+v8 := v7
+
+i := board2
+load v3
+v7 := v0
+v6 := v1
+v5 := v2
+v4 := v3
+
+i := board3
+load v1
+v3 := v0
+v2 := v1
+
+i := board-e
+load v0
+v1 := v0
+
+i := board-f
+load v0
+
+i := board0
+save vf
 return
 
 # clockwise
@@ -79,7 +81,7 @@ dnl  F 3> 7> B> 0> 4> 8> C> 1> >5 9> D> 2> 6> A> E>
 
 i := board
 save vf
-jump _trotret
+return
 
 # counter clockwise
 # <F  <3  <7  <B.    E>  D>  C> .B>
@@ -122,9 +124,6 @@ dnl V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF
 dnl E> A> 6> 2> D> 9> 5> 1> C> 8> 4> 0> B> 7> 3> F>
 
 i := board
-save vf
-: _trotret
-i := zboard
 save vf
 
 # FALLTHRU
