@@ -43,6 +43,6 @@ H.265
 $ ffmpeg -pix_fmt bgr0 -r 60 -hide_banner -f avfoundation -i 1:0 -pix_fmt gbrp -dst_range 1 -color_range 2 -vf 'crop=384:256:1056:644' -y -an -c:v libx265 -x265-params lossless=1:range=full -s 384x256 -sn -map_metadata -1 out.mp4
 
 H.264
-$ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 1 -f m4v -y /dev/null
-$ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 2 -y out.m4v
+$ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 1 -f m4v -y -movflags faststart /dev/null
+$ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 2 -y -movflags faststart out.m4v
 $ rm -f ffmpeg2pass-0.log
