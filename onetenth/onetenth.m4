@@ -78,7 +78,6 @@ GHOST0 := 0
 GHOST1 := 0
 MEM0 := 6
 S := random 15
-S := 1
 
 : input_loop
 _BP(`input_loop')
@@ -89,9 +88,6 @@ M := MEM0
 
 : tghosts
 :call tgt
-
-i := board
-load vf
 :call transform
 
 # `L'
@@ -214,6 +210,9 @@ MAXSYM := 8
 SCORE := 0
 MASK := 0xf
 
+dnl might have been trivial transform so load always
+i := board0
+load R0
 :call col
 i := board0
 save R0
@@ -306,7 +305,6 @@ S -= 4
 # FALLTHRU
 : _s_found
 S += MEM0
-S := 3
 
 MEM0 := 9
 :call urand
@@ -314,7 +312,6 @@ MEM1 := MEM0
 MEM0 := 6
 if MEM1 == 0
 then MEM0 := 12
-MEM0 := 6
 
 jump input_loop
 
@@ -387,18 +384,18 @@ v0 := 0
 v1 := 0
 save v1
 
-dnl v0 := 0
-dnl v1 := 0
-dnl v2 := 0
-dnl v3 := 0
-dnl i := board0
-dnl save v3
-dnl i := board1
-dnl save v3
-dnl i := board2
-dnl save v3
-dnl i := board3
-dnl save v3
+v0 := 0
+v1 := 0
+v2 := 0
+v3 := 0
+i := board0
+save v3
+i := board1
+save v3
+i := board2
+save v3
+i := board3
+save v3
 
 i := isym0
 v1 := 0
