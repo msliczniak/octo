@@ -21,18 +21,18 @@ BL
 : board-1
 BL
 : board2-6
-BL BL
+BL eval(7 * 6)
 : board1
 : board2:-4
-BL BL BL BL
+BL BL eval(2 * 6) eval(6 * 6)
 : board2
-BL BL BL BL
+BL eval(1 * 6) eval(4 * 6) eval(5 * 6)
 : board3
 BL BL
 : board-e
-BL
+eval(3 * 6)
 : board-f
-BL
+eval(4 * 6)
 
 : boardf # free counts
 : bfree0
