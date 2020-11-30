@@ -19,9 +19,10 @@ RM = /bin/rm -f
 % : %.ch8
 % : %.8o
 % : %.m
+% : %.m4
 % : %.deps
 
-.SUFFIXES : .hex -eti.ch8 .c8x .ch8 .8o .m .deps
+.SUFFIXES : .hex -eti.ch8 .c8x .ch8 .8o .m .m4 .deps
 
 .PHONY : cb all clean force ${NAME}.m
 
@@ -64,6 +65,9 @@ test300.8o : test300.m4
 
 ${NAME}.m : ${NAME}.deps force
 	$(MAKE) $(MFLAGS) -f Makefile.deps -f - ${NAME}.deps $@ <${NAME}.deps
+
+.m4.m :
+	$(MAKE) $(MFLAGS) -f Makefile.deps $@
 
 ${NAME}.deps :
 	$(MAKE) $(MFLAGS) -f Makefile.deps $@

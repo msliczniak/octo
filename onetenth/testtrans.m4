@@ -71,6 +71,29 @@ PUSHREG(`DRAW', `DSPOFF')dnl    vC
 PUSHREG(`DRAW', `COLOR')dnl     vD
 
 : root
+
+v0 := key
+:call tf
+v0 := key
+:call tf
+
+v0 := key
+:call tccw
+v0 := key
+:call tccw
+
+v0 := key
+:call tcw
+v0 := key
+:call tcw
+
+v0 := key
+:call tt
+v0 := key
+:call tt
+
+jump root
+
 Z := 255
 delay := Z
 Z := 8
@@ -384,18 +407,28 @@ v0 := 0
 v1 := 0
 save v1
 
-v0 := 0
-v1 := 0
-v2 := 0
-v3 := 0
-i := board0
-save v3
-i := board1
-save v3
-i := board2
-save v3
-i := board3
-save v3
+v0 := eval(1 * 6)
+v1 := eval(2 * 6)
+v2 := eval(3 * 6)
+v3 := eval(4 * 6)
+v4 := eval(5 * 6)
+v5 := eval(6 * 6)
+v6 := eval(7 * 6)
+v7 := eval(8 * 6)
+v8 := eval(9 * 6)
+v9 := eval(10 * 6)
+va := eval(11 * 6)
+vb := eval(12 * 6)
+vc := eval(13 * 6)
+vd := eval(14 * 6)
+ve := eval(15 * 6)
+vf := eval(16 * 6)
+i := board
+save vf
+i := prevboard
+save vf
+
+return
 
 i := isym0
 v1 := 0
