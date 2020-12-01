@@ -38,90 +38,90 @@ dnl :byte 0 # first byte of return below is 0
 v0 += 0
 return
 
-: bedf
+: bed8
 :call bxyn
 return
-: _bedf
-:call bedf
+: _bed8
+:call bed8
 
-: b2d7
+: b2d2
 :call bxyn
 return
-: _b2d7
-:call b2d7
+: _b2d2
+:call b2d2
 
-: b707
+: b702
 :call bxyn
 return
-: _b707
-:call b707
+: _b702
+:call b702
 
-: b907
+: b902
 :call bxyn
 return
-: _b907
-:call b907
+: _b902
+:call b902
 
-: bb07
+: bb02
 :call bxyn
 return
-: _bb07
-:call bb07
+: _bb02
+:call bb02
 
-: bd07
+: bd02
 :call bxyn
 return
-: _bd07
-:call bd07
+: _bd02
+:call bd02
 
-: b107
+: b102
 :call bxyn
 return
-: _b107
-:call b107
+: _b102
+:call b102
 
 : _handheld
 
 # patch chip-8x code for debugging
-i := _bedf
+i := _bed8
 load v1
 i :=  _c4x4l
 save v1
 
-i := _b2d7
+i := _b2d2
 load v1
 i := __tgretv0
 save v1
 i := __tgretv1
 save v1
 
-i := _b707
+i := _b702
 load v1
 i := _color
 save v1
 
-i := _b907
+i := _b902
 load v1
 i := _bbc8:0
 save v1
 i := _bbc8:4
 save v1
 
-i := _bb07
+i := _bb02
 load v1
 i := _bbc8:1
 save v1
 i := _bbc8:5
 save v1
 
-i := _bd07
+i := _bd02
 load v1
 i := _bbc8:2
 save v1
 i := _bbc8:6
 save v1
 
-i := _b107
+i := _b102
 load v1
 i := _bbc8:3
 save v1
@@ -230,14 +230,12 @@ ve := 32
 vd := 7     # white
 :call c4x4
 
-: forever_debug jump forever_debug
-
-v1 := 63
-i := h55
-v0 := 48
-sprite v0 v1 1
-v0 := 56
-sprite v0 v1 1
+#v1 := 63
+#i := h55
+#v0 := 48
+#sprite v0 v1 1
+#v0 := 56
+#sprite v0 v1 1
 
 jump root
 

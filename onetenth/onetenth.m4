@@ -94,8 +94,8 @@ M := MEM0
 i := bghost0
 load MEM0
 v1 := 0
-v2 := 1
-v4 := 25
+v2 := eval(32 + 1)
+v4 := eval(32 + 25)
 v5 := 0
 :call spb
 
@@ -104,7 +104,7 @@ i := bghost1
 load MEM0
 v8 := MEM0
 v1 := 16
-v2 := 1
+v2 := eval(32 + 1)
 v5 := 8
 :call spb
 
@@ -115,9 +115,9 @@ then jump _skip_first_ghost
 v9 := 16
 vb := 16
 vd := 16
-va :=  0
-vc :=  8
-ve := 16
+va := eval(32 + 0)
+vc := eval(32 + 8)
+ve := eval(32 + 16)
 i := board2
 :call bbc8
 
@@ -141,8 +141,7 @@ load Z
 i := symc
 i += M
 load v0
-#: _color :byte 0xb7 0x07
-: _color :byte 0xb7 0x01
+: _color :byte 0xb7 0x02
 i := hsym0
 i += M
 sprite X Y 7
@@ -182,8 +181,8 @@ load MEM0
 v1 := 32
 #v2 := 162
 #v4 := 186
-v2 := 1
-v4 := 25
+v2 := eval(32 + 1)
+v4 := eval(32 + 25)
 v5 := 0
 :call spb
 
@@ -193,7 +192,7 @@ load MEM0
 v8 := MEM0
 v1 := 48
 #v2 := 162
-v2 := 1
+v2 := eval(32 + 1)
 v5 := 8
 :call spb
 
@@ -247,7 +246,7 @@ i := board3
 #save SCORE
 save GHOST1
 
-:call debug
+#:call debug
 
 i := main_regs
 load Z
@@ -338,8 +337,7 @@ i += v$1
 load v0
 
 : _bbc8:$1
-#:byte 0xb$2 0x07
-:byte 0xb$2 0x01
+:byte 0xb$2 0x02
 
 : _bbc8:$*
 ')dnl
@@ -349,7 +347,7 @@ M(0, 9)
 M(1, b)
 M(2, d)
 v1 := v9
-v2 := 24
+v2 := eval(32 + 24)
 M(3, 1)
 v9 += 8
 vb += 8
@@ -400,7 +398,7 @@ i := board3
 save v3
 
 i := isym0
-v1 := 0
+v1 := 32
 
 : _resetbv
 v0 := 0
@@ -417,7 +415,7 @@ v0 += 8
 jump _resetb
 
 : _resetbh
-if v1 == 24
+if v1 == 56
 then jump _resetbe
 
 v1 += 8
@@ -425,7 +423,7 @@ jump _resetbv
 
 : _resetbe
 #v1 := 161
-v1 := 0
+v1 := 32
 
 : _resetpv
 v0 := 32
@@ -443,7 +441,7 @@ jump _resetp
 
 : _resetph
 #if v1 == 185
-if v1 == 24
+if v1 == 56
 then return
 
 v1 += 8

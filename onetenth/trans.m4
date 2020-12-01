@@ -161,6 +161,7 @@ return
 
 : tgt
 :call txy
+Y += 32
 save Z
 v0 := GHOST0
 v1 := GHOST1
@@ -196,6 +197,7 @@ dnl (0, 0)
 S := 24
 X =- S
 Y =- S
+Y += 32
 save Z
 i := _tgf
 jump _tg
@@ -226,6 +228,7 @@ Y := S
 S := 24
 X =- S
 Y =- S
+Y += 32
 save Z
 i := _tgccw
 MEM0 := eval(48 | 3)
@@ -268,6 +271,7 @@ dnl (24, 24)
 S := X
 X := Y
 Y := S
+Y += 32
 save Z
 i := _tgcw
 MEM0 := eval(192 | 12)
@@ -337,16 +341,15 @@ vd := 0     # black
 v2 := 0
 
 : _tgreth0
-v3 := 0
+v3 := 32
 
 : _tgretv0
 MEM0 <<= MEM0
 if vf != 0
-#then : __tgretv0 :byte 0xb2 0xd7
-then : __tgretv0 :byte 0xb2 0xd1
+then : __tgretv0 :byte 0xb2 0xd2
 
 v3 += 8
-if v3 != 32
+if v3 != 64
 then jump _tgretv0
 
 v2 += 8
@@ -354,16 +357,15 @@ if v2 != 16
 then jump _tgreth0
 
 : _tgreth1
-v3 := 0
+v3 := 32
 
 : _tgretv1
 MEM1 <<= MEM1
 if vf != 0
-#then : __tgretv1 :byte 0xb2 0xd7
-then : __tgretv1 :byte 0xb2 0xd1
+then : __tgretv1 :byte 0xb2 0xd2
 
 v3 += 8
-if v3 != 32
+if v3 != 64
 then jump _tgretv1
 
 v2 += 8
