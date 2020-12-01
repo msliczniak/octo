@@ -202,6 +202,7 @@ v0 := 0xc4  # CONT, 3 cycles
 i := 0x25a
 save v0
 
+dnl Y in lower page forces lowres color
 dnl refer to bxyn.asm
 i := 0x282
 v0 := 0xc3
@@ -213,24 +214,22 @@ save v0
 # colormap at 0xc000 and hires at 0xd000 on 1862/1864
 # use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
-ve := 32
-vd := 7     # white
-:call c4x4
-
-ve := 0
 vd := 0     # black
+ve := 0
+:call c4x4
+ve := 32
 :call c4x4
 
 :call reset
 
 ve := 0
 vd := 2     # blue
-#:call c4x4
+:call c4x4
 
-dnl If Y is in the lower page it forces lowres color
-vf := 48
-ve := 0
-:byte 0xbe 0xd5
+ve := 32
+vd := 7     # white
+:call c4x4
+
 : forever_debug jump forever_debug
 
 v1 := 63
@@ -242,19 +241,18 @@ sprite v0 v1 1
 
 jump root
 
-dnl 2p CHIP-8X does not support BXY0, use BXYN instead
+dnl 2p CHIP-8X does not support BXY0, use modified BXYN instead
 : c4x4
-vf := 120
+vf := 224
 
 : _c4x4l
-#:byte 0xbe 0xdf
-:byte 0xbe 0xd2
+:byte 0xbe 0xd8
 
-if vf == 0
+if vf == 32
 then return
 
-ve += 2
-vf -= 8
+ve += 8
+vf -= 64
 jump _c4x4l
 
 :assert "chip-8x entry polint too large" { HERE <= 0x600 }
