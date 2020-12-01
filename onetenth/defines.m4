@@ -202,11 +202,15 @@ v0 := 0xc4  # CONT, 3 cycles
 i := 0x25a
 save v0
 
-# colormap at 0xc000 and hires at 0xd000 on 1862/1864
+dnl refer to bxyn.asm
 i := 0x282
 v0 := 0xc3
 save v0
+i := 0x288
+v0 := 32
+save v0
 
+# colormap at 0xc000 and hires at 0xd000 on 1862/1864
 # use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
 ve := 32
@@ -223,7 +227,7 @@ ve := 0
 vd := 2     # blue
 :call c4x4
 
-# If Y is in the lower page it forces lowres color
+dnl If Y is in the lower page it forces lowres color
 vf := 32
 ve := 66
 :byte 0xbe 0xd1
@@ -244,7 +248,7 @@ vf := 120
 
 : _c4x4l
 #:byte 0xbe 0xdf
-:byte 0xbe 0xd1
+:byte 0xbe 0xd2
 
 if vf == 0
 then return
