@@ -229,8 +229,8 @@ vd := 2     # blue
 
 dnl If Y is in the lower page it forces lowres color
 vf := 32
-ve := 66
-:byte 0xbe 0xd1
+ve := 0
+:byte 0xbe 0xd0
 : forever_debug jump forever_debug
 
 v1 := 63
