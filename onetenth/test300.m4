@@ -63,19 +63,28 @@ sprite v1 v2 15
 sprite v2 v2 15
 sprite v3 v2 15
 
+# checker
 sprite v4 v0 15
-sprite v5 v0 15
 sprite v6 v0 15
-sprite v7 v0 15
-sprite v4 v2 15
 sprite v5 v2 15
-sprite v6 v2 15
 sprite v7 v2 15
 
 #v0 += 1
 #v1 += 1
 #v2 += 1
 #v3 += 1
+#v4 -= 1
+#v5 -= 1
+#v6 -= 1
+#v7 -= 1
+#v4 += 1
+#v5 += 1
+#v6 += 1
+#v7 += 1
+#v4 += 1
+#v5 += 1
+#v6 += 1
+#v7 += 1
 i := sp
 va := 0
 
@@ -89,15 +98,42 @@ if v8 == 253
 then jump _timel
 
 vd :=  0    # black
-vf := 32
 ve := eval(8 * 0)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 1)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 2)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 3)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 
 sprite v0 v0 7
 sprite v1 v0 7
@@ -116,37 +152,64 @@ sprite v1 v3 7
 sprite v2 v3 7
 sprite v3 v3 7
 
-sprite v4 v0 7
-sprite v5 v0 7
-sprite v6 v0 7
-sprite v7 v0 7
-sprite v4 v1 7
-sprite v5 v1 7
-sprite v6 v1 7
-sprite v7 v1 7
-sprite v4 v2 7
-sprite v5 v2 7
-sprite v6 v2 7
-sprite v7 v2 7
-sprite v4 v3 7
-sprite v5 v3 7
-sprite v6 v3 7
-sprite v7 v3 7
-
+sprite v4 v4 7
+sprite v5 v4 7
+sprite v6 v4 7
+sprite v7 v4 7
+sprite v4 v5 7
+sprite v5 v5 7
+sprite v6 v5 7
+sprite v7 v5 7
+sprite v4 v6 7
+sprite v5 v6 7
+sprite v6 v6 7
+sprite v7 v6 7
+sprite v4 v7 7
 sprite v5 v7 7
 sprite v6 v7 7
 sprite v7 v7 7
 
+sprite v5 v1 7
+sprite v6 v1 7
+sprite v7 v1 7
+
 vd := 2     # blue
-vf := 32
 ve := eval(8 * 0)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 1)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 2)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 ve := eval(8 * 3)
-0xbe 0xd8
+vf := 32
+0xbe 0xd2
+vf := 40
+0xbe 0xd2
+vf := 48
+0xbe 0xd2
+vf := 56
+0xbe 0xd2
 
 v8 := delay
 vf := 253
