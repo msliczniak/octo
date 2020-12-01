@@ -15,6 +15,13 @@ eval($2 ^ 254) dnl
 eval($3 ^ 254) dnl
 eval($4 ^ 254) dnl
 eval($5 ^ 254)
+`: sym'I
+:byte dnl
+eval($1) dnl
+eval($2) dnl
+eval($3) dnl
+eval($4) dnl
+eval($5)
 N($*)
 popdef(`I')dnl
 ')dnl
@@ -27,16 +34,13 @@ pushdef(`N', `dnl
 divert(incr(divnum))dnl
 `: hisym'I
 :byte 254
-ifelse(I, 2, `: hsym0')
-dnl ifelse(`I', 2, `
-dnl : hsym0
-dnl :byte ', `')dnl
 :byte dnl
 eval($1 ^ 254) dnl
 eval($2 ^ 254) dnl
 eval($3 ^ 254) dnl
 eval($4 ^ 254) dnl
 eval($5 ^ 254)
+ifelse(I, 1, `:byte 254 : hsym0 :byte 0 0 0 0')
 divert(incr(divnum))dnl
 
 `: hsym'I
@@ -46,6 +50,7 @@ eval($2) dnl
 eval($3) dnl
 eval($4) dnl
 eval($5)
+ifelse(I, 1, `:byte 0 : hsymf :byte 0 0 0 0')
 divert(decr(divnum))dnl
 divert(decr(divnum))dnl
 ')dnl

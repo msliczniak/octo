@@ -76,7 +76,7 @@ delay := Z
 Z := 8
 GHOST0 := 0
 GHOST1 := 0
-MEM0 := 6
+MEM0 := 11
 S := random 15
 
 : input_loop
@@ -92,7 +92,7 @@ M := MEM0
 : short_circuit
 :call transform
 
-# `L'
+# `L board
 i := bghost0
 load MEM0
 v1 := 0
@@ -101,7 +101,7 @@ v4 := eval(32 + 25)
 v5 := 0
 :call spb
 
-# `R'
+# `R' board
 i := bghost1
 load MEM0
 v8 := MEM0
@@ -166,13 +166,11 @@ i := tghosts
 save MEM1
 
 : _skip0_prevboard
-# remove the highlight from the last new sym of the prev board
-#i := hisym0
-#sprite OX OY 7
+# pos of new sym of the prev board
 OX := X
 OY := Y
 OX += 32
-#OY += 33
+OY -= 33
 
 i := main_regs
 save Z
@@ -181,10 +179,8 @@ save Z
 i := bghost0
 load MEM0
 v1 := 32
-#v2 := 162
-#v4 := 186
-v2 := eval(32 + 1)
-v4 := eval(32 + 25)
+v2 := 0
+v4 := 24
 v5 := 0
 :call spb
 
@@ -193,8 +189,7 @@ i := bghost1
 load MEM0
 v8 := MEM0
 v1 := 48
-#v2 := 162
-v2 := eval(32 + 1)
+v2 := 0
 v5 := 8
 :call spb
 
@@ -309,9 +304,9 @@ S += MEM0
 MEM0 := 9
 :call urand
 MEM1 := MEM0
-MEM0 := 6
+MEM0 := 11
 if MEM1 == 0
-then MEM0 := 12
+then MEM0 := 22
 
 jump input_loop
 
@@ -422,8 +417,7 @@ v1 += 8
 jump _resetbv
 
 : _resetbe
-#v1 := 161
-v1 := 32
+v1 := 0
 
 : _resetpv
 v0 := 32
@@ -440,8 +434,7 @@ v0 += 8
 jump _resetp
 
 : _resetph
-#if v1 == 185
-if v1 == 56
+if v1 == 24
 then return
 
 v1 += 8
