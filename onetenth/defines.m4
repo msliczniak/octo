@@ -253,6 +253,8 @@ ve += 8
 vf -= 64
 jump _c4x4l
 
+include(`syms.m')
+
 :assert "chip-8x entry polint too large" { HERE <= 0x600 }
 
 dnl need extra headroom for testing

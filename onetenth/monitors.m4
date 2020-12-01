@@ -1,7 +1,7 @@
 # monitors.m4
 
-divert(incr(divnum))dnl
-:assert "program too large" { HERE < 3728 } # hires
+undivert
+:assert "program too large" { HERE < eval(4096 - (512 + 112)) } # hires
 
 :monitor board0 "%x %x %x %x"
 :monitor board1 "%x %x %x %x"
@@ -15,7 +15,3 @@ divert(incr(divnum))dnl
 :monitor prevboard1 "%x %x %x %x"
 :monitor prevboard2 "%x %x %x %x"
 :monitor prevboard3 "%x %x %x %x"
-divert(decr(divnum))dnl
-
-dnl : filler
-dnl return

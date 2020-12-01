@@ -26,6 +26,9 @@ N($*)
 popdef(`I')dnl
 ')dnl
 undivert
+dnl make sure that isym0 and sym0 start in the same page
+:calc magic { HERE + ( ( ( HERE & 255 ) > 248 ) * 6 ) }
+:org magic
 # 5x5 symbols
 : symc  # sym color
 :byte 2 NI(  0,   0,   0,   0,   0) # blank space

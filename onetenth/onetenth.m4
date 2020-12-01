@@ -25,6 +25,7 @@ PUSHREG(`COL', `R1')dnl 	 2
 PUSHREG(`COL', `R0')dnl 	 3
 
 PUSHREG(`COL', `FREE0')dnl	v4
+
 PUSHREG(`COL', `FREE1')dnl	 5
 PUSHREG(`COL', `FREE2')dnl	 6
 PUSHREG(`COL', `FREE3')dnl	 7
@@ -91,6 +92,11 @@ M := MEM0
 
 : short_circuit
 :call transform
+
+:calc magic0 { ( @ isym0 ) & 255 }
+i := _spbt
+MEM0 := magic0
+save MEM0
 
 # `L board
 i := bghost0
@@ -170,12 +176,17 @@ save MEM1
 OX := X
 OY := Y
 OX += 32
-OY -= 33
+OY -= 32
 
 i := main_regs
 save Z
 
-# `L'
+:calc magic0 { ( @ sym0 ) & 255 }
+i := _spbt
+MEM0 := magic0
+save MEM0
+
+# `L' prevboard
 i := bghost0
 load MEM0
 v1 := 32
@@ -184,7 +195,7 @@ v4 := 24
 v5 := 0
 :call spb
 
-# `R'
+# `R' prevboard
 i := bghost1
 load MEM0
 v8 := MEM0
@@ -247,9 +258,9 @@ i := main_regs
 load Z
 
 # new sym of prev board
-i := hisym0
+i := sym0
 i += M
-sprite OX OY 7
+sprite OX OY 5
 
 dnl if nothing shifted or merged, then don't add a random new sym
 MASK := GHOST0
@@ -482,7 +493,6 @@ eval(15 << 3)   eval(2 << 3)    # 14
 eval(15 << 3)   eval(1 << 3)    # 15
 
 include(`merge.m')
-include(`syms.m')
 include(`board.m')
 include(`trans.m')
 include(`spboard.m')
