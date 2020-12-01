@@ -141,8 +141,7 @@ load Z
 i := symc
 i += M
 load v0
-#: _color :byte 0xb7 0x02
-: _color v0 += 0
+: _color :byte 0xb7 0x02
 i := hsym0
 i += M
 sprite X Y 7
@@ -322,9 +321,9 @@ load v0
 if v0 == 0
 then jump _skip2_prevboard
 
-va :=  0
-vc :=  8
-ve := 16
+va := eval(32 + 0)
+vc := eval(32 + 8)
+ve := eval(32 + 16)
 jump _do_second_ghost
 
 dnl black on black color routines
