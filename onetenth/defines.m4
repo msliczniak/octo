@@ -195,12 +195,12 @@ dnl save v0
 i := 0xac
 save v0
 
-dnl # don't wait for VBLANK in BXYN, replace IDLE with nop
-dnl # this can cause a slight visual disturbance as columns are momentarily
-dnl # shifted up slightly
-dnl v0 := 0xc4  # CONT, 3 cycles
-dnl i := 0x25a
-dnl save v0
+# don't wait for VBLANK in BXYN, replace IDLE with nop
+# this can cause a slight visual disturbance as columns are momentarily
+# shifted up slightly
+v0 := 0xc4  # CONT, 3 cycles
+i := 0x25a
+save v0
 
 dnl Y in lower page forces lowres color
 dnl refer to bxyn.asm
