@@ -141,7 +141,8 @@ load Z
 i := symc
 i += M
 load v0
-: _color :byte 0xb7 0x02
+#: _color :byte 0xb7 0x02
+: _color v0 += 0
 i := hsym0
 i += M
 sprite X Y 7
