@@ -63,6 +63,15 @@ sprite v1 v2 15
 sprite v2 v2 15
 sprite v3 v2 15
 
+sprite v4 v0 15
+sprite v5 v0 15
+sprite v6 v0 15
+sprite v7 v0 15
+sprite v4 v2 15
+sprite v5 v2 15
+sprite v6 v2 15
+sprite v7 v2 15
+
 #v0 += 1
 #v1 += 1
 #v2 += 1
