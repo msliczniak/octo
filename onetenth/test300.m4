@@ -20,31 +20,29 @@ i := 0xac
 save v0
 
 # don't wait for VBLANK in BXYN, replace IDLE with nop
-# this causes a slight visual disturbance as columns are momentarily
-# shifted up slightly
 v0 := 0xc4  # CONT, 3 cycles
 i := 0x25a
 save v0
 
+dnl Y in lower page forces lores color
+dnl refer to bxyn.asm
+i := 0x282
+v0 := 0xc3
+save v0
+i := 0x288
+v0 := 32
+save v0
+
 vd :=  7    # white
-vf := 48
-ve := eval(8 * 4)
-0xbe 0xdf
-ve := eval(8 * 5)
-0xbe 0xdf
-ve := eval(8 * 6)
-0xbe 0xdf
-ve := eval(8 * 7)
-0xbe 0xdf
 vf := 32
 ve := eval(8 * 4)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 5)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 6)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 7)
-0xbe 0xdf
+0xbe 0xd8
 
 v0 := eval(8 * 0)
 v1 := eval(8 * 1)
@@ -54,6 +52,21 @@ v4 := eval(8 * 4)
 v5 := eval(8 * 5)
 v6 := eval(8 * 6)
 v7 := eval(8 * 7)
+
+i := ff15
+sprite v0 v0 15
+sprite v1 v0 15
+sprite v2 v0 15
+sprite v3 v0 15
+sprite v0 v2 15
+sprite v1 v2 15
+sprite v2 v2 15
+sprite v3 v2 15
+
+#v0 += 1
+#v1 += 1
+#v2 += 1
+#v3 += 1
 i := sp
 va := 0
 
@@ -67,24 +80,15 @@ if v8 == 253
 then jump _timel
 
 vd :=  0    # black
-vf := 16
+vf := 32
 ve := eval(8 * 0)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 1)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 2)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 3)
-0xbe 0xdf
-vf := 0
-ve := eval(8 * 0)
-0xbe 0xdf
-ve := eval(8 * 1)
-0xbe 0xdf
-ve := eval(8 * 2)
-0xbe 0xdf
-ve := eval(8 * 3)
-0xbe 0xdf
+0xbe 0xd8
 
 sprite v0 v0 7
 sprite v1 v0 7
@@ -120,42 +124,20 @@ sprite v5 v3 7
 sprite v6 v3 7
 sprite v7 v3 7
 
-#sprite v4 v4 7
-#sprite v5 v4 7
-#sprite v6 v4 7
-#sprite v7 v4 7
-#sprite v4 v5 7
-#sprite v5 v5 7
-#sprite v6 v5 7
-#sprite v7 v5 7
-#sprite v4 v6 7
-#sprite v5 v6 7
-#sprite v6 v6 7
-#sprite v7 v6 7
-#sprite v4 v7 7
 sprite v5 v7 7
 sprite v6 v7 7
 sprite v7 v7 7
 
 vd := 2     # blue
-vf := 48
-ve := eval(8 * 0)
-0xbe 0xdf
-ve := eval(8 * 1)
-0xbe 0xdf
-ve := eval(8 * 2)
-0xbe 0xdf
-ve := eval(8 * 3)
-0xbe 0xdf
 vf := 32
 ve := eval(8 * 0)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 1)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 2)
-0xbe 0xdf
+0xbe 0xd8
 ve := eval(8 * 3)
-0xbe 0xdf
+0xbe 0xd8
 
 v8 := delay
 vf := 253
@@ -191,3 +173,6 @@ jump _mainl
 : sp
  92 170  92 170  92 170  92
 170  92 170  92 170  92 170
+
+: ff15
+255 255 255 255 255 255 255 255 255 255 255 255 255 255 255

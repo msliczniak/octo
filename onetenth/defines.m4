@@ -202,7 +202,7 @@ v0 := 0xc4  # CONT, 3 cycles
 i := 0x25a
 save v0
 
-dnl Y in lower page forces lowres color
+dnl Y in lower page forces lores color
 dnl refer to bxyn.asm
 i := 0x282
 v0 := 0xc3
