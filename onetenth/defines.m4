@@ -223,9 +223,11 @@ ve := 0
 vd := 2     # blue
 :call c4x4
 
-dnl : forever
-dnl vf := key
-dnl jump forever
+# If Y is in the lower page it forces lowres color
+vf := 32
+ve := 66
+:byte 0xbe 0xd1
+: forever_debug jump forever_debug
 
 v1 := 63
 i := h55
@@ -247,10 +249,9 @@ vf := 120
 if vf == 0
 then return
 
-ve += 66
+ve += 2
 vf -= 8
 jump _c4x4l
-
 
 :assert "chip-8x entry polint too large" { HERE <= 0x600 }
 
