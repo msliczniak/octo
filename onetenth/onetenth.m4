@@ -88,6 +88,8 @@ M := MEM0
 
 : tghosts
 :call tgt
+
+: short_circuit
 :call transform
 
 # `L'
@@ -256,11 +258,11 @@ i := hisym0
 i += M
 sprite OX OY 7
 
-dnl if nothing shifted or merged, then don't add a new sym
+dnl if nothing shifted or merged, then don't add a random new sym
 MASK := GHOST0
 MASK |= GHOST1
 if MASK == 0
-then jump _skip2_prevboard
+then jump short_circuit
 
 dnl remove highlight from newest sym
 i := hisym0
