@@ -342,7 +342,8 @@ v3 := 0
 : _tgretv0
 MEM0 <<= MEM0
 if vf != 0
-then : __tgretv0 :byte 0xb2 0xd7
+#then : __tgretv0 :byte 0xb2 0xd7
+then : __tgretv0 :byte 0xb2 0xd1
 
 v3 += 8
 if v3 != 32
@@ -358,7 +359,8 @@ v3 := 0
 : _tgretv1
 MEM1 <<= MEM1
 if vf != 0
-then : __tgretv1 :byte 0xb2 0xd7
+#then : __tgretv1 :byte 0xb2 0xd7
+then : __tgretv1 :byte 0xb2 0xd1
 
 v3 += 8
 if v3 != 32

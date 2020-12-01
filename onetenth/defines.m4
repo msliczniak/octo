@@ -202,7 +202,11 @@ v0 := 0xc4  # CONT, 3 cycles
 i := 0x25a
 save v0
 
-# colormap at 0xc00 on 1862/1864
+# colormap at 0xc000 and hires at 0xd000 on 1862/1864
+i := 0x282
+v0 := 0xc3
+save v0
+
 # use these registers on ETI-660 https://chip-8.github.io/extensions/#chip-8x
 
 ve := 32
@@ -237,7 +241,8 @@ dnl 2p CHIP-8X does not support BXY0, use BXYN instead
 vf := 120
 
 : _c4x4l
-:byte 0xbe 0xdf
+#:byte 0xbe 0xdf
+:byte 0xbe 0xd1
 
 if vf == 0
 then return
