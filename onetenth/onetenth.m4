@@ -181,9 +181,9 @@ OY -= 32
 i := main_regs
 save Z
 
-:calc magic0 { ( @ sym0 ) & 255 }
+:calc magic1 { ( @ sym0 ) & 255 }
 i := _spbt
-MEM0 := magic0
+MEM0 := magic1
 save MEM0
 
 # `L' prevboard
