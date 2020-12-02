@@ -256,23 +256,16 @@ i := board3
 save SCORE dnl GHOSTs saved in _tgret
 
 dnl draw score
-i := FILLER
-bcd SCORE
-v1 := 40
-v2 := 48
+i := char0
+v0 := SCORE
+v0 <<= v0
+v0 <<= v0
+v0 += SCORE
+i += v0
+#v1 := 40
+#v2 := 48
 v3 := 56
 v4 := 58
-i := FILLER
-load v0
-i := hex v0
-sprite v1 v4 5
-i := eval(FILLER + 1)
-load v0
-i := hex v0
-sprite v2 v4 5
-i := eval(FILLER + 2)
-load v0
-i := hex v0
 sprite v3 v4 5
 
 i := main_regs
@@ -515,7 +508,6 @@ include(`merge.m')
 include(`board.m')
 include(`trans.m')
 include(`spboard.m')
-dnl need some breathing-room for testing
-dnl include(`chars.m')
+include(`chars.m')
 include(`syms.m')
 include(`monitors.m')
