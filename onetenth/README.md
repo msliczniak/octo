@@ -31,8 +31,8 @@ Enable Access for assistive devices to run this script:
 ![assistive devices access](enable.png)
 
 $ open -a applescript\ editor
--- tell application "System Events" to tell process "Emma 02" to get the position of the front window
-tell application "System Events" to tell process "Emma 02" to set the position of the front window to {1032, 606}
+> tell application "System Events" to tell process "Emma 02" to get the position of the front window
+$ osascript -e 'tell application "System Events" to tell process "Emma 02" to set the position of the front window to {1032, 606}'
 
 Which device is screen 0:
 

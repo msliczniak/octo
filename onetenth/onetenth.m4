@@ -18,14 +18,13 @@ PUSHREG(`MAIN', `X')
 PUSHREG(`MAIN', `Y')
 PUSHREG(`MAIN', `Z')
 
-REGS(`COL', 0)
-PUSHREG(`COL', `R3')dnl		v0
-PUSHREG(`COL', `R2')dnl		 1
+dnl use v0 for loads
+REGS(`COL', 1)
+PUSHREG(`COL', `R2')dnl		v1
 PUSHREG(`COL', `R1')dnl 	 2
 PUSHREG(`COL', `R0')dnl 	 3
 
 PUSHREG(`COL', `FREE0')dnl	v4
-
 PUSHREG(`COL', `FREE1')dnl	 5
 PUSHREG(`COL', `FREE2')dnl	 6
 PUSHREG(`COL', `FREE3')dnl	 7
@@ -36,7 +35,8 @@ PUSHREG(`COL', `GHOST0')dnl	 a
 PUSHREG(`COL', `GHOST1')dnl	 b
 
 REGS(`MERGE', REGSLVL(`COL'))
-PUSHREG(`MERGE', `MASK')
+PUSHREG(`MERGE', `MASK')dnl     vc
+PUSHREG(`MERGE', `R3')dnl        d
 
 REGS(`SPRITES', 0)
 PUSHREG(`SPRITES', `SPMASK')
@@ -220,6 +220,7 @@ dnl might have been trivial transform so load always
 i := board0
 load R0
 :call col
+MEM0 := R3
 i := board0
 save R0
 FREE0 := FREE3
@@ -229,6 +230,7 @@ GHOST0 &= GHOST1
 i := board1
 load R0
 :call col
+MEM0 := R3
 i := board1
 save R0
 FREE1 := FREE3
@@ -238,6 +240,7 @@ GHOST0 |= GHOST1
 i := board2
 load R0
 :call col
+MEM0 := R3
 i := board2
 save R0
 FREE2 := FREE3
@@ -246,11 +249,31 @@ GHOST &= GHOST1
 i := board3
 load R0
 :call col
+MEM0 := R3
 GHOST1 &= MASK
 GHOST1 |= GHOST
 i := board3
-#save SCORE
-save GHOST1
+save SCORE dnl GHOSTs saved in _tgret
+
+dnl draw score
+i := FILLER
+bcd SCORE
+v1 := 40
+v2 := 48
+v3 := 56
+v4 := 58
+i := FILLER
+load v0
+i := hex v0
+sprite v1 v4 5
+i := eval(FILLER + 1)
+load v0
+i := hex v0
+sprite v2 v4 5
+i := eval(FILLER + 2)
+load v0
+i := hex v0
+sprite v3 v4 5
 
 i := main_regs
 load Z

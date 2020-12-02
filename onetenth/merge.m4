@@ -1,6 +1,7 @@
 # merge.m4
 
 : col
+R3 := MEM0
 
 dnl >>> for i in xrange(4):
 dnl ...     for j in xrange(i):
@@ -24,6 +25,7 @@ divert(incr(divnum)) # merge.m4 dnl
 : _COLLAPSE,4,0
 GHOST1  := 0
 FREE3   := 4
+# v0 never clobbered
 return
 divert(decr(divnum)) # merge.m4 dnl
 dnl
@@ -88,7 +90,12 @@ ifelse(`$1', `0', `', `dnl
  if R$1 != _CC(`R', incr($1))
  then jump _MERGE,incr($1),incr($2)
 
- SCORE += R$1
+ MEM0 := 15
+ MEM0 &= R$1
+ i := _divt
+ i += MEM0
+ load MEM0
+ SCORE += MEM0
  R$1 += 11
 ifelse(`$1', `$2', `', `R$2 := R$1')
 
@@ -166,3 +173,11 @@ FREE3   := 0
 if R3 == BL
 then FREE3 := 1
 return
+
+dnl $ cat foo.py
+dnl for i in xrange(1, 17):
+dnl     j = i * 11
+dnl     print i, "#",  j & 15
+dnl $ python foo.py | sort -nk3
+: _divt
+:byte 16 3 6 9 12 15 2 5 8 11 14 1 4 7 10 13
