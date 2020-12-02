@@ -19,16 +19,16 @@ eval($5 ^ 254)
 :byte dnl
 eval($1) dnl
 eval($2) dnl
-eval($3) dnl
+ifelse(I, 0, 16, `eval($3)') dnl mark empty cells with a dot
 eval($4) dnl
 eval($5)
 N($*)
 popdef(`I')dnl
 ')dnl
-undivert
 dnl make sure that isym0 and sym0 start in the same page
-:calc magic { HERE + ( ( ( HERE & 255 ) > 248 ) * 6 ) }
-:org magic
+undivert
+:assert "program too large" { HERE <= 3238 }
+:org 3238
 # 5x5 symbols
 : symc  # sym color
 :byte 2 NI(  0,   0,   0,   0,   0) # blank space

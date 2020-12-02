@@ -1,7 +1,7 @@
 # monitors.m4
 
 undivert
-:assert "program too large" { HERE < eval(4096 - (512 + 112)) } # hires
+:assert "program too large" { HERE <= eval(4096 - (512 + 112)) } # hires
 
 :monitor board0 "%x %x %x %x"
 :monitor board1 "%x %x %x %x"

@@ -15,7 +15,12 @@ then jump _spbn
 i := board
 i += v5
 load v0
-:next _spbt i := isym0
+
+dnl i := isym0 or sym0
+:byte 0xac
+: _spbt
+:byte 0xa7
+
 i += v0
 sprite v1 v2 5
 

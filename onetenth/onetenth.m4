@@ -93,9 +93,8 @@ M := MEM0
 : short_circuit
 :call transform
 
-:calc magic0 { ( @ isym0 ) & 255 }
 i := _spbt
-MEM0 := magic0
+MEM0 := 0xa7
 save MEM0
 
 # `L board
@@ -181,9 +180,8 @@ OY -= 32
 i := main_regs
 save Z
 
-:calc magic1 { ( @ sym0 ) & 255 }
 i := _spbt
-MEM0 := magic1
+MEM0 := 0xac
 save MEM0
 
 # `L' prevboard
@@ -428,16 +426,14 @@ v1 += 8
 jump _resetbv
 
 : _resetbe
+i := sym0
 v1 := 0
 
 : _resetpv
 v0 := 32
 
 : _resetp
-sprite v0 v1 4
-v1 += 4
 sprite v0 v1 3
-v1 -= 4
 if v0 == 56
 then jump _resetph
 
@@ -498,4 +494,5 @@ include(`trans.m')
 include(`spboard.m')
 dnl need some breathing-room for testing
 dnl include(`chars.m')
+include(`syms.m')
 include(`monitors.m')
