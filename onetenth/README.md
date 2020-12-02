@@ -16,6 +16,12 @@ $ make MPFLAGS=-D_DEBUG clean \
   test300.hex onetenth-eti.ch8 onetenth.hex cb && \
   ls -l onetenth.ch8 | awk '{ print 2960 - $(NF - 4); exit }'
 
+rebuild for two page 8X
+
+$ make clean onetenth.c8x && \
+  xxd -l2470 -c1 -a onetenth.c8x | tail -3 | \
+  awk -F: '{ print "ibase=16"; print "CA6 -", toupper($1); exit }' | bc
+
 record screen:
 
 open and then position in the lower right corner of screen 0
