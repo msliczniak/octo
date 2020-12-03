@@ -104,7 +104,7 @@ v1 := 0
 v2 := eval(32 + 1)
 v4 := eval(32 + 25)
 v5 := 0
-v6 := 8
+#v6 := 8
 :call spb
 
 # `R' board
@@ -175,10 +175,10 @@ save MEM1
 # pos of new sym of the prev board
 OY := Y
 OY -= 32
-OY >>= OY
-OX := OY
-OY >>= OY
-OY += OX
+#OY >>= OY
+#OX := OY
+#OY >>= OY
+#OY += OX
 OX := X
 OX += 32
 
@@ -194,9 +194,10 @@ i := bghost0
 load MEM0
 v1 := 32
 v2 := 0
-v4 := 18
+#v4 := 18
+v4 := 24
 v5 := 0
-v6 := 6
+#v6 := 6
 :call spb
 
 # `R' prevboard
@@ -463,10 +464,12 @@ v0 += 8
 jump _resetp
 
 : _resetph
-if v1 == 18
+#if v1 == 18
+if v1 == 24
 then return
 
-v1 += 6
+#v1 += 6
+v1 += 8
 jump _resetpv
 
 : urand
