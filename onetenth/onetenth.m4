@@ -97,13 +97,14 @@ i := _spbt
 MEM0 := 0xa7
 save MEM0
 
-# `L board
+# `L' board
 i := bghost0
 load MEM0
 v1 := 0
 v2 := eval(32 + 1)
 v4 := eval(32 + 25)
 v5 := 0
+v6 := 8
 :call spb
 
 # `R' board
@@ -172,10 +173,14 @@ save MEM1
 
 : _skip0_prevboard
 # pos of new sym of the prev board
-OX := X
 OY := Y
-OX += 32
 OY -= 32
+OY >>= OY
+OX := OY
+OY >>= OY
+OY += OX
+OX := X
+OX += 32
 
 i := main_regs
 save Z
@@ -189,8 +194,9 @@ i := bghost0
 load MEM0
 v1 := 32
 v2 := 0
-v4 := 24
+v4 := 18
 v5 := 0
+v6 := 6
 :call spb
 
 # `R' prevboard
@@ -457,10 +463,10 @@ v0 += 8
 jump _resetp
 
 : _resetph
-if v1 == 24
+if v1 == 18
 then return
 
-v1 += 8
+v1 += 6
 jump _resetpv
 
 : urand

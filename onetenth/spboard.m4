@@ -32,7 +32,7 @@ v5 += 1
 if v2 == v4
 then jump _spbs
 
-v2 += 8
+v2 += v6
 jump _spbl
 
 : _spbs
