@@ -68,6 +68,10 @@ sprite v4 v0 15
 sprite v6 v0 15
 sprite v5 v2 15
 sprite v7 v2 15
+sprite v4 v4 15
+sprite v6 v4 15
+sprite v5 v6 15
+sprite v7 v6 15
 
 #v0 += 1
 #v1 += 1
@@ -77,14 +81,14 @@ sprite v7 v2 15
 #v5 -= 1
 #v6 -= 1
 #v7 -= 1
-#v4 += 1
-#v5 += 1
-#v6 += 1
-#v7 += 1
-#v4 += 1
-#v5 += 1
-#v6 += 1
-#v7 += 1
+v4 += 1
+v5 += 1
+v6 += 1
+v7 += 1
+v4 += 1
+v5 += 1
+v6 += 1
+v7 += 1
 i := sp
 va := 0
 
