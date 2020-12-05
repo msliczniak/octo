@@ -195,10 +195,9 @@ dnl save v0
 i := 0xac
 save v0
 
-# don't wait for VBLANK in BXYN, replace IDLE with nop
-# this can cause a slight visual disturbance as columns are momentarily
-# shifted up slightly
-v0 := 0xc4  # CONT, 3 cycles
+# don't wait for VBLANK in BXYN, replace IDLE with SEP R3
+# (P = 3 in interpreter anyway)
+v0 := 0xd3 # 2 cycles
 i := 0x25a
 save v0
 
