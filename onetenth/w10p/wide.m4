@@ -70,7 +70,7 @@ ifelse(I, 1, `dnl
 ')dnl I == 1
 divert(decr(divnum))dnl
 ')dnl N
-==> 0b.pbm.txt <==
+dnl ==> 0b.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 28)dnl
 pushdef(`L1', 0)pushdef(`R1', 62)dnl
 pushdef(`L2', 0)pushdef(`R2', 54)dnl
@@ -80,7 +80,7 @@ pushdef(`L5', 0)pushdef(`R5', 62)dnl
 pushdef(`L6', 0)pushdef(`R6', 28)dnl
 :byte 2 NI
 
-==> 0-1r.pbm.txt <==
+dnl ==> 0-1r.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 8)dnl
 pushdef(`L1', 0)pushdef(`R1', 56)dnl
 pushdef(`L2', 0)pushdef(`R2', 8)dnl
@@ -91,7 +91,7 @@ pushdef(`L6', 0)pushdef(`R6', 62)dnl
 :byte 2 NI
 
 popdef(`N')dnl
-==> 1-2i.pbm.txt <==
+dnl ==> 1-2i.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 12)dnl
 pushdef(`L1', 0)pushdef(`R1', 18)dnl
 pushdef(`L2', 0)pushdef(`R2', 4)dnl
@@ -101,7 +101,7 @@ pushdef(`L5', 0)pushdef(`R5', 32)dnl
 pushdef(`L6', 0)pushdef(`R6', 124)dnl
 :byte 2 NI
 
-==> 2-4b.pbm.txt <==
+dnl ==> 2-4b.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 56)dnl
 pushdef(`L1', 0)pushdef(`R1', 112)dnl
 pushdef(`L2', 0)pushdef(`R2', 224)dnl
@@ -111,7 +111,7 @@ pushdef(`L5', 1)pushdef(`R5', 254)dnl
 pushdef(`L6', 0)pushdef(`R6', 12)dnl
 :byte 2 NI
 
-==> 3-8r.pbm.txt <==
+dnl ==> 3-8r.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 28)dnl
 pushdef(`L1', 0)pushdef(`R1', 34)dnl
 pushdef(`L2', 0)pushdef(`R2', 34)dnl
@@ -121,7 +121,7 @@ pushdef(`L5', 0)pushdef(`R5', 34)dnl
 pushdef(`L6', 0)pushdef(`R6', 28)dnl
 :byte 2 NI
 
-==> 4-16i.pbm.txt <==
+dnl ==> 4-16i.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 70)dnl
 pushdef(`L1', 1)pushdef(`R1', 200)dnl
 pushdef(`L2', 0)pushdef(`R2', 80)dnl
@@ -131,7 +131,7 @@ pushdef(`L5', 1)pushdef(`R5', 36)dnl
 pushdef(`L6', 7)pushdef(`R6', 152)dnl
 :byte 2 NI
 
-==> 5-32b.pbm.txt <==
+dnl ==> 5-32b.pbm.txt <==
 pushdef(`L0', 30)pushdef(`R0', 60)dnl
 pushdef(`L1', 63)pushdef(`R1', 126)dnl
 pushdef(`L2', 3)pushdef(`R2', 14)dnl
@@ -141,7 +141,7 @@ pushdef(`L5', 63)pushdef(`R5', 112)dnl
 pushdef(`L6', 30)pushdef(`R6', 126)dnl
 :byte 2 NI
 
-==> 6-64r.pbm.txt <==
+dnl ==> 6-64r.pbm.txt <==
 pushdef(`L0', 3)pushdef(`R0', 4)dnl
 pushdef(`L1', 4)pushdef(`R1', 8)dnl
 pushdef(`L2', 4)pushdef(`R2', 16)dnl
@@ -151,7 +151,7 @@ pushdef(`L5', 4)pushdef(`R5', 132)dnl
 pushdef(`L6', 3)pushdef(`R6', 4)dnl
 :byte 2 NI
 
-==> 7-128i.pbm.txt <==
+dnl ==> 7-128i.pbm.txt <==
 pushdef(`L0', 9)pushdef(`R0', 140)dnl
 pushdef(`L1', 58)pushdef(`R1', 82)dnl
 pushdef(`L2', 8)pushdef(`R2', 82)dnl
@@ -161,7 +161,7 @@ pushdef(`L5', 34)pushdef(`R5', 36)dnl
 pushdef(`L6', 247)pushdef(`R6', 152)dnl
 :byte 2 NI
 
-==> 8-256b.pbm.txt <==
+dnl ==> 8-256b.pbm.txt <==
 pushdef(`L0', 227)pushdef(`R0', 142)dnl
 pushdef(`L1', 247)pushdef(`R1', 158)dnl
 pushdef(`L2', 54)pushdef(`R2', 56)dnl
@@ -171,7 +171,7 @@ pushdef(`L5', 193)pushdef(`R5', 182)dnl
 pushdef(`L6', 247)pushdef(`R6', 158)dnl
 :byte 2 NI
 
-==> 9-512r.pbm.txt <==
+dnl ==> 9-512r.pbm.txt <==
 pushdef(`L0', 56)pushdef(`R0', 140)dnl
 pushdef(`L1', 67)pushdef(`R1', 146)dnl
 pushdef(`L2', 112)pushdef(`R2', 130)dnl
@@ -181,7 +181,7 @@ pushdef(`L5', 72)pushdef(`R5', 144)dnl
 pushdef(`L6', 51)pushdef(`R6', 222)dnl
 :byte 2 NI
 
-==> a-1ki.pbm.txt <==
+dnl ==> a-1ki.pbm.txt <==
 pushdef(`L0', 0)pushdef(`R0', 82)dnl
 pushdef(`L1', 1)pushdef(`R1', 212)dnl
 pushdef(`L2', 0)pushdef(`R2', 88)dnl
@@ -191,7 +191,7 @@ pushdef(`L5', 1)pushdef(`R5', 36)dnl
 pushdef(`L6', 7)pushdef(`R6', 164)dnl
 :byte 2 NI
 
-==> b-2kb.pbm.txt <==
+dnl ==> b-2kb.pbm.txt <==
 pushdef(`L0', 15)pushdef(`R0', 50)dnl
 pushdef(`L1', 31)pushdef(`R1', 182)dnl
 pushdef(`L2', 3)pushdef(`R2', 188)dnl
@@ -201,7 +201,7 @@ pushdef(`L5', 28)pushdef(`R5', 54)dnl
 pushdef(`L6', 31)pushdef(`R6', 182)dnl
 :byte 2 NI
 
-==> c-4kr.pbm.txt <==
+dnl ==> c-4kr.pbm.txt <==
 pushdef(`L0', 1)pushdef(`R0', 34)dnl
 pushdef(`L1', 2)pushdef(`R1', 36)dnl
 pushdef(`L2', 4)pushdef(`R2', 40)dnl
@@ -211,7 +211,7 @@ pushdef(`L5', 1)pushdef(`R5', 36)dnl
 pushdef(`L6', 1)pushdef(`R6', 34)dnl
 :byte 2 NI
 
-==> d-8ki.pbm.txt <==
+dnl ==> d-8ki.pbm.txt <==
 pushdef(`L0', 1)pushdef(`R0', 146)dnl
 pushdef(`L1', 2)pushdef(`R1', 84)dnl
 pushdef(`L2', 2)pushdef(`R2', 88)dnl
@@ -221,7 +221,7 @@ pushdef(`L5', 4)pushdef(`R5', 164)dnl
 pushdef(`L6', 3)pushdef(`R6', 36)dnl
 :byte 2 NI
 
-==> e-16kb.pbm.txt <==
+dnl ==> e-16kb.pbm.txt <==
 pushdef(`L0', 99)pushdef(`R0', 178)dnl
 pushdef(`L1', 231)pushdef(`R1', 182)dnl
 pushdef(`L2', 238)pushdef(`R2', 60)dnl
@@ -233,7 +233,7 @@ pushdef(`L6', 247)pushdef(`R6', 182)dnl
 
 pushdef(`N', `: hisym0 #
 ')dnl N
-==> f-32kr.pbm.txt <==
+dnl ==> f-32kr.pbm.txt <==
 pushdef(`L0', 99)pushdef(`R0', 34)dnl
 pushdef(`L1', 148)pushdef(`R1', 164)dnl
 pushdef(`L2', 16)pushdef(`R2', 168)dnl
@@ -243,7 +243,7 @@ pushdef(`L5', 148)pushdef(`R5', 36)dnl
 pushdef(`L6', 103)pushdef(`R6', 162)dnl
 :byte 2 NI
 
-==> g-64ki.pbm.txt <==
+dnl ==> g-64ki.pbm.txt <==
 popdef(`N')
 pushdef(`L0', 24)pushdef(`R0', 210)dnl
 pushdef(`L1', 33)pushdef(`R1', 20)dnl
