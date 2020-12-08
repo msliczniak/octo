@@ -1,303 +1,569 @@
-==> 0-1r.pbm.txt <==
-0
-8
-0
-56
-0
-8
-0
-8
-0
-8
-0
-8
-0
-62
+dnl ==> spi.pbm.txt <==
+pushdef(`L0', 63)
+pushdef(`R0', 254)
+pushdef(`L1', 63)
+pushdef(`R1', 254)
+pushdef(`L2', 127)
+pushdef(`R2', 254)
+pushdef(`L3', 127)
+pushdef(`R3', 252)
+pushdef(`L4', 255)
+pushdef(`R4', 252)
+pushdef(`L5', 255)
+pushdef(`R5', 248)
+pushdef(`L6', 255)
+pushdef(`R6', 248)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 0b.pbm.txt <==
-0
-28
-0
-62
-0
-54
-0
-54
-0
-54
-0
-62
-0
-28
+dnl ==> 0b.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 28)
+pushdef(`L1', 0)
+pushdef(`R1', 62)
+pushdef(`L2', 0)
+pushdef(`R2', 54)
+pushdef(`L3', 0)
+pushdef(`R3', 54)
+pushdef(`L4', 0)
+pushdef(`R4', 54)
+pushdef(`L5', 0)
+pushdef(`R5', 62)
+pushdef(`L6', 0)
+pushdef(`R6', 28)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 1-2i.pbm.txt <==
-0
-12
-0
-18
-0
-4
-0
-8
-0
-16
-0
-32
-0
-124
+dnl ==> 0-1r.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 8)
+pushdef(`L1', 0)
+pushdef(`R1', 56)
+pushdef(`L2', 0)
+pushdef(`R2', 8)
+pushdef(`L3', 0)
+pushdef(`R3', 8)
+pushdef(`L4', 0)
+pushdef(`R4', 8)
+pushdef(`L5', 0)
+pushdef(`R5', 8)
+pushdef(`L6', 0)
+pushdef(`R6', 62)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 2-4b.pbm.txt <==
-0
-56
-0
-112
-0
-224
-1
-204
-1
-254
-1
-254
-0
-12
+dnl ==> 1-2i.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 12)
+pushdef(`L1', 0)
+pushdef(`R1', 18)
+pushdef(`L2', 0)
+pushdef(`R2', 4)
+pushdef(`L3', 0)
+pushdef(`R3', 8)
+pushdef(`L4', 0)
+pushdef(`R4', 16)
+pushdef(`L5', 0)
+pushdef(`R5', 32)
+pushdef(`L6', 0)
+pushdef(`R6', 124)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 3-8r.pbm.txt <==
-0
-28
-0
-34
-0
-34
-0
-28
-0
-34
-0
-34
-0
-28
+dnl ==> 2-4b.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 56)
+pushdef(`L1', 0)
+pushdef(`R1', 112)
+pushdef(`L2', 0)
+pushdef(`R2', 224)
+pushdef(`L3', 1)
+pushdef(`R3', 204)
+pushdef(`L4', 1)
+pushdef(`R4', 254)
+pushdef(`L5', 1)
+pushdef(`R5', 254)
+pushdef(`L6', 0)
+pushdef(`R6', 12)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 4-16i.pbm.txt <==
-0
-70
-1
-200
-0
-80
-0
-152
-0
-164
-1
-36
-7
-152
+dnl ==> 3-8r.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 28)
+pushdef(`L1', 0)
+pushdef(`R1', 34)
+pushdef(`L2', 0)
+pushdef(`R2', 34)
+pushdef(`L3', 0)
+pushdef(`R3', 28)
+pushdef(`L4', 0)
+pushdef(`R4', 34)
+pushdef(`L5', 0)
+pushdef(`R5', 34)
+pushdef(`L6', 0)
+pushdef(`R6', 28)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 5-32b.pbm.txt <==
-30
-60
-63
-126
-3
-14
-14
-28
-3
-56
-63
-112
-30
-126
+dnl ==> 4-16i.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 70)
+pushdef(`L1', 1)
+pushdef(`R1', 200)
+pushdef(`L2', 0)
+pushdef(`R2', 80)
+pushdef(`L3', 0)
+pushdef(`R3', 152)
+pushdef(`L4', 0)
+pushdef(`R4', 164)
+pushdef(`L5', 1)
+pushdef(`R5', 36)
+pushdef(`L6', 7)
+pushdef(`R6', 152)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 6-64r.pbm.txt <==
-3
-4
-4
-8
-4
-16
-7
-36
-4
-190
-4
-132
-3
-4
+dnl ==> 5-32b.pbm.txt <==
+pushdef(`L0', 30)
+pushdef(`R0', 60)
+pushdef(`L1', 63)
+pushdef(`R1', 126)
+pushdef(`L2', 3)
+pushdef(`R2', 14)
+pushdef(`L3', 14)
+pushdef(`R3', 28)
+pushdef(`L4', 3)
+pushdef(`R4', 56)
+pushdef(`L5', 63)
+pushdef(`R5', 112)
+pushdef(`L6', 30)
+pushdef(`R6', 126)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 7-128i.pbm.txt <==
-9
-140
-58
-82
-8
-82
-16
-156
-17
-36
-34
-36
-247
-152
+dnl ==> 6-64r.pbm.txt <==
+pushdef(`L0', 3)
+pushdef(`R0', 4)
+pushdef(`L1', 4)
+pushdef(`R1', 8)
+pushdef(`L2', 4)
+pushdef(`R2', 16)
+pushdef(`L3', 7)
+pushdef(`R3', 36)
+pushdef(`L4', 4)
+pushdef(`R4', 190)
+pushdef(`L5', 4)
+pushdef(`R5', 132)
+pushdef(`L6', 3)
+pushdef(`R6', 4)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 8-256b.pbm.txt <==
-227
-142
-247
-158
-54
-56
-119
-190
-231
-182
-193
-182
-247
-158
+dnl ==> 7-128i.pbm.txt <==
+pushdef(`L0', 9)
+pushdef(`R0', 140)
+pushdef(`L1', 58)
+pushdef(`R1', 82)
+pushdef(`L2', 8)
+pushdef(`R2', 82)
+pushdef(`L3', 16)
+pushdef(`R3', 156)
+pushdef(`L4', 17)
+pushdef(`R4', 36)
+pushdef(`L5', 34)
+pushdef(`R5', 36)
+pushdef(`L6', 247)
+pushdef(`R6', 152)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> 9-512r.pbm.txt <==
-56
-140
-67
-146
-112
-130
-8
-132
-8
-136
-72
-144
-51
-222
+dnl ==> 8-256b.pbm.txt <==
+pushdef(`L0', 227)
+pushdef(`R0', 142)
+pushdef(`L1', 247)
+pushdef(`R1', 158)
+pushdef(`L2', 54)
+pushdef(`R2', 56)
+pushdef(`L3', 119)
+pushdef(`R3', 190)
+pushdef(`L4', 231)
+pushdef(`R4', 182)
+pushdef(`L5', 193)
+pushdef(`R5', 182)
+pushdef(`L6', 247)
+pushdef(`R6', 158)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> a-1ki.pbm.txt <==
-0
-82
-1
-212
-0
-88
-0
-144
-0
-168
-1
-36
-7
-164
+dnl ==> 9-512r.pbm.txt <==
+pushdef(`L0', 56)
+pushdef(`R0', 140)
+pushdef(`L1', 67)
+pushdef(`R1', 146)
+pushdef(`L2', 112)
+pushdef(`R2', 130)
+pushdef(`L3', 8)
+pushdef(`R3', 132)
+pushdef(`L4', 8)
+pushdef(`R4', 136)
+pushdef(`L5', 72)
+pushdef(`R5', 144)
+pushdef(`L6', 51)
+pushdef(`R6', 222)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> b-2kb.pbm.txt <==
-15
-50
-31
-182
-3
-188
-7
-56
-14
-60
-28
-54
-31
-182
+dnl ==> a-1ki.pbm.txt <==
+pushdef(`L0', 0)
+pushdef(`R0', 82)
+pushdef(`L1', 1)
+pushdef(`R1', 212)
+pushdef(`L2', 0)
+pushdef(`R2', 88)
+pushdef(`L3', 0)
+pushdef(`R3', 144)
+pushdef(`L4', 0)
+pushdef(`R4', 168)
+pushdef(`L5', 1)
+pushdef(`R5', 36)
+pushdef(`L6', 7)
+pushdef(`R6', 164)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> c-4kr.pbm.txt <==
-1
-34
-2
-36
-4
-40
-9
-48
-15
-168
-1
-36
-1
-34
+dnl ==> b-2kb.pbm.txt <==
+pushdef(`L0', 15)
+pushdef(`R0', 50)
+pushdef(`L1', 31)
+pushdef(`R1', 182)
+pushdef(`L2', 3)
+pushdef(`R2', 188)
+pushdef(`L3', 7)
+pushdef(`R3', 56)
+pushdef(`L4', 14)
+pushdef(`R4', 60)
+pushdef(`L5', 28)
+pushdef(`R5', 54)
+pushdef(`L6', 31)
+pushdef(`R6', 182)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> d-8ki.pbm.txt <==
-1
-146
-2
-84
-2
-88
-3
-144
-4
-168
-4
-164
-3
-36
+dnl ==> c-4kr.pbm.txt <==
+pushdef(`L0', 1)
+pushdef(`R0', 34)
+pushdef(`L1', 2)
+pushdef(`R1', 36)
+pushdef(`L2', 4)
+pushdef(`R2', 40)
+pushdef(`L3', 9)
+pushdef(`R3', 48)
+pushdef(`L4', 15)
+pushdef(`R4', 168)
+pushdef(`L5', 1)
+pushdef(`R5', 36)
+pushdef(`L6', 1)
+pushdef(`R6', 34)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> e-16kb.pbm.txt <==
-99
-178
-231
-182
-238
-60
-111
-184
-109
-188
-109
-182
-247
-182
+dnl ==> d-8ki.pbm.txt <==
+pushdef(`L0', 1)
+pushdef(`R0', 146)
+pushdef(`L1', 2)
+pushdef(`R1', 84)
+pushdef(`L2', 2)
+pushdef(`R2', 88)
+pushdef(`L3', 3)
+pushdef(`R3', 144)
+pushdef(`L4', 4)
+pushdef(`R4', 168)
+pushdef(`L5', 4)
+pushdef(`R5', 164)
+pushdef(`L6', 3)
+pushdef(`R6', 36)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> f-32kr.pbm.txt <==
-99
-34
-148
-164
-16
-168
-33
-48
-18
-40
-148
-36
-103
-162
+dnl ==> e-16kb.pbm.txt <==
+pushdef(`L0', 99)
+pushdef(`R0', 178)
+pushdef(`L1', 231)
+pushdef(`R1', 182)
+pushdef(`L2', 238)
+pushdef(`R2', 60)
+pushdef(`L3', 111)
+pushdef(`R3', 184)
+pushdef(`L4', 109)
+pushdef(`R4', 188)
+pushdef(`L5', 109)
+pushdef(`R5', 182)
+pushdef(`L6', 247)
+pushdef(`R6', 182)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> g-64ki.pbm.txt <==
-24
-210
-33
-20
-66
-24
-100
-144
-151
-168
-145
-36
-97
-36
+dnl ==> f-32kr.pbm.txt <==
+pushdef(`L0', 99)
+pushdef(`R0', 34)
+pushdef(`L1', 148)
+pushdef(`R1', 164)
+pushdef(`L2', 16)
+pushdef(`R2', 168)
+pushdef(`L3', 33)
+pushdef(`R3', 48)
+pushdef(`L4', 18)
+pushdef(`R4', 40)
+pushdef(`L5', 148)
+pushdef(`R5', 36)
+pushdef(`L6', 103)
+pushdef(`R6', 162)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')
 
-==> spi.pbm.txt <==
-63
-254
-63
-254
-127
-254
-127
-252
-255
-252
-255
-248
-255
-248
+dnl ==> g-64ki.pbm.txt <==
+pushdef(`L0', 24)
+pushdef(`R0', 210)
+pushdef(`L1', 33)
+pushdef(`R1', 20)
+pushdef(`L2', 66)
+pushdef(`R2', 24)
+pushdef(`L3', 100)
+pushdef(`R3', 144)
+pushdef(`L4', 151)
+pushdef(`R4', 168)
+pushdef(`L5', 145)
+pushdef(`R5', 36)
+pushdef(`L6', 97)
+pushdef(`R6', 36)
+popdef(`L0')
+popdef(`R0')
+popdef(`L1')
+popdef(`R1')
+popdef(`L2')
+popdef(`R2')
+popdef(`L3')
+popdef(`R3')
+popdef(`L4')
+popdef(`R4')
+popdef(`L5')
+popdef(`R5')
+popdef(`L6')
+popdef(`R6')

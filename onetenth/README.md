@@ -52,4 +52,4 @@ $ open -a vlc out.mp4
 H.264
 $ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 1 -f m4v -y -movflags faststart /dev/null
 $ ffmpeg -hide_banner -i out.mp4 -an -sn -map_metadata -1 -pix_fmt yuv420p -dst_range 1 -color_range 2 -c:v libx264 -b:v 56k -pass 2 -y -movflags faststart out.m4v
-$ rm -f ffmpeg2pass-0.log
+$ rm -f ffmpeg2pass-0.log ffmpeg2pass-0.log.mbtree
