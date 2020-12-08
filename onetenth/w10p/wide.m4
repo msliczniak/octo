@@ -231,7 +231,7 @@ pushdef(`L5', 109)pushdef(`R5', 182)dnl
 pushdef(`L6', 247)pushdef(`R6', 182)dnl
 :byte 2 NI
 
-pushdef(`N', `: hisym0
+pushdef(`N', `: hisym0 #
 ')dnl N
 ==> f-32kr.pbm.txt <==
 pushdef(`L0', 99)pushdef(`R0', 34)dnl
