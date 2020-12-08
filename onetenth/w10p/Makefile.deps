@@ -1,0 +1,29 @@
+LANG = C
+
+D = ./deps.sh   # dependency generator
+PP = ./pp.awk   # pre-processor
+MP = m4         # macro processor
+
+MPFLAGS =
+
+# GNU make stupidity
+.SECONDARY :
+.SUFFIXES :
+% : %.8o
+% : %.m
+% : %.deps
+% : %.m4
+
+.SUFFIXES : .8o .m .deps .m4
+
+.m.8o :
+	$(MP) $(MPFLAGS) $< >$@
+
+.m4.deps :
+	MAKE="$(MAKE)" MFLAGS="$(MFLAGS)" $(D) $* >$@
+
+.m4.m :
+	$(PP) <$< >$@
+
+# help-out github
+# vim: set filetype=make: #modeline
