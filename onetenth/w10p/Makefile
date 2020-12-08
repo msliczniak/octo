@@ -1,13 +1,13 @@
 LANG = C
 
-NAME = onetenth
+NAME = wslidy
 
 all : ${NAME}.8o
 
-ID = ./ideps.sh         # list implicit dependencies
-AS = ../Octo/octo       # assembler
+ID = ../ideps.sh        # list implicit dependencies
+AS = ../../Octo/octo    # assembler
 CB = /usr/bin/pbcopy    # cut buffer
-DD = ./dd256.sh
+DD = ../dd256.sh
 RM = /bin/rm -f
 
 # GNU make stupidity
@@ -49,7 +49,7 @@ force :
 	$(DD) 1 $< $@
 
 .c8x.hex :
-	./hex.sh $< >$@
+	../hex.sh $< >$@
 
 .c8x-eti.ch8 :
 	$(DD) 3 $< $@

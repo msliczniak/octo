@@ -1,7 +1,7 @@
 LANG = C
 
-D = ./deps.sh   # dependency generator
-PP = ./pp.awk   # pre-processor
+D = ../deps.sh  # dependency generator
+PP = ../pp.awk  # pre-processor
 MP = m4         # macro processor
 
 MPFLAGS =
