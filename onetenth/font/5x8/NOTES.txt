@@ -1,1 +1,0 @@
-$ for i in ?-*.pbm; do awk 'BEGIN{print "ibase=2"}NR==10{exit}NR<3{next}{print $1 $2 $3 $4 $5 $6 $7 $8; print $9 $10 $11 $12 $13 $14 $15 $16}' $i | bc >"$i".txt; done
