@@ -445,10 +445,7 @@ v1 := 32
 v0 := 0
 
 : _resetb
-sprite v0 v1 4
-v1 += 4
-sprite v0 v1 3
-v1 -= 4
+sprite v0 v1 7
 if v0 == 24
 then jump _resetbh
 

@@ -90,13 +90,15 @@ ifelse(`$1', `0', `', `dnl
  if R$1 != _CC(`R', incr($1))
  then jump _MERGE,incr($1),incr($2)
 
+ifdef(`DOSCORE', `dnl
  MEM0 := 15
  MEM0 &= R$1
  i := _divt
  i += MEM0
  load MEM0
  SCORE += MEM0
- R$1 += 11
+')dnl DOSCORE
+ R$1 += SI
 ifelse(`$1', `$2', `', `R$2 := R$1')
 
  GT(R$1, MAXSYM)
