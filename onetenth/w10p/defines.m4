@@ -1,6 +1,7 @@
 # defines.m4
 
-ifdef(`_DEBUG', `', `define(`return', `:byte 0 240')')dnl
+define(`TWOPAGE')
+ifdef(`TWOPAGE', `define(`return', `:byte 0 240')')dnl
 
 changequote(<!,!>)dnl
 <!:stringmode safe " !\"#$%&'()*+,-./0123456789:;<=>?" { :byte { CHAR } }!> #

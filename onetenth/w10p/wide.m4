@@ -43,7 +43,9 @@ pushdef(`L3', 127)pushdef(`R3', 252)dnl
 pushdef(`L4', 255)pushdef(`R4', 252)dnl
 pushdef(`L5', 255)pushdef(`R5', 248)dnl
 pushdef(`L6', 255)pushdef(`R6', 248)dnl
-:byte 2 NI
+:byte 2
+: hsym0
+NI
 
 pushdef(`N', `dnl
 divert(incr(divnum))dnl

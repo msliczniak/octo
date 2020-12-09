@@ -93,9 +93,11 @@ M := MEM0
 : short_circuit
 :call transform
 
+ifdef(`DOPREVBOARD', `dnl
 i := _spbt
 MEM0 := 0xa7
 save MEM0
+')dnl DOPREVBOARD
 
 # `L' board
 i := bghost0
@@ -185,6 +187,7 @@ OX += 32
 i := main_regs
 save Z
 
+ifdef(`DOPREVBOARD', `dnl
 i := _spbt
 MEM0 := 0xac
 save MEM0
@@ -208,6 +211,7 @@ v1 := 48
 v2 := 0
 v5 := 8
 :call spb
+')dnl DOPREVBOARD
 
 : skip0_prevboard
 # tuck-away board
@@ -219,8 +223,14 @@ save vf
 # rot/flip board so pieces fall down
 :call transform
 
-MAXSYM := 8
+ifdef(`DOMAXSYM', `dnl
+MAXSYM := SI
+')dnl DOMAXSYM
+
+ifdef(`DOSCORE', `dnl
 SCORE := 0
+')dnl DOSCORE
+
 MASK := 0xf
 
 dnl might have been trivial transform so load always
@@ -262,6 +272,7 @@ GHOST1 |= GHOST
 i := board3
 save SCORE dnl GHOSTs saved in _tgret
 
+ifdef(`DOSCORE', `dnl
 dnl draw score
 i := char0
 v0 := SCORE
@@ -274,14 +285,17 @@ i += v0
 v3 := 56
 v4 := 58
 sprite v3 v4 5
+')dnl DOSCORE
 
 i := main_regs
 load Z
 
+ifdef(`DOPREVBOARD', `dnl
 # new sym of prev board
 i := sym0
 i += M
 sprite OX OY 5
+')dnl DOPREVBOARD
 
 dnl if nothing shifted or merged, then don't add a random new sym
 MASK := GHOST0
@@ -443,11 +457,16 @@ jump _resetb
 
 : _resetbh
 if v1 == 56
+ifdef(`DOPREVBOARD', `dnl
 then jump _resetbe
+', `dnl else DOPREVBOARD
+then return
+')dnl DOPREVBOARD
 
 v1 += 8
 jump _resetbv
 
+ifdef(`DOPREVBOARD', `dnl
 : _resetbe
 i := sym0
 v1 := 0
@@ -471,6 +490,7 @@ then return
 #v1 += 6
 v1 += 8
 jump _resetpv
+')dnl DOPREVBOARD
 
 : urand
 i := _urandt
