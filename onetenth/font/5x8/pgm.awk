@@ -25,6 +25,7 @@ BEGIN {
 	C0["h"] = 1; C1["h"] = 0    # 7   32K = 2^15  r
 	C0["i"] = 2; C1["i"] = 0    # 1   64K = 2^16  i
 	C0["j"] = 3; C1["j"] = 0    #   | 128K = 2^17 r
+	c = 3
 }
 
 NR == 1 { c1 = substr(f, 1, 1); c0 = C0[c1]; sub(/1/,"2"); print >f; next }
@@ -33,7 +34,8 @@ NR == 2 { c1 = C1[c1]; sub(/5/,"6"); sub(/8/,"10"); print >f; print 3 >f; next }
 
 {
 	for (i = 1; i <= NF; i++) printf("%d ", ($i) ? c1 : c0) >f
-	print c0, 3 >f
+	print c, 3 >f
+	c = c0
 }
 
 END { print 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 >f }
