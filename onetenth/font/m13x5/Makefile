@@ -33,10 +33,11 @@ montage.png : ${GIFS} Makefile
 	montage $(GIFS) -geometry +0+0 -tile 4x montage.png
 
 .pbm.gif :
-	convert -size 16x8 xc:white -fill white -stroke black \
-          -draw 'polyline 0,7 15,7 15,0' \
-          $< -geometry -1-1 -gravity center -strip \
-	  -composite -negate $@
+	convert -size 15x7 xc:white $< -flop \
+	  -gravity center -composite \
+	  -flop \
+	  -gravity northwest -background black -extent 16x8 \
+	  -negate -strip $@
 
 clean :
 	$(RM) $(TGTS) $(GIFS)
