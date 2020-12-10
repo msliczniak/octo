@@ -16,6 +16,6 @@ convert "$1" -crop 16x5+0+1 -compress none pbm:- | \
 }
 
 END {
-	print "N"
+	print "NI"
 	print ""
 }'
