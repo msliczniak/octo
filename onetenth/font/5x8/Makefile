@@ -36,6 +36,7 @@ OBJS =  ${PGMS} ${GIFS} ${TXTS} ${RTXTS}
 
 FONT =  ./font.sh
 PGM =   ./pgm.awk
+PLANE = ./plane.awk
 CAT =   /bin/cat
 RM =    /bin/rm -f
 
@@ -58,6 +59,8 @@ force :
 
 ${OBJS} : Makefile
 
+${RTXTS} : ${PLANE}
+
 ${TXTS} : ${FONT}
 
 ${PGMS} : ${PGM}
@@ -66,7 +69,7 @@ ${NAME}-r.txt : ${RTXTS}
 	$(CAT) $(RTXTS) >$@
 
 .pgm-r.txt :
-	$(CAT) $< >$@
+	$(PLANE) f=$@ $<
 
 ${NAME}-r.png : ${PGMS}
 	montage $(PGMS) -geometry +0+0 -tile 4x -rotate 270 $@

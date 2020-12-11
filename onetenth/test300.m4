@@ -1,299 +1,337 @@
-define(`return', `:byte 0 240')dnl
+pushdef(`P00', 256)dnl
+pushdef(`P01', eval(P00 + 14))dnl
+pushdef(`P11', eval(P01 + 14))dnl
+pushdef(`P10', eval(P11 + 14))dnl
 
-:org 0x300
 : main
-:byte 0x02 0xf0   # black on black
+v1 := 0
+v2 := 0
 
-v0 := 0xec  # SEC, 2 cycles
-
-# have sprite just copy instead of xor
-i := 0xbf
+: _cl
+i := isym0
+i += v1
+load v0
+i := 0
+i += v2
 save v0
 
-dnl this second location is not needed plus it causes flicker
-dnl and a bug in the lower page display
-dnl i := 0xcf
-dnl save v0
+if v2 == 255
+then jump _ce
 
-# don't wait for VBLANK, replace IDLE with next instruction
-i := 0xac
-save v0
+v2 += 15
+v1 += 1
 
-# don't wait for VBLANK in BXYN, replace IDLE with nop
-v0 := 0xc4  # CONT, 3 cycles
-i := 0x25a
-save v0
+: _ce
 
-dnl Y in lower page forces lores color
-dnl refer to bxyn.asm
-i := 0x282
-v0 := 0xc3
-save v0
-i := 0x288
-v0 := 32
-save v0
+dnl 0-spi-r.txt
+C(P00)dnl
 
-v0 := 0xf0
-v1 := 0xf1
-v2 := 0xf2
-v3 := 0xf3
-v4 := 0xf4
-v5 := 0xf5
-v6 := 0xf6
-v7 := 0xf7
-v8 := 0xf8
-v9 := 0xf9
-va := 0xfa
-vb := 0xfb
-vc := 0xfc
-vd := 0xfd
-ve := 0xfe
-vf := 0xff
-i := 0x400
-save vf
-v0 := 0x0
-v1 := 0x1
-v2 := 0x2
-v3 := 0x3
-v4 := 0x4
-v5 := 0x5
-v6 := 0x6
-v7 := 0x7
-v8 := 0x8
-v9 := 0x9
-va := 0xa
-vb := 0xb
-vc := 0xc
-vd := 0xd
-ve := 0xe
-vf := 0xf
-save vf
+dnl 3-2i-r.txt
+C(P01)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(64)R(255)dnl
+L(96)R(255)dnl
+L(82)R(255)dnl
+L(73)R(255)dnl
+L(69)R(255)dnl
+L(2)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
 
-i := 0x16b # change load to:
-v0 := 0x4a # load advance
-save v0
+dnl 4-4b-r.txt
+C(P10)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(56)dnl
+L(255)R(60)dnl
+L(255)R(62)dnl
+L(255)R(55)dnl
+L(255)R(51)dnl
+L(255)R(121)dnl
+L(255)R(120)dnl
+L(255)R(48)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
 
-i := 0x400
-load vf
+dnl 5-8r-r.txt
+C(P00)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(54)R(0)dnl
+L(73)R(0)dnl
+L(73)R(0)dnl
+L(73)R(0)dnl
+L(54)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
 
-: forever jump forever
+dnl 6-16i-r.txt
+C(P01)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(64)R(191)dnl
+L(64)R(191)dnl
+L(98)R(157)dnl
+L(90)R(165)dnl
+L(7)R(248)dnl
+L(48)R(207)dnl
+L(76)R(179)dnl
+L(74)R(181)dnl
+L(49)R(206)dnl
+L(1)R(254)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
 
-vd :=  7    # white
-vf := 32
-ve := eval(8 * 4)
-0xbe 0xd8
-ve := eval(8 * 5)
-0xbe 0xd8
-ve := eval(8 * 6)
-0xbe 0xd8
-ve := eval(8 * 7)
-0xbe 0xd8
+dnl 7-32b-r.txt
+C(P10)dnl
+L(255)R(0)dnl
+L(221)R(34)dnl
+L(156)R(99)dnl
+L(148)R(107)dnl
+L(148)R(107)dnl
+L(128)R(127)dnl
+L(201)R(54)dnl
+L(255)R(0)dnl
+L(157)R(98)dnl
+L(140)R(115)dnl
+L(132)R(123)dnl
+L(160)R(95)dnl
+L(176)R(79)dnl
+L(185)R(70)dnl
+L(255)R(0)dnl
 
-v0 := eval(8 * 0)
-v1 := eval(8 * 1)
-v2 := eval(8 * 2)
-v3 := eval(8 * 3)
-v4 := eval(8 * 4)
-v5 := eval(8 * 5)
-v6 := eval(8 * 6)
-v7 := eval(8 * 7)
+dnl 8-64r-r.txt
+C(P00)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(0)R(62)dnl
+L(0)R(73)dnl
+L(0)R(73)dnl
+L(0)R(48)dnl
+L(0)R(0)dnl
+L(0)R(24)dnl
+L(0)R(20)dnl
+L(0)R(18)dnl
+L(0)R(121)dnl
+L(0)R(16)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
 
-i := ff15
-sprite v0 v0 15
-sprite v1 v0 15
-sprite v2 v0 15
-sprite v3 v0 15
-sprite v0 v2 15
-sprite v1 v2 15
-sprite v2 v2 15
-sprite v3 v2 15
+dnl 9-128i-r.txt
+C(P01)dnl
+L(0)R(191)dnl
+L(0)R(191)dnl
+L(0)R(157)dnl
+L(0)R(165)dnl
+L(0)R(248)dnl
+L(0)R(191)dnl
+L(0)R(157)dnl
+L(0)R(174)dnl
+L(0)R(182)dnl
+L(0)R(249)dnl
+L(0)R(207)dnl
+L(0)R(177)dnl
+L(0)R(182)dnl
+L(0)R(198)dnl
+L(0)R(249)dnl
 
-# checker
-sprite v4 v0 15
-sprite v6 v0 15
-sprite v5 v2 15
-sprite v7 v2 15
-sprite v4 v4 15
-sprite v6 v4 15
-sprite v5 v6 15
-sprite v7 v6 15
+dnl a-256b-r.txt
+C(P00)dnl
+L(115)R(0)dnl
+L(123)R(0)dnl
+L(95)R(0)dnl
+L(78)R(0)dnl
+L(0)R(0)dnl
+L(94)R(0)dnl
+L(95)R(0)dnl
+L(123)R(0)dnl
+L(123)R(0)dnl
+L(0)R(0)dnl
+L(60)R(0)dnl
+L(126)R(0)dnl
+L(79)R(0)dnl
+L(123)R(0)dnl
+L(123)R(0)dnl
 
-#v0 += 1
-#v1 += 1
-#v2 += 1
-#v3 += 1
-#v4 -= 1
-#v5 -= 1
-#v6 -= 1
-#v7 -= 1
-v4 += 1
-v5 += 1
-v6 += 1
-v7 += 1
-v4 += 1
-v5 += 1
-v6 += 1
-v7 += 1
-i := sp
-va := 0
+dnl b-512r-r.txt
+C(P01)dnl
+L(0)R(255)dnl
+L(38)R(217)dnl
+L(69)R(186)dnl
+L(69)R(186)dnl
+L(57)R(198)dnl
+L(0)R(255)dnl
+L(66)R(189)dnl
+L(66)R(189)dnl
+L(127)R(128)dnl
+L(64)R(191)dnl
+L(0)R(255)dnl
+L(98)R(157)dnl
+L(81)R(174)dnl
+L(73)R(182)dnl
+L(70)R(185)dnl
 
-: _mainl
-v8 := 255
-delay := v8
+dnl c-1ki-r.txt
+C(P10)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(64)dnl
+L(255)R(64)dnl
+L(255)R(98)dnl
+L(255)R(90)dnl
+L(255)R(7)dnl
+L(255)R(112)dnl
+L(255)R(15)dnl
+L(255)R(20)dnl
+L(255)R(98)dnl
+L(255)R(1)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
 
-: _timel
-v8 := delay
-if v8 == 253
-then jump _timel
+dnl d-2kb-r.txt
+C(P00)dnl
+L(0)R(0)dnl
+L(0)R(0)dnl
+L(98)R(98)dnl
+L(115)R(115)dnl
+L(123)R(123)dnl
+L(95)R(95)dnl
+L(79)R(79)dnl
+L(70)R(70)dnl
+L(0)R(0)dnl
+L(127)R(127)dnl
+L(127)R(127)dnl
+L(28)R(28)dnl
+L(118)R(118)dnl
+L(99)R(99)dnl
+L(0)R(0)dnl
 
-vd :=  0    # black
-ve := eval(8 * 0)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 1)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 2)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 3)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
+dnl e-4kr-r.txt
+C(P01)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
+L(24)R(255)dnl
+L(20)R(255)dnl
+L(18)R(255)dnl
+L(121)R(255)dnl
+L(16)R(255)dnl
+L(0)R(255)dnl
+L(127)R(255)dnl
+L(8)R(255)dnl
+L(20)R(255)dnl
+L(34)R(255)dnl
+L(65)R(255)dnl
+L(0)R(255)dnl
+L(0)R(255)dnl
 
-sprite v0 v0 7
-sprite v1 v0 7
-sprite v2 v0 7
-sprite v3 v0 7
-sprite v0 v1 7
-sprite v1 v1 7
-sprite v2 v1 7
-sprite v3 v1 7
-sprite v0 v2 7
-sprite v1 v2 7
-sprite v2 v2 7
-sprite v3 v2 7
-sprite v0 v3 7
-sprite v1 v3 7
-sprite v2 v3 7
-sprite v3 v3 7
+dnl f-8ki-r.txt
+C(P10)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
+L(207)R(48)dnl
+L(177)R(78)dnl
+L(182)R(73)dnl
+L(198)R(57)dnl
+L(249)R(6)dnl
+L(143)R(112)dnl
+L(240)R(15)dnl
+L(235)R(20)dnl
+L(157)R(98)dnl
+L(254)R(1)dnl
+L(255)R(0)dnl
+L(255)R(0)dnl
 
-sprite v4 v4 7
-sprite v5 v4 7
-sprite v6 v4 7
-sprite v7 v4 7
-sprite v4 v5 7
-sprite v5 v5 7
-sprite v6 v5 7
-sprite v7 v5 7
-sprite v4 v6 7
-sprite v5 v6 7
-sprite v6 v6 7
-sprite v7 v6 7
-sprite v4 v7 7
-sprite v5 v7 7
-sprite v6 v7 7
-sprite v7 v7 7
+dnl g-16kb-r.txt
+C(P00)dnl
+L(0)R(70)dnl
+L(0)R(127)dnl
+L(0)R(127)dnl
+L(0)R(64)dnl
+L(0)R(60)dnl
+L(0)R(126)dnl
+L(0)R(79)dnl
+L(0)R(123)dnl
+L(0)R(123)dnl
+L(0)R(0)dnl
+L(0)R(127)dnl
+L(0)R(127)dnl
+L(0)R(28)dnl
+L(0)R(118)dnl
+L(0)R(99)dnl
 
-sprite v5 v1 7
-sprite v6 v1 7
-sprite v7 v1 7
+dnl h-32kr-r.txt
+C(P01)dnl
+L(0)R(221)dnl
+L(0)R(190)dnl
+L(0)R(182)dnl
+L(0)R(201)dnl
+L(0)R(255)dnl
+L(0)R(157)dnl
+L(0)R(174)dnl
+L(0)R(182)dnl
+L(0)R(185)dnl
+L(0)R(255)dnl
+L(0)R(128)dnl
+L(0)R(247)dnl
+L(0)R(235)dnl
+L(0)R(221)dnl
+L(0)R(190)dnl
 
-vd := 2     # blue
-ve := eval(8 * 0)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 1)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 2)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
-ve := eval(8 * 3)
-vf := 32
-0xbe 0xd2
-vf := 40
-0xbe 0xd2
-vf := 48
-0xbe 0xd2
-vf := 56
-0xbe 0xd2
+dnl i-64ki-r.txt
+C(P10)dnl
+L(207)R(0)dnl
+L(179)R(0)dnl
+L(181)R(0)dnl
+L(206)R(0)dnl
+L(254)R(0)dnl
+L(231)R(0)dnl
+L(235)R(0)dnl
+L(141)R(0)dnl
+L(230)R(0)dnl
+L(254)R(0)dnl
+L(143)R(0)dnl
+L(240)R(0)dnl
+L(235)R(0)dnl
+L(157)R(0)dnl
+L(254)R(0)dnl
 
-v8 := delay
-vf := 253
-v8 =- vf
-v9 := v8
+dnl j-128kr-r.txt
+C(P11)dnl
+L(128)R(128)dnl
+L(255)R(255)dnl
+L(142)R(142)dnl
+L(182)R(182)dnl
+L(185)R(185)dnl
+L(255)R(255)dnl
+L(201)R(201)dnl
+L(182)R(182)dnl
+L(182)R(182)dnl
+L(201)R(201)dnl
+L(255)R(255)dnl
+L(128)R(128)dnl
+L(247)R(247)dnl
+L(235)R(235)dnl
+L(156)R(156)dnl
 
-i := hex v8
-sprite v1 v7 5
-v8 >>= v8
-v8 >>= v8
-v8 >>= v8
-v8 >>= v8
-i := hex v8
-sprite v0 v7 5
-
-vd := key
-
-i := hex v9
-sprite v1 v7 5
-v9 >>= v9
-v9 >>= v9
-v9 >>= v9
-v9 >>= v9
-i := hex v9
-sprite v0 v7 5
-
-i := sp
-vf := 7
-va ^= vf
-i += va
-jump _mainl
-
-: sp
- 92 170  92 170  92 170  92
-170  92 170  92 170  92 170
-
-: ff15
-255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
+: isym0
+:byte  C0  C1  C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14
+:byte C15 C16 C17  0  0  0  0  0  0  0   0   0   0   0   0
