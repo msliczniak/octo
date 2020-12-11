@@ -21,7 +21,8 @@ NR == 1 {
 		if ($i == 3 || $i == 1) r++
 	}
 
-	printf("L(%d)R(%d)dnl\n", l, r) >f
+	i = NR - 4
+	printf("pushdef(`L%d', %d)pushdef(`R%d', %d)dnl\n", i, l, i, r) >f
 }
 
-NR == 18 { print "" >f; exit }
+NR == 18 { print "NI" >f; exit }

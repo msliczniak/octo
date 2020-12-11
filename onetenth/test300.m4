@@ -1,337 +1,396 @@
-pushdef(`P00', 256)dnl
-pushdef(`P01', eval(P00 + 14))dnl
-pushdef(`P11', eval(P01 + 14))dnl
-pushdef(`P10', eval(P11 + 14))dnl
+pushdef(`P00', `p00')dnl
+pushdef(`P01', `p01')dnl
+pushdef(`P11', `p11')dnl
+pushdef(`P10', `p10')dnl
 
 : main
-v1 := 0
-v2 := 0
+hires
+plane 3
 
-: _cl
+: _main_loop
+v1 := 104
+v2 := 32
+v3 := 0
+
+: _draw
 i := isym0
-i += v1
-load v0
-i := 0
-i += v2
-save v0
+i += v3
+i += v3
+sprite v1 v2 15
 
-if v2 == 255
-then jump _ce
+if v2 == 48
+then jump _h
 
-v2 += 15
-v1 += 1
+v2 += 16
+v3 += 15
+jump _draw
 
-: _ce
+: _h
+if v1 == 64
+then jump _w
+
+v1 -= 10
+v2 := 0
+v3 += 15
+jump _draw
+
+: _w
+v0 := key
+jump _main_loop
+
+
+: p00
+:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+: p01
+:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+: p11
+:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
+
+: p10
+:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
+:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+pushdef(`IX', `0')dnl
+
+pushdef(`C')dnl
+
+pushdef(`N', `eval($1 ^ 255)popdef($1)')dnl
+
+pushdef(`NI', `dnl
+pushdef(`I', IX)dnl
+popdef(`IX')dnl
+pushdef(`IX', incr(I))dnl
+`: isym'I
+:byte N(`L0') N(`L1') N(`L2') N(`L3') N(`L4') N(`L5') N(`L6') N(`L7') dnl
+N(`L8') N(`L9') N(`L10') N(`L11') N(`L12') N(`L13') N(`L14')
+:byte N(`R0') N(`R1') N(`R2') N(`R3') N(`R4') N(`R5') N(`R6') N(`R7') dnl
+N(`R8') N(`R9') N(`R10') N(`R11') N(`R12') N(`R13') N(`R14')
+popdef(`I')dnl
+')dnl
 
 dnl 0-spi-r.txt
 C(P00)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 0)dnl
+pushdef(`L1', 0)pushdef(`R1', 0)dnl
+pushdef(`L2', 0)pushdef(`R2', 0)dnl
+pushdef(`L3', 0)pushdef(`R3', 0)dnl
+pushdef(`L4', 0)pushdef(`R4', 0)dnl
+pushdef(`L5', 0)pushdef(`R5', 0)dnl
+pushdef(`L6', 0)pushdef(`R6', 0)dnl
+pushdef(`L7', 0)pushdef(`R7', 0)dnl
+pushdef(`L8', 0)pushdef(`R8', 0)dnl
+pushdef(`L9', 0)pushdef(`R9', 0)dnl
+pushdef(`L10', 0)pushdef(`R10', 0)dnl
+pushdef(`L11', 0)pushdef(`R11', 0)dnl
+pushdef(`L12', 0)pushdef(`R12', 0)dnl
+pushdef(`L13', 0)pushdef(`R13', 0)dnl
+pushdef(`L14', 0)pushdef(`R14', 0)dnl
+NI
 dnl 3-2i-r.txt
 C(P01)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(64)R(255)dnl
-L(96)R(255)dnl
-L(82)R(255)dnl
-L(73)R(255)dnl
-L(69)R(255)dnl
-L(2)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 255)dnl
+pushdef(`L1', 0)pushdef(`R1', 255)dnl
+pushdef(`L2', 0)pushdef(`R2', 255)dnl
+pushdef(`L3', 0)pushdef(`R3', 255)dnl
+pushdef(`L4', 0)pushdef(`R4', 255)dnl
+pushdef(`L5', 64)pushdef(`R5', 255)dnl
+pushdef(`L6', 96)pushdef(`R6', 255)dnl
+pushdef(`L7', 82)pushdef(`R7', 255)dnl
+pushdef(`L8', 73)pushdef(`R8', 255)dnl
+pushdef(`L9', 69)pushdef(`R9', 255)dnl
+pushdef(`L10', 2)pushdef(`R10', 255)dnl
+pushdef(`L11', 0)pushdef(`R11', 255)dnl
+pushdef(`L12', 0)pushdef(`R12', 255)dnl
+pushdef(`L13', 0)pushdef(`R13', 255)dnl
+pushdef(`L14', 0)pushdef(`R14', 255)dnl
+NI
 dnl 4-4b-r.txt
 C(P10)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(56)dnl
-L(255)R(60)dnl
-L(255)R(62)dnl
-L(255)R(55)dnl
-L(255)R(51)dnl
-L(255)R(121)dnl
-L(255)R(120)dnl
-L(255)R(48)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-
+pushdef(`L0', 255)pushdef(`R0', 0)dnl
+pushdef(`L1', 255)pushdef(`R1', 0)dnl
+pushdef(`L2', 255)pushdef(`R2', 0)dnl
+pushdef(`L3', 255)pushdef(`R3', 0)dnl
+pushdef(`L4', 255)pushdef(`R4', 56)dnl
+pushdef(`L5', 255)pushdef(`R5', 60)dnl
+pushdef(`L6', 255)pushdef(`R6', 62)dnl
+pushdef(`L7', 255)pushdef(`R7', 55)dnl
+pushdef(`L8', 255)pushdef(`R8', 51)dnl
+pushdef(`L9', 255)pushdef(`R9', 121)dnl
+pushdef(`L10', 255)pushdef(`R10', 120)dnl
+pushdef(`L11', 255)pushdef(`R11', 48)dnl
+pushdef(`L12', 255)pushdef(`R12', 0)dnl
+pushdef(`L13', 255)pushdef(`R13', 0)dnl
+pushdef(`L14', 255)pushdef(`R14', 0)dnl
+NI
 dnl 5-8r-r.txt
 C(P00)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(54)R(0)dnl
-L(73)R(0)dnl
-L(73)R(0)dnl
-L(73)R(0)dnl
-L(54)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 0)dnl
+pushdef(`L1', 0)pushdef(`R1', 0)dnl
+pushdef(`L2', 0)pushdef(`R2', 0)dnl
+pushdef(`L3', 0)pushdef(`R3', 0)dnl
+pushdef(`L4', 0)pushdef(`R4', 0)dnl
+pushdef(`L5', 54)pushdef(`R5', 0)dnl
+pushdef(`L6', 73)pushdef(`R6', 0)dnl
+pushdef(`L7', 73)pushdef(`R7', 0)dnl
+pushdef(`L8', 73)pushdef(`R8', 0)dnl
+pushdef(`L9', 54)pushdef(`R9', 0)dnl
+pushdef(`L10', 0)pushdef(`R10', 0)dnl
+pushdef(`L11', 0)pushdef(`R11', 0)dnl
+pushdef(`L12', 0)pushdef(`R12', 0)dnl
+pushdef(`L13', 0)pushdef(`R13', 0)dnl
+pushdef(`L14', 0)pushdef(`R14', 0)dnl
+NI
 dnl 6-16i-r.txt
 C(P01)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(64)R(191)dnl
-L(64)R(191)dnl
-L(98)R(157)dnl
-L(90)R(165)dnl
-L(7)R(248)dnl
-L(48)R(207)dnl
-L(76)R(179)dnl
-L(74)R(181)dnl
-L(49)R(206)dnl
-L(1)R(254)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 255)dnl
+pushdef(`L1', 0)pushdef(`R1', 255)dnl
+pushdef(`L2', 0)pushdef(`R2', 255)dnl
+pushdef(`L3', 64)pushdef(`R3', 191)dnl
+pushdef(`L4', 64)pushdef(`R4', 191)dnl
+pushdef(`L5', 98)pushdef(`R5', 157)dnl
+pushdef(`L6', 90)pushdef(`R6', 165)dnl
+pushdef(`L7', 7)pushdef(`R7', 248)dnl
+pushdef(`L8', 48)pushdef(`R8', 207)dnl
+pushdef(`L9', 76)pushdef(`R9', 179)dnl
+pushdef(`L10', 74)pushdef(`R10', 181)dnl
+pushdef(`L11', 49)pushdef(`R11', 206)dnl
+pushdef(`L12', 1)pushdef(`R12', 254)dnl
+pushdef(`L13', 0)pushdef(`R13', 255)dnl
+pushdef(`L14', 0)pushdef(`R14', 255)dnl
+NI
 dnl 7-32b-r.txt
 C(P10)dnl
-L(255)R(0)dnl
-L(221)R(34)dnl
-L(156)R(99)dnl
-L(148)R(107)dnl
-L(148)R(107)dnl
-L(128)R(127)dnl
-L(201)R(54)dnl
-L(255)R(0)dnl
-L(157)R(98)dnl
-L(140)R(115)dnl
-L(132)R(123)dnl
-L(160)R(95)dnl
-L(176)R(79)dnl
-L(185)R(70)dnl
-L(255)R(0)dnl
-
+pushdef(`L0', 255)pushdef(`R0', 0)dnl
+pushdef(`L1', 221)pushdef(`R1', 34)dnl
+pushdef(`L2', 156)pushdef(`R2', 99)dnl
+pushdef(`L3', 148)pushdef(`R3', 107)dnl
+pushdef(`L4', 148)pushdef(`R4', 107)dnl
+pushdef(`L5', 128)pushdef(`R5', 127)dnl
+pushdef(`L6', 201)pushdef(`R6', 54)dnl
+pushdef(`L7', 255)pushdef(`R7', 0)dnl
+pushdef(`L8', 157)pushdef(`R8', 98)dnl
+pushdef(`L9', 140)pushdef(`R9', 115)dnl
+pushdef(`L10', 132)pushdef(`R10', 123)dnl
+pushdef(`L11', 160)pushdef(`R11', 95)dnl
+pushdef(`L12', 176)pushdef(`R12', 79)dnl
+pushdef(`L13', 185)pushdef(`R13', 70)dnl
+pushdef(`L14', 255)pushdef(`R14', 0)dnl
+NI
 dnl 8-64r-r.txt
 C(P00)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(0)R(62)dnl
-L(0)R(73)dnl
-L(0)R(73)dnl
-L(0)R(48)dnl
-L(0)R(0)dnl
-L(0)R(24)dnl
-L(0)R(20)dnl
-L(0)R(18)dnl
-L(0)R(121)dnl
-L(0)R(16)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 0)dnl
+pushdef(`L1', 0)pushdef(`R1', 0)dnl
+pushdef(`L2', 0)pushdef(`R2', 0)dnl
+pushdef(`L3', 0)pushdef(`R3', 62)dnl
+pushdef(`L4', 0)pushdef(`R4', 73)dnl
+pushdef(`L5', 0)pushdef(`R5', 73)dnl
+pushdef(`L6', 0)pushdef(`R6', 48)dnl
+pushdef(`L7', 0)pushdef(`R7', 0)dnl
+pushdef(`L8', 0)pushdef(`R8', 24)dnl
+pushdef(`L9', 0)pushdef(`R9', 20)dnl
+pushdef(`L10', 0)pushdef(`R10', 18)dnl
+pushdef(`L11', 0)pushdef(`R11', 121)dnl
+pushdef(`L12', 0)pushdef(`R12', 16)dnl
+pushdef(`L13', 0)pushdef(`R13', 0)dnl
+pushdef(`L14', 0)pushdef(`R14', 0)dnl
+NI
 dnl 9-128i-r.txt
 C(P01)dnl
-L(0)R(191)dnl
-L(0)R(191)dnl
-L(0)R(157)dnl
-L(0)R(165)dnl
-L(0)R(248)dnl
-L(0)R(191)dnl
-L(0)R(157)dnl
-L(0)R(174)dnl
-L(0)R(182)dnl
-L(0)R(249)dnl
-L(0)R(207)dnl
-L(0)R(177)dnl
-L(0)R(182)dnl
-L(0)R(198)dnl
-L(0)R(249)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 191)dnl
+pushdef(`L1', 0)pushdef(`R1', 191)dnl
+pushdef(`L2', 0)pushdef(`R2', 157)dnl
+pushdef(`L3', 0)pushdef(`R3', 165)dnl
+pushdef(`L4', 0)pushdef(`R4', 248)dnl
+pushdef(`L5', 0)pushdef(`R5', 191)dnl
+pushdef(`L6', 0)pushdef(`R6', 157)dnl
+pushdef(`L7', 0)pushdef(`R7', 174)dnl
+pushdef(`L8', 0)pushdef(`R8', 182)dnl
+pushdef(`L9', 0)pushdef(`R9', 249)dnl
+pushdef(`L10', 0)pushdef(`R10', 207)dnl
+pushdef(`L11', 0)pushdef(`R11', 177)dnl
+pushdef(`L12', 0)pushdef(`R12', 182)dnl
+pushdef(`L13', 0)pushdef(`R13', 198)dnl
+pushdef(`L14', 0)pushdef(`R14', 249)dnl
+NI
 dnl a-256b-r.txt
 C(P00)dnl
-L(115)R(0)dnl
-L(123)R(0)dnl
-L(95)R(0)dnl
-L(78)R(0)dnl
-L(0)R(0)dnl
-L(94)R(0)dnl
-L(95)R(0)dnl
-L(123)R(0)dnl
-L(123)R(0)dnl
-L(0)R(0)dnl
-L(60)R(0)dnl
-L(126)R(0)dnl
-L(79)R(0)dnl
-L(123)R(0)dnl
-L(123)R(0)dnl
-
+pushdef(`L0', 115)pushdef(`R0', 0)dnl
+pushdef(`L1', 123)pushdef(`R1', 0)dnl
+pushdef(`L2', 95)pushdef(`R2', 0)dnl
+pushdef(`L3', 78)pushdef(`R3', 0)dnl
+pushdef(`L4', 0)pushdef(`R4', 0)dnl
+pushdef(`L5', 94)pushdef(`R5', 0)dnl
+pushdef(`L6', 95)pushdef(`R6', 0)dnl
+pushdef(`L7', 123)pushdef(`R7', 0)dnl
+pushdef(`L8', 123)pushdef(`R8', 0)dnl
+pushdef(`L9', 0)pushdef(`R9', 0)dnl
+pushdef(`L10', 60)pushdef(`R10', 0)dnl
+pushdef(`L11', 126)pushdef(`R11', 0)dnl
+pushdef(`L12', 79)pushdef(`R12', 0)dnl
+pushdef(`L13', 123)pushdef(`R13', 0)dnl
+pushdef(`L14', 123)pushdef(`R14', 0)dnl
+NI
 dnl b-512r-r.txt
 C(P01)dnl
-L(0)R(255)dnl
-L(38)R(217)dnl
-L(69)R(186)dnl
-L(69)R(186)dnl
-L(57)R(198)dnl
-L(0)R(255)dnl
-L(66)R(189)dnl
-L(66)R(189)dnl
-L(127)R(128)dnl
-L(64)R(191)dnl
-L(0)R(255)dnl
-L(98)R(157)dnl
-L(81)R(174)dnl
-L(73)R(182)dnl
-L(70)R(185)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 255)dnl
+pushdef(`L1', 38)pushdef(`R1', 217)dnl
+pushdef(`L2', 69)pushdef(`R2', 186)dnl
+pushdef(`L3', 69)pushdef(`R3', 186)dnl
+pushdef(`L4', 57)pushdef(`R4', 198)dnl
+pushdef(`L5', 0)pushdef(`R5', 255)dnl
+pushdef(`L6', 66)pushdef(`R6', 189)dnl
+pushdef(`L7', 66)pushdef(`R7', 189)dnl
+pushdef(`L8', 127)pushdef(`R8', 128)dnl
+pushdef(`L9', 64)pushdef(`R9', 191)dnl
+pushdef(`L10', 0)pushdef(`R10', 255)dnl
+pushdef(`L11', 98)pushdef(`R11', 157)dnl
+pushdef(`L12', 81)pushdef(`R12', 174)dnl
+pushdef(`L13', 73)pushdef(`R13', 182)dnl
+pushdef(`L14', 70)pushdef(`R14', 185)dnl
+NI
 dnl c-1ki-r.txt
 C(P10)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(64)dnl
-L(255)R(64)dnl
-L(255)R(98)dnl
-L(255)R(90)dnl
-L(255)R(7)dnl
-L(255)R(112)dnl
-L(255)R(15)dnl
-L(255)R(20)dnl
-L(255)R(98)dnl
-L(255)R(1)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-
+pushdef(`L0', 255)pushdef(`R0', 0)dnl
+pushdef(`L1', 255)pushdef(`R1', 0)dnl
+pushdef(`L2', 255)pushdef(`R2', 0)dnl
+pushdef(`L3', 255)pushdef(`R3', 64)dnl
+pushdef(`L4', 255)pushdef(`R4', 64)dnl
+pushdef(`L5', 255)pushdef(`R5', 98)dnl
+pushdef(`L6', 255)pushdef(`R6', 90)dnl
+pushdef(`L7', 255)pushdef(`R7', 7)dnl
+pushdef(`L8', 255)pushdef(`R8', 112)dnl
+pushdef(`L9', 255)pushdef(`R9', 15)dnl
+pushdef(`L10', 255)pushdef(`R10', 20)dnl
+pushdef(`L11', 255)pushdef(`R11', 98)dnl
+pushdef(`L12', 255)pushdef(`R12', 1)dnl
+pushdef(`L13', 255)pushdef(`R13', 0)dnl
+pushdef(`L14', 255)pushdef(`R14', 0)dnl
+NI
 dnl d-2kb-r.txt
 C(P00)dnl
-L(0)R(0)dnl
-L(0)R(0)dnl
-L(98)R(98)dnl
-L(115)R(115)dnl
-L(123)R(123)dnl
-L(95)R(95)dnl
-L(79)R(79)dnl
-L(70)R(70)dnl
-L(0)R(0)dnl
-L(127)R(127)dnl
-L(127)R(127)dnl
-L(28)R(28)dnl
-L(118)R(118)dnl
-L(99)R(99)dnl
-L(0)R(0)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 0)dnl
+pushdef(`L1', 98)pushdef(`R1', 98)dnl
+pushdef(`L2', 115)pushdef(`R2', 115)dnl
+pushdef(`L3', 123)pushdef(`R3', 123)dnl
+pushdef(`L4', 95)pushdef(`R4', 95)dnl
+pushdef(`L5', 79)pushdef(`R5', 79)dnl
+pushdef(`L6', 70)pushdef(`R6', 70)dnl
+pushdef(`L7', 0)pushdef(`R7', 0)dnl
+pushdef(`L8', 127)pushdef(`R8', 127)dnl
+pushdef(`L9', 127)pushdef(`R9', 127)dnl
+pushdef(`L10', 28)pushdef(`R10', 28)dnl
+pushdef(`L11', 54)pushdef(`R11', 54)dnl
+pushdef(`L12', 99)pushdef(`R12', 99)dnl
+pushdef(`L13', 65)pushdef(`R13', 65)dnl
+pushdef(`L14', 0)pushdef(`R14', 0)dnl
+NI
 dnl e-4kr-r.txt
 C(P01)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-L(24)R(255)dnl
-L(20)R(255)dnl
-L(18)R(255)dnl
-L(121)R(255)dnl
-L(16)R(255)dnl
-L(0)R(255)dnl
-L(127)R(255)dnl
-L(8)R(255)dnl
-L(20)R(255)dnl
-L(34)R(255)dnl
-L(65)R(255)dnl
-L(0)R(255)dnl
-L(0)R(255)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 255)dnl
+pushdef(`L1', 0)pushdef(`R1', 255)dnl
+pushdef(`L2', 24)pushdef(`R2', 255)dnl
+pushdef(`L3', 20)pushdef(`R3', 255)dnl
+pushdef(`L4', 18)pushdef(`R4', 255)dnl
+pushdef(`L5', 121)pushdef(`R5', 255)dnl
+pushdef(`L6', 16)pushdef(`R6', 255)dnl
+pushdef(`L7', 0)pushdef(`R7', 255)dnl
+pushdef(`L8', 127)pushdef(`R8', 255)dnl
+pushdef(`L9', 8)pushdef(`R9', 255)dnl
+pushdef(`L10', 20)pushdef(`R10', 255)dnl
+pushdef(`L11', 34)pushdef(`R11', 255)dnl
+pushdef(`L12', 65)pushdef(`R12', 255)dnl
+pushdef(`L13', 0)pushdef(`R13', 255)dnl
+pushdef(`L14', 0)pushdef(`R14', 255)dnl
+NI
 dnl f-8ki-r.txt
 C(P10)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-L(207)R(48)dnl
-L(177)R(78)dnl
-L(182)R(73)dnl
-L(198)R(57)dnl
-L(249)R(6)dnl
-L(143)R(112)dnl
-L(240)R(15)dnl
-L(235)R(20)dnl
-L(157)R(98)dnl
-L(254)R(1)dnl
-L(255)R(0)dnl
-L(255)R(0)dnl
-
+pushdef(`L0', 255)pushdef(`R0', 0)dnl
+pushdef(`L1', 255)pushdef(`R1', 0)dnl
+pushdef(`L2', 255)pushdef(`R2', 0)dnl
+pushdef(`L3', 207)pushdef(`R3', 48)dnl
+pushdef(`L4', 177)pushdef(`R4', 78)dnl
+pushdef(`L5', 182)pushdef(`R5', 73)dnl
+pushdef(`L6', 198)pushdef(`R6', 57)dnl
+pushdef(`L7', 249)pushdef(`R7', 6)dnl
+pushdef(`L8', 143)pushdef(`R8', 112)dnl
+pushdef(`L9', 240)pushdef(`R9', 15)dnl
+pushdef(`L10', 235)pushdef(`R10', 20)dnl
+pushdef(`L11', 157)pushdef(`R11', 98)dnl
+pushdef(`L12', 254)pushdef(`R12', 1)dnl
+pushdef(`L13', 255)pushdef(`R13', 0)dnl
+pushdef(`L14', 255)pushdef(`R14', 0)dnl
+NI
 dnl g-16kb-r.txt
 C(P00)dnl
-L(0)R(70)dnl
-L(0)R(127)dnl
-L(0)R(127)dnl
-L(0)R(64)dnl
-L(0)R(60)dnl
-L(0)R(126)dnl
-L(0)R(79)dnl
-L(0)R(123)dnl
-L(0)R(123)dnl
-L(0)R(0)dnl
-L(0)R(127)dnl
-L(0)R(127)dnl
-L(0)R(28)dnl
-L(0)R(118)dnl
-L(0)R(99)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 70)dnl
+pushdef(`L1', 0)pushdef(`R1', 127)dnl
+pushdef(`L2', 0)pushdef(`R2', 127)dnl
+pushdef(`L3', 0)pushdef(`R3', 64)dnl
+pushdef(`L4', 0)pushdef(`R4', 60)dnl
+pushdef(`L5', 0)pushdef(`R5', 126)dnl
+pushdef(`L6', 0)pushdef(`R6', 79)dnl
+pushdef(`L7', 0)pushdef(`R7', 123)dnl
+pushdef(`L8', 0)pushdef(`R8', 123)dnl
+pushdef(`L9', 0)pushdef(`R9', 0)dnl
+pushdef(`L10', 0)pushdef(`R10', 127)dnl
+pushdef(`L11', 0)pushdef(`R11', 127)dnl
+pushdef(`L12', 0)pushdef(`R12', 28)dnl
+pushdef(`L13', 0)pushdef(`R13', 118)dnl
+pushdef(`L14', 0)pushdef(`R14', 99)dnl
+NI
 dnl h-32kr-r.txt
 C(P01)dnl
-L(0)R(221)dnl
-L(0)R(190)dnl
-L(0)R(182)dnl
-L(0)R(201)dnl
-L(0)R(255)dnl
-L(0)R(157)dnl
-L(0)R(174)dnl
-L(0)R(182)dnl
-L(0)R(185)dnl
-L(0)R(255)dnl
-L(0)R(128)dnl
-L(0)R(247)dnl
-L(0)R(235)dnl
-L(0)R(221)dnl
-L(0)R(190)dnl
-
+pushdef(`L0', 0)pushdef(`R0', 221)dnl
+pushdef(`L1', 0)pushdef(`R1', 190)dnl
+pushdef(`L2', 0)pushdef(`R2', 182)dnl
+pushdef(`L3', 0)pushdef(`R3', 201)dnl
+pushdef(`L4', 0)pushdef(`R4', 255)dnl
+pushdef(`L5', 0)pushdef(`R5', 157)dnl
+pushdef(`L6', 0)pushdef(`R6', 174)dnl
+pushdef(`L7', 0)pushdef(`R7', 182)dnl
+pushdef(`L8', 0)pushdef(`R8', 185)dnl
+pushdef(`L9', 0)pushdef(`R9', 255)dnl
+pushdef(`L10', 0)pushdef(`R10', 128)dnl
+pushdef(`L11', 0)pushdef(`R11', 247)dnl
+pushdef(`L12', 0)pushdef(`R12', 235)dnl
+pushdef(`L13', 0)pushdef(`R13', 221)dnl
+pushdef(`L14', 0)pushdef(`R14', 190)dnl
+NI
 dnl i-64ki-r.txt
 C(P10)dnl
-L(207)R(0)dnl
-L(179)R(0)dnl
-L(181)R(0)dnl
-L(206)R(0)dnl
-L(254)R(0)dnl
-L(231)R(0)dnl
-L(235)R(0)dnl
-L(141)R(0)dnl
-L(230)R(0)dnl
-L(254)R(0)dnl
-L(143)R(0)dnl
-L(240)R(0)dnl
-L(235)R(0)dnl
-L(157)R(0)dnl
-L(254)R(0)dnl
-
+pushdef(`L0', 207)pushdef(`R0', 0)dnl
+pushdef(`L1', 179)pushdef(`R1', 0)dnl
+pushdef(`L2', 181)pushdef(`R2', 0)dnl
+pushdef(`L3', 206)pushdef(`R3', 0)dnl
+pushdef(`L4', 254)pushdef(`R4', 0)dnl
+pushdef(`L5', 231)pushdef(`R5', 0)dnl
+pushdef(`L6', 235)pushdef(`R6', 0)dnl
+pushdef(`L7', 141)pushdef(`R7', 0)dnl
+pushdef(`L8', 230)pushdef(`R8', 0)dnl
+pushdef(`L9', 254)pushdef(`R9', 0)dnl
+pushdef(`L10', 143)pushdef(`R10', 0)dnl
+pushdef(`L11', 240)pushdef(`R11', 0)dnl
+pushdef(`L12', 235)pushdef(`R12', 0)dnl
+pushdef(`L13', 157)pushdef(`R13', 0)dnl
+pushdef(`L14', 254)pushdef(`R14', 0)dnl
+NI
 dnl j-128kr-r.txt
 C(P11)dnl
-L(128)R(128)dnl
-L(255)R(255)dnl
-L(142)R(142)dnl
-L(182)R(182)dnl
-L(185)R(185)dnl
-L(255)R(255)dnl
-L(201)R(201)dnl
-L(182)R(182)dnl
-L(182)R(182)dnl
-L(201)R(201)dnl
-L(255)R(255)dnl
-L(128)R(128)dnl
-L(247)R(247)dnl
-L(235)R(235)dnl
-L(156)R(156)dnl
-
-: isym0
-:byte  C0  C1  C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14
-:byte C15 C16 C17  0  0  0  0  0  0  0   0   0   0   0   0
+pushdef(`L0', 128)pushdef(`R0', 128)dnl
+pushdef(`L1', 255)pushdef(`R1', 255)dnl
+pushdef(`L2', 142)pushdef(`R2', 142)dnl
+pushdef(`L3', 182)pushdef(`R3', 182)dnl
+pushdef(`L4', 185)pushdef(`R4', 185)dnl
+pushdef(`L5', 255)pushdef(`R5', 255)dnl
+pushdef(`L6', 201)pushdef(`R6', 201)dnl
+pushdef(`L7', 182)pushdef(`R7', 182)dnl
+pushdef(`L8', 182)pushdef(`R8', 182)dnl
+pushdef(`L9', 201)pushdef(`R9', 201)dnl
+pushdef(`L10', 255)pushdef(`R10', 255)dnl
+pushdef(`L11', 128)pushdef(`R11', 128)dnl
+pushdef(`L12', 247)pushdef(`R12', 247)dnl
+pushdef(`L13', 235)pushdef(`R13', 235)dnl
+pushdef(`L14', 156)pushdef(`R14', 156)dnl
+NI
