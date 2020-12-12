@@ -1,58 +1,31 @@
-pushdef(`P00', 15)dnl
-pushdef(`P01', 30)dnl
-pushdef(`P11', 45)dnl
-pushdef(`P10', 60)dnl
+pushdef(`P00', 0)dnl
+pushdef(`P01', 15)dnl
+pushdef(`P11', 30)dnl
+pushdef(`P10', 45)dnl
 
 : main
 hires
 plane 3
-i := isym0
-load v6
-
-; _initl
-i := 256
-i += v1
-i += v2
-save v0
-
-i := 256
-i += v1
-i += v3
-save v0
-
-i := 256
-i += v1
-i += v4
-save v0
-
-v0 := 128
-i := 256
-i += v1
-i += v5
-save v0
-
-i := 256
-i += v1
-i += v6
-save v0
-
-if v1 == 15
-then jump _main_loop
-
-v1 += 1
-v0 := 0
-jump _initl
 
 : _main_loop
-v1 := 104
+v1 := 112
 v2 := 32
 v3 := 0
+v4 := 104
 
 : _draw
+i := symc
+i += v3
+load v0
+
+i := p00
+i += v0
+sprite v1 v2 15
+
 i := isym0
 i += v3
 i += v3
-sprite v1 v2 15
+sprite v4 v2 15
 
 if v2 == 48
 then jump _h
@@ -62,35 +35,23 @@ v3 += 15
 jump _draw
 
 : _h
-if v1 == 64
+if v4 == 64
 then jump _w
 
 v1 -= 10
 v2 := 0
 v3 += 15
+v4 -= 10
+v2 := 0
 jump _draw
 
 : _w
 v0 := key
 jump _main_loop
 
+pushdef(`IX', `0')dnl
 
-: p00
-:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-
-: p01
-:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-
-: p11
-:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
-
-: p10
-:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
-:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-
-pushdef(`IX', `1')dnl
-
-pushdef(`C')dnl
+pushdef(`C', `:byte $1 0 0 0 0 0 0 0 0 0 0 0 0 0 0')dnl
 
 pushdef(`N', `eval($1 ^ 255)popdef($1)')dnl
 
@@ -98,17 +59,41 @@ pushdef(`NI', `dnl
 pushdef(`I', IX)dnl
 popdef(`IX')dnl
 pushdef(`IX', incr(I))dnl
+divert(incr(divnum))dnl
 `: isym'I
 :byte N(`L0') N(`L1') N(`L2') N(`L3') N(`L4') N(`L5') N(`L6') N(`L7') dnl
 N(`L8') N(`L9') N(`L10') N(`L11') N(`L12') N(`L13') N(`L14')
 :byte N(`R0') N(`R1') N(`R2') N(`R3') N(`R4') N(`R5') N(`R6') N(`R7') dnl
 N(`R8') N(`R9') N(`R10') N(`R11') N(`R12') N(`R13') N(`R14')
 popdef(`I')dnl
+divert(decr(divnum))dnl
 ')dnl
 
-: isym0
-0 0 0 15 60 30 45
-
+: p00
+:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
+:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
+:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+:byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+:byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
+: symc
+dnl 0-spi-r.txt
+C(P00)dnl
+pushdef(`L0', 0)pushdef(`R0', 0)dnl
+pushdef(`L1', 0)pushdef(`R1', 0)dnl
+pushdef(`L2', 0)pushdef(`R2', 0)dnl
+pushdef(`L3', 0)pushdef(`R3', 0)dnl
+pushdef(`L4', 0)pushdef(`R4', 0)dnl
+pushdef(`L5', 0)pushdef(`R5', 0)dnl
+pushdef(`L6', 0)pushdef(`R6', 0)dnl
+pushdef(`L7', 0)pushdef(`R7', 0)dnl
+pushdef(`L8', 0)pushdef(`R8', 0)dnl
+pushdef(`L9', 0)pushdef(`R9', 0)dnl
+pushdef(`L10', 0)pushdef(`R10', 0)dnl
+pushdef(`L11', 0)pushdef(`R11', 0)dnl
+pushdef(`L12', 0)pushdef(`R12', 0)dnl
+pushdef(`L13', 0)pushdef(`R13', 0)dnl
+pushdef(`L14', 0)pushdef(`R14', 0)dnl
+NI
 dnl 3-2i-r.txt
 C(P01)dnl
 pushdef(`L0', 0)pushdef(`R0', 255)dnl
