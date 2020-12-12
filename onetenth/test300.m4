@@ -1,11 +1,47 @@
-pushdef(`P00', `p00')dnl
-pushdef(`P01', `p01')dnl
-pushdef(`P11', `p11')dnl
-pushdef(`P10', `p10')dnl
+pushdef(`P00', 15)dnl
+pushdef(`P01', 30)dnl
+pushdef(`P11', 45)dnl
+pushdef(`P10', 60)dnl
 
 : main
 hires
 plane 3
+i := isym0
+load v6
+
+; _initl
+i := 256
+i += v1
+i += v2
+save v0
+
+i := 256
+i += v1
+i += v3
+save v0
+
+i := 256
+i += v1
+i += v4
+save v0
+
+v0 := 128
+i := 256
+i += v1
+i += v5
+save v0
+
+i := 256
+i += v1
+i += v6
+save v0
+
+if v1 == 15
+then jump _main_loop
+
+v1 += 1
+v0 := 0
+jump _initl
 
 : _main_loop
 v1 := 104
@@ -52,7 +88,7 @@ jump _main_loop
 :byte 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128
 :byte   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
 
-pushdef(`IX', `0')dnl
+pushdef(`IX', `1')dnl
 
 pushdef(`C')dnl
 
@@ -70,24 +106,9 @@ N(`R8') N(`R9') N(`R10') N(`R11') N(`R12') N(`R13') N(`R14')
 popdef(`I')dnl
 ')dnl
 
-dnl 0-spi-r.txt
-C(P00)dnl
-pushdef(`L0', 0)pushdef(`R0', 0)dnl
-pushdef(`L1', 0)pushdef(`R1', 0)dnl
-pushdef(`L2', 0)pushdef(`R2', 0)dnl
-pushdef(`L3', 0)pushdef(`R3', 0)dnl
-pushdef(`L4', 0)pushdef(`R4', 0)dnl
-pushdef(`L5', 0)pushdef(`R5', 0)dnl
-pushdef(`L6', 0)pushdef(`R6', 0)dnl
-pushdef(`L7', 0)pushdef(`R7', 0)dnl
-pushdef(`L8', 0)pushdef(`R8', 0)dnl
-pushdef(`L9', 0)pushdef(`R9', 0)dnl
-pushdef(`L10', 0)pushdef(`R10', 0)dnl
-pushdef(`L11', 0)pushdef(`R11', 0)dnl
-pushdef(`L12', 0)pushdef(`R12', 0)dnl
-pushdef(`L13', 0)pushdef(`R13', 0)dnl
-pushdef(`L14', 0)pushdef(`R14', 0)dnl
-NI
+: isym0
+0 0 0 15 60 30 45
+
 dnl 3-2i-r.txt
 C(P01)dnl
 pushdef(`L0', 0)pushdef(`R0', 255)dnl
