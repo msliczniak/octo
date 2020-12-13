@@ -33,7 +33,7 @@ NR == 1 {
 	}
 
 	i = NR - 4
-	printf("pushdef(`LB%d', %d)pushdef(`RB%d', %d)", i, l, i, r) >f
+	printf("pushdef(`LB%d', %d)dnl\npushdef(`RB%d', %d)", i, l, i, r) >f
 
 	l = r = 0
 	for (i = 17; i < 25; i++) {
@@ -44,7 +44,7 @@ NR == 1 {
 	}
 
 	i = NR - 4
-	printf("pushdef(`LC%d', %d)pushdef(`RC%d', %d)\ndnl", i, l, i, r) >f
+	printf("pushdef(`LC%d', %d)pushdef(`RC%d', %d)dnl\n", i, l, i, r) >f
 }
 
 NR == 18 { print "NI" >f; exit }
