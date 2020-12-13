@@ -2,7 +2,7 @@ LANG = C
 
 NAME = montage
 
-TGTS = ${NAME}.txt ${NAME}.png
+TGTS = ${NAME}.txt ${NAME}.png ${NAME}.pgm
 
 all : ${TGTS}
 
@@ -68,6 +68,9 @@ ${NAME}.txt : ${TXTS}
 
 ${NAME}.png : ${GIFS}
 	montage $(GIFS) -geometry +0+0 -tile 4x $@
+
+${NAME}.pgm : ${PGMS}
+	montage $(PGMS) -geometry +0+0 -tile 4x $@
 
 .pbm.gif :
 	convert -size 23x11 xc:white $< -flop \
