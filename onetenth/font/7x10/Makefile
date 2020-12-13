@@ -29,7 +29,6 @@ TXTS =  0-spi.txt 1-0b.txt 2-1r.txt 3-2i.txt 4-4b.txt 5-8r.txt 6-16i.txt \
 SRCS =  ${PBMS}
 OBJS =  ${PGMS} ${GIFS} ${TXTS} ${RTXTS}
 
-FONT =  ./font.sh
 PGM =   ./pgm.awk
 PLANE = ./plane.awk
 CAT =   /bin/cat
@@ -53,18 +52,19 @@ force :
 
 ${OBJS} : Makefile
 
-${TXTS} : ${FONT}
+${TXTS} : ${PLANE}
 
 ${PGMS} : ${PGM}
 
 .gif.pgm :
-	convert $< -strip -compress none pbm:- | ${PGM} f=$@
+	convert $< -crop 23x11+0+0 -negate -strip -compress none pbm:- | \
+	  ${PGM} f=$@
 
 ${NAME}.txt : ${TXTS}
 	$(CAT) $(TXTS) >$@
 
-.gif.txt :
-	$(FONT) $< >$@
+.pgm.txt :
+	$(PLANE) f=$@ $<
 
 ${NAME}.png : ${GIFS}
 	montage $(GIFS) -geometry +0+0 -tile 4x $@
