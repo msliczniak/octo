@@ -43,4 +43,4 @@ NR == 1 {
 	printf("pushdef(`LC%d', %d)pushdef(`RC%d', %d)dnl\n", i, l, i, r) >f
 }
 
-NR == 18 { print "NI" >f; exit }
+END { print "NI" >f }
