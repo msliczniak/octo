@@ -6,10 +6,6 @@
 NR == 1 {
 	print "dnl", f >f
 	getline; getline; getline
-	if ($1 == 0)      print "C(P00)dnl" >f
-	else if ($1 == 1) print "C(P01)dnl" >f
-	else if ($1 == 2) print "C(P10)dnl" >f
-	else              print "C(P11)dnl" >f
 }
 
 {
