@@ -2,6 +2,8 @@
 
 [demo](https://msliczniak.github.io/octo/onetenth/onetenth.htm)
 
+[keypad](https://msliczniak.github.io/octo/onetenth/keypad.html)
+
 in inspector add attribude:
 
 style="position:absolute; top:50px; right:250px;"
