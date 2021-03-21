@@ -42,4 +42,4 @@ NR == 2 { c1 = C1[c1]; print "24 12" >f; print 3 >f; next }
 	print 3 >f
 }
 
-END { print "3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3" >f }
+END { print "3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3" >f }
