@@ -1,9 +1,12 @@
 #!/bin/sh
 
+# convert mockup2x2.png -crop 64x64+0+0 +repage -compress None -strip mockup.pbm
+
 rm -rf strips || exit
 mkdir strips || exit
 
-convert mockup.pbm -crop 64x32 +repage strips/s.png || exit
+convert mockup.pbm -shave 1x1 -bordercolor black -border 1 \
+  -crop 64x32 +repage strips/s.png || exit
 cd strips || exit
 
 mv s-0.png t.png || exit
@@ -30,12 +33,12 @@ done
 
 i=0 # L side
 for n in t b; do
-for j in 0 1 6 7; do
+for j in 0 1 7; do
 	<$j$n$i >$j$n$i.pgm tr 1 3 || exit
 done; done
 
 for n in t b; do
-for j in 2 3 4 5; do
+for j in 2 3 4 5 6; do
 	<$j$n$i >$j$n$i.pgm tr 1 2 || exit
 done; done
 
