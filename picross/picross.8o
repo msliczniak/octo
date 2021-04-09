@@ -1,0 +1,92 @@
+: main
+
+hires
+
+i := invert
+v0 := 8
+v1 := 24
+sprite v0 v1 0
+
+v0 := 40
+sprite v0 v1 0
+
+v0 := 24
+v1 := 8
+sprite v0 v1 0
+
+v1 := 40
+sprite v0 v1 0
+
+plane 3
+i := pattern
+v1 := 10
+:call draw
+
+v1 := 19
+:call draw
+
+v1 := 28
+:call draw
+
+v1 := 37
+:call draw
+
+v1 := 46
+:call draw
+
+: forever
+jump forever
+
+: draw
+v0 := 10
+sprite v0 v1 8
+
+v0 := 19
+sprite v0 v1 8
+
+v0 := 28
+sprite v0 v1 8
+
+v0 := 37
+sprite v0 v1 8
+
+v0 := 46
+sprite v0 v1 8
+
+return
+
+: pattern
+0b11011011
+0b11011011
+0
+0b11011011
+0b11011011
+0
+0b11011011
+0b11011011
+0b11011011
+0b11011011
+0
+0b11011011
+0b11011011
+0
+0b11011011
+0b11011011
+
+: invert
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
+0xff 0xff
