@@ -4,7 +4,7 @@ hires
 
 plane 2
 :call lines
-:call lines
+#:call lines
 
 i := pattern
 v1 := 10
@@ -85,13 +85,13 @@ plane 1
 return
 
 : pattern
-0b11011011
-0b11011011
-0
-0b11011011
+0b10010010
 0b11011011
 0
+0b10010010
 0b11011011
+0
+0b10010010
 0b11011011
 
 : line15
