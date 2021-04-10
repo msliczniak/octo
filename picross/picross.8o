@@ -113,13 +113,13 @@ plane 1
 
 i := htics8
 v1 := 8
-v0 := 10
+v0 := 11
 sprite v0 v1 1
-v0 := 22
+v0 := 23
 sprite v0 v1 1
-v0 := 34
+v0 := 35
 sprite v0 v1 1
-v0 := 46
+v0 := 47
 sprite v0 v1 1
 
 v1 := 55
@@ -132,22 +132,22 @@ sprite v0 v1 1
 v0 := 49
 sprite v0 v1 1
 
-i := vtics14
+i := vtics13
 v0 := 8
-v1 := 10
-sprite v0 v1 14
-v1 := 28
-sprite v0 v1 14
-v1 := 46
-sprite v0 v1 8
+v1 := 11
+sprite v0 v1 13
+v1 := 29
+sprite v0 v1 13
+v1 := 47
+sprite v0 v1 7
 
 v0 := 55
 v1 := 13
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 31
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 49
-sprite v0 v1 8
+sprite v0 v1 7
 
 return
 
@@ -190,24 +190,23 @@ return
 0x80
 0x80
 0x80
-: vtics14
-0x80
-0x80
-0
-0
-0
-0
-0x80
+: vtics13
 0x80
 0
 0
 0
 0
+0
 0x80
+0
+0
+0
+0
+0
 0x80
 
 : htics8
-0b11000011
+0b10000010
 
 : inv16
 0xff 0xff
