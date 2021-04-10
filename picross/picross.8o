@@ -4,7 +4,7 @@ hires
 
 plane 2
 :call lines
-#:call lines
+:call lines
 
 i := pattern
 v1 := 10
@@ -21,6 +21,14 @@ v1 := 37
 
 v1 := 46
 :call draw
+
+i := inv16
+v1 := 24
+v0 := 8
+sprite v0 v1 0
+sprite v1 v1 0
+v0 := 40
+sprite v0 v1 0
 
 : forever
 jump forever
@@ -111,6 +119,10 @@ return
 0x80
 0x80
 
+: inv16
+0xff 0xff
+0xff 0xff
+0xff 0xff
 : line16
 0xff 0xff
 0 0
