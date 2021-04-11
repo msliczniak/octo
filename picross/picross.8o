@@ -6,7 +6,7 @@ plane 2
 :call lines
 #:call lines
 
-i := pattern
+i := houndstooth
 v1 := 10
 :call draw
 
@@ -22,34 +22,41 @@ v1 := 37
 v1 := 46
 :call draw
 
-# curs
 plane 2
+
+# curs
 #i := inv4
 #v0 := 24
 #v1 := 24
 #sprite v0 v1 4
 
+# sm curs
+i := inv3
+v0 := 25
+v1 := 25
+sprite v0 v1 3
+
 # H curs
-i := inv16
-v1 := 24
-v0 := 8
-sprite v0 v1 0
-v0 := 24
-sprite v0 v1 0
-v0 := 40
-sprite v0 v1 0
+#i := inv16
+#v1 := 24
+#v0 := 8
+#sprite v0 v1 0
+#v0 := 24
+#sprite v0 v1 0
+#v0 := 40
+#sprite v0 v1 0
 
 # V curs
-i := inv12
-v0 := 24
-v1 := 8
-sprite v0 v1 12
-v1 := 20
-sprite v0 v1 12
-v1 := 32
-sprite v0 v1 12
-v1 := 44
-sprite v0 v1 12
+#i := inv12
+#v0 := 24
+#v1 := 8
+#sprite v0 v1 12
+#v1 := 20
+#sprite v0 v1 12
+#v1 := 32
+#sprite v0 v1 12
+#v1 := 44
+#sprite v0 v1 12
 
 : forever
 jump forever
@@ -151,7 +158,7 @@ sprite v0 v1 8
 
 return
 
-: pattern
+: houndstooth
 0b10010010
 0b11011011
 0
@@ -175,6 +182,11 @@ return
 0xf0
 0xf0
 0xf0
+
+: inv3
+0b11100000
+0b11100000
+0b11100000
 
 : line15
 0x80
