@@ -6,21 +6,8 @@ plane 2
 :call lines
 #:call lines
 
-i := houndstooth
-v1 := 10
-:call draw
-
-v1 := 19
-:call draw
-
-v1 := 28
-:call draw
-
-v1 := 37
-:call draw
-
-v1 := 46
-:call draw
+#:call pattern
+:call grid
 
 plane 2
 
@@ -158,6 +145,78 @@ sprite v0 v1 8
 
 return
 
+: grid
+i := lbox12
+v1 := 11
+v0 := 10
+sprite v0 v1 12
+v0 := 25
+sprite v0 v1 12
+v0 := 40
+sprite v0 v1 12
+
+v1 := 26
+v0 := 10
+sprite v0 v1 12
+v0 := 25
+sprite v0 v1 12
+v0 := 40
+sprite v0 v1 12
+
+v1 := 41
+v0 := 10
+sprite v0 v1 12
+v0 := 25
+sprite v0 v1 12
+v0 := 40
+sprite v0 v1 12
+
+i := rbox12
+v1 := 11
+v0 := 20
+sprite v0 v1 12
+v0 := 35
+sprite v0 v1 12
+v0 := 50
+sprite v0 v1 12
+
+v1 := 26
+v0 := 20
+sprite v0 v1 12
+v0 := 35
+sprite v0 v1 12
+v0 := 50
+sprite v0 v1 12
+
+v1 := 41
+v0 := 20
+sprite v0 v1 12
+v0 := 35
+sprite v0 v1 12
+v0 := 50
+sprite v0 v1 12
+
+return
+
+: pattern
+i := houndstooth
+v1 := 10
+:call draw
+
+v1 := 19
+:call draw
+
+v1 := 28
+:call draw
+
+v1 := 37
+:call draw
+
+v1 := 46
+:call draw
+
+return
+
 : houndstooth
 0b10010010
 0b11011011
@@ -167,6 +226,34 @@ return
 0
 0b10010010
 0b11011011
+
+: lbox12
+0b01001001
+0
+0
+0b01001001
+0
+0
+0b01001001
+0
+0
+0b01001001
+0
+0b01001001
+
+: rbox12
+0b10100000
+0
+0
+0b10100000
+0
+0
+0b10100000
+0
+0
+0b10100000
+0
+0b10100000
 
 : inv12
 0xf0
