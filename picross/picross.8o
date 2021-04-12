@@ -6,8 +6,8 @@ plane 2
 :call lines
 #:call lines
 
-#:call pattern
-:call grid
+:call pattern
+#:call grid
 
 plane 2
 
@@ -105,7 +105,7 @@ v1 := 9
 
 plane 1
 
-i := htics8
+i := hsmtics8
 v1 := 8
 v0 := 10
 sprite v0 v1 1
@@ -126,22 +126,22 @@ sprite v0 v1 1
 v0 := 49
 sprite v0 v1 1
 
-i := vtics14
+i := vsmtics13
 v0 := 8
 v1 := 10
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 28
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 46
-sprite v0 v1 8
+sprite v0 v1 7
 
 v0 := 55
 v1 := 13
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 31
-sprite v0 v1 14
+sprite v0 v1 13
 v1 := 49
-sprite v0 v1 8
+sprite v0 v1 7
 
 return
 
@@ -303,10 +303,26 @@ return
 0
 0
 0x80
+: vsmtics13
+0x80
+0
+0
+0
+0
+0
+0x80
+0
+0
+0
+0
+0
 0x80
 
 : htics8
 0b11000011
+
+: hsmtics8
+0b10000010
 
 : inv16
 0xff 0xff
