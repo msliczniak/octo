@@ -61,9 +61,17 @@ sprite v5 v9 15
 i := shroom0-17
 sprite v6 v9 15
 
+scroll-down 9
+
+v7 += 9
+v8 += 9
+v9 += 9
+
 v0 := 255
 
 : forever
+#jump forever
+
 #delay := v0
 
 i := shroomx-00
