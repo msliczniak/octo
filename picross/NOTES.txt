@@ -1,0 +1,9 @@
+https://forums.tomshardware.com/threads/16-ms-on-lcd-but-what-about-crt.871226/#post-5863784
+
+CRT pixels light up fast but they take much longer to "un-light" due to phosphor persistence.
+
+P22R (red) phosphor decays at a rate of 0.7 millisecond per 10% decay (I looked it up). P22G (yellow-green) and P22B (blue) decay much faster at about 0.06 millisecond per 10% decay.
+
+According to my crude calculations, at those rates it takes a red pixel about 5 milliseconds to go from full bright to half intensity. 10 milliseconds to reach 1/4 intensity. Call it 15 milliseconds to go from full bright to black. That's 15,000,000 nanoseconds.
+
+https://en.wikipedia.org/wiki/Phosphor#Standard_phosphor_types
