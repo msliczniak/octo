@@ -7,3 +7,13 @@ P22R (red) phosphor decays at a rate of 0.7 millisecond per 10% decay (I looked 
 According to my crude calculations, at those rates it takes a red pixel about 5 milliseconds to go from full bright to half intensity. 10 milliseconds to reach 1/4 intensity. Call it 15 milliseconds to go from full bright to black. That's 15,000,000 nanoseconds.
 
 https://en.wikipedia.org/wiki/Phosphor#Standard_phosphor_types
+
+RT-Royale RetroArch
+
+https://www.reddit.com/r/crtgaming/comments/8643nc/curious_is_anyone_aware_of_a_project_to_emulate/dw2fupa/
+
+https://github.com/libretro/common-shaders/tree/master/crt/shaders/crt-royale
+
+http://emulation.gametechwiki.com/index.php/CRT-Royale
+
+https://youtu.be/xrpm8o17cHE?t=620
