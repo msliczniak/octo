@@ -6,13 +6,24 @@ jump init
 :org 0x300
 : init
 
+# high nibble of max RAM
+# 0x10 0x1000 4096
+# 0x0c 0x0c00 3072
+# 0x08 0x0800 2048
+i := 0xeb
+load v0
+
+# default screen used upper two pages of mem
+v0 -= 2
+v4 := v0
+
 i := code
 load v3
 
 i := 0x2b0
 save v3
 
-v1 := 0xe
+v1 := v4
 i := 0x2c0
 save v3
 
