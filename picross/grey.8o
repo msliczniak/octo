@@ -51,33 +51,41 @@ v0 := 255
 : forever
 #jump forever
 
-i := shroomx-s0
-
-delay := v0
-
-: repeat
-vf := delay
-if vf == 255 then jump repeat
-
-sprite v1 v7 0
-i := shroomx-s1
-sprite v3 v7 0
 i := shroomx-s2
+delay := v0
+: repeat0
+vf := delay
+if vf == 255 then jump repeat0
+
 sprite v5 v7 0
-
-i := shroomx-s3
-sprite v1 v8 0
-i := shroomx-s4
-sprite v3 v8 0
-i := shroomx-s5
-sprite v5 v8 0
-
-i := shroomx-s6
-sprite v1 v9 0
 i := shroomx-s7
 sprite v3 v9 0
+i := shroomx-s3
+sprite v1 v8 0
+
+i := shroomx-s5
+#delay := v0
+#: repeat1
+#vf := delay
+#if vf == 255 then jump repeat1
+
+sprite v5 v8 0
+i := shroomx-s1
+sprite v3 v7 0
+i := shroomx-s6
+sprite v1 v9 0
+
 i := shroomx-s8
+#delay := v0
+#: repeat2
+#vf := delay
+#if vf == 255 then jump repeat2
+
 sprite v5 v9 0
+i := shroomx-s4
+sprite v3 v8 0
+i := shroomx-s0
+sprite v1 v7 0
 
 jump forever
 
