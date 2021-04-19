@@ -1,6 +1,7 @@
 LANG = C
 
-RAM = c8x-2p2k.ram c8x-2p3k.ram c8x-2p4k.ram c8-2p2k.ram c8-2p3k.ram c8-2p4k.ram
+RAM = c8x-2p2k.ram c8x-2p3k.ram c8x-2p4k.ram c8x-2p5k.ram \
+       c8-2p2k.ram  c8-2p3k.ram  c8-2p4k.ram  c8-2p5k.ram
 
 all : ${RAM}
 
@@ -25,6 +26,9 @@ c8x-2p3k.ram : c8x-2p.txt c8-2p3k.txt
 
 c8x-2p4k.ram : c8x-2p.txt c8-2p4k.txt
 	./patch.sh 4k
+
+c8x-2p5k.ram : c8x-2p.txt c8-2p5k.txt
+	./patch.sh 5k
 
 .txt.ram :
 	xxd -r -c1 $< >$@
