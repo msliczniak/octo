@@ -2,6 +2,92 @@
 
 hires
 
+v2 := 9
+v3 := 0
+
+: dh
+
+i := shroom0
+i += v3
+load v0
+i := dot2
+v1 := 9
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v3 += 1
+i := shroom0
+i += v3
+load v0
+i := dot2
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+v1 += 3
+
+v0 <<= v0
+if vf == 1 then sprite v1 v2 2
+
+v3 += 1
+if v2 == 51 then jump dd
+
+v2 += 3
+jump dh
+
+: dd
+v0 := key
+clear
+
 v1 := 8
 v3 := 24
 v5 := 40
@@ -18,6 +104,7 @@ sprite v3 v0 1
 sprite v4 v0 1
 sprite v5 v0 1
 sprite v6 v0 1
+
 
 i := shroom0-s0
 sprite v1 v7 0
@@ -40,6 +127,7 @@ sprite v3 v9 0
 i := shroom0-s8
 sprite v5 v9 0
 
+v0 := key
 scroll-down 9
 
 v7 += 9
@@ -91,6 +179,31 @@ jump forever
 
 : line
 255
+
+: dot2
+0b11000000
+0b11000000
+
+: dot1
+0b10000000
+
+# $ awk 'NR < 3 { next } { print "0b" $1 $2 $3 $4 $5 $6 $7 $8 " 0b" $9 $10 $11 $12 $13 $14 $15 0 }' shroom0.pbm 
+: shroom0
+0b00000111 0b11100000
+0b00011111 0b10011000
+0b00100111 0b10000100
+0b01001111 0b11000010
+0b01011000 0b01100010
+0b11110000 0b00111110
+0b11110000 0b00110010
+0b10110000 0b00100000
+0b10011000 0b01100000
+0b10011111 0b11110010
+0b10111111 0b11111110
+0b01110010 0b01001110
+0b00100010 0b01000100
+0b00100000 0b00000100
+0b00010000 0b00001000
 
 : shroom0-s0
 0b00000000 0b00000000
