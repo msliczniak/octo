@@ -13,31 +13,33 @@ jump init
 i := 0xeb
 load v0
 
-# default screen used upper two pages of mem
+# default screen uses upper two pages of mem
 v0 -= 2
-v4 := v0
+v8 := v0
 
 i := code
-load v3
+load v7
 
-i := 0x2b0
-save v3
-
-v1 := v4
-i := 0x2c0
-save v3
+v5 := v8
+i := 0x2b1
+save v7
 
 jump start
 
-: code
-# alternate page
-0xf8 0x4	# LDI
-0xbb			# PHI RB
-0xd4			# SEP R4
-
 :org 0x400
 
-0b10000000 0 0 0 0 0 0 0
+: code
+# alternate page
+# 0x00		# IDL #	already zero
+0xf8 0x4	# LDI
+0xbb			# PHI RB
+# default page
+0x00		# IDL
+0xf8 0x4	# LDI
+0xbb			# PHI RB
+0xd4		# SEP R4
+
+# 0b10000000 0 0 0 0 0 0 0
  0b1000000 0 0 0 0 0 0 0
   0b100000 0 0 0 0 0 0 0
    0b10000 0 0 0 0 0 0 0
@@ -172,26 +174,11 @@ sprite v5 v9 15
 i := shroom0-17
 sprite v6 v9 15
 
-v0 := 255
-
 : forever
 #jump forever
 
-delay := v0
-: repeat0
-vf := delay
-if vf == 255 then jump repeat0
-
-# alternate page
+# two frames
 0x02 0xb0
-
-delay := v0
-: repeat1
-vf := delay
-if vf == 255 then jump repeat1
-
-# initial page
-0x02 0xc0
 
 jump forever
 
