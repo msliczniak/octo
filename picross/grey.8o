@@ -1,3 +1,290 @@
+:org 0
+: sprites03
+0 0
+0 0
+0 0
+0 0
+: sprites0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites2
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites3
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+
+: sprites47
+0 0
+0 0
+0 0
+0 0
+: sprites4
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites5
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites6
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites7
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+
+: sprites8b
+0 0
+0 0
+0 0
+0 0
+: sprites8
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: sprites9
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesa
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesb
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+
+: spritescf
+0 0
+0 0
+0 0
+: spritesf0
+0 0
+: spritesc
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesf1
+0 0
+: spritesd
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesf2
+0 0
+: spritese
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesf3
+0 0
+: spritesf
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+: spritesf4
+0 0
+
+:org 0x200
 : main
 
 hires
@@ -7,7 +294,7 @@ v3 := 0
 
 : dh
 
-i := shroom0
+i := shroom
 i += v3
 load v0
 v0 <<= v0
@@ -43,7 +330,7 @@ if vf == 1 then sprite v1 v2 2
 v1 += 3
 
 v3 += 1
-i := shroom0
+i := shroom
 i += v3
 load v0
 i := dot2
@@ -87,29 +374,88 @@ jump dh
 
 : dd
 
-v2 := 4
-v3 := 0
-
-: sh
-
-i := shroom
-i += v3
-load v0
-i := dot2
-v1 := 9
-
-: sd
-
-
+#:call sprites
 
 : forever
+#clear
 jump forever
+
+# # prepare sprites
+# : sprites
+# :breakpoint sprites
+# :const DXORV 30 # 0b11110
+# :const DANDV 97 # 0b1100001
+# 
+# :calc DRSTEP { DANDV - 2 }
+# 
+# :alias SOFF v2
+# :alias DOFF v3
+# :alias HIMASK v4
+# :alias LOMASK v5
+# :alias DSTEP v6
+# :alias DXOR v7
+# :alias DAND v8
+# 
+# SOFF := 0
+# DOFF := 0
+# HIMASK := 0x70
+# LOMASK := 0x07
+# DSTEP := 31
+# DXOR := DXORV
+# DAND := DANDV
+# 
+# : spritesh
+# 
+# i := shroom
+# i += SOFF
+# load v0
+# v1 := v0
+# v1 <<= v1
+# v0 := 0
+# jump skip_msb
+# 
+# : spritesb
+# DOFF += DSTEP
+# v1 <<= v1
+# if vf == 1 then v0 |= HIMASK
+# 
+# : skip_msb
+# v1 <<= v1
+# if vf == 1 then v0 |= LOMASK
+# i := shroom00
+# i += DOFF
+# save v0
+# i := shroom01
+# i += DOFF
+# save v0
+# i := shroom02
+# i += DOFF
+# save v0
+# 
+# v0 := DOFF
+# v0 &= DAND
+# if v0 != DAND then jump spritesn
+# 
+# if SOFF == 31 then return
+# 
+# DOFF -= DRSTEP
+# SOFF += 1
+# i := shroom
+# i += SOFF
+# load v0
+# v1 := v0
+# 
+# # FALLTHRU
+# : spritesn
+# DSTEP ^= DXOR
+# v0 := 0
+# jump spritesb
 
 : dot2
 0b11000000
 0b11000000
 
-: shroom0
+: shroom
 # $ awk 'NR < 3 { next } { print "0b0" $1 $2 $3 $4 $5 $6 $7 " 0b" $8 $9 $10 $11 $12 $13 $14 $15 }' shroom0.pbm 
 0b00000011 0b11110000
 0b00001111 0b11001100
@@ -145,4 +491,19 @@ jump forever
 0b00000000 0b00000000
 0b00000000 0b00000000
 
-: shroom
+# :monitor shroom0 32
+# :monitor shroom1 32
+# :monitor shroom2 32
+# :monitor shroom3 32
+# :monitor shroom4 32
+# :monitor shroom5 32
+# :monitor shroom6 32
+# :monitor shroom7 32
+# :monitor shroom8 32
+# :monitor shroom9 32
+# :monitor shrooma 32
+# :monitor shroomb 32
+# :monitor shroomc 32
+# :monitor shroomd 32
+# :monitor shroome 32
+# :monitor shroomf 32
