@@ -1,17 +1,18 @@
 # s b o o o o...
 
-001 20 fb
-003 28 fb
-005 30 fb
 007 38 fb
+005 30 fb
+003 28 fb
+001 20 fb
 
-008 40 fb
-00a 48 fb
-00c 50 fb
 00e 58 fb
+00c 50 fb
+00a 48 fb
+008 40 fb
 
-009 60 fb
-00b 68 fb
-00d 70 fb
 00f 78 fb
+00d 70 fb
+00b 68 fb
+009 60 fb
+
 
