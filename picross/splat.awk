@@ -12,6 +12,7 @@ BEGIN {
 
 	f = "  %s"
 	for (i = 0; i < 32; i++) {
+		if ((i % 8) == 0) print ""
 		printf("%03x", i)
 		printf(f, a[i++])
 		printf(f, a[i])
@@ -23,10 +24,19 @@ BEGIN {
 	z = "_z._z._z._z-_z._z._z._z"
 }
 
+$1 ~ /^#/ { next }
+
+NF == 0 { print }
+
 NF > 2 {
-	p = ("0x" $1) + 0; b = a[p]; p = 0
+	if ($1 ~ /^#/) next
+
+	p = ("0x" $1) + 0; b = a[p]
+
+	print $1, $2, ("0x" $2) - p
+
+	p = 0
 	for (i = 2; i <= NF; i++) {
-		if ($1 ~ /#/) next
 		p += "0x" $i
 		split(b, v, /[\.-]/)
 		j = v[1]; k = v[2]
