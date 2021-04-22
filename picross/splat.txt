@@ -15,4 +15,27 @@
 00b 68 fb
 009 60 fb
 
+016 98 fb
+014 90 fb
+012 88 fb
+010 80 fb
 
+017 b8 fb
+015 b0 fb
+013 a8 fb
+011 a0 fb
+
+# 01e d8 fb
+01c d0 fb
+01a c8 fb
+018 c0 fb
+
+# 01f f8 fb
+01d f0 fb
+01b e8 fb
+019 e0 fb
+
+006 18 fb
+004 10 fb
+002 08 fb
+000 00 fb
