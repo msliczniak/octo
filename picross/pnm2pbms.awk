@@ -102,7 +102,40 @@ NR == 3 {
 	next
 }
 
-NF > 0 {
+NF == 0 { next }
+
+# 4-color
+max == 3 {
+	i = 1
+	for (;;) {
+		if ($i == 0) {
+			printf("1") >pri
+			printf("1") >sec
+		} else if ($i == 1) {
+			printf("0") >pri
+			printf("1") >sec
+		} else if ($i == 2) {
+			printf("1") >pri
+			printf("0") >sec
+		} else {
+			printf("0") >pri
+			printf("0") >sec
+		}
+
+		i += stride
+		if (i > NF) break
+
+		printf(" ") >pri
+		printf(" ") >sec
+	}
+
+	print "" >pri
+	print "" >sec
+
+	next
+}
+
+{
 	i = 1
 	for (;;) {
 		if ($i == max) printf("0") >pri
@@ -120,4 +153,6 @@ NF > 0 {
 
 	print "" >pri
 	print "" >sec
+
+	next
 }
