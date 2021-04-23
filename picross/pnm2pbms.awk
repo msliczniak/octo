@@ -36,12 +36,14 @@ BEGIN {
 
 	# get the unit number, 0 or 1
 	unit = substr(base, i)
-	if (unit == "0") sec = "1"
-	else if (unit == "1") sec = "0"
+	if (unit == "0") pri = "1"
+	else if (unit == "1") pri = "0"
 	else {
 		print prog ": unit number not 0 or 1: " ARGV[1] >"/dev/stderr"
 		exit(1)
 	}
+	sec = unit
+	unit = pri
 
 	# remove unit from base
 	base = substr(base, 1, i - 1)
@@ -51,8 +53,8 @@ BEGIN {
 	}
 
 	# primary and secondary filenames
-	pri = base unit ".pbm"
 	sec = base sec ".pbm"
+	pri = base pri ".pbm"
 
 	#print pri, sec
 	#exit
@@ -103,14 +105,19 @@ NR == 3 {
 NF > 0 {
 	i = 1
 	for (;;) {
-		cur = $(i - 1) " " $i " " $(i + 1)
-		printf("%s", $i)
+		if ($i == max) printf("0") >pri
+		else printf("1") >pri
+
+		if ($i == 0) printf("1") >sec
+		else printf("0") >sec
 
 		i += stride
 		if (i > NF) break
 
-		printf(" ")
+		printf(" ") >pri
+		printf(" ") >sec
 	}
 
-	print ""
+	print "" >pri
+	print "" >sec
 }
