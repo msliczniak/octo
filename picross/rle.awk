@@ -12,11 +12,14 @@ BEGIN {
 		gsub(/'/, "'\''", fn)
 		cmd = cmd " '" fn "'"
 	}
-	cmd = cmd "' -depth 1 gray:- | xxd -c 30 -b"
-	print cmd; exit
+	cmd = cmd " -depth 1 gray:- | xxd -c30 -g0 -b"
+	#print cmd; exit
 
 	while ( ( cmd ) | getline ) {
+		n = split($2, a, "")
+		for (i = 1; i <= n; i++) printf(" %s", a[i])
+		print ""
 	}
 
-	exit
+	exit(0)
 }
