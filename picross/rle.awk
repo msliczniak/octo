@@ -2,10 +2,27 @@
 
 # 4-bit unescaped RLE
 
+BEGIN {
+       	# imagemagick's 'gray' format is light on screen not ink to paper
+	hi = 0
+	lo = 1
+}
+
 # didn't grow much
 # $ ./rle.awk lady[01].pbm shroom[01].pbm wolf[01].pbm | wc | \
 #   awk '{ print $1 + int($2 / 2 + .5), 30 * $1 }'
 # 221 180
+
+# output 4-bits
+function outn(c) {
+	# remove bias
+	if (sym == lo) {
+		if (c % 2) c++
+		else c--
+	}
+
+	printf(" %2d.%s", c, sym)
+}
 
 BEGIN {
 	if (ARGC < 2) exit 1
@@ -23,7 +40,7 @@ BEGIN {
 		#print $2
 
 		n = split($2, a, "")
-		sym = 1 # gray is light on screen not ink to paper
+		sym = lo
 		j = 0
 		for (i = 1; i <= n; i++) {
 			#print ":" a[i]
@@ -33,7 +50,7 @@ BEGIN {
 
 			if (a[i] == sym) {
 				if (j == 15) {
-					printf(" 15.%s", sym)
+					outn(j)
 					j = 0
 
 					continue
@@ -43,12 +60,12 @@ BEGIN {
 				continue
 			}
 
-			printf(" %2d.%s", j, sym)
+			outn(j)
 			sym = a[i]
 			j = 1
 		}
 
-		if (j != 0) printf(" %2d.%s", j, sym)
+		if (j != 0) outn(j)
 		print ""
 	}
 
