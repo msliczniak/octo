@@ -2,6 +2,11 @@
 
 # 4-bit unescaped RLE
 
+# didn't grow much
+# $ ./rle.awk lady[01].pbm shroom[01].pbm wolf[01].pbm | wc | \
+#   awk '{ print $1 + int($2 / 2 + .5), 30 * $1 }'
+# 221 180
+
 BEGIN {
 	if (ARGC < 2) exit 1
 
@@ -28,7 +33,7 @@ BEGIN {
 
 			if (a[i] == sym) {
 				if (j == 15) {
-					printf(" 15")
+					printf(" 15.%s", sym)
 					j = 0
 
 					continue
@@ -38,12 +43,12 @@ BEGIN {
 				continue
 			}
 
-			printf(" %2d", j)
+			printf(" %2d.%s", j, sym)
 			sym = a[i]
 			j = 1
 		}
 
-		if (j != 0) printf(" %2d", j)
+		if (j != 0) printf(" %2d.%s", j, sym)
 		print ""
 	}
 
