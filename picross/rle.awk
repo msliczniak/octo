@@ -8,17 +8,14 @@ BEGIN {
 	lo = 1
 }
 
-# didn't grow much
-# $ ./rle.awk lady[01].pbm shroom[01].pbm wolf[01].pbm | wc | \
-#   awk '{ print $1 + int($2 / 2 + .5), 30 * $1 }'
-# 221 180
-
 # output 4-bits
 function outn(c) {
-	# remove bias
+	# remove biases
+	if (c) c--; else c = 15
+
 	if (sym == lo) {
-		if (c % 2) c++
-		else c--
+		if (c == 1) c = 0 
+		else if (c == 0) c = 1
 	}
 
 	printf(" %2d.%s", c, sym)
