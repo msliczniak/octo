@@ -1,0 +1,105 @@
+:alias SHBYTE v2
+:alias NBITS v3
+:alias BPOS v4
+:alias VAL v5
+:alias INK v6
+:alias BIT v7
+:alias IDX v8
+:alias OPOS v9
+:alias ROW va
+:alias COL va
+
+:org 0
+
+:org 0x200
+: main
+
+:call unrice
+
+: forever
+jump forever
+
+: _getbit
+
+i := puzzle0
+i += BPOS
+load v0
+SHBYTE := v0
+NBITS := 7
+jump _getbit_gotbit
+
+: getbit
+
+if NBITS == 0
+then jump _getbit
+NBITS -= 1
+
+: _getbit_gotbit
+SHBYTE <<= SHBYTE
+return
+
+: unrice
+NBITS := 0
+BPOS := 0
+INK := 0
+ROW := 0
+COL := 0
+IDX := 0
+OPOS := 0
+BIT := 0x80
+
+VAL := 0
+
+: _unrice_unary
+:call getbit
+if vf == 0
+then jump _unrice_haveu
+VAL += 2
+jump _unrice_unary
+
+: _unrice_haveu
+:call getbit
+VAL |= vf
+
+
+
+i := 0
+i += OPOS
+v0 := v1
+save v0
+OPOS += 1
+ROW += 1
+COL := 0
+IDX := 0
+
+return
+
+: puzzle0
+# $ ./rle.awk shroom0.pbm | ./rice.awk k=1 | fmt -15 | awk 'NF != 8 { exit }
+#   { print "0b" $1 $2 $3 $4 $5 $6 $7 $8 }'
+0b11001101
+0b11100110
+0b10001101
+0b00001011
+0b01000000
+0b00110110
+0b10001000
+0b10110101
+0b10011001
+0b10111110
+0b01101010
+0b00101011
+0b10100101
+0b00000110
+0b10110100
+0b00111100
+0b00010111
+0b11110001
+0b10000000
+0b00000100
+0b00001000
+0b00000100
+0b00100001
+0b11101001
+0b01001110
+0b10000000
