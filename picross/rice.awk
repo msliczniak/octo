@@ -20,7 +20,7 @@ NR == 1 {
 	m = k*2
 }
 
-{
+NF != 0 {
 	for (i = 1; i <= NF; i++) printf("%s%s", q[int(int($i)/m)], r[int($i)])
 	print ""
 }
