@@ -88,12 +88,9 @@ ${NAME}.png : ${GIFS}
 	montage $(GIFS) -geometry +0+0 -tile 4x $@
 
 .pbm.gif :
-	convert -size 15x7 xc:white $< -flop \
-	  -gravity center -composite \
-	  -flop \
-	  -negate \
-	  -gravity northwest -background black -extent 16x8 \
-	  -negate -strip $@
+	convert -size 15x8 xc:white $< -gravity North -composite -negate \
+	  -gravity South  \( -size 15x7 xc:white $< -composite \) -composite \
+	  -strip $@
 
 clean :
 	$(RM) $(TGTS) $(OBJS)
