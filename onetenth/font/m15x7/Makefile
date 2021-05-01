@@ -2,7 +2,7 @@ LANG = C
 
 NAME = montage
 
-TGTS = ${NAME}.txt ${NAME}.png
+TGTS = ${NAME}.txt ${NAME}.png ${NAME}.gif
 
 all : ${TGTS}
 
@@ -16,13 +16,18 @@ GIFS =  0-spi.gif 1-0b.gif 2-1r.gif 3-2i.gif 4-4b.gif 5-8r.gif 6-16i.gif \
         d-2kb.gif e-4kr.gif f-8ki.gif g-16kb.gif h-32kr.gif i-64ki.gif \
         j-128kr.gif
 
+PNGS =  0-spi.png 1-0b.png 2-1r.png 3-2i.png 4-4b.png 5-8r.png 6-16i.png \
+        7-32b.png 8-64r.png 9-128i.png a-256b.png b-512r.png c-1ki.png \
+        d-2kb.png e-4kr.png f-8ki.png g-16kb.png h-32kr.png i-64ki.png \
+        j-128kr.png
+
 TXTS =  0-spi.txt 1-0b.txt 2-1r.txt 3-2i.txt 4-4b.txt 5-8r.txt 6-16i.txt \
         7-32b.txt 8-64r.txt 9-128i.txt a-256b.txt b-512r.txt c-1ki.txt \
         d-2kb.txt e-4kr.txt f-8ki.txt g-16kb.txt h-32kr.txt i-64ki.txt \
         j-128kr.txt
 
 SRCS =  ${PBMS}
-OBJS =  ${GIFS} ${TXTS}
+OBJS =  ${PNGS} ${GIFS} ${TXTS}
 
 CONVERT = ./convert.awk
 FONT =    ./font.sh
@@ -35,8 +40,9 @@ RM =      /bin/rm -f
 % : %.txt
 % : %.gif
 % : %.pbm
+% : %.png
 
-.SUFFIXES : .gif .pbm .txt
+.SUFFIXES : .gif .pbm .png .txt
 
 .PHONY : all clean force
 
@@ -46,16 +52,26 @@ force :
 
 ${OBJS} : Makefile
 
+${PNGS} : ${GIFS}
+
 ${TXTS} : ${FONT}
 
 ${NAME}.txt : ${TXTS}
 	$(CAT) $(TXTS) >$@
+
+.gif.png :
+	convert $< -crop 16x1 -gravity North -background black \
+	  -splice 0x1 -append $@
 
 .gif.txt :
 	$(FONT) $< >$@
 
 ${NAME}.png : ${GIFS}
 	montage $(GIFS) -geometry +0+0 -tile 4x $@
+
+${NAME}.gif : ${PNGS}
+	montage $(PNGS) -geometry +0+0 -tile 4x gif:- | \
+	gifsicle -wk2 '-t#ffffff' >$@
 
 .pbm.gif :
 	$(CONVERT) $< >$@
