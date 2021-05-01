@@ -34,11 +34,12 @@ RTXTS = 0-spi-r.txt 1-0b-r.txt 2-1r-r.txt 3-2i-r.txt 4-4b-r.txt \
 SRCS =  ${PBMS}
 OBJS =  ${PGMS} ${GIFS} ${TXTS} ${RTXTS}
 
-FONT =  ./font.sh
-PGM =   ./pgm.awk
-PLANE = ./plane.awk
-CAT =   /bin/cat
-RM =    /bin/rm -f
+CONVERT = ./convert.awk
+FONT =    ./font.sh
+PGM =     ./pgm.awk
+PLANE =   ./plane.awk
+CAT =     /bin/cat
+RM =      /bin/rm -f
 
 # GNU make stupidity
 .SECONDARY :
@@ -88,9 +89,7 @@ ${NAME}.png : ${GIFS}
 	montage $(GIFS) -geometry +0+0 -tile 4x $@
 
 .pbm.gif :
-	convert -size 15x8 xc:white $< -gravity North -composite -negate \
-	  -gravity South  \( -size 15x7 xc:white $< -composite \) -composite \
-	  -strip $@
+	$(CONVERT) $< >$@
 
 clean :
 	$(RM) $(TGTS) $(OBJS)
