@@ -2,7 +2,7 @@ LANG = C
 
 NAME = montage
 
-TGTS = ${NAME}.txt ${NAME}.png ${NAME}.gif
+TGTS = ${NAME}.txt ${NAME}.png ${NAME}.gif mockupeti.GIF
 
 all : ${TGTS}
 
@@ -50,7 +50,7 @@ RM =      /bin/rm -f
 
 force :
 
-${OBJS} : Makefile
+${OBJS} ${TGTS} : Makefile
 
 ${PNGS} : ${GIFS}
 
@@ -58,6 +58,9 @@ ${TXTS} : ${FONT}
 
 ${NAME}.txt : ${TXTS}
 	$(CAT) $(TXTS) >$@
+
+mockupeti.GIF : mockupeti.png
+	convert mockupeti.png -sample '256x192!' mockupeti.GIF
 
 .gif.png :
 	convert $< -crop 16x1 -gravity North -background black \
