@@ -74,12 +74,9 @@ ${OBJS} ${TGTS} : Makefile
 #${NAME}.png : ${GIFS}
 #	montage $(GIFS) -geometry +0+0 -tile 4x $@
 
-#${NAME}.png : ${PBMS}
-#	convert $(PBMS) +repage +append -splice 0x1 -crop 64x11 -append  $@
-
 ${NAME}.gif : ${PBMS}
 	convert $(PBMS) +repage +append -splice 0x1 -crop 64x11 -append \
-	  +repage gif:- | gifsicle -wk2 '-t#ffffff' >$@
+	  -crop 64x54+0+1 +repage gif:- | gifsicle -wk2 '-t#ffffff' >$@
 
 #.pbm.gif :
 #	$(CONVERT) $< >$@
