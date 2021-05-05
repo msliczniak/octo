@@ -3,7 +3,7 @@ LANG = C
 NAME = montage
 
 #TGTS = ${NAME}.txt ${NAME}.png ${NAME}.gif mockupeti.GIF
-TGTS = ${NAME}.gif
+TGTS = ${NAME}.gif mockup.png
 
 all : ${TGTS}
 
@@ -76,7 +76,11 @@ ${OBJS} ${TGTS} : Makefile
 
 ${NAME}.gif : ${PBMS}
 	convert $(PBMS) +repage +append -splice 0x1 -crop 64x11 -append \
-	  -crop 64x54+0+1 +repage gif:- | gifsicle -wk2 '-t#ffffff' >$@
+	  -crop 64x54+0+1 +repage -gravity South -chop 0x1 -negate gif:- | \
+	gifsicle -wk2 '-t#ffffff' >$@
+
+mockup.png : ${NAME}.gif back.png
+	composite -gravity South $(NAME).gif back.png mockup.png
 
 #.pbm.gif :
 #	$(CONVERT) $< >$@
