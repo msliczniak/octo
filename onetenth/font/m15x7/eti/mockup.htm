@@ -12,20 +12,12 @@
 	image-rendering:crisp-edges;               /* CSS4 Proposed  */
 	image-rendering:pixelated;                 /* CSS4 Proposed  */
 	-ms-interpolation-mode:nearest-neighbor;   /* IE8+           */
+	width:  320px;
+	height: 236px;
 	border: solid 20px gray;
 }</style
 ><head><title>mockup</title
 ><body
-><img class="pixelated" id="img" alt="pixelated" src="mockup.png"></div
+><img class="pixelated" id="img" alt="pixelated" src="mockup.gif"></div
 ></body
-><script type="text/javascript"
->// Safari does not work with background images
-window.onload = (event) => {
-	// Size set by browser and special CSS applied
-	var img = document.getElementById('img');
-	var w = img.width
-	var h = img.height
-	img.width = w * 5
-	img.height = h * 4
-};</script
 ></html>

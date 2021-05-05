@@ -3,7 +3,7 @@ LANG = C
 NAME = montage
 
 #TGTS = ${NAME}.txt ${NAME}.png ${NAME}.gif mockupeti.GIF
-TGTS = ${NAME}.gif mockup.png
+TGTS = ${NAME}.gif mockup.png mockupbw.png mockup.gif
 
 all : ${TGTS}
 
@@ -82,6 +82,16 @@ ${NAME}.gif : ${PBMS}
 mockup.png : ${NAME}.gif back.png
 	composite -gravity South $(NAME).gif back.png mockup.png
 
+mockupbw.png : ${NAME}.gif back.png
+	convert back.png -threshold 0 +dither -monochrome ${NAME}.gif \
+	  -gravity South -composite mockupbw.png
+
+mockup.gif : mockup.png
+	convert mockup.png -fill white -draw 'line 31,0 31,5' \
+	  mockup.png +swap gif:- | \
+	gifsicle -O3 -d10 '#0' -d90 '#1' -l0 >mockup.gif
+
+admins-Air:eti aga$ open -a safari mockup.gif
 #.pbm.gif :
 #	$(CONVERT) $< >$@
 
