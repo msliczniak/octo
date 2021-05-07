@@ -1,0 +1,66 @@
+There is no hope fitting the difference of the maximum and minimum score in 12 bits:
+
+>>> def max(x):
+...     if x == 0:
+...             return 1
+...     return max(x - 1)*2 + x + 1
+... 
+>>> def min(x):
+...     if x == 0:
+...             return 1
+...     return max(x - 1) + x + 1
+... 
+>>> map(max, xrange(17))
+[1, 4, 11, 26, 57, 120, 247, 502, 1013, 2036, 4083, 8178, 16369, 32752, 65519, 131054, 262125]
+>>> map(min, xrange(17))
+[1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071]
+>>> hex(262125 - 131071)
+'0x1ffee'
+>>> for i in xrange(17):
+...     print i, hex(sum(map(max, xrange(i))) - sum(map(min, xrange(i))))
+... 
+0 0x0
+1 0x0
+2 0x1
+3 0x5
+4 0x10
+5 0x2a
+6 0x63
+7 0xdb
+8 0x1d2
+9 0x3c8
+10 0x7bd
+11 0xfb1
+12 0x1fa4
+13 0x3f96
+14 0x7f87
+15 0xff77
+16 0x1ff66
+>>> hex(4096)
+'0x1000'
+
+16 nybbles representing the board, 1 - 15 values of tiles and 0
+implying special.  Then up to 4 more bits.  Take the 16 nybbles and
+copy them to 16-byte board.
+
+Look at 9th byte:
+
+If the most significant bit is 1 then that means that the highest
+tile is 2^17 (128k).  Add one to every tile that is not zero in
+16-byte board.  (There will be exactly 14 such tiles.) The second
+bit indicates where the 2^17 tile is (0 first blank tile, 1 second).
+Finally the third bit indicates whether the only remaining blank
+tile is 2^0 or 2^1.  (0 means that tile is a two and 1 means it is
+a four.) This leaves five bits to record the highest bits of the
+score delta.
+
+If instead the first bit is 0 then that means that there is no 2^17
+tile.  In this case do not go back and increase board values.  There
+can potentially be up to two 2^16 tiles (below handles up to three
+though).  Look at the next three bits any 1 means tile s 2^16,
+update board accordingly.  Conveniently four bits remain for the
+score delta.
+
+For SCHIP the four extra bits which do not fit in the 64 user flags
+bits are returned on the stack as the address of the invalid opcode.
+For OCTO saveflags saves up to 16 bytes (undocumented feature).
