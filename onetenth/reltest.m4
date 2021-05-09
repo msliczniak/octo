@@ -5,6 +5,7 @@ RELFILE(`reltest.txt')dnl
 
 SIL(`bar - 4')
 SEI(`bar + 2')
+SIL(`foo')
 
 : foo
 :byte 0 1 2 3

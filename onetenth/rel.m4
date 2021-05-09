@@ -16,11 +16,18 @@ define(`SEI', `dnl
 :org { HERE + 2 } # i := '$1`
 syscmd(`echo ":org { rel@'__REL_NUM` } :calc addr { '$1` } i := addr" >>'__REL_FILE)dnl
 ifelse(sysval, 0, , `m4exit(sysval)')dnl
+pushdef(`N', incr(__REL_NUM))dnl
+popdef(`__REL_NUM')dnl
+pushdef(`__REL_NUM', N)dnl
+popdef(`N')dnl
 ')dnl
 define(`SIL', `dnl
 :calc rel@'__REL_NUM` { HERE }
 :org { HERE + 4 } # i := '$1`
-syscmd(`echo ":org { rel@'__REL_NUM` } :calc addr { '$1` } i := addr" >>'__REL_FILE)dnl
+syscmd(`echo ":org { rel@'__REL_NUM` } :calc addr { '$1` } i := long addr" >>'__REL_FILE)dnl
 ifelse(sysval, 0, , `m4exit(sysval)')dnl
-define(`__REL_NUM', incr(__REL_NUM))dnl
+pushdef(`N', incr(__REL_NUM))dnl
+popdef(`__REL_NUM')dnl
+pushdef(`__REL_NUM', N)dnl
+popdef(`N')dnl
 ')dnl
