@@ -64,4 +64,42 @@ jump init
 :byte 3 SYS00
 
 : start
-jump start
+i := eight
+
+v1 := 19
+:call nums
+
+v1 := 26
+:call nums
+
+: forever
+jump forever
+
+: nums
+v0 := 1
+
+: _nums
+sprite v0 v1 5
+
+if v0 == 61 then
+return
+
+v0 += 4
+jump _nums
+
+: bits0
+:byte 0xc0
+:byte 0
+
+: bits1
+:byte 0x36
+
+: bits2
+:byte 0xdb
+
+: eight
+:byte 0xe0
+:byte 0xa0
+:byte 0xe0
+:byte 0xa0
+:byte 0xe0
