@@ -61,6 +61,17 @@ jump init
 :byte 0xd4	# SEP R4
 
 : init
+
+# should be GLO RC not GHI RC
+i := 0x228
+v0 := 0x8c
+save v0
+
+#v0 := 6
+#v1 := 0
+#v2 := 0
+#:byte 0xb1 2
+
 :call white
 
 i := 0x301
@@ -72,8 +83,10 @@ save v0
 # black background
 :byte 2 0xa0
 
+# install custom ISR
 :byte 3 SYS00
 
+# HIRES 32x8 color mode
 v0 := 0
 v1 := 0
 v2 := 0
