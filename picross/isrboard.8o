@@ -67,11 +67,6 @@ i := 0x228
 v0 := 0x8c
 save v0
 
-#v0 := 6
-#v1 := 0
-#v2 := 0
-#:byte 0xb1 2
-
 :call white
 
 i := 0x301
@@ -106,25 +101,16 @@ jump forever
 : white
 v0 := 7
 v1 := 0
-
-: _white0
 v2 := 18
 
 : _white
-:byte 0xb1 1
+:byte 0xb1 14
 
-if v2 == 31 then
-jump _white1
-
-v2 += 1
-jump _white
-
-: _white1
 if v1 == 56 then
 return
 
 v1 += 8
-jump _white0
+jump _white
 
 : nums
 v0 := 1
