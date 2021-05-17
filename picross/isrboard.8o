@@ -64,6 +64,11 @@ jump init
 :byte 3 SYS00
 
 : start
+# black background
+:byte 2 0xa0
+
+:call white
+
 i := eight
 
 v1 := 19
@@ -74,6 +79,29 @@ v1 := 26
 
 : forever
 jump forever
+
+: white
+v0 := 7
+v1 := 0
+
+: _white0
+v2 := 18
+
+: _white
+:byte 0xb1 1
+
+if v2 == 31 then
+jump _white1
+
+v2 += 1
+jump _white
+
+: _white1
+if v1 == 56 then
+return
+
+v1 += 8
+jump _white0
 
 : nums
 v0 := 1
