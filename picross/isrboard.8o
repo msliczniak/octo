@@ -51,6 +51,7 @@ jump init
 :byte 0x28          #		DEC  R8              ;2D: 28          
 :byte 0x30 0x03     #		BR   B03             ;2E: 30 03       
 
+# install custom ISR
 :calc SYS00_LSB { HERE & 255 }
 :macro SYS00 { :byte SYS00_LSB }
 :byte 0xf8 3	# LDI 03H
@@ -59,6 +60,27 @@ jump init
 :byte 0xf8 INT	# LDI H
 :byte 0xa1	# PLO R1
 :byte 0xd4	# SEP R4
+
+# upper disply page
+:calc SYS01_LSB { HERE & 255 }
+:macro SYS01 { :byte SYS01_LSB }
+:byte 0x92	# GHI  R2
+:byte 0xbb	# PHI  RB
+:byte 0xba	# PHI  RA
+:byte 0xf8 0	# LDI  00H
+:byte 0xaa	# PLO  RA
+:byte 0xd4	# SEP  R4
+
+# default display page
+:calc SYS02_LSB { HERE & 255 }
+:macro SYS02 { :byte SYS02_LSB }
+:byte 0x92	# GHI  R2
+:byte 0xfc 1	# ADI  01H
+:byte 0xbb	# PHI  RB
+:byte 0xba	# PHI  RA
+:byte 0xf8 0	# LDI  00H
+:byte 0xaa	# PLO  RA
+:byte 0xd4	# SEP  R4
 
 : color :next _color
 :byte 0xb1 14
@@ -78,7 +100,6 @@ then return
 jump board
 
 : init
-
 # should be GLO RC not GHI RC
 i := 0x228
 v0 := 0x8c
@@ -125,6 +146,19 @@ v0 := ADDR
 save v0
 
 : start
+:byte 3 SYS02
+load vf
+:byte 3 SYS01
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+:byte 3 SYS02
+
 # black background
 :byte 2 0xa0
 
@@ -143,11 +177,18 @@ v1 := 19
 v1 := 26
 :call nums
 
+i := _board
+v0 := 6
+save v0
 :call zone
 
 i := _board
 v0 := 4
 save v0
+:byte 3 SYS01
+:call zone
+:byte 3 SYS02
+
 
 : forever
 jump forever
