@@ -143,51 +143,7 @@ v1 := 19
 v1 := 26
 :call nums
 
-i := bits0
-v0 := 12
-v1 := 62
-v2 := 16
-:call board
-v1 := 59
-:call board
-v1 := 56
-:call board
-v1 := 53
-:call board
-v1 := 50
-:call board
-
-i := _board
-v0 := 1
-save v0
-i := bits0
-v0 := 11
-v1 := 48
-:call board
-
-i := bits1
-v0 := 10
-v1 := 58
-:call board
-v1 := 52
-:call board
-
-i := _board
-v0 := 10
-save v0
-i := bits0
-v0 := 0
-v1 := 62
-v2 := 16
-:call board
-v1 := 59
-:call board
-v1 := 56
-:call board
-v1 := 53
-:call board
-v1 := 50
-:call board
+:call zone
 
 i := _board
 v0 := 4
@@ -222,16 +178,63 @@ then return
 v0 += 4
 jump _nums
 
+: zone
+i := bits0
+v0 := 12
+v1 := 60
+v2 := 16
+:call board
+v1 := 57
+:call board
+v1 := 54
+:call board
+v1 := 51
+:call board
+v1 := 48
+:call board
+
+i := _board
+v0 := 1
+save v0
+i := bits0
+v0 := 11
+v1 := 46
+:call board
+
+i := bits1
+v0 := 10
+v1 := 58
+:call board
+v1 := 52
+:call board
+
+i := _board
+v0 := 10
+save v0
+i := bits0
+v0 := 0
+v1 := 60
+v2 := 16
+:call board
+v1 := 57
+:call board
+v1 := 54
+:call board
+v1 := 51
+:call board
+v1 := 48
+jump board
+
 : bits0
-:byte 0xc0
+:byte 0x30
 :byte 0
-:byte 0xc0
+:byte 0x30
 :byte 0
-:byte 0xc0
+:byte 0x30
 :byte 0
-:byte 0xc0
+:byte 0x30
 :byte 0
-:byte 0xc0
+:byte 0x30
 :byte 0
 
 : bits1
