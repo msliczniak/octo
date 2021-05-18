@@ -196,7 +196,7 @@ v1 := 48
 i := _board
 v0 := 1
 save v0
-i := bits0
+i := bits2
 v0 := 11
 v1 := 46
 :call board
@@ -226,22 +226,22 @@ v1 := 48
 jump board
 
 : bits0
-:byte 0x30
-:byte 0
-:byte 0x30
-:byte 0
-:byte 0x30
-:byte 0
-:byte 0x30
-:byte 0
-:byte 0x30
-:byte 0
+:byte 32
+:byte 16
+:byte 32
+:byte 16
+:byte 32
+:byte 16
+:byte 32
+:byte 16
+:byte 32
+:byte 16
 
 : bits1
 :byte 0x90
 
 : bits2
-:byte 0xdb
+:byte 48
 
 : eight
 :byte 0xe0
