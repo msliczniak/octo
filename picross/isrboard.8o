@@ -391,12 +391,14 @@ jump board
 :byte 0x22          #		DEC  R2              ;07: 22          ;  2
 :byte 0x78          #		SAV                  ;08: 78          ;  4
 :byte 0x22          #		DEC  R2              ;09: 22          ;  6
-:byte 0x52          #		STR  R2              ;0A: 52          ;  8
+#:byte 0x52          #		STR  R2              ;0A: 52          ;  8
+:byte 0x73          #		STXD                 ;0A: 52          ;  8
 :byte 0xC4          #		NOP                  ;0B: C4          ; 11
 :byte 0x19          #		INC  R9              ;0C: 19          ; 13
 :byte 0xF8 0x00     #		LDI  00H             ;0D: F8 00       ; 15
 :byte 0xA0          #		PLO  R0              ;0F: A0          ; 17
-:byte 0x22          #		DEC  R2              ;10: 22          ; 19
+#:byte 0x22          #		DEC  R2              ;10: 22          ; 19
+:byte 0xE2          #		SEX  R2              ;16: E2          ; 6
 :byte 0x7E          #		SHLC                 ;11: 7E          ; 21
 :byte 0x52          #		STR  R2              ;12: 52          ; 23
 :byte 0x92          #		GHI  R2              ;13: 92          ; 25
