@@ -381,55 +381,56 @@ jump board
 :org 0x802
 :byte 0x7A          #		REQ                  ;02: 7A          
                     #B03
-:byte 0x42          #		LDA  R2              ;03: 42          
-:byte 0x76          #		SHRC                 ;04: 76          
-:byte 0x42          #		LDA  R2              ;05: 42          
-:byte 0x70          #		RET                  ;06: 70          
+:byte 0x72          #		LDXA                 ;03:
+:byte 0xBB          #		PHI  RB 
+:byte 0x72          #		LDXA                 ;05:
+:byte 0x70          #		RET                  ;06:
                     #B07
 #:calc INT_LSB { HERE & 255 }
 #:macro INT { :byte INT_LSB }
-:byte 0x22          #		DEC  R2              ;07: 22          ;  2
-:byte 0x78          #		SAV                  ;08: 78          ;  4
-:byte 0x22          #		DEC  R2              ;09: 22          ;  6
-#:byte 0x52          #		STR  R2              ;0A: 52          ;  8
-:byte 0x73          #		STXD                 ;0A: 52          ;  8
-:byte 0xC4          #		NOP                  ;0B: C4          ; 11
-:byte 0x19          #		INC  R9              ;0C: 19          ; 13
-:byte 0xF8 0x00     #		LDI  00H             ;0D: F8 00       ; 15
-:byte 0xA0          #		PLO  R0              ;0F: A0          ; 17
-#:byte 0x22          #		DEC  R2              ;10: 22          ; 19
-:byte 0xE2          #		SEX  R2              ;16: E2          ; 6
-:byte 0x7E          #		SHLC                 ;11: 7E          ; 21
-:byte 0x52          #		STR  R2              ;12: 52          ; 23
-:byte 0x92          #		GHI  R2              ;13: 92          ; 25
-:byte 0xB0          #		PHI  R0              ;14: B0          ; 27
+:byte 0x22          #		DEC  R2              ;  2
+:byte 0x78          #		SAV                  ;  4
+:byte 0x22          #		DEC  R2              ;  6
+:byte 0x73          #		STXD                 ;  8
+:byte 0xC4          #		NOP                  ; 11
+:byte 0x9B          #		GHI  RB              ; 13
+:byte 0x73          #		STXD                 ; 15
+:byte 0xF8 0x00     #		LDI  00H             ; 17
+:byte 0xA0          #		PLO  R0              ; 19
+:byte 0x7E          #		SHLC                 ; 21
+:byte 0x52          #		STR  R2              ; 23
+:byte 0x92          #		GHI  R2              ; 25
+:byte 0xB0          #		PHI  R0              ; 27
                     #B15
 :byte 0x80          #		GLO  R0              ;15: 80          ; 4
-:byte 0xE2          #		SEX  R2              ;16: E2          ; 6
   # DMA
+:byte 0xE2          #		SEX  R2              ;16: E2          ; 6
 :byte 0x20          #		DEC  R0              ;17: 20          ; 2
 :byte 0xA0          #		PLO  R0              ;18: A0          ; 4
-:byte 0xE2          #		SEX  R2              ;19: E2          ; 6
   # DMA
+:byte 0xE2          #		SEX  R2              ;19: E2          ; 6
 :byte 0x3C 0x15     #		BN1  B15             ;1A: 3C 15       ; 2
                     #B1C
 :byte 0x80          #		GLO  R0              ;1C: 80          ; 4 2
-:byte 0xE2          #		SEX  R2              ;1D: E2          ; 6 4
   # DMA
+:byte 0xE2          #		SEX  R2              ;1D: E2          ; 6 4
 :byte 0x20          #		DEC  R0              ;1E: 20          ; 2 6
 :byte 0xA0          #		PLO  R0              ;1F: A0          ; 4
-:byte 0x34 0x1C     #		B1   B1C             ;20: 34 1C       ; 6
   # DMA
+:byte 0x34 0x1C     #		B1   B1C             ;20: 34 1C       ; 6
 :byte 0x98          #		GHI  R8              ;22: 98          ; 2
 :byte 0x32 0x29     #		BZ   B29             ;23: 32 29       ; 4
-:byte 0xAB          #		PLO  RB              ;25: AB          ; 6
   # DMA
+:byte 0xAB          #		PLO  RB              ;25: AB          ; 6
 :byte 0x2B          #		DEC  RB              ;26: 2B          ; 2
 :byte 0x8B          #		GLO  RB              ;27: 8B          ; 4
 :byte 0xB8          #		PHI  R8              ;28: B8          ; 6
                     #B29
-:byte 0x88          #		GLO  R8              ;29: 88          
-:byte 0x32 0x02     #		BZ   B02             ;2A: 32 02       
-:byte 0x7B          #		SEQ                  ;2C: 7B          
-:byte 0x28          #		DEC  R8              ;2D: 28          
-:byte 0x30 0x03     #		BR   B03             ;2E: 30 03       
+:byte 0x19          #		INC  R9 
+:byte 0x72          #		LDXA    
+:byte 0x76          #		SHRC                 ;04:
+:byte 0x88          #		GLO  R8 
+:byte 0x32 0x02     #		BZ   B02
+:byte 0x7B          #		SEQ     
+:byte 0x28          #		DEC  R8 
+:byte 0x30 0x03     #		BR   B03
