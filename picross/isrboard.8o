@@ -2,6 +2,60 @@
 : main
 jump init
 
+:calc SUBA_LSB0 { HERE & 255 }
+:macro SUBA0 { :byte SUBA_LSB0 }
+:byte 0xD2          #		SEP R2
+
+:calc SUBA_LSB1 { HERE & 255 }
+:macro SUBA1 { :byte SUBA_LSB1 }
+# A0 B0 C0 D0 E0
+:byte 0xE2          #		SEX  R2  ; 2
+:byte 0xE2          #		SEX  R2  ; 4
+:byte 0xE2          #		SEX  R2  ; 6
+
+# A1 B1 C1 D1 E1
+:byte 0x20          #		DEC  R0  ; 2
+:byte 0x20          #		DEC  R0  ; 4
+:byte 0xE2          #		SEX  R2  ; 6
+
+# A0 B0 C0 D0 E0
+:byte 0xE2          #		SEX  R2  ; 2
+:calc SUBA_LSB { HERE & 255 }
+:macro SUBA { :byte SUBA_LSB }
+:byte 0xE2          #		SEX  R2  ; 4
+:byte 0xE2          #		SEX  R2  ; 6
+
+# A1 B1 C1 D1 E1
+:byte 0x20          #		DEC  R0  ; 2
+:byte 0x20          #		DEC  R0  ; 4
+:byte 0xE2          #		SEX  R2  ; 6
+
+# A0 B0 C0 D0 E0
+:byte 0xff 2        #		SMI  02H ; 2
+:byte 0xAB          #		PLO  RB  ; 4
+:byte 0xE2          #		SEX  R2  ; 6
+
+# A1 B1 C1 D1 E1
+:byte 0x32 SUBA0    #		BZ   SUBA0 ; 2
+:byte 0xE2          #		SEX  R2  ; 4
+:byte 0x30 SUBA1        #		BR   BAR ; 6
+
+
+:byte 0xF8 10       #		LDI  0AH ; 4
+:byte 0xA0          #		PLO  R0  ; 6
+
+# .
+:byte 0x8B          #		GLO  RB  ; 2
+:byte 0xA0          #		PLO  R0  ; 4
+:byte 0x30 0        #		BR   BAR ; 6
+
+:byte 0xE2          #		SEX  R2  ; 2
+:byte 0xE2          #		SEX  R2  ; 4
+:byte 0x32 0        #		BZ   FOO ; 6
+
+                    #FOO
+:byte 0xF8 11       #		LDI  0BH ; 4
+:byte 0xA0          #		PLO  R0  ; 6
 
 :calc INT_LSB0 { HERE & 255 }
 :macro INT0 { :byte INT_LSB0 }
@@ -30,10 +84,43 @@ jump init
 :byte 0x92          #		GHI  R2              ; 25
 :byte 0xB0          #		PHI  R0              ; 27
 
+#  0 E0
+#  1 E1
+#  2 D0
+#  3 D1
+#  4 C0
+#  5 C1
+#  6 B0
+#  7 B1
+#  8 A0
+#  9 A1
+# 10 -
+# 11 .
+
+ # # A0 B0 C0 D0 E0
+ # :byte 0x80          #		GLO  R0  ; 2
+ # :byte 0xE2          #		SEX  R2  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A1 B1 C1 D1 E1
+ # :byte 0x20          #		DEC  R0  ; 2
+ # :byte 0x20          #		DEC  R0  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+
 :calc INT_LSB2 { HERE & 255 }
 :macro INT2 { :byte INT_LSB2 }
 :byte 0x80          #		GLO  R0              ; 
   # DMA
+:byte 0x92          #		GHI  R2              ; 
+:byte 0xBB          #		PHI  RB              ; 
+:byte 0xF8 SUBA     #		LDI  SUBA            ;
+  # DMA
+:byte 0xAB          #		PLO  RB              ;
+:byte 0xF8 8        #		LDI  08H             ;
+:byte 0xA0          #		PLO  R0              ;
+  # DMA
+:byte 0xDB	    #		SEP RB
+
 :byte 0xE2          #		SEX  R2              ; 2
 :byte 0x20          #		DEC  R0              ; 4
 :byte 0xA0          #		PLO  R0              ; 6
@@ -214,8 +301,8 @@ jump init
 # install custom ISR
 :calc SYS00_LSB { HERE & 255 }
 :macro SYS00 { :byte SYS00_LSB }
-:byte 0xf8 3	# LDI 03H
-#:byte 0xf8 8	# LDI 08H
+#:byte 0xf8 3	# LDI 03H
+:byte 0xf8 8	# LDI 08H
 :byte 0x00	# IDL
 :byte 0xb1	# PHI R1
 :byte 0xf8 INT	# LDI H
