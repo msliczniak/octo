@@ -32,31 +32,31 @@ jump init
 
 :calc INT_LSB2 { HERE & 255 }
 :macro INT2 { :byte INT_LSB2 }
-:byte 0x80          #		GLO  R0              ; 4
+:byte 0x80          #		GLO  R0              ; 
   # DMA
-:byte 0xE2          #		SEX  R2              ; 6
-:byte 0x20          #		DEC  R0              ; 2
-:byte 0xA0          #		PLO  R0              ; 4
+:byte 0xE2          #		SEX  R2              ; 2
+:byte 0x20          #		DEC  R0              ; 4
+:byte 0xA0          #		PLO  R0              ; 6
   # DMA
-:byte 0xE2          #		SEX  R2              ; 6
-:byte 0x3C INT2     #		BN1  INT2            ; 2
+:byte 0xE2          #		SEX  R2              ; 2
+:byte 0x3C INT2     #		BN1  INT2            ; 4
                     #B1C
-:byte 0x80          #		GLO  R0              ; 4 2
+:byte 0x80          #		GLO  R0              ; 6
   # DMA
-:byte 0xE2          #		SEX  R2              ; 6 4
-:byte 0x20          #		DEC  R0              ; 2 6
-:byte 0xA0          #		PLO  R0              ; 4
+:byte 0xE2          #		SEX  R2              ; 2
+:byte 0x20          #		DEC  R0              ; 4
+:byte 0xA0          #		PLO  R0              ; 6
   # DMA
-:byte 0x34 0x1C     #		B1   B1C             ; 6
-:byte 0x98          #		GHI  R8              ; 2
-:byte 0x32          #		BZ   INT3            ; 4
+:byte 0x34 0x1C     #		B1   B1C             ; 2
+:byte 0x98          #		GHI  R8              ; 4
+:byte 0x32          #		BZ   INT3            ; 6
 :calc _INT3 { HERE }
 :org { HERE + 1 }
   # DMA
-:byte 0xAB          #		PLO  RB              ; 6
-:byte 0x2B          #		DEC  RB              ; 2
-:byte 0x8B          #		GLO  RB              ; 4
-:byte 0xB8          #		PHI  R8              ; 6
+:byte 0xAB          #		PLO  RB              ; 
+:byte 0x2B          #		DEC  RB              ; 
+:byte 0x8B          #		GLO  RB              ; 
+:byte 0xB8          #		PHI  R8              ; 
 
 :calc INT_LSB3 { HERE & 255 }
 :macro INT3 { :byte INT_LSB3 }
