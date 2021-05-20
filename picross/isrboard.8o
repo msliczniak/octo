@@ -2,146 +2,220 @@
 : main
 jump init
 
-                    #B02
-:byte 0x7A          #		REQ     
-                    #B03
-:byte 0x42          #		LDA  R2 
-:byte 0x76          #		SHRC    
-:byte 0x42          #		LDA  R2 
-:byte 0x70          #		RET     
-                    #B07
+
+:calc INT_LSB0 { HERE & 255 }
+:macro INT0 { :byte INT_LSB0 }
+:byte 0x7A          #		REQ                  ;02: 7A          
+
+:calc INT_LSB1 { HERE & 255 }
+:macro INT1 { :byte INT_LSB1 }
+:byte 0x72          #		LDXA                 ;03:
+:byte 0xBB          #		PHI  RB 
+:byte 0x72          #		LDXA                 ;05:
+:byte 0x70          #		RET                  ;06:
+
 :calc INT_LSB { HERE & 255 }
 :macro INT { :byte INT_LSB }
-:byte 0x22          #		DEC  R2  ;  2
-:byte 0x78          #		SAV      ;  4
-:byte 0x22          #		DEC  R2  ;  6
-:byte 0x52          #		STR  R2  ;  8
-:byte 0xC4          #		NOP      ; 11
-:byte 0x19          #		INC  R9  ; 13
-:byte 0xF8 0x08     #		LDI  08H ; 15
-:byte 0xA0          #		PLO  R0  ; 17
-:byte 0x22          #		DEC  R2  ; 19
-:byte 0x7E          #		SHLC     ; 21
-:byte 0x52          #		STR  R2  ; 23
-:byte 0x92          #		GHI  R2  ; 25
-:byte 0xB0          #		PHI  R0  ; 27
+:byte 0xC4          #		NOP                  ;  3
+:byte 0x22          #		DEC  R2              ;  5
+:byte 0x78          #		SAV                  ;  7
+:byte 0x22          #		DEC  R2              ;  9
+:byte 0x73          #		STXD                 ; 11
+:byte 0x9B          #		GHI  RB              ; 13
+:byte 0x73          #		STXD                 ; 15
+:byte 0xF8 0x00     #		LDI  00H             ; 17
+:byte 0xA0          #		PLO  R0              ; 19
+:byte 0x7E          #		SHLC                 ; 21
+:byte 0x52          #		STR  R2              ; 23
+:byte 0x92          #		GHI  R2              ; 25
+:byte 0xB0          #		PHI  R0              ; 27
 
-#  0 E0
-#  1 E1
-#  2 D0
-#  3 D1
-#  4 C0
-#  5 C1
-#  6 B0
-#  7 B1
-#  8 A0
-#  9 A1
-# 10 .
-# 11 -
-
-                    #BAR
-# A0 B0 C0 D0 E0
-:byte 0x80          #		GLO  R0  ; 2
-:byte 0xE2          #		SEX  R2  ; 4
-:byte 0xE2          #		SEX  R2  ; 6
-
-# A1 B1 C1 D1 E1
-:byte 0x20          #		DEC  R0  ; 2
-:byte 0x20          #		DEC  R0  ; 4
-:byte 0xE2          #		SEX  R2  ; 6
-
-# A0 B0 C0 D0 E0
-:byte 0xE2          #		SEX  R2  ; 2
-:byte 0xE2          #		SEX  R2  ; 4
-:byte 0xE2          #		SEX  R2  ; 6
-
-# A1 B1 C1 D1 E1
-:byte 0x20          #		DEC  R0  ; 2
-:byte 0x20          #		DEC  R0  ; 4
-:byte 0xE2          #		SEX  R2  ; 6
-
-# A0 B0 C0 D0 E0
-:byte 0xff 2        #		SMI  02H ; 2
-:byte 0xAB          #		PLO  RB  ; 4
-:byte 0xE2          #		SEX  R2  ; 6
-
-# A1 B1 C1 D1 E1
-:byte 0x32 0        #		BZ   FOO ; 2
-:byte 0xF8 10       #		LDI  0AH ; 4
-:byte 0xA0          #		PLO  R0  ; 6
-
-# .
-:byte 0x8B          #		GLO  RB  ; 2
-:byte 0xA0          #		PLO  R0  ; 4
-:byte 0x30 0        #		BR   BAR ; 6
-
-:byte 0xE2          #		SEX  R2  ; 2
-:byte 0xE2          #		SEX  R2  ; 4
-:byte 0x32 0        #		BZ   FOO ; 6
-
-                    #FOO
-:byte 0xF8 11       #		LDI  0BH ; 4
-:byte 0xA0          #		PLO  R0  ; 6
-
-# 12 G0
-# 13 G1
-# 14 F0
-# 15 F1
-
-# -
-:byte 0xF8 14       #		LDI  0EH ; 2
-:byte 0xA0          #		PLO  R0  ; 4
-:byte 0xF8 0        #		LDI  OFF ; 6
-
-# F0
-:byte 0x20          #		DEC  R0  ; 2
-:byte 0x20          #		DEC  R0  ; 4
-
-# A1 B1 C1 D1 E1
-:byte 0xff 2        #		SMI  02H
-:byte 0xAB          #		PLO  RB 
-:byte 0xF8 10       #		LDI  0AH
-
-:byte 0xA0          #		PLO  R0 
-:byte 0x8B          #		GLO  RB 
-:byte 0xE2          #		SEX  R2 
-
-:byte 0xA0          #		PLO  R0 
-:byte 0x30 0        #		BR   BAR
-
-
-:byte 0xB0          #		PHI  R0 
-                    #B15
-:byte 0x80          #		GLO  R0 
-:byte 0xE2          #		SEX  R2 
-:byte 0x20          #		DEC  R0 
-:byte 0xA0          #		PLO  R0 
-:byte 0xE2          #		SEX  R2 
-:byte 0x3C 0x15     #		BN1  B15
+:calc INT_LSB2 { HERE & 255 }
+:macro INT2 { :byte INT_LSB2 }
+:byte 0x80          #		GLO  R0              ; 4
+  # DMA
+:byte 0xE2          #		SEX  R2              ; 6
+:byte 0x20          #		DEC  R0              ; 2
+:byte 0xA0          #		PLO  R0              ; 4
+  # DMA
+:byte 0xE2          #		SEX  R2              ; 6
+:byte 0x3C INT2     #		BN1  INT2            ; 2
                     #B1C
-:byte 0x80          #		GLO  R0 
-:byte 0xE2          #		SEX  R2 
-:byte 0x20          #		DEC  R0 
-:byte 0xA0          #		PLO  R0 
-:byte 0x34 0x1C     #		B1   B1C
-:byte 0x98          #		GHI  R8 
-:byte 0x32 0x29     #		BZ   B29
-:byte 0xAB          #		PLO  RB 
-:byte 0x2B          #		DEC  RB 
-:byte 0x8B          #		GLO  RB 
-:byte 0xB8          #		PHI  R8 
-                    #B29
+:byte 0x80          #		GLO  R0              ; 4 2
+  # DMA
+:byte 0xE2          #		SEX  R2              ; 6 4
+:byte 0x20          #		DEC  R0              ; 2 6
+:byte 0xA0          #		PLO  R0              ; 4
+  # DMA
+:byte 0x34 0x1C     #		B1   B1C             ; 6
+:byte 0x98          #		GHI  R8              ; 2
+:byte 0x32          #		BZ   INT3            ; 4
+:calc _INT3 { HERE }
+:org { HERE + 1 }
+  # DMA
+:byte 0xAB          #		PLO  RB              ; 6
+:byte 0x2B          #		DEC  RB              ; 2
+:byte 0x8B          #		GLO  RB              ; 4
+:byte 0xB8          #		PHI  R8              ; 6
+
+:calc INT_LSB3 { HERE & 255 }
+:macro INT3 { :byte INT_LSB3 }
+:byte 0x19          #		INC  R9 
+:byte 0x72          #		LDXA    
+:byte 0x76          #		SHRC                 ;04:
 :byte 0x88          #		GLO  R8 
-:byte 0x32 0x02     #		BZ   B02
+:byte 0x32 INT0     #		BZ   INT0
 :byte 0x7B          #		SEQ     
 :byte 0x28          #		DEC  R8 
-:byte 0x30 0x03     #		BR   B03
+:byte 0x30 INT1     #		BR   INT1
+
+
+
+
+
+
+
+
+ #                     #B02
+ # :byte 0x7A          #		REQ     
+ #                     #B03
+ # :byte 0x42          #		LDA  R2 
+ # :byte 0x76          #		SHRC    
+ # :byte 0x42          #		LDA  R2 
+ # :byte 0x70          #		RET     
+ #                     #B07
+ # :calc INT_LSB { HERE & 255 }
+ # :macro INT { :byte INT_LSB }
+ # :byte 0x22          #		DEC  R2  ;  2
+ # :byte 0x78          #		SAV      ;  4
+ # :byte 0x22          #		DEC  R2  ;  6
+ # :byte 0x52          #		STR  R2  ;  8
+ # :byte 0xC4          #		NOP      ; 11
+ # :byte 0x19          #		INC  R9  ; 13
+ # :byte 0xF8 0x08     #		LDI  08H ; 15
+ # :byte 0xA0          #		PLO  R0  ; 17
+ # :byte 0x22          #		DEC  R2  ; 19
+ # :byte 0x7E          #		SHLC     ; 21
+ # :byte 0x52          #		STR  R2  ; 23
+ # :byte 0x92          #		GHI  R2  ; 25
+ # :byte 0xB0          #		PHI  R0  ; 27
+ # 
+ # #  0 E0
+ # #  1 E1
+ # #  2 D0
+ # #  3 D1
+ # #  4 C0
+ # #  5 C1
+ # #  6 B0
+ # #  7 B1
+ # #  8 A0
+ # #  9 A1
+ # # 10 .
+ # # 11 -
+ # 
+ #                     #BAR
+ # # A0 B0 C0 D0 E0
+ # :byte 0x80          #		GLO  R0  ; 2
+ # :byte 0xE2          #		SEX  R2  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A1 B1 C1 D1 E1
+ # :byte 0x20          #		DEC  R0  ; 2
+ # :byte 0x20          #		DEC  R0  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A0 B0 C0 D0 E0
+ # :byte 0xE2          #		SEX  R2  ; 2
+ # :byte 0xE2          #		SEX  R2  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A1 B1 C1 D1 E1
+ # :byte 0x20          #		DEC  R0  ; 2
+ # :byte 0x20          #		DEC  R0  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A0 B0 C0 D0 E0
+ # :byte 0xff 2        #		SMI  02H ; 2
+ # :byte 0xAB          #		PLO  RB  ; 4
+ # :byte 0xE2          #		SEX  R2  ; 6
+ # 
+ # # A1 B1 C1 D1 E1
+ # :byte 0x32 0        #		BZ   FOO ; 2
+ # :byte 0xF8 10       #		LDI  0AH ; 4
+ # :byte 0xA0          #		PLO  R0  ; 6
+ # 
+ # # .
+ # :byte 0x8B          #		GLO  RB  ; 2
+ # :byte 0xA0          #		PLO  R0  ; 4
+ # :byte 0x30 0        #		BR   BAR ; 6
+ # 
+ # :byte 0xE2          #		SEX  R2  ; 2
+ # :byte 0xE2          #		SEX  R2  ; 4
+ # :byte 0x32 0        #		BZ   FOO ; 6
+ # 
+ #                     #FOO
+ # :byte 0xF8 11       #		LDI  0BH ; 4
+ # :byte 0xA0          #		PLO  R0  ; 6
+ # 
+ # # 12 G0
+ # # 13 G1
+ # # 14 F0
+ # # 15 F1
+ # 
+ # # -
+ # :byte 0xF8 14       #		LDI  0EH ; 2
+ # :byte 0xA0          #		PLO  R0  ; 4
+ # :byte 0xF8 0        #		LDI  OFF ; 6
+ # 
+ # # F0
+ # :byte 0x20          #		DEC  R0  ; 2
+ # :byte 0x20          #		DEC  R0  ; 4
+ # 
+ # # A1 B1 C1 D1 E1
+ # :byte 0xff 2        #		SMI  02H
+ # :byte 0xAB          #		PLO  RB 
+ # :byte 0xF8 10       #		LDI  0AH
+ # 
+ # :byte 0xA0          #		PLO  R0 
+ # :byte 0x8B          #		GLO  RB 
+ # :byte 0xE2          #		SEX  R2 
+ # 
+ # :byte 0xA0          #		PLO  R0 
+ # :byte 0x30 0        #		BR   BAR
+ # 
+ # 
+ # :byte 0xB0          #		PHI  R0 
+ #                     #B15
+ # :byte 0x80          #		GLO  R0 
+ # :byte 0xE2          #		SEX  R2 
+ # :byte 0x20          #		DEC  R0 
+ # :byte 0xA0          #		PLO  R0 
+ # :byte 0xE2          #		SEX  R2 
+ # :byte 0x3C 0x15     #		BN1  B15
+ #                     #B1C
+ # :byte 0x80          #		GLO  R0 
+ # :byte 0xE2          #		SEX  R2 
+ # :byte 0x20          #		DEC  R0 
+ # :byte 0xA0          #		PLO  R0 
+ # :byte 0x34 0x1C     #		B1   B1C
+ # :byte 0x98          #		GHI  R8 
+ # :byte 0x32 0x29     #		BZ   B29
+ # :byte 0xAB          #		PLO  RB 
+ # :byte 0x2B          #		DEC  RB 
+ # :byte 0x8B          #		GLO  RB 
+ # :byte 0xB8          #		PHI  R8 
+ #                     #B29
+ # :byte 0x88          #		GLO  R8 
+ # :byte 0x32 0x02     #		BZ   B02
+ # :byte 0x7B          #		SEQ     
+ # :byte 0x28          #		DEC  R8 
+ # :byte 0x30 0x03     #		BR   B03
 
 # install custom ISR
 :calc SYS00_LSB { HERE & 255 }
 :macro SYS00 { :byte SYS00_LSB }
-#:byte 0xf8 3	# LDI 03H
-:byte 0xf8 8	# LDI 08H
+:byte 0xf8 3	# LDI 03H
+#:byte 0xf8 8	# LDI 08H
 :byte 0x00	# IDL
 :byte 0xb1	# PHI R1
 :byte 0xf8 INT	# LDI H
@@ -388,11 +462,11 @@ jump board
                     #B07
 #:calc INT_LSB { HERE & 255 }
 #:macro INT { :byte INT_LSB }
-:byte 0x22          #		DEC  R2              ;  2
-:byte 0x78          #		SAV                  ;  4
-:byte 0x22          #		DEC  R2              ;  6
-:byte 0x73          #		STXD                 ;  8
-:byte 0xC4          #		NOP                  ; 11
+:byte 0xC4          #		NOP                  ;  3
+:byte 0x22          #		DEC  R2              ;  5
+:byte 0x78          #		SAV                  ;  7
+:byte 0x22          #		DEC  R2              ;  9
+:byte 0x73          #		STXD                 ; 11
 :byte 0x9B          #		GHI  RB              ; 13
 :byte 0x73          #		STXD                 ; 15
 :byte 0xF8 0x00     #		LDI  00H             ; 17
@@ -434,3 +508,6 @@ jump board
 :byte 0x7B          #		SEQ     
 :byte 0x28          #		DEC  R8 
 :byte 0x30 0x03     #		BR   B03
+
+:org _INT3
+INT3
