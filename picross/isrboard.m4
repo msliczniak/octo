@@ -424,7 +424,7 @@ v2 := 0
 i := eight
 v1 := 19
 :call nums
-v1 := 26
+v1 := 25
 :call nums
 
 i := _board
@@ -488,12 +488,12 @@ i := _board
 v0 := 1
 save v0
 i := bits2
-v0 := 11
+v0 := 10
 v1 := 46
 :call board
 
 i := bits1
-v0 := 10
+v0 := 11
 v1 := 58
 :call board
 v1 := 52
@@ -540,62 +540,5 @@ jump board
 :byte 0xe0
 :byte 0xa0
 :byte 0xe0
-
- # :org 0x802
- # :byte 0x7A          #		REQ                  ;02: 7A          
- #                     #B03
- # :byte 0x72          #		LDXA                 ;03:
- # :byte 0xBB          #		PHI  RB 
- # :byte 0x72          #		LDXA                 ;05:
- # :byte 0x70          #		RET                  ;06:
- #                     #B07
- # #:calc INT_LSB { HERE & 255 }
- # #:macro INT { :byte INT_LSB }
- # :byte 0xC4          #		NOP                  ;  3
- # :byte 0x22          #		DEC  R2              ;  5
- # :byte 0x78          #		SAV                  ;  7
- # :byte 0x22          #		DEC  R2              ;  9
- # :byte 0x73          #		STXD                 ; 11
- # :byte 0x9B          #		GHI  RB              ; 13
- # :byte 0x73          #		STXD                 ; 15
- # :byte 0xF8 0x00     #		LDI  00H             ; 17
- # :byte 0xA0          #		PLO  R0              ; 19
- # :byte 0x7E          #		SHLC                 ; 21
- # :byte 0x52          #		STR  R2              ; 23
- # :byte 0x92          #		GHI  R2              ; 25
- # :byte 0xB0          #		PHI  R0              ; 27
- #                     #B15
- # :byte 0x80          #		GLO  R0              ;15: 80          ; 4
- #   # DMA
- # :byte 0xE2          #		SEX  R2              ;16: E2          ; 6
- # :byte 0x20          #		DEC  R0              ;17: 20          ; 2
- # :byte 0xA0          #		PLO  R0              ;18: A0          ; 4
- #   # DMA
- # :byte 0xE2          #		SEX  R2              ;19: E2          ; 6
- # :byte 0x3C 0x15     #		BN1  B15             ;1A: 3C 15       ; 2
- #                     #B1C
- # :byte 0x80          #		GLO  R0              ;1C: 80          ; 4 2
- #   # DMA
- # :byte 0xE2          #		SEX  R2              ;1D: E2          ; 6 4
- # :byte 0x20          #		DEC  R0              ;1E: 20          ; 2 6
- # :byte 0xA0          #		PLO  R0              ;1F: A0          ; 4
- #   # DMA
- # :byte 0x34 0x1C     #		B1   B1C             ;20: 34 1C       ; 6
- # :byte 0x98          #		GHI  R8              ;22: 98          ; 2
- # :byte 0x32 0x29     #		BZ   B29             ;23: 32 29       ; 4
- #   # DMA
- # :byte 0xAB          #		PLO  RB              ;25: AB          ; 6
- # :byte 0x2B          #		DEC  RB              ;26: 2B          ; 2
- # :byte 0x8B          #		GLO  RB              ;27: 8B          ; 4
- # :byte 0xB8          #		PHI  R8              ;28: B8          ; 6
- #                     #B29
- # :byte 0x19          #		INC  R9 
- # :byte 0x72          #		LDXA    
- # :byte 0x76          #		SHRC                 ;04:
- # :byte 0x88          #		GLO  R8 
- # :byte 0x32 0x02     #		BZ   B02
- # :byte 0x7B          #		SEQ     
- # :byte 0x28          #		DEC  R8 
- # :byte 0x30 0x03     #		BR   B03
 
 RELDUMP(`')dnl
