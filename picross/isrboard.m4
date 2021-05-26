@@ -349,100 +349,6 @@ if vf == 0
 then return
 jump board
 
-: init
-# should be GLO RC not GHI RC
-i := 0x228
-v0 := 0x8c
-save v0
-
-v0 := 7
-v2 := 18
-:call band
-
-i := _color
-v0 := 10
-save v0
-v0 := 2
-v1 := 0
-v2 := 0
-v4 := 4
-v5 := 3
-:call stripe
-
-i := _color
-v0 := 6
-save v0
-v1 := 0
-v2 := 12
-v5 := 3
-:call stripe
-
-# red
-i := _color
-v0 := 1
-save v0
-v2 := 10
-:call band
-
-# violet
-v0 := 3
-v2 := 11
-:call band
-
-# jump over init on reset
-i := 0x301
-:calc ADDR { ( HERE + 4 ) & 255 }
-v0 := ADDR
-save v0
-
-: start
-:byte 3 SYS02
-load vf
-:byte 3 SYS01
-save vf
-save vf
-save vf
-save vf
-save vf
-save vf
-save vf
-save vf
-:byte 3 SYS02
-
-# black background
-:byte 2 0xa0
-
-# HIRES 32x8 color mode
-v0 := 2
-v1 := 0
-v2 := 0
-:byte 0xb1 1
-
-# install custom ISR
-:byte 3 SYS00
-
-i := eight
-v1 := 19
-:call nums
-v1 := 25
-:call nums
-
-i := _board
-v0 := 6
-save v0
-:call zone
-
-i := _board
-v0 := 4
-save v0
-:byte 3 SYS01
-:call zone
-:byte 3 SYS02
-
-
-: forever
-jump forever
-
 : band
 v1 := 0
 v3 := 7
@@ -533,6 +439,99 @@ jump board
 
 : bits2
 :byte 48
+
+: init
+# should be GLO RC not GHI RC
+i := 0x228
+v0 := 0x8c
+save v0
+
+v0 := 7
+v2 := 18
+:call band
+
+i := _color
+v0 := 10
+save v0
+v0 := 2
+v1 := 0
+v2 := 0
+v4 := 4
+v5 := 3
+:call stripe
+
+i := _color
+v0 := 6
+save v0
+v1 := 0
+v2 := 12
+v5 := 3
+:call stripe
+
+# red
+i := _color
+v0 := 1
+save v0
+v2 := 10
+:call band
+
+# violet
+v0 := 3
+v2 := 11
+:call band
+
+# jump over init on reset
+i := 0x301
+:calc ADDR { ( HERE + 4 ) & 255 }
+v0 := ADDR
+save v0
+
+: start
+:byte 3 SYS02
+load vf
+:byte 3 SYS01
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+save vf
+:byte 3 SYS02
+
+# black background
+:byte 2 0xa0
+
+# HIRES 32x8 color mode
+v0 := 2
+v1 := 0
+v2 := 0
+:byte 0xb1 1
+
+# install custom ISR
+:byte 3 SYS00
+
+i := eight
+v1 := 19
+:call nums
+v1 := 25
+:call nums
+
+i := _board
+v0 := 6
+save v0
+:call zone
+
+i := _board
+v0 := 4
+save v0
+:byte 3 SYS01
+:call zone
+:byte 3 SYS02
+
+: forever
+jump forever
 
 : eight
 :byte 0xe0
