@@ -623,12 +623,35 @@ jump _key
 
 : keyn
 sprite x y 2
+delay := to
 i := v
 sprite v0 y 2
-sprite v0 y 2
-i := cursor
-sprite x y 2
-return
+y -= 2
+yo -= 1
+if yo == 9 then
+jump _keyn9
+if yo == 6 then
+jump _keyn6
+if yo == 4 then
+jump _keyn4
+if yo != 255 then
+jump _keyv
+y := 8
+yo := 14
+:byte 3 SYS02
+i := v
+jump _keyv
+: _keyn9
+y += 0x12
+jump _keyv
+: _keyn6
+y += 4
+:byte 3 SYS01
+i := v
+jump _keyv
+: _keyn4
+y -= 2
+jump _keyv
 
 : keys
 sprite x y 2
@@ -643,11 +666,13 @@ if yo == 7 then
 jump _keys7
 if yo == 10 then
 jump _keys10
-if yo == 15 then
-jump _keys15
-: _keyv
-sprite v0 y 2 
-jump _key
+if yo != 15 then
+jump _keyv
+y := 0
+yo := 0
+:byte 3 SYS01
+i := v
+jump _keyv
 : _keys5
 y += 2
 jump _keyv
@@ -658,14 +683,10 @@ i := v
 jump _keyv
 : _keys10
 y -= 18
-jump _keyv
-: _keys15
-y := 0
-yo := 0
-:byte 3 SYS01
-i := v
-jump _keyv
-
+# FALLTHRU
+: _keyv
+sprite v0 y 2 
+# FALLTHRU
 : _key
 i := cursor
 sprite x y 2
@@ -673,13 +694,6 @@ sprite x y 2
 vf := delay
 if vf != 0 then
 jump _to
-return
-
-:byte 3 SYS02
-:byte 3 SYS01
-sprite v0 y 2 
-i := cursor
-sprite x y 2
 return
 
 : eight
