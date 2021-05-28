@@ -632,6 +632,7 @@ return
 
 : keys
 sprite x y 2
+delay := to
 i := v
 sprite v0 y 2
 y += 2
@@ -642,15 +643,28 @@ if yo == 7 then
 jump _keys7
 if yo == 10 then
 jump _keys10
-
-
-: _keys5
-: _keys7
-: _keys10
+if yo == 15 then
+jump _keys15
+: _keyv
 sprite v0 y 2 
-i := cursor
-sprite x y 2
-return
+jump _key
+: _keys5
+y += 2
+jump _keyv
+: _keys7
+y -= 4
+:byte 3 SYS02
+i := v
+jump _keyv
+: _keys10
+y -= 18
+jump _keyv
+: _keys15
+y := 0
+yo := 0
+:byte 3 SYS01
+i := v
+jump _keyv
 
 : _key
 i := cursor
