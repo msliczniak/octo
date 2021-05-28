@@ -548,7 +548,7 @@ x := 0
 xo := 0
 y := 0
 yo := 0
-to := 4
+to := 6
 
 v0 := 0
 i := v
@@ -589,6 +589,7 @@ jump input
 
 : keyw
 sprite x y 2
+delay := to
 i := h
 sprite x v1 1
 if xo != 0 then
@@ -601,9 +602,7 @@ x -= 1
 x -= 3
 xo -= 1
 sprite x v1 1
-i := cursor
-sprite x y 2
-return
+jump _key
 
 : keye
 sprite x y 2
@@ -620,13 +619,7 @@ x += 1
 x += 3
 xo += 1
 sprite x v1 1
-i := cursor
-sprite x y 2
-: _to
-vf := delay
-if vf != 0 then
-jump _to
-return
+jump _key
 
 : keyn
 sprite x y 2
@@ -657,6 +650,15 @@ jump _keys10
 sprite v0 y 2 
 i := cursor
 sprite x y 2
+return
+
+: _key
+i := cursor
+sprite x y 2
+: _to
+vf := delay
+if vf != 0 then
+jump _to
 return
 
 :byte 3 SYS02
