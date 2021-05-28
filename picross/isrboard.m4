@@ -229,6 +229,13 @@ EPA(INT3)    # BZ   INT3    ;2
 :byte 0x19      # INC  R9 
 :byte 0x72      # LDXA    
 :byte 0x76      # SHRC                 ;
+:byte 0x98      # GHI  R8   
+:byte 0x32 EPA(INT6) # BZ   INT6
+:byte 0xAB      # PLO  RB   
+:byte 0x2B      # DEC  RB   
+:byte 0x8B      # GLO  RB   
+:byte 0xB8      # PHI  R8   
+: INT6
 :byte 0x88      #GLO  R8 
 :byte 0x32 EPA(INT0) #BZ   INT0
 :byte 0x7B      #SEQ     
@@ -528,10 +535,136 @@ v0 := 4
 save v0
 :byte 3 SYS01
 :call zone
-:byte 3 SYS02
+#:byte 3 SYS02
 
-: forever
-jump forever
+:alias x v2
+:alias xo v3
+:alias y v4
+:alias yo v5
+:alias kc v6
+:alias to v7
+
+x := 0
+xo := 0
+y := 0
+yo := 0
+to := 4
+
+v0 := 0
+i := v
+sprite v0 y 2
+v1 := 10
+i := h
+sprite x v1 1
+i := cursor
+sprite x y 2
+
+: input
+kc := 2
+if kc key then
+:call keyn
+kc := 4
+if kc key then
+:call keyw
+kc := 6
+if kc key then
+:call keye
+kc := 8
+if kc key then
+:call keys
+jump input
+
+: cursor
+#:byte 0x60
+#:byte 0x40
+:byte 0x20
+:byte 0
+
+: h
+0x48
+
+: v
+0x80
+0x80
+
+: keyw
+sprite x y 2
+i := h
+sprite x v1 1
+if xo != 0 then
+jump _keyw
+xo := 5
+if x == 0 then
+x := 64
+x -= 1
+: _keyw
+x -= 3
+xo -= 1
+sprite x v1 1
+i := cursor
+sprite x y 2
+return
+
+: keye
+sprite x y 2
+delay := to
+i := h
+sprite x v1 1
+if xo != 4 then
+jump _keye
+xo := 255
+if x == 60 then
+x := 252
+x += 1
+: _keye
+x += 3
+xo += 1
+sprite x v1 1
+i := cursor
+sprite x y 2
+: _to
+vf := delay
+if vf != 0 then
+jump _to
+return
+
+: keyn
+sprite x y 2
+i := v
+sprite v0 y 2
+sprite v0 y 2
+i := cursor
+sprite x y 2
+return
+
+: keys
+sprite x y 2
+i := v
+sprite v0 y 2
+y += 2
+yo += 1
+if yo == 5 then
+jump _keys5
+if yo == 7 then
+jump _keys7
+if yo == 10 then
+jump _keys10
+
+
+: _keys5
+: _keys7
+: _keys10
+sprite v0 y 2 
+i := cursor
+sprite x y 2
+return
+
+:byte 3 SYS02
+:byte 3 SYS01
+sprite v0 y 2 
+i := cursor
+sprite x y 2
+return
 
 : eight
 :byte 0xe0
