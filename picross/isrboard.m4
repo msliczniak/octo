@@ -541,8 +541,20 @@ save v0
 :alias xo v3
 :alias y v4
 :alias yo v5
-:alias kc v6
-:alias to v7
+:alias kc v6	# key
+:alias to v7    # time-out
+:alias dir v8   # direction
+:alias mask v9
+
+# direction bits
+:calc NM { 0x1 }
+:calc SM { 0x2 }
+:calc EM { 0x4 }
+:calc WM { 0x8 }
+
+# direction masks
+:calc VM { NM | SM }
+:calc HM { EM | WM }
 
 x := 0
 xo := 0
