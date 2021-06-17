@@ -545,6 +545,7 @@ save v0
 :alias to v7    # time-out
 :alias dir v8   # direction
 :alias mask v9
+:alias kp va    # prev key
 
 # direction bits
 :calc NM { 0x1 }
@@ -560,7 +561,7 @@ x := 0
 xo := 0
 y := 0
 yo := 0
-to := 6
+kp := 0
 
 v0 := 0
 i := v
@@ -572,18 +573,45 @@ i := cursor
 sprite x y 2
 
 : input
-kc := 2
-if kc key then
-:call keyn
-kc := 4
-if kc key then
-:call keyw
+mask := 0
 kc := 6
 if kc key then
-:call keye
+mask := 1
+kc := 2
+if kc key then
+mask |= kc
+kc := 4
+if kc key then
+mask |= kc
 kc := 8
 if kc key then
+mask |= kc
+
+to := 6
+if mask == kp then
+to := 2
+kp := mask
+
+kc := 1
+kc &= mask
+if kc != 0 then
+:call keye
+
+kc := 2
+kc &= mask
+if kc != 0 then
+:call keyn
+
+kc := 4
+kc &= mask
+if kc != 0 then
+:call keyw
+
+kc := 8
+kc &= mask
+if kc != 0 then
 :call keys
+
 jump input
 
 : cursor
