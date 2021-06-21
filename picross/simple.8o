@@ -1,0 +1,95 @@
+: main
+jump init
+
+:org 0x300
+: init
+
+:calc d { 3 }
+:calc h { 1 | 4 }
+:calc v { 2 | 8 }
+
+:alias x v2
+:alias y v3
+:alias k v4
+:alias s v5
+:alias p v6
+:alias t v7
+
+x := 0
+buzzer := x
+y := 0
+i := cursor
+sprite x y 2
+
+: input
+s := 0
+k := 6
+if k key then
+s := 1
+
+k := 2
+if k key then
+s |= k
+
+k := 4
+if k key then
+s |= k
+
+k := 8
+if k key then
+s |= k
+
+t := h
+t &= s
+if t == h then
+s ^= t
+
+t := v
+t &= s
+if t == v then
+s ^= t
+
+t := 1
+t &= s
+if t == 0 then
+jump dirn
+
+sprite x y 2
+x += 4
+sprite x y 2
+
+: dirn
+t := 2
+t &= s
+if t == 0 then
+jump dirw
+
+sprite x y 2
+y -= 4
+sprite x y 2
+
+: dirw
+t := 4
+t &= s
+if t == 0 then
+jump dirs
+
+sprite x y 2
+x -= 4
+sprite x y 2
+
+: dirs
+t := 8
+t &= s
+if t == 0 then
+jump input
+
+sprite x y 2
+y += 4
+sprite x y 2
+
+jump input
+
+: cursor
+0xc0
+0xc0

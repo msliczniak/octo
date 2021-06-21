@@ -587,15 +587,18 @@ kc := 8
 if kc key then
 mask |= kc
 
-to := 6
+to := 8
 if mask == kp then
-to := 2
+to := 6
 kp := mask
 
 kc := 1
 kc &= mask
 if kc != 0 then
-:call keye
+:call newkeye
+
+# XXX
+jump input
 
 kc := 2
 kc &= mask
@@ -613,6 +616,38 @@ if kc != 0 then
 :call keys
 
 jump input
+
+: newkeye
+# clear cursor
+sprite x y 2
+delay := to
+
+# clear marker
+i := h
+sprite x v1 1
+
+# move with extra pixels on regions and wrap
+if xo != 4 then
+jump _newkeye
+xo := 255
+if x == 60 then
+x := 252
+x += 1
+
+: _newkeye
+x += 3
+xo += 1
+
+# draw marker
+sprite x v1 1
+
+i := cursor
+sprite x y 2
+: _newto
+vf := delay
+if vf != 0 then
+jump _newto
+return
 
 : cursor
 #:byte 0x60
