@@ -21,11 +21,16 @@ y := 0
 i := cursor
 sprite x y 2
 
+: synca
+t := d
+delay := t
+
 : input
 s := 0
+t := 1
 k := 6
 if k key then
-s := 1
+s |= t
 
 k := 2
 if k key then
@@ -38,6 +43,10 @@ s |= k
 k := 8
 if k key then
 s |= k
+
+t := delay
+if t != 0 then
+jump input
 
 t := h
 t &= s
@@ -82,13 +91,13 @@ sprite x y 2
 t := 8
 t &= s
 if t == 0 then
-jump input
+jump synca
 
 sprite x y 2
 y += 4
 sprite x y 2
 
-jump input
+jump synca
 
 : cursor
 0xc0
