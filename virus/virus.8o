@@ -10,7 +10,6 @@
 
 :alias lfsr0		vD
 :alias lfsr1		vE
-:alias viruses	vC
 :alias c0				v3
 :alias c1				v4
 :alias s0				v5
@@ -76,29 +75,25 @@ v5 := 80
 v6 := 96
 v7 := 112
 
-sprite v0 v2 0
-sprite v0 v3 0
-
-sprite v1 v0 0
-sprite v1 v1 0
-
-sprite v2 v0 0
-sprite v2 v1 0
-
-sprite v3 v0 0
-sprite v3 v1 0
-
 sprite v4 v0 0
 sprite v4 v1 0
+sprite v4 v2 0
+sprite v4 v3 0
 
 sprite v5 v0 0
 sprite v5 v1 0
+sprite v5 v2 0
+sprite v5 v3 0
 
 sprite v6 v0 0
 sprite v6 v1 0
+sprite v6 v2 0
+sprite v6 v3 0
 
 sprite v7 v0 0
 sprite v7 v1 0
+sprite v7 v2 0
+sprite v7 v3 0
 
 # p2 inverted
 
