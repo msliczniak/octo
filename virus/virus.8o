@@ -10,7 +10,6 @@
 
 :alias lfsr0		vD
 :alias lfsr1		vE
-:alias viruses	vC
 :alias c0				v3
 :alias c1				v4
 :alias s0				v5
@@ -76,29 +75,25 @@ v5 := 80
 v6 := 96
 v7 := 112
 
-sprite v0 v2 0
-sprite v0 v3 0
-
-sprite v1 v0 0
-sprite v1 v1 0
-
-sprite v2 v0 0
-sprite v2 v1 0
-
-sprite v3 v0 0
-sprite v3 v1 0
-
 sprite v4 v0 0
 sprite v4 v1 0
+sprite v4 v2 0
+sprite v4 v3 0
 
 sprite v5 v0 0
 sprite v5 v1 0
+sprite v5 v2 0
+sprite v5 v3 0
 
 sprite v6 v0 0
 sprite v6 v1 0
+sprite v6 v2 0
+sprite v6 v3 0
 
 sprite v7 v0 0
 sprite v7 v1 0
+sprite v7 v2 0
+sprite v7 v3 0
 
 # p2 inverted
 
@@ -120,10 +115,14 @@ then lfsr0 := 0xff
 #lfsr0 := 0xa5
 #lfsr1 := 0x5a
 
-# corresponds to level 20
-viruses := 84
+# game level
+# v0 := 20
+v0 := 9
+viruses := v0
+viruses += 1
+viruses <<= viruses
+viruses <<= viruses
 i := virus_level_tbl
-v0 := 20
 i += v0
 load v0
 level := v0
@@ -270,55 +269,31 @@ save v0
 
 #:breakpoint ani
 
-# horizontal column *7
-s1 := 0x78
-s1 &= pos
-s1 >>= s1
-s2 := s1
-s1 >>= s1
-s2 += s1
-s1 >>= s1 # now h col num 0-15
-s2 += s1
-s2 += 18
+# v column *4
+s2 := 0x78
+s2 &= pos
+s2 >>= s2
 
-# vertical row *4
+# h row *8
 s0 := 7
 s0 &= pos
+s0 <<= s0
 s0 <<= s0
 s0 <<= s0
 
 i := yellow
 type <<= type
+type <<= type
 i += type
-sprite s2 s0 2
-s0 += 34
-sprite s2 s0 2
+sprite s0 s2 4
+s0 += 64
+sprite s0 s2 4
 
 viruses -= 1
 if viruses != 0
 then jump gen_loop
 
-# mock-up capsules
-v0 := 2
-v1 := 16
-
-v2 := 11
-v3 := 45
-
-i := yellow_right
-sprite v0 v2 4
-sprite v0 v3 4
-sprite v1 v2 4
-sprite v1 v3 4
-
-v2 += 4
-v3 += 4
-
-i := yellow_left
-sprite v0 v2 4
-sprite v0 v3 4
-sprite v1 v2 4
-sprite v1 v3 4
+# pause
 
 s0 := 15
 buzzer := s0
@@ -371,25 +346,13 @@ lfsr1 |= s0
 return
 
 : yellow
-0x40 0xE0 # T
+0xFE 0xFE 0xFE 0x00
 
 : red
-0x20 0xE0 # L
+0xFE 0xEE 0xFE 0x00
 
 : blue
-0xC0 0x60 # Z
-
-: yellow_lonely
-0xFE 0xEE 0xC6 0xFE
-
-: yellow_glued
-0x7C 0xEE 0xC6 0xFE
-
-: yellow_right
-0x7E 0xEE 0xC6 0xFE
-
-: yellow_left
-0xFE 0xEE 0xC6 0x7E
+0xFE 0xD6 0xFE 0x00
 
 : virus_level_tbl
 0x9 0x9 0x9 0x9 0x9 0x9 0x9
