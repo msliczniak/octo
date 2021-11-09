@@ -30,8 +30,6 @@ hires
 #:breakpoint main
 
 : gen
-plane 2
-
 v0 := 0xff
 v1 := 0xff
 v2 := 0xff
@@ -73,31 +71,18 @@ v1 := 16
 v2 := 32
 v3 := 48
 v4 := 64
-v5 := 80
-v6 := 96
-v7 := 112
+
+plane 1
+
+sprite v3 v0 0
+sprite v3 v1 0
+sprite v3 v2 0
+sprite v3 v3 0
 
 sprite v4 v0 0
 sprite v4 v1 0
 sprite v4 v2 0
 sprite v4 v3 0
-
-sprite v5 v0 0
-sprite v5 v1 0
-sprite v5 v2 0
-sprite v5 v3 0
-
-sprite v6 v0 0
-sprite v6 v1 0
-sprite v6 v2 0
-sprite v6 v3 0
-
-sprite v7 v0 0
-sprite v7 v1 0
-sprite v7 v2 0
-sprite v7 v3 0
-
-# p2 inverted
 
 plane 3
 
@@ -278,12 +263,13 @@ s2 := 0x78
 s2 &= pos
 s2 >>= s2
 
-# h row *8
+# h row *6
 s0 := 7
 s0 &= pos
 s0 <<= s0
+s1 := s0
 s0 <<= s0
-s0 <<= s0
+s0 += s1
 
 i := yellow_virus
 type <<= type
@@ -291,7 +277,7 @@ type <<= type
 type <<= type
 i += type
 sprite s0 s2 4
-s0 += 64
+s0 += 81
 sprite s0 s2 4
 
 viruses -= 1
