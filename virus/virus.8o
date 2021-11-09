@@ -115,10 +115,14 @@ then lfsr0 := 0xff
 #lfsr0 := 0xa5
 #lfsr1 := 0x5a
 
-# corresponds to level 20
-viruses := 84
+# game level
+# v0 := 20
+v0 := 9
+viruses := v0
+viruses += 1
+viruses <<= viruses
+viruses <<= viruses
 i := virus_level_tbl
-v0 := 20
 i += v0
 load v0
 level := v0
