@@ -20,8 +20,8 @@
 :alias viruses	vA
 :alias level		vB
 
-:alias pos x
-:alias type y
+:alias pos lfsr0
+:alias type lfsr1
 :alias surrounding c0
 
 : main
@@ -143,6 +143,54 @@ sprite v9 v1 8
 i := blue_down
 sprite v4 v1 8
 sprite v7 v1 8
+
+
+pos := 127
+y := 56
+
+
+: row
+
+x := 42
+
+i := bottle0
+i += pos
+load v0
+
+if v0 == 0xff
+then jump skip_cell
+
+i := bottle
+i += pos
+load v0
+
+i := bottle0
+i += pos
+save v0
+
+i := yellow_down
+i += v0
+sprite x y 8
+
+i := bottle
+i += pos
+v0 := 0xff
+save v0
+
+: skip_cell
+
+if pos == 0
+then jump collapsed
+
+pos -= 1
+
+if x == 0
+then jump row
+
+
+
+
+: collapsed
 
 # pause
 
