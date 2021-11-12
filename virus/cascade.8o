@@ -149,7 +149,7 @@ sprite v7 v1 8
 s0 := 0
 
 pos := 127
-y := 60
+y := 52
 
 x := 42
 
@@ -166,14 +166,14 @@ i := bottle
 i += pos
 load v0
 
+if v0 == 0xff
+then jump collapse_e
+
 s0 := 1
 		
 i := bottle0
 i += pos
 save v0
-
-if v0 == 0xff
-then jump collapse_e
 
 i := yellow_down
 i += v0
@@ -196,10 +196,10 @@ jump collapse_a
 
 : collapse_b
 
-if pos == 0
+if y == 0
 then jump collapse_c
 
-#:breakpoint foo
+:breakpoint foo
 
 x := 42
 y -= 4
