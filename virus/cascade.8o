@@ -144,29 +144,36 @@ i := blue_down
 sprite v4 v1 8
 sprite v7 v1 8
 
+: collapse
+
+s0 := 0
 
 pos := 127
-y := 56
-
-
-: row
+y := 60
 
 x := 42
+
+: collapse_a
 
 i := bottle0
 i += pos
 load v0
 
-if v0 == 0xff
-then jump skip_cell
+if v0 != 0xff
+then jump collapse_e
 
 i := bottle
 i += pos
 load v0
 
+s0 := 1
+		
 i := bottle0
 i += pos
 save v0
+
+if v0 == 0xff
+then jump collapse_e
 
 i := yellow_down
 i += v0
@@ -177,18 +184,35 @@ i += pos
 v0 := 0xff
 save v0
 
-: skip_cell
-
-if pos == 0
-then jump collapsed
-
-pos -= 1
+: collapse_e
 
 if x == 0
-then jump row
+then jump collapse_b
 
+x -= 6
+pos -= 1
 
+jump collapse_a
 
+: collapse_b
+
+if pos == 0
+then jump collapse_c
+
+#:breakpoint foo
+
+x := 42
+y -= 4
+pos -= 1
+
+jump collapse_a
+
+: collapse_c
+
+if s0 == 0
+then jump collapsed
+
+jump collapse
 
 : collapsed
 
