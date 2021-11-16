@@ -84,6 +84,8 @@ sprite ve vf 3
 #:breakpoint bar
 
 m := 1
+v0 := 255
+delay := v0
 
 : collapse
 
@@ -154,6 +156,24 @@ if s != 0
 then jump collapse
 
 # collapsed
+
+v1 := delay
+v0 := 255
+v0 -= v1
+i := digits
+bcd v0
+i := digits
+load v2
+v3 := 72
+v4 := 0
+i := bighex v0
+sprite v3 v4 10
+v3 += 9
+i := bighex v1
+sprite v3 v4 10
+v3 += 9
+i := bighex v2
+sprite v3 v4 10
 
 # pause
 
@@ -238,3 +258,6 @@ jump gen
 : pb
 0x38 0x44 0x38 0x00 0x38 0x44 0x38
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+: digits
+0 0 0
