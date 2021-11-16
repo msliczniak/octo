@@ -59,7 +59,7 @@ sprite v7 v3 0
 
 pos := 0
 x := 0
-y := 60
+y := 61
 
 : fill
 
@@ -72,13 +72,13 @@ then jump fill_a
 
 i := py
 i += v0
-sprite x y 4
+sprite x y 3
 
 : fill_a
 
 pos += 1
 y -= 4
-if y != 252
+if y != 253
 then jump fill
 
 if x == 56
@@ -86,22 +86,22 @@ then jump filled
 
 x += 8
 pos += 2
-y := 60
+y := 61
 jump fill
 
 : filled
 
 i := py
 ve := 64
-vf := 0
-sprite ve vf 4
+vf := 1
+sprite ve vf 3
 
 #:breakpoint bar
 
 : collapse
 
 pos := 0
-y := 56
+y := 57
 
 x := 0
 
@@ -126,11 +126,11 @@ save v1
 
 i := py
 i += v0
-sprite x y 8
+sprite x y 7
 
 : collapse_e
 
-if y == 0
+if y == 1
 then jump collapse_b
 
 y -= 4
@@ -146,13 +146,13 @@ then jump collapse_c
 #:breakpoint foo
 
 x += 8
-y := 56
+y := 57
 pos += 4
 
 i := py
 ve := 64
-vf := 0
-sprite ve vf 8
+vf := 1
+sprite ve vf 7
 
 jump collapse_a
 
