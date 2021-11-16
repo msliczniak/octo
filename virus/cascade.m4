@@ -153,12 +153,10 @@ jump collapse_a
 
 : collapse_c
 
-if s0 == 0
-then jump collapsed
+if s0 != 0
+then jump collapse
 
-jump collapse
-
-: collapsed
+# collapsed
 
 # pause
 
