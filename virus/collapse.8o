@@ -141,14 +141,14 @@ v9 := 42
 
 #:breakpoint bar
 
-: collapse
-
-s0 := 0
-
 pos := 0
 y := 56
 
 x := 0
+
+: collapse
+
+s0 := 0
 
 : collapse_a
 
@@ -173,24 +173,24 @@ sprite x y 8
 
 : collapse_e
 
-if x == 42
+if y == 0
 then jump collapse_b
 
-x += 6
-pos += 18
+y -= 4
+pos += 1
 
 jump collapse_a
 
 : collapse_b
 
-if y == 0
+if x == 42
 then jump collapse_c
 
 #:breakpoint foo
 
-x := 0
-y -= 4
-pos -= 125
+x += 6
+y := 56
+pos += 4
 
 i := yellow_down
 ve := 81
