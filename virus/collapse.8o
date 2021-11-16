@@ -141,12 +141,12 @@ v9 := 42
 
 #:breakpoint bar
 
+: collapse
+
 pos := 0
 y := 56
 
 x := 0
-
-: collapse
 
 s0 := 0
 
