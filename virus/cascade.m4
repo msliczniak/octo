@@ -129,7 +129,7 @@ jump collapse_a
 
 : collapse_b
 
-if x == 64
+if x == 56
 then jump collapse_c
 
 #:breakpoint foo
