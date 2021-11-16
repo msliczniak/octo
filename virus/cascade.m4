@@ -83,6 +83,8 @@ sprite ve vf 3
 
 #:breakpoint bar
 
+m := 1
+
 : collapse
 
 pos := 0
@@ -115,7 +117,7 @@ sprite x y 7
 
 : collapse_e
 
-if y == 1
+if y == m
 then jump collapse_b
 
 y -= 4
@@ -133,6 +135,10 @@ then jump collapse_c
 x += 8
 y := 57
 pos += 4
+vE := m
+vE >>= vE
+vE >>= Ve
+pos += vE
 
 i := py
 ve := 64
@@ -143,6 +149,7 @@ jump collapse_a
 
 : collapse_c
 
+m += 4
 if s != 0
 then jump collapse
 
