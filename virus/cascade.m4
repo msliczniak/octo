@@ -2,21 +2,11 @@
 
 # SC version
 
-:alias lfsr0		vD
-:alias lfsr1		vE
-:alias c0				v3
-:alias c1				v4
-:alias s0				v5
-:alias s1				v6
-:alias s2				v7
-:alias x				v8
-:alias y				v9
-:alias viruses	vA
-:alias level		vB
-
-:alias pos lfsr0
-:alias type lfsr1
-:alias surrounding c0
+:alias s v9
+:alias x vA
+:alias y vB
+:alias m vC
+:alias pos vD
 
 : main
 hires
@@ -100,7 +90,7 @@ y := 57
 
 x := 0
 
-s0 := 0
+s := 0
 
 : collapse_a
 
@@ -114,7 +104,7 @@ then jump collapse_e
 if v1 == 0xff
 then jump collapse_e
 
-s0 := 1
+s := 1
 v0 := v1
 v1 := 0xff
 save v1
@@ -153,16 +143,16 @@ jump collapse_a
 
 : collapse_c
 
-if s0 != 0
+if s != 0
 then jump collapse
 
 # collapsed
 
 # pause
 
-s0 := 15
-buzzer := s0
-s0 := key
+s := 15
+buzzer := s
+s := key
 clear
 jump gen
 
