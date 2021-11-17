@@ -87,64 +87,53 @@ m := 1
 v0 := 255
 delay := v0
 
-: collapse
-
-pos := 0
-y := 57
-
-x := 0
-
-s := 0
-
-: collapse_a
-
+dnl CASCADE(PASS, RA, RB)
+define(`CASCADE', `dnl
+: `cascade':`$1':`$2':`$3':a
 i := abottle1
 i += pos
-load v1
+load v8
 
-if v0 != 0xff
-then jump collapse_e
+if `$2' != 0xff
+then jump `cascade':`$1':`$2':`$3':e
 
-if v1 == 0xff
-then jump collapse_e
+if `$3' == 0xff
+then jump `cascade':`$1':`$2':`$3':e
 
 vF := 0xc0
-vF &= v1
+vF &= `$3'
 if vF != 0
-then jump collapse_e
+then jump `cascade':`$1':`$2':`$3':e
 
 s := 1
-v0 := v1
-v1 := 0xff
-save v1
+`$2' := `$3'
+`$3' := 0xff
+save v8
 
 i := py
 i += v0
 sprite x y 7
 
-: collapse_e
-
+: `cascade':`$1':`$2':`$3':e
 if y == m
-then jump collapse_b
+then jump `cascade':`$1':`$2':`$3':b
 
 y -= 4
 pos += 1
 
-jump collapse_a
+jump `cascade':`$1':`$2':`$3':a
 
-: collapse_b
+: `cascade':`$1':`$2':`$3':b
 
 if x == 56
-then jump collapse_c
-
-#:breakpoint foo
+then jump `cascade':`$1':`$2':`$3':c
 
 x += 8
 y := 57
 pos += 4
 vE := m
 vE >>= vE
-vE >>= Ve
+vE >>= vE
 pos += vE
 
 i := py
@@ -152,13 +141,24 @@ ve := 64
 vf := 1
 sprite ve vf 7
 
-jump collapse_a
+jump `cascade':`$1':`$2':`$3':a
 
-: collapse_c
+: `cascade':`$1':`$2':`$3':c
 
 m += 4
 if s != 0
 then jump collapse
+
+')dnl
+
+: collapse
+
+pos := 0
+y := 57
+x := 0
+s := 0
+
+CASCADE(`0', `v0', `v1')
 
 # collapsed
 
