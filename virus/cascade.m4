@@ -108,6 +108,11 @@ then jump collapse_e
 if v1 == 0xff
 then jump collapse_e
 
+vF := 0xc0
+vF &= v1
+if vF != 0
+then jump collapse_e
+
 s := 1
 v0 := v1
 v1 := 0xff
