@@ -261,3 +261,50 @@ jump gen
 
 : digits
 0 0 0
+
+define(`P', `56')dnl
+define(`Y', `124')dnl
+define(`R', `108')dnl
+define(`B', `68')dnl
+define(`A', `$1 $2 $1 0 $3 $4 $3 0 $1 $2 $1 0 $3 $4 $3 0')dnl
+define(`C', `$1 $2 $1 0 eval($1 ^ $3) eval($2 ^ $4) eval($1 ^ $3) 0 $3 $4 $3 0 0 0 0 0')dnl
+
+: array
+A(P, Y, P, Y)
+A(P, Y, P, R)
+A(P, Y, P, B)
+A(P, Y, 0, 0)
+
+A(P, R, P, Y)
+A(P, R, P, R)
+A(P, R, P, B)
+A(P, R, 0, 0)
+
+A(P, B, P, Y)
+A(P, B, P, R)
+A(P, B, P, B)
+A(P, B, 0, 0)
+
+A(0, 0, P, Y)
+A(0, 0, P, R)
+A(0, 0, P, B)
+
+
+C(P, Y, P, Y)
+C(P, Y, P, R)
+C(P, Y, P, B)
+C(P, Y, 0, 0)
+
+C(P, R, P, Y)
+C(P, R, P, R)
+C(P, R, P, B)
+C(P, R, 0, 0)
+
+C(P, B, P, Y)
+C(P, B, P, R)
+C(P, B, P, B)
+C(P, B, 0, 0)
+
+C(0, 0, P, Y)
+C(0, 0, P, R)
+C(0, 0, P, B)
