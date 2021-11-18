@@ -2,11 +2,10 @@
 
 # SC version
 
+:alias pos v8
 :alias s v9
 :alias x vA
 :alias y vB
-#:alias m vC
-:alias pos vD
 
 : main
 hires
@@ -81,140 +80,8 @@ ve := 64
 vf := 1
 sprite ve vf 3
 
-:breakpoint bar
+#:breakpoint bar
 
-#m := 1
-v0 := 255
-delay := v0
-
-dnl CASCADE(PASS, RA, RB, RC, RD)
-dnl
-define(`CASCADE', `dnl
-: `cascade':`$1':`$2':`$3':a
-if `$2' == 0xff
-then jump `cascade':`$1':`$2':`$3':b
-
-y -= 4
-jump `cascade':`$1':`$3':`$4':a
-
-: `cascade':`$1':`$2':`$3':b
-if `$3' != 0xff
-then jump `cascade':`$1':`$2':`$3':c
-
-y -= 4
-jump `cascade':`$1':`$3':`$4':b
-
-: `cascade':`$1':`$2':`$3':c
-vF := 0xc0
-vF &= `$3'
-if vF == 0
-then jump `cascade':`$1':`$2':`$3':d
-
-y -= 8
-jump `cascade':`$1':`$4':`$5':a
-
-: `cascade':`$1':`$2':`$3':d
-s := 1
-`$2' := `$3'
-`$3' := 0xff
-
-i := py
-i += `$2'
-sprite x y 7
-
-y -= 4
-')dnl
-
-: cascade:a
-pos := 0
-y := 57
-x := 0
-s := 0
-
-: cascade:b
-i := abottle1
-i += pos
-load v8
-
-CASCADE(`0', `v0', `v1', `v2', `v3')
-CASCADE(`0', `v1', `v2', `v3', `v4')
-CASCADE(`0', `v2', `v3', `v4', `v5')
-CASCADE(`0', `v3', `v4', `v5', `v6')
-CASCADE(`0', `v4', `v5', `v6', `v7')
-CASCADE(`0', `v5', `v6', `v7', `v8')
-CASCADE(`0', `v6', `v7', `v', `v')
-CASCADE(`0', `v7', `v8', `v', `v')
-
-: cascade:0:v7:v:a
-: cascade:0:v7:v:b
-: cascade:0:v8:v:a
-: cascade:0:v8:v:b
-: cascade:0:v:v:a
-i := abottle1
-i += pos
-save v8
-pos += 8
-i := abottle1
-i += pos
-load v7
-
-CASCADE(`1', `v0', `v1', `v2', `v3')
-CASCADE(`1', `v1', `v2', `v3', `v4')
-CASCADE(`1', `v2', `v3', `v4', `v5')
-CASCADE(`1', `v3', `v4', `v5', `v6')
-CASCADE(`1', `v4', `v5', `v6', `v7')
-CASCADE(`1', `v5', `v6', `v7', `v8')
-CASCADE(`1', `v6', `v7', `v', `v')
-CASCADE(`1', `v7', `v8', `v', `v')
-
-: cascade:1:v7:v:a
-: cascade:1:v7:v:b
-: cascade:1:v8:v:a
-: cascade:1:v8:v:b
-: cascade:1:v:v:a
-i := abottle1
-i += pos
-save v7
-pos += 10
-
-# indicate one col done
-i := py
-ve := 64
-vf := 1
-sprite ve vf 7
-
-if x == 56
-then jump cascade:c
-
-x += 8
-y := 57
-
-jump cascade:b
-
-: cascade:c
-
-if s != 0
-then jump cascade:a
-
-# cascaded
-
-v1 := delay
-v0 := 255
-v0 -= v1
-i := digits
-bcd v0
-i := digits
-load v2
-v3 := 72
-v4 := 0
-i := bighex v0
-sprite v3 v4 10
-v3 += 9
-i := bighex v1
-sprite v3 v4 10
-v3 += 9
-i := bighex v2
-sprite v3 v4 10
 
 # pause
 
