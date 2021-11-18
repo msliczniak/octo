@@ -5,7 +5,7 @@
 :alias s v9
 :alias x vA
 :alias y vB
-:alias m vC
+#:alias m vC
 :alias pos vD
 
 : main
@@ -83,84 +83,120 @@ sprite ve vf 3
 
 #:breakpoint bar
 
-m := 1
+#m := 1
 v0 := 255
 delay := v0
 
-dnl CASCADE(PASS, RA, RB)
+dnl CASCADE(PASS, RA, RB, RC, RD)
+dnl
 define(`CASCADE', `dnl
 : `cascade':`$1':`$2':`$3':a
-i := abottle1
-i += pos
-load v8
-
-if `$2' != 0xff
-then jump `cascade':`$1':`$2':`$3':e
-
-if `$3' == 0xff
-then jump `cascade':`$1':`$2':`$3':e
-
-vF := 0xc0
-vF &= `$3'
-if vF != 0
-then jump `cascade':`$1':`$2':`$3':e
-
-s := 1
-`$2' := `$3'
-`$3' := 0xff
-save v8
-
-i := py
-i += v0
-sprite x y 7
-
-: `cascade':`$1':`$2':`$3':e
-if y == m
+if `$2' == 0xff
 then jump `cascade':`$1':`$2':`$3':b
 
 y -= 4
-pos += 1
-
-jump `cascade':`$1':`$2':`$3':a
+jump `cascade':`$1':`$3':`$4':a
 
 : `cascade':`$1':`$2':`$3':b
-
-if x == 56
+if `$3' != 0xff
 then jump `cascade':`$1':`$2':`$3':c
 
-x += 8
-y := 57
-pos += 4
-vE := m
-vE >>= vE
-vE >>= vE
-pos += vE
-
-i := py
-ve := 64
-vf := 1
-sprite ve vf 7
-
-jump `cascade':`$1':`$2':`$3':a
+y -= 4
+jump `cascade':`$1':`$3':`$4':b
 
 : `cascade':`$1':`$2':`$3':c
+vF := 0xc0
+vF &= `$3'
+if vF == 0
+then jump `cascade':`$1':`$2':`$3':d
 
-m += 4
-if s != 0
-then jump collapse
+y -= 8
+jump `cascade':`$1':`$4':`$5':a
 
+: `cascade':`$1':`$2':`$3':d
+s := 1
+`$2' := `$3'
+`$3' := 0xff
+
+i := py
+i += `$2'
+sprite x y 7
+
+y -= 4
 ')dnl
 
-: collapse
-
+: cascade:a
 pos := 0
 y := 57
 x := 0
 s := 0
 
-CASCADE(`0', `v0', `v1')
+: cascade:b
+i := abottle1
+i += pos
+load v8
 
-# collapsed
+CASCADE(`0', `v0', `v1', `v2', `v3')
+CASCADE(`0', `v1', `v2', `v3', `v4')
+CASCADE(`0', `v2', `v3', `v4', `v5')
+CASCADE(`0', `v3', `v4', `v5', `v6')
+CASCADE(`0', `v4', `v5', `v6', `v7')
+CASCADE(`0', `v5', `v6', `v7', `v8')
+CASCADE(`0', `v6', `v7', `v', `v')
+CASCADE(`0', `v7', `v8', `v', `v')
+
+: cascade:0:v7:v:a
+: cascade:0:v7:v:b
+: cascade:0:v8:v:a
+: cascade:0:v8:v:b
+: cascade:0:v:v:a
+i := abottle1
+i += pos
+save v8
+pos += 8
+i := abottle1
+i += pos
+load v7
+
+CASCADE(`1', `v0', `v1', `v2', `v3')
+CASCADE(`1', `v1', `v2', `v3', `v4')
+CASCADE(`1', `v2', `v3', `v4', `v5')
+CASCADE(`1', `v3', `v4', `v5', `v6')
+CASCADE(`1', `v4', `v5', `v6', `v7')
+CASCADE(`1', `v5', `v6', `v7', `v8')
+CASCADE(`1', `v6', `v7', `v', `v')
+CASCADE(`1', `v7', `v8', `v', `v')
+
+: cascade:1:v7:v:a
+: cascade:1:v7:v:b
+: cascade:1:v8:v:a
+: cascade:1:v8:v:b
+: cascade:1:v:v:a
+i := abottle1
+i += pos
+save v7
+pos += 10
+
+# indicate one col done
+i := py
+ve := 64
+vf := 1
+sprite ve vf 7
+
+if x == 56
+then jump cascade:c
+
+x += 8
+y := 57
+
+jump cascade:b
+
+: cascade:c
+
+if s != 0
+then jump cascade:a
+
+# cascaded
 
 v1 := delay
 v0 := 255
