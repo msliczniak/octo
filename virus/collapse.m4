@@ -124,39 +124,63 @@ then jump cascade_done`'$1
 
 pos += 9
 x += 8
-y += 56
+#y += 56
+y := 49
 jump cascade_loop`'$1
 
 : cascade_done`'$1')dnl
 
 : cascade
 CASCADE(7)
-x -= 64
-pos -= 72
+:breakpoint baz
+
+x -= 56
+#y += 56
+#pos -= 62
+y := 49
+pos := 2
 
 CASCADE(6)
-x -= 64
-pos -= 72
+x -= 56
+#y += 48
+#pos -= 61
+y := 49
+pos := 3
 
 CASCADE(5)
-x -= 64
-pos -= 72
+x -= 56
+#y += 40
+#pos -= 60
+y := 49
+pos := 4
 
 CASCADE(4)
-x -= 64
-pos -= 72
+x -= 56
+#y += 32
+#pos -= 59
+y := 49
+pos := 5
 
 CASCADE(3)
-x -= 64
-pos -= 72
+x -= 56
+#y += 24
+#pos -= 58
+y := 49
+pos := 6
 
 CASCADE(2)
-x -= 64
-pos -= 72
+x -= 56
+#y += 16
+#pos -= 57
+y := 49
+pos := 7
 
 CASCADE(1)
-x -= 64
-pos -= 72
+x -= 56
+#y += 8
+#pos -= 56
+y := 49
+pos := 8
 
 CASCADE(0)
 return
@@ -183,8 +207,8 @@ i += v`'decr($1)
 sprite x y 15
 
 s := 1
-v`'decr($1) := v`'$1
-v`'$1 := 0xf0
+v`'$1 := v`'decr($1)
+v`'decr($1) := 0xf0
 y -= 8
 ')dnl
 
