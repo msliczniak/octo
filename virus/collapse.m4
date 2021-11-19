@@ -81,13 +81,34 @@ ve := 64
 vf := 1
 sprite ve vf 3
 
-:breakpoint bar
+#:breakpoint bar
+
+v0 := 255
+delay := v0
 
 x := 0
 y := 49
 pos := 1
 m := 0xff
 : call cascade
+
+v1 := delay
+v0 := 255
+v0 -= v1
+i := digits
+bcd v0
+i := digits
+load v2
+v3 := 72
+v4 := 0
+i := bighex v0
+sprite v3 v4 10
+v3 += 9
+i := bighex v1
+sprite v3 v4 10
+v3 += 9
+i := bighex v2
+sprite v3 v4 10
 
 # pause
 
@@ -132,8 +153,6 @@ jump cascade_loop`'$1
 
 : cascade
 CASCADE(7)
-:breakpoint baz
-
 x -= 56
 #y += 56
 #pos -= 62
@@ -285,6 +304,9 @@ return
 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80
 
 :monitor bottles 180
+
+: digits
+0 0 0
 
 define(`P', `56')dnl
 define(`Y', `124')dnl
