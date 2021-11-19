@@ -120,6 +120,12 @@ jump gen
 
 define(`CASCADE',`dnl
 : cascade_loop`'$1
+# indicate one col done
+i := array
+ve := 64
+vf := 1
+sprite ve vf 7
+
 m <<= m
 if vF == 0
 then jump cascade_skip`'$1
