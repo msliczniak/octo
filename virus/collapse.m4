@@ -81,100 +81,13 @@ ve := 64
 vf := 1
 sprite ve vf 3
 
-#:breakpoint bar
+:breakpoint bar
 
+x := 0
+y := 49
 pos := 1
 m := 0xff
-
-: loop7
-m <<= m
-if vF == 0
-then jump skip7
-
-i := bottle0a
-i += pos
-load v7
-
-:call cascade7
-if s != 1
-then jump skip7
-
-m |= s
-i := bottle0a
-i += pos
-save v7
-
-: skip7
-s := 56
-s &= x
-if s == 56
-then jump go6
-
-pos += 9
-x += 8
-jump loop7
-
-: go6
-x -= 64
-pos -= 72
-
-: loop6
-i := bottle0a
-i += pos
-load v6
-
-i := bottle0a
-i += pos
-save v6
-
-i := bottle0a
-i += pos
-load v5
-
-i := bottle0a
-i += pos
-save v5
-
-i := bottle0a
-i += pos
-load v4
-
-i := bottle0a
-i += pos
-save v4
-
-i := bottle0a
-i += pos
-load v3
-
-i := bottle0a
-i += pos
-save v3
-
-i := bottle0a
-i += pos
-load v2
-
-i := bottle0a
-i += pos
-save v2
-
-i := bottle0a
-i += pos
-load v1
-
-i := bottle0a
-i += pos
-save v1
-
-i := bottle0a
-i += pos
-load v0
-
-i := bottle0a
-i += pos
-save v0
-
+: call cascade
 
 # pause
 
@@ -183,6 +96,108 @@ buzzer := s
 s := key
 clear
 jump gen
+
+define(`CASCADE',`dnl
+: cascade_loop`'$1
+m <<= m
+if vF == 0
+then jump cascade_skip`'$1
+
+i := bottle0a
+i += pos
+load v`'$1
+
+:call cascade`'$1
+if s != 1
+then jump cascade_skip`'$1
+
+m |= s
+i := bottle0a
+i += pos
+save v`'$1
+
+: cascade_skip`'$1
+s := 56
+s &= x
+if s == 56
+then jump cascade_done`'$1
+
+pos += 9
+x += 8
+y += 56
+jump cascade_loop`'$1
+
+: cascade_done`'$1')dnl
+
+: cascade
+CASCADE(7)
+x -= 64
+pos -= 72
+
+CASCADE(6)
+x -= 64
+pos -= 72
+
+CASCADE(5)
+x -= 64
+pos -= 72
+
+CASCADE(4)
+x -= 64
+pos -= 72
+
+CASCADE(3)
+x -= 64
+pos -= 72
+
+CASCADE(2)
+x -= 64
+pos -= 72
+
+CASCADE(1)
+x -= 64
+pos -= 72
+
+CASCADE(0)
+return
+
+undefine(`CASCADE')dnl
+define(`CASCADE',`dnl
+: cascade`'$1
+if v`'$1 == 0xf0
+then jump cascade_twoblank`'$1
+
+y -= 8
+jump cascade`'decr($1)
+
+: cascade_twoblank`'$1
+if v`'decr($1) != 0xf0
+then jump cascade_twodrop`'$1
+
+y -= 8
+jump cascade_twoblank`'decr($1)
+
+: cascade_twodrop`'$1
+i := array
+i += v`'decr($1)
+sprite x y 15
+
+s := 1
+v`'decr($1) := v`'$1
+v`'$1 := 0xf0
+y -= 8
+')dnl
+
+CASCADE(7)
+CASCADE(6)
+CASCADE(5)
+CASCADE(4)
+CASCADE(3)
+CASCADE(2)
+CASCADE(1)
+: cascade0
+: cascade_twoblank0
+return
 
 : virus_level_tbl
 0x9 0x9 0x9 0x9 0x9 0x9 0x9
