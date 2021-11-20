@@ -45,24 +45,40 @@ sprite v2 v6 9
 pos := 1
 x := 0
 y := 1
+v1 := 0x18
 
 : fill
-
 i := bottle0a
 i += pos
 load v0
 
-if v0 == 0xf0
-then jump fill_a
+v2 := v0
+v2 >>= v2
+v2 &= v1
+if v2 == 0x18
+then jump filla
 
 i := array
-i += v0
-sprite x y 7
+i += v2
+sprite x y 3
 
-: fill_a
+: filla
+y += 4
 
+v2 := v0
+v2 <<= v2
+v2 &= v1
+if v2 == 0x18
+then jump fillb
+
+i := array
+i += v2
+sprite x y 3
+
+: fillb
+y += 4
 pos += 1
-y += 8
+
 if y != 65
 then jump fill
 
@@ -81,15 +97,15 @@ ve := 64
 vf := 1
 sprite ve vf 3
 
-#:breakpoint bar
+:breakpoint bar
 
 v0 := 255
 delay := v0
 
 x := 0
-y := 49
+y := 57
 pos := 1
-m := 0xff
+m := 0x18
 : call cascade
 
 v1 := delay
@@ -126,24 +142,16 @@ ve := 64
 vf := 1
 sprite ve vf 7
 
-m <<= m
-if vF == 0
-then jump cascade_skip`'$1
-
 i := bottle0a
 i += pos
 load v`'$1
 
 :call cascade`'$1
-if s != 1
-then jump cascade_skip`'$1
 
-m |= s
 i := bottle0a
 i += pos
 save v`'$1
 
-: cascade_skip`'$1
 s := 56
 s &= x
 if s == 56
@@ -152,7 +160,7 @@ then jump cascade_done`'$1
 pos += 9
 x += 8
 #y += 56
-y := 49
+y := 57
 jump cascade_loop`'$1
 
 : cascade_done`'$1')dnl
@@ -162,49 +170,49 @@ CASCADE(7)
 x -= 56
 #y += 56
 #pos -= 62
-y := 49
+y := 57
 pos := 2
 
 CASCADE(6)
 x -= 56
 #y += 48
 #pos -= 61
-y := 49
+y := 57
 pos := 3
 
 CASCADE(5)
 x -= 56
 #y += 40
 #pos -= 60
-y := 49
+y := 57
 pos := 4
 
 CASCADE(4)
 x -= 56
 #y += 32
 #pos -= 59
-y := 49
+y := 57
 pos := 5
 
 CASCADE(3)
 x -= 56
 #y += 24
 #pos -= 58
-y := 49
+y := 57
 pos := 6
 
 CASCADE(2)
 x -= 56
 #y += 16
 #pos -= 57
-y := 49
+y := 57
 pos := 7
 
 CASCADE(1)
 x -= 56
 #y += 8
 #pos -= 56
-y := 49
+y := 57
 pos := 8
 
 CASCADE(0)
@@ -213,57 +221,41 @@ return
 undefine(`CASCADE')dnl
 define(`CASCADE',`dnl
 : cascade`'$1
-if v`'$1 == 0xf0
-then jump cascade_twoblank`'$1
+s := v`'$1
+s <<= s
+s &= m
+if s != 0x18
+then jump ocascade`'$1
 
-y -= 8
-jump cascade`'decr($1)
+s := v`'$1
+s >>= s
+s &= m
+if s == 0x18
+then jump cascade_step`'$1
 
-: cascade_twoblank`'$1
-if v`'decr($1) != 0xf0
-then jump cascade_checktwodrop`'$1
+vF := s
+vF |= m
+if vF != 0x18
+then jump cascade_step`'$1
 
-y -= 8
-jump cascade_twoblank`'decr($1)
-
-: cascade_checktwodrop`'$1
-vF := 0xf
-vF &= v`'decr($1)
-if vF == 0
-then jump cascade_twodrop`'$1
-
-vF := 3
-vF &= v`'decr($1)
-if vF != 0
-then jump cascade_onedrop`'$1
-
-y -= 8
-jump cascade`'decr($1)
-
-: cascade_twodrop`'$1
 i := array
-i += v`'decr($1)
-sprite x y 15
+i += s
+sprite x y 7
+s >>= s
+vF := s
+jump cascade_step`'$1
 
-s := 1
-v`'$1 := v`'decr($1)
-v`'decr($1) := 0xf0
+: ocascade`'$1
 y -= 8
-jump cascade_dropped`'$1
+s := v`'$1
+s >>= s
+s &= m
+if s != 0x18
+then jump cascade_step`'$1
 
-: cascade_onedrop`'$1
-i := array
-i += v`'decr($1)
-sprite x y 15
 
-s := 1
-v`'$1 := v`'decr($1)
-v`'decr($1) := 0xf0
-y -= 8
-jump cascade_dropped`'$1
-
-: cascade_dropped`'$1
-')dnl
+: cascade_step`'$1
+y -= 8')dnl
 
 CASCADE(7)
 CASCADE(6)
@@ -272,8 +264,7 @@ CASCADE(4)
 CASCADE(3)
 CASCADE(2)
 CASCADE(1)
-: cascade0
-: cascade_twoblank0
+CASCADE(0)
 return
 
 : virus_level_tbl
@@ -297,21 +288,21 @@ return
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
 
      : bottle0a
-0xfc 0x00 0x80 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x00 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x1c
      : bottle1a
-0xfc 0x10 0x90 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x08 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle2a
-0xfc 0x20 0xa0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x10 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle3a
-0xfc 0x30 0xb0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x18 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle4a
-0xfc 0x40 0xc0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x20 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle5a
-0xfc 0x50 0xd0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x28 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle6a
-0xfc 0x60 0xe0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x30 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c
      : bottle7a
-0xfc 0x70 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
+0xcf 0x0c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x3b
 
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
 
@@ -346,45 +337,9 @@ define(`P', `56')dnl
 define(`Y', `124')dnl
 define(`R', `108')dnl
 define(`B', `68')dnl
-define(`A', `$1 $2 $1 0 $3 $4 $3 0 $1 $2 $1 0 $3 $4 $3 0')dnl
-define(`C', `$1 $2 $1 0 eval($1 ^ $3) eval($2 ^ $4) eval($1 ^ $3) 0 $3 $4 $3 0 0 0 0 0')dnl
+define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 
 : array
 A(P, Y, P, Y)
-A(P, Y, P, R)
-A(P, Y, P, B)
-A(P, Y, 0, 0)
-
-A(P, R, P, Y)
 A(P, R, P, R)
-A(P, R, P, B)
-A(P, R, 0, 0)
-
-A(P, B, P, Y)
-A(P, B, P, R)
 A(P, B, P, B)
-A(P, B, 0, 0)
-
-A(0, 0, P, Y)
-A(0, 0, P, R)
-A(0, 0, P, B)
-
-
-C(P, Y, P, Y)
-C(P, Y, P, R)
-C(P, Y, P, B)
-C(P, Y, 0, 0)
-
-C(P, R, P, Y)
-C(P, R, P, R)
-C(P, R, P, B)
-C(P, R, 0, 0)
-
-C(P, B, P, Y)
-C(P, B, P, R)
-C(P, B, P, B)
-C(P, B, 0, 0)
-
-C(0, 0, P, Y)
-C(0, 0, P, R)
-C(0, 0, P, B)
