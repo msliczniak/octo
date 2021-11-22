@@ -157,6 +157,28 @@ jump cascade_loop`'$1
 
 : cascade_done`'$1')dnl
 
+define(`CASCADE',`dnl
+if v`'$1 != 3
+then jump collapse`'decr($1)
+
+: collapse_blank`'$1
+if v`'decr($1) == 3
+then jump collapse_blank`'decr($1)
+
+vE := v`'decr($1))
+vE <<= vE
+if vF != 0
+then jump collapse`'eval($1 - 2)
+
+i := array
+i += vE
+y := eval(4*$1)
+sprite x y 7
+
+v`'decr($1) := v`'$1
+v`'$1 := 3
+jump collapse_blank`'decr($1)')dnl
+
 : cascade
 CASCADE(7)
 x -= 56
