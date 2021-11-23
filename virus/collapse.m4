@@ -118,157 +118,179 @@ s := key
 clear
 jump gen
 
-define(`CASCADE',`dnl
-: cascade_loop`'$1
-# indicate one col done
-i := array
-ve := 64
-vf := 1
-sprite ve vf 7
+dnl define(`CASCADE',`dnl
+dnl : cascade_loop`'$1
+dnl # indicate one col done
+dnl i := array
+dnl ve := 64
+dnl vf := 1
+dnl sprite ve vf 7
+dnl 
+dnl m <<= m
+dnl if vF == 0
+dnl then jump cascade_skip`'$1
+dnl 
+dnl i := bottle0a
+dnl i += pos
+dnl load v`'$1
+dnl 
+dnl :call cascade`'$1
+dnl if s != 1
+dnl then jump cascade_skip`'$1
+dnl 
+dnl m |= s
+dnl i := bottle0a
+dnl i += pos
+dnl save v`'$1
+dnl 
+dnl : cascade_skip`'$1
+dnl s := 56
+dnl s &= x
+dnl if s == 56
+dnl then jump cascade_done`'$1
+dnl 
+dnl pos += 9
+dnl x += 8
+dnl #y += 56
+dnl y := 49
+dnl jump cascade_loop`'$1
+dnl 
+dnl : cascade_done`'$1')dnl
 
-m <<= m
-if vF == 0
-then jump cascade_skip`'$1
-
-i := bottle0a
-i += pos
-load v`'$1
-
-:call cascade`'$1
-if s != 1
-then jump cascade_skip`'$1
-
-m |= s
-i := bottle0a
-i += pos
-save v`'$1
-
-: cascade_skip`'$1
-s := 56
-s &= x
-if s == 56
-then jump cascade_done`'$1
-
-pos += 9
-x += 8
-#y += 56
-y := 49
-jump cascade_loop`'$1
-
-: cascade_done`'$1')dnl
-
-define(`CASCADE',`dnl
-if v`'$1 != 3
-then jump collapse`'decr($1)
-
-: collapse_blank`'$1
-if v`'decr($1) == 3
-then jump collapse_blank`'decr($1)
-
-vE := v`'decr($1))
-vE <<= vE
+define(`X',`dnl
+: cascade`'incr($1)
+y -= 4
+vE <<= v`'incr($1)
 if vF != 0
-then jump collapse`'eval($1 - 2)
+then jump blchk`'$1
 
 i := array
 i += vE
-y := eval(4*$1)
 sprite x y 7
 
 v`'decr($1) := v`'$1
-v`'$1 := 3
-jump collapse_blank`'decr($1)')dnl
-
-: cascade
-CASCADE(7)
-x -= 56
-#y += 56
-#pos -= 62
-y := 49
-pos := 2
-
-CASCADE(6)
-x -= 56
-#y += 48
-#pos -= 61
-y := 49
-pos := 3
-
-CASCADE(5)
-x -= 56
-#y += 40
-#pos -= 60
-y := 49
-pos := 4
-
-CASCADE(4)
-x -= 56
-#y += 32
-#pos -= 59
-y := 49
-pos := 5
-
-CASCADE(3)
-x -= 56
-#y += 24
-#pos -= 58
-y := 49
-pos := 6
-
-CASCADE(2)
-x -= 56
-#y += 16
-#pos -= 57
-y := 49
-pos := 7
-
-CASCADE(1)
-x -= 56
-#y += 8
-#pos -= 56
-y := 49
-pos := 8
-
-CASCADE(0)
-return
-
-undefine(`CASCADE')dnl
-define(`CASCADE',`dnl
-: cascade`'$1
-if v`'$1 == 0xf0
-then jump cascade_twoblank`'$1
-
-y -= 8
-jump cascade`'decr($1)
-
-: cascade_twoblank`'$1
-if v`'decr($1) != 0xf0
-then jump cascade_twodrop`'$1
-
-y -= 8
-jump cascade_twoblank`'decr($1)
-
-: cascade_twodrop`'$1
-i := array
-i += v`'decr($1)
-sprite x y 15
-
-s := 1
-v`'$1 := v`'decr($1)
-v`'decr($1) := 0xf0
-y -= 8
 ')dnl
 
-CASCADE(7)
-CASCADE(6)
-CASCADE(5)
-CASCADE(4)
-CASCADE(3)
-CASCADE(2)
-CASCADE(1)
-: cascade0
-: cascade_twoblank0
-return
+: cascade
+if v8 != 24
+then jump blchk7
+
+X(6)
+X(5)
+X(4)
+X(3)
+X(2)
+X(1)
+
+undefine(`X')dnl
+
+define(`X',`dnl
+: blchk`'$1
+v`'incr($1) := 24
+if v`'$1 != 24
+then jump bl`'$1
+')dnl
+
+X(7)
+X(6)
+X(5)
+X(4)
+X(3)
+X(2)
+X(1)
+
+undefine(`X')dnl
+
+dnl : cascade
+dnl CASCADE(7)
+dnl x -= 56
+dnl #y += 56
+dnl #pos -= 62
+dnl y := 49
+dnl pos := 2
+dnl 
+dnl CASCADE(6)
+dnl x -= 56
+dnl #y += 48
+dnl #pos -= 61
+dnl y := 49
+dnl pos := 3
+dnl 
+dnl CASCADE(5)
+dnl x -= 56
+dnl #y += 40
+dnl #pos -= 60
+dnl y := 49
+dnl pos := 4
+dnl 
+dnl CASCADE(4)
+dnl x -= 56
+dnl #y += 32
+dnl #pos -= 59
+dnl y := 49
+dnl pos := 5
+dnl 
+dnl CASCADE(3)
+dnl x -= 56
+dnl #y += 24
+dnl #pos -= 58
+dnl y := 49
+dnl pos := 6
+dnl 
+dnl CASCADE(2)
+dnl x -= 56
+dnl #y += 16
+dnl #pos -= 57
+dnl y := 49
+dnl pos := 7
+dnl 
+dnl CASCADE(1)
+dnl x -= 56
+dnl #y += 8
+dnl #pos -= 56
+dnl y := 49
+dnl pos := 8
+dnl 
+dnl CASCADE(0)
+dnl return
+dnl 
+dnl undefine(`CASCADE')dnl
+dnl define(`CASCADE',`dnl
+dnl : cascade`'$1
+dnl if v`'$1 == 0xf0
+dnl then jump cascade_twoblank`'$1
+dnl 
+dnl y -= 8
+dnl jump cascade`'decr($1)
+dnl 
+dnl : cascade_twoblank`'$1
+dnl if v`'decr($1) != 0xf0
+dnl then jump cascade_twodrop`'$1
+dnl 
+dnl y -= 8
+dnl jump cascade_twoblank`'decr($1)
+dnl 
+dnl : cascade_twodrop`'$1
+dnl i := array
+dnl i += v`'decr($1)
+dnl sprite x y 15
+dnl 
+dnl s := 1
+dnl v`'$1 := v`'decr($1)
+dnl v`'decr($1) := 0xf0
+dnl y -= 8
+dnl ')dnl
+dnl 
+dnl CASCADE(7)
+dnl CASCADE(6)
+dnl CASCADE(5)
+dnl CASCADE(4)
+dnl CASCADE(3)
+dnl CASCADE(2)
+dnl CASCADE(1)
+dnl : cascade0
+dnl : cascade_twoblank0
+dnl return
 
 : virus_level_tbl
 0x9 0x9 0x9 0x9 0x9 0x9 0x9
