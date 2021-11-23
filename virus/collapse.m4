@@ -158,46 +158,32 @@ dnl
 dnl : cascade_done`'$1')dnl
 
 define(`X',`dnl
-: cascade`'incr($1)
-y -= 4
-vE <<= v`'incr($1)
+: cascade`'incr($1)$2
+y -= eval($2*4)
+
+if v`'incr($1) != 12
+then jump cascade`'$1$2
+
+vE <<= v`'$1
 if vF != 0
-then jump blchk`'$1
+then jump cascade`'decr($1)decr($2)
 
 i := array
 i += vE
 sprite x y 7
+s |= vF
 
 v`'decr($1) := v`'$1
+v`'$1 := 12
 ')dnl
 
-: cascade
-if v8 != 24
-then jump blchk7
-
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
-
-undefine(`X')dnl
-
-define(`X',`dnl
-: blchk`'$1
-v`'incr($1) := 24
-if v`'$1 != 24
-then jump bl`'$1
-')dnl
-
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
+X(7, 1)
+X(6, 1)
+X(5, 1)
+X(4, 1)
+X(3, 1)
+X(2, 1)
+X(1, 1)
 
 undefine(`X')dnl
 
