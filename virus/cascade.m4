@@ -91,6 +91,70 @@ jump init
 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80
 
 :org 0x380
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 0123
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 01b3
+jump _cas013b # 01b3
+jump _casi    # 01bb
+jump _casi    # 0b23
+jump _casi    # 0b2b
+jump _cas02b3 # 0b23
+jump _cas023b # 0b23
+jump _cas02bb # 0b2b
+jump _casi    # 0bb3
+jump _cas03bb # 0bb3
+jump _casi    # 0bbb
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 0123
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 01b3
+jump _cas013b # 01b3
+jump _casi    # 01bb
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 0123
+jump _casi    # 0123
+jump _casi    # 012b
+jump _casi    # 01b3
+jump _cas013b # 01b3
+jump _casi    # 01bb
+jump _casi    # 0b23
+jump _casi    # 0b2b
+jump _cas02b3 # 0b23
+jump _cas023b # 0b23
+jump _cas02bb # 0b2b
+jump _casi    # 0bb3
+jump _cas03bb # 0bb3
+jump _casi    # 0bbb
+jump _casi    # b123
+jump _casi    # b12b
+jump _casi    # b123
+jump _casi    # b123
+jump _casi    # b12b
+jump _casi    # b1b3
+jump _casb13b # b1b3
+jump _casi    # b1bb
+jump _cas1b23 # b123
+jump _cas1b2b # b12b
+jump _cas12b3 # b123
+jump _cas123b # b123
+jump _cas12bb # b12b
+jump _cas1bb3 # b1b3
+jump _cas13bb # b1b3
+jump _cas1bbb # b1bb
+jump _casi    # bb23
+jump _casi    # bb2b
+jump _cas2bb3 # bb23
+jump _cas23bb # bb23
+jump _cas2bbb # bb2b
+jump _casi    # bbb3
+jump _casb3bb # bbb3
+jump _casi    # bbbb
 
 # % printf '%s\n' {x..z}{x..z} | tr 'xyz' 'FPB' | nl -v-1
 #     -1	FF
@@ -122,7 +186,7 @@ define(`BF', 34)dnl
 define(`BP', 40)dnl
 define(`BB', 42)dnl
 
-: luta
+: lut
 BB
 BB
 BB
@@ -619,3 +683,52 @@ define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 A(P, Y, P, Y)
 A(P, R, P, R)
 A(P, B, P, B)
+
+: _cas013b
+: _cas023b
+: _cas02b3
+: _cas02bb
+: _cas03bb
+: _cas123b
+: _cas12b3
+: _cas12bb
+: _cas13bb
+: _cas1b23
+: _cas1b2b
+: _cas1bb3
+: _cas1bbb
+: _cas23bb
+: _cas2bb3
+: _cas2bbb
+: _casb13b
+: _casb3bb
+: _casi
+v3 >>= v3
+v3 &= m
+s >>= s
+return
+
+: foo
+:breakpoint foo
+i := bottle0a
+i += pos
+load v0
+v1 := v0
+i := lut
+i += v0
+load v0
+v3 := v0
+v3 <<= v3
+:call bar
+v0 := key
+
+: bar
+i := bottle0a
+i += pos
+load v0
+v2 := v0
+i := lut
+i += v0
+load v0
+v3 |= v0
+jump0 0x380
