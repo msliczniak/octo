@@ -90,7 +90,314 @@ jump init
 : dots
 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80
 
-:org 0x380
+: init
+#:breakpoint init
+hires
+
+: gen
+
+i := dots
+v0 := 0
+v1 := 63
+v2 := 127
+v3 := 4
+v4 := 20
+v5 := 36
+v6 := 52
+
+sprite v0 v3 13
+sprite v1 v3 13
+sprite v2 v3 13
+
+sprite v0 v4 13
+sprite v1 v4 13
+sprite v2 v4 13
+
+sprite v0 v5 13
+sprite v1 v5 13
+sprite v2 v5 13
+
+sprite v0 v6 9
+sprite v1 v6 9
+sprite v2 v6 9
+
+#:breakpoint baz
+
+pos := 1
+x := 0
+y := 1
+v1 := 0x18
+
+: fill
+i := bottle0a
+i += pos
+load v0
+
+v2 := v0
+v2 >>= v2
+v2 &= v1
+if v2 == 0x18
+then jump filla
+
+i := array
+i += v2
+sprite x y 3
+
+: filla
+y += 4
+
+v2 := v0
+v2 <<= v2
+v2 &= v1
+if v2 == 0x18
+then jump fillb
+
+i := array
+i += v2
+sprite x y 3
+
+: fillb
+y += 4
+pos += 1
+
+if y != 65
+then jump fill
+
+if x == 56
+then jump filled
+
+x += 8
+pos += 1
+y := 1
+jump fill
+
+: filled
+
+i := array
+ve := 64
+vf := 1
+sprite ve vf 3
+
+:breakpoint bar
+
+v0 := 255
+delay := v0
+
+x := 0
+y := 57
+pos := 1
+m := 0x18
+: call cascade
+
+v1 := delay
+v0 := 255
+v0 -= v1
+i := digits
+bcd v0
+i := digits
+load v2
+v3 := 72
+v4 := 0
+i := bighex v0
+sprite v3 v4 10
+v3 += 9
+i := bighex v1
+sprite v3 v4 10
+v3 += 9
+i := bighex v2
+sprite v3 v4 10
+
+:call foo
+
+# pause
+
+s := 15
+buzzer := s
+s := key
+clear
+jump gen
+
+define(`CASCADE',`dnl
+: cascade_loop`'$1
+# indicate one col done
+i := array
+ve := 64
+vf := 1
+sprite ve vf 7
+
+i := bottle0a
+i += pos
+load v1
+
+:call cascade`'$1
+
+i := bottle0a
+i += pos
+save v`'$1
+
+s := 56
+s &= x
+if s == 56
+then jump cascade_done`'$1
+
+pos += 9
+x += 8
+y := 57
+jump cascade_loop`'$1
+
+: cascade_done`'$1')dnl
+
+define(`OCASCADE',`dnl
+: cascade_loop`'$1
+# indicate one col done
+i := array
+ve := 64
+vf := 1
+sprite ve vf 7
+
+i := bottle0a
+i += pos
+load v`'$1
+
+:call cascade`'$1
+
+i := bottle0a
+i += pos
+save v`'$1
+
+s := 56
+s &= x
+if s == 56
+then jump cascade_done`'$1
+
+pos += 9
+x += 8
+#y += 56
+y := 57
+jump cascade_loop`'$1
+
+: cascade_done`'$1')dnl
+
+: cascade
+CASCADE(7)
+x -= 56
+y := 57
+pos := 2
+
+CASCADE(6)
+x -= 56
+y := 57
+pos := 3
+
+CASCADE(5)
+x -= 56
+y := 57
+pos := 4
+
+CASCADE(4)
+x -= 56
+y := 57
+pos := 5
+
+CASCADE(3)
+x -= 56
+y := 57
+pos := 6
+
+CASCADE(2)
+x -= 56
+y := 57
+pos := 7
+
+CASCADE(1)
+x -= 56
+y := 57
+pos := 8
+
+CASCADE(0)
+return
+
+undefine(`CASCADE')dnl
+define(`CASCADE',`dnl
+: cascade`'$1
+y -= 8')dnl
+
+CASCADE(7)
+CASCADE(6)
+CASCADE(5)
+CASCADE(4)
+CASCADE(3)
+CASCADE(2)
+CASCADE(1)
+CASCADE(0)
+return
+
+:monitor bottles 180
+
+: digits
+0 0 0
+
+define(`P', `56')dnl
+define(`Y', `124')dnl
+define(`R', `108')dnl
+define(`B', `68')dnl
+define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
+
+: array
+A(P, Y, P, Y)
+A(P, R, P, R)
+A(P, B, P, B)
+
+: _cas013b
+: _cas023b
+: _cas02b3
+: _cas02bb
+: _cas03bb
+: _cas123b
+: _cas12b3
+: _cas12bb
+: _cas13bb
+: _cas1b23
+: _cas1b2b
+: _cas1bb3
+: _cas1bbb
+: _cas23bb
+: _cas2bb3
+: _cas2bbb
+: _casb13b
+: _casb3bb
+: _casi
+v3 >>= v3
+v3 &= m
+s >>= s
+return
+
+: foo
+:breakpoint foo
+i := bottle0a
+i += pos
+load v0
+v1 := v0
+i := lut
+i += v0
+load v0
+ve := v0
+ve <<= ve
+:call bar
+v0 := key
+
+: bar
+i := bottle0a
+i += pos
+load v0
+v2 := v0
+i := lut
+i += v0
+load v0
+ve |= v0
+jump0 0xe00
+
+:org 0xe00
 jump _casi    # 0123
 jump _casi    # 012b
 jump _casi    # 0123
@@ -443,292 +750,3 @@ FF
 FF
 FF
 FF
-
-: init
-#:breakpoint init
-hires
-
-: gen
-
-i := dots
-v0 := 0
-v1 := 63
-v2 := 127
-v3 := 4
-v4 := 20
-v5 := 36
-v6 := 52
-
-sprite v0 v3 13
-sprite v1 v3 13
-sprite v2 v3 13
-
-sprite v0 v4 13
-sprite v1 v4 13
-sprite v2 v4 13
-
-sprite v0 v5 13
-sprite v1 v5 13
-sprite v2 v5 13
-
-sprite v0 v6 9
-sprite v1 v6 9
-sprite v2 v6 9
-
-#:breakpoint baz
-
-pos := 1
-x := 0
-y := 1
-v1 := 0x18
-
-: fill
-i := bottle0a
-i += pos
-load v0
-
-v2 := v0
-v2 >>= v2
-v2 &= v1
-if v2 == 0x18
-then jump filla
-
-i := array
-i += v2
-sprite x y 3
-
-: filla
-y += 4
-
-v2 := v0
-v2 <<= v2
-v2 &= v1
-if v2 == 0x18
-then jump fillb
-
-i := array
-i += v2
-sprite x y 3
-
-: fillb
-y += 4
-pos += 1
-
-if y != 65
-then jump fill
-
-if x == 56
-then jump filled
-
-x += 8
-pos += 1
-y := 1
-jump fill
-
-: filled
-
-i := array
-ve := 64
-vf := 1
-sprite ve vf 3
-
-:breakpoint bar
-
-v0 := 255
-delay := v0
-
-x := 0
-y := 57
-pos := 1
-m := 0x18
-: call cascade
-
-v1 := delay
-v0 := 255
-v0 -= v1
-i := digits
-bcd v0
-i := digits
-load v2
-v3 := 72
-v4 := 0
-i := bighex v0
-sprite v3 v4 10
-v3 += 9
-i := bighex v1
-sprite v3 v4 10
-v3 += 9
-i := bighex v2
-sprite v3 v4 10
-
-# pause
-
-s := 15
-buzzer := s
-s := key
-clear
-jump gen
-
-define(`CASCADE',`dnl
-: cascade_loop`'$1
-# indicate one col done
-i := array
-ve := 64
-vf := 1
-sprite ve vf 7
-
-i := bottle0a
-i += pos
-load v`'$1
-
-:call cascade`'$1
-
-i := bottle0a
-i += pos
-save v`'$1
-
-s := 56
-s &= x
-if s == 56
-then jump cascade_done`'$1
-
-pos += 9
-x += 8
-#y += 56
-y := 57
-jump cascade_loop`'$1
-
-: cascade_done`'$1')dnl
-
-: cascade
-CASCADE(7)
-x -= 56
-#y += 56
-#pos -= 62
-y := 57
-pos := 2
-
-CASCADE(6)
-x -= 56
-#y += 48
-#pos -= 61
-y := 57
-pos := 3
-
-CASCADE(5)
-x -= 56
-#y += 40
-#pos -= 60
-y := 57
-pos := 4
-
-CASCADE(4)
-x -= 56
-#y += 32
-#pos -= 59
-y := 57
-pos := 5
-
-CASCADE(3)
-x -= 56
-#y += 24
-#pos -= 58
-y := 57
-pos := 6
-
-CASCADE(2)
-x -= 56
-#y += 16
-#pos -= 57
-y := 57
-pos := 7
-
-CASCADE(1)
-x -= 56
-#y += 8
-#pos -= 56
-y := 57
-pos := 8
-
-CASCADE(0)
-return
-
-undefine(`CASCADE')dnl
-define(`CASCADE',`dnl
-: cascade`'$1
-y -= 8')dnl
-
-CASCADE(7)
-CASCADE(6)
-CASCADE(5)
-CASCADE(4)
-CASCADE(3)
-CASCADE(2)
-CASCADE(1)
-CASCADE(0)
-return
-
-:monitor bottles 180
-
-: digits
-0 0 0
-
-define(`P', `56')dnl
-define(`Y', `124')dnl
-define(`R', `108')dnl
-define(`B', `68')dnl
-define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
-
-: array
-A(P, Y, P, Y)
-A(P, R, P, R)
-A(P, B, P, B)
-
-: _cas013b
-: _cas023b
-: _cas02b3
-: _cas02bb
-: _cas03bb
-: _cas123b
-: _cas12b3
-: _cas12bb
-: _cas13bb
-: _cas1b23
-: _cas1b2b
-: _cas1bb3
-: _cas1bbb
-: _cas23bb
-: _cas2bb3
-: _cas2bbb
-: _casb13b
-: _casb3bb
-: _casi
-v3 >>= v3
-v3 &= m
-s >>= s
-return
-
-: foo
-:breakpoint foo
-i := bottle0a
-i += pos
-load v0
-v1 := v0
-i := lut
-i += v0
-load v0
-v3 := v0
-v3 <<= v3
-:call bar
-v0 := key
-
-: bar
-i := bottle0a
-i += pos
-load v0
-v2 := v0
-i := lut
-i += v0
-load v0
-v3 |= v0
-jump0 0x380
