@@ -2,11 +2,15 @@
 
 # SC version
 
-:alias m v8
-:alias s v9
-:alias x vA
-:alias y vB
-:alias pos vC
+:alias m v9     # mask
+:alias s va     # set
+:alias x vb
+:alias y vc
+:alias p vd     # pos
+:alias t ve     # table
+
+define(`JT8', `0xe80')dnl 0x80 offest jump table
+define(`LUT', `0xeff')dnl SC off-by-one bug
 
 : main
 jump init
@@ -123,14 +127,14 @@ sprite v2 v6 9
 
 #:breakpoint baz
 
-pos := 1
+p := 1
 x := 0
 y := 1
 v1 := 0x18
 
 : fill
 i := bottle0a
-i += pos
+i += p
 load v0
 
 v2 := v0
@@ -158,7 +162,7 @@ sprite x y 3
 
 : fillb
 y += 4
-pos += 1
+p += 1
 
 if y != 65
 then jump fill
@@ -167,7 +171,7 @@ if x == 56
 then jump filled
 
 x += 8
-pos += 1
+p += 1
 y := 1
 jump fill
 
@@ -185,7 +189,7 @@ delay := v0
 
 x := 0
 y := 57
-pos := 1
+p := 1
 m := 0x18
 : call cascade
 
@@ -215,51 +219,16 @@ s := key
 clear
 jump gen
 
-dnl : _cas7
-dnl i := bottle0a
-dnl i += pos
-dnl load v1
-dnl v7 := v0
-dnl i := lut
-dnl i += v1
-dnl load v0
-dnl ve := v0
-dnl ve <<= ve
-dnl call _cas70
-dnl v7 := v1
-dnl i := bottle0a
-dnl i += pos
-dnl load v6
-dnl 
-dnl : _cas70
-dnl i := lut
-dnl i += v7
-dnl load v0
-dnl ve |= v0
-dnl jump0 0xe00
-dnl 
-dnl : _cas6
-dnl i := bottle0a
-dnl i += pos
-dnl load v1
-dnl v7 := v0
-dnl i := lut
-dnl i += v1
-dnl load v0
-dnl ve := v0
-dnl ve <<= ve
-dnl call _cas70
-dnl v7 := v1
-dnl i := bottle0a
-dnl i += pos
-dnl load v6
-dnl 
-dnl : _cas70
-dnl i := lut
-dnl i += v7
-dnl load v0
-dnl ve |= v0
-dnl jump0 0xe00
+: _cas7
+i := bottles
+i += p
+load v7
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+t <<= t
 
 
 
@@ -272,13 +241,13 @@ vf := 1
 sprite ve vf 7
 
 i := bottle0a
-i += pos
+i += p
 load v1
 
 :call cascade`'$1
 
 i := bottle0a
-i += pos
+i += p
 save v`'$1
 
 s := 56
@@ -286,7 +255,7 @@ s &= x
 if s == 56
 then jump cascade_done`'$1
 
-pos += 9
+p += 9
 x += 8
 y := 57
 jump cascade_loop`'$1
@@ -302,13 +271,13 @@ vf := 1
 sprite ve vf 7
 
 i := bottle0a
-i += pos
+i += p
 load v`'$1
 
 :call cascade`'$1
 
 i := bottle0a
-i += pos
+i += p
 save v`'$1
 
 s := 56
@@ -316,9 +285,8 @@ s &= x
 if s == 56
 then jump cascade_done`'$1
 
-pos += 9
+p += 9
 x += 8
-#y += 56
 y := 57
 jump cascade_loop`'$1
 
@@ -328,37 +296,37 @@ jump cascade_loop`'$1
 CASCADE(7)
 x -= 56
 y := 57
-pos := 2
+p := 2
 
 CASCADE(6)
 x -= 56
 y := 57
-pos := 3
+p := 3
 
 CASCADE(5)
 x -= 56
 y := 57
-pos := 4
+p := 4
 
 CASCADE(4)
 x -= 56
 y := 57
-pos := 5
+p := 5
 
 CASCADE(3)
 x -= 56
 y := 57
-pos := 6
+p := 6
 
 CASCADE(2)
 x -= 56
 y := 57
-pos := 7
+p := 7
 
 CASCADE(1)
 x -= 56
 y := 57
-pos := 8
+p := 8
 
 CASCADE(0)
 return
@@ -416,8 +384,6 @@ dnl v0 <<= v0
 dnl v0 &= mask
 dnl return
 
-define(`LUT', `0xeff')dnl SC off-by-one bug
-
 : _cas02b3
 : _cas02bb
 : _cas03bb
@@ -435,14 +401,14 @@ define(`LUT', `0xeff')dnl SC off-by-one bug
 : _casb13b
 : _casb3bb
 
-:org 0xe2a      # SC off-by-one bug
+:org 0xe54      # SC off-by-one bug
 : _casi
 v3 >>= v3
 v3 &= m
 s >>= s
 return
 
-:org 0xe80
+:org JT8
 jump _casi    # 0123
 jump _casi    # 012b
 jump _casi    # 0123
@@ -518,27 +484,26 @@ jump _casi    # bbbb
 #      5	BF
 #      6	BP
 #      7	BB
-# % printf '%02x\n' 0 2 8 10 32 34 40 42 | xxd -r -p | xxd -b -c1
+# % printf '%02x\n' 0 4 16 20 64 68 80 84 | xxd -r -p | xxd -b -c1
 # 00000000: 00000000  .
-# 00000001: 00000010  .
-# 00000002: 00001000  .
-# 00000003: 00001010  .
-# 00000004: 00100000
-# 00000005: 00100010  "
-# 00000006: 00101000  (
-# 00000007: 00101010  *
+# 00000001: 00000100  .
+# 00000002: 00010000  .
+# 00000003: 00010100  .
+# 00000004: 01000000  @
+# 00000005: 01000100  D
+# 00000006: 01010000  P
+# 00000007: 01010100  T
 
 define(`FF',  0)dnl
 define(`FP',  0)dnl
-define(`FB',  2)dnl
-define(`PF',  8)dnl
-define(`PP', 10)dnl
-define(`PB', 32)dnl
-define(`BF', 34)dnl
-define(`BP', 40)dnl
-define(`BB', 42)dnl
+define(`FB',  4)dnl
+define(`PF', 16)dnl
+define(`PP', 20)dnl
+define(`PB', 64)dnl
+define(`BF', 68)dnl
+define(`BP', 80)dnl
+define(`BB', 84)dnl
 
-: lut
 # BB SC off-by-one bug
 BB
 BB
