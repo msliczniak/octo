@@ -207,8 +207,6 @@ v3 += 9
 i := bighex v2
 sprite v3 v4 10
 
-:call foo
-
 # pause
 
 s := 15
@@ -216,6 +214,54 @@ buzzer := s
 s := key
 clear
 jump gen
+
+: _cas7
+i := bottle0a
+i += pos
+load v1
+v7 := v0
+i := lut
+i += v1
+load v0
+ve := v0
+ve <<= ve
+call _cas70
+v7 := v1
+i := bottle0a
+i += pos
+load v6
+
+: _cas70
+i := lut
+i += v7
+load v0
+ve |= v0
+jump0 0xe00
+
+: _cas6
+i := bottle0a
+i += pos
+load v1
+v7 := v0
+i := lut
+i += v1
+load v0
+ve := v0
+ve <<= ve
+call _cas70
+v7 := v1
+i := bottle0a
+i += pos
+load v6
+
+: _cas70
+i := lut
+i += v7
+load v0
+ve |= v0
+jump0 0xe00
+
+
 
 define(`CASCADE',`dnl
 : cascade_loop`'$1
@@ -349,7 +395,27 @@ A(P, R, P, R)
 A(P, B, P, B)
 
 : _cas013b
+table := PB
+v1 <<= v1
+v1 &= mask
+v0 := v8
+save v1
+v8 := v1
+i := _s013b
+i += v1
+y += 8
+sprite x y 7
+return
+
 : _cas023b
+table := PB
+v1 &= mask
+v8 &= mask
+v1 |= v8
+v0 <<= v0
+v0 &= mask
+return
+
 : _cas02b3
 : _cas02bb
 : _cas03bb
