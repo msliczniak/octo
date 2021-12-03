@@ -51,7 +51,24 @@ jump init
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 : bottles
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
+: bottles0
+0xff
+: bottles1
+0xff
+: bottles2
+0xff
+: bottles3
+0xff
+: bottles4
+0xff
+: bottles5
+0xff
+: bottles6
+0xff
+: bottles7
+0xff
+: bottles8
+0xfc
 
      : bottle0a
 0xcf 0x00 0x3c 0x3c 0x3c 0x3c 0x3c 0x3c 0x1c
@@ -219,8 +236,15 @@ s := key
 clear
 jump gen
 
+: _cas
+i := LUT
+i += v1
+load v0
+t |= v0
+jump0 JT8
+
 : _cas7
-i := bottles
+i := bottles0
 i += p
 load v7
 i := LUT
@@ -228,9 +252,192 @@ i += v0
 v8 := v0
 load v0
 t := v0
-t <<= t
 
+i := bottles0
+t >>= t
+:call _cas
 
+i := bottles1
+v1 := v2
+:call _cas
+
+i := bottles2
+v1 := v3
+:call _cas
+
+i := bottles3
+v1 := v4
+:call _cas
+
+i := bottles4
+v1 := v5
+:call _cas
+
+i := bottles5
+v1 := v6
+:call _cas
+
+i := bottles6
+v1 := v7
+:call _cas
+
+return
+
+: _cas6
+i := bottles0
+i += p
+load v6
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+i := bottles1
+v1 := v2
+:call _cas
+
+i := bottles2
+v1 := v3
+:call _cas
+
+i := bottles3
+v1 := v4
+:call _cas
+
+i := bottles4
+v1 := v5
+:call _cas
+
+i := bottles5
+v1 := v6
+:call _cas
+
+return
+
+: _cas5
+i := bottles0
+i += p
+load v5
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+i := bottles1
+v1 := v2
+:call _cas
+
+i := bottles2
+v1 := v3
+:call _cas
+
+i := bottles3
+v1 := v4
+:call _cas
+
+i := bottles4
+v1 := v5
+:call _cas
+
+return
+
+: _cas4
+i := bottles0
+i += p
+load v4
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+i := bottles1
+v1 := v2
+:call _cas
+
+i := bottles2
+v1 := v3
+:call _cas
+
+i := bottles3
+v1 := v4
+:call _cas
+
+return
+
+: _cas3
+i := bottles0
+i += p
+load v3
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+i := bottles1
+v1 := v2
+:call _cas
+
+i := bottles2
+v1 := v3
+:call _cas
+
+return
+
+: _cas2
+i := bottles0
+i += p
+load v2
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+i := bottles1
+v1 := v2
+:call _cas
+
+return
+
+: _cas1
+i := bottles0
+i += p
+load v1
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+i := bottles0
+t >>= t
+:call _cas
+
+return
 
 define(`CASCADE',`dnl
 : cascade_loop`'$1
