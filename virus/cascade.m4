@@ -215,51 +215,51 @@ s := key
 clear
 jump gen
 
-: _cas7
-i := bottle0a
-i += pos
-load v1
-v7 := v0
-i := lut
-i += v1
-load v0
-ve := v0
-ve <<= ve
-call _cas70
-v7 := v1
-i := bottle0a
-i += pos
-load v6
-
-: _cas70
-i := lut
-i += v7
-load v0
-ve |= v0
-jump0 0xe00
-
-: _cas6
-i := bottle0a
-i += pos
-load v1
-v7 := v0
-i := lut
-i += v1
-load v0
-ve := v0
-ve <<= ve
-call _cas70
-v7 := v1
-i := bottle0a
-i += pos
-load v6
-
-: _cas70
-i := lut
-i += v7
-load v0
-ve |= v0
-jump0 0xe00
+dnl : _cas7
+dnl i := bottle0a
+dnl i += pos
+dnl load v1
+dnl v7 := v0
+dnl i := lut
+dnl i += v1
+dnl load v0
+dnl ve := v0
+dnl ve <<= ve
+dnl call _cas70
+dnl v7 := v1
+dnl i := bottle0a
+dnl i += pos
+dnl load v6
+dnl 
+dnl : _cas70
+dnl i := lut
+dnl i += v7
+dnl load v0
+dnl ve |= v0
+dnl jump0 0xe00
+dnl 
+dnl : _cas6
+dnl i := bottle0a
+dnl i += pos
+dnl load v1
+dnl v7 := v0
+dnl i := lut
+dnl i += v1
+dnl load v0
+dnl ve := v0
+dnl ve <<= ve
+dnl call _cas70
+dnl v7 := v1
+dnl i := bottle0a
+dnl i += pos
+dnl load v6
+dnl 
+dnl : _cas70
+dnl i := lut
+dnl i += v7
+dnl load v0
+dnl ve |= v0
+dnl jump0 0xe00
 
 
 
@@ -395,26 +395,28 @@ A(P, R, P, R)
 A(P, B, P, B)
 
 : _cas013b
-table := PB
-v1 <<= v1
-v1 &= mask
-v0 := v8
-save v1
-v8 := v1
-i := _s013b
-i += v1
-y += 8
-sprite x y 7
-return
-
+dnl table := PB
+dnl v1 <<= v1
+dnl v1 &= mask
+dnl v0 := v8
+dnl save v1
+dnl v8 := v1
+dnl i := _s013b
+dnl i += v1
+dnl y += 8
+dnl sprite x y 7
+dnl return
+dnl 
 : _cas023b
-table := PB
-v1 &= mask
-v8 &= mask
-v1 |= v8
-v0 <<= v0
-v0 &= mask
-return
+dnl table := PB
+dnl v1 &= mask
+dnl v8 &= mask
+dnl v1 |= v8
+dnl v0 <<= v0
+dnl v0 &= mask
+dnl return
+
+define(`LUT', `0xeff')dnl SC off-by-one bug
 
 : _cas02b3
 : _cas02bb
@@ -432,38 +434,15 @@ return
 : _cas2bbb
 : _casb13b
 : _casb3bb
+
+:org 0xe2a      # SC off-by-one bug
 : _casi
 v3 >>= v3
 v3 &= m
 s >>= s
 return
 
-: foo
-:breakpoint foo
-i := bottle0a
-i += pos
-load v0
-v1 := v0
-i := lut
-i += v0
-load v0
-ve := v0
-ve <<= ve
-:call bar
-v0 := key
-
-: bar
-i := bottle0a
-i += pos
-load v0
-v2 := v0
-i := lut
-i += v0
-load v0
-ve |= v0
-jump0 0xe00
-
-:org 0xe00
+:org 0xe80
 jump _casi    # 0123
 jump _casi    # 012b
 jump _casi    # 0123
@@ -560,7 +539,7 @@ define(`BP', 40)dnl
 define(`BB', 42)dnl
 
 : lut
-BB
+# BB SC off-by-one bug
 BB
 BB
 BB
