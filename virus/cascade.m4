@@ -3,10 +3,10 @@
 # SC version
 
 :alias m v9     # mask
-:alias s va     # set
+:alias s va     # state
 :alias x vb
 :alias y vc
-:alias p vd     # pos
+:alias p vd     # position
 :alias t ve     # table
 
 define(`JT8', `0xe80')dnl 0x80 offest jump table
@@ -237,31 +237,37 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 i := bottles2
 v1 := v3
+y := 16
 :call _cas
 
 i := bottles3
 v1 := v4
+y := 24
 :call _cas
 
 i := bottles4
 v1 := v5
+y := 32
 :call _cas
 
 i := bottles5
 v1 := v6
+y := 40
 :call _cas
 
 i := bottles6
 v1 := v7
+y := 48
 :call _cas
 
 return
@@ -277,27 +283,32 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 i := bottles2
 v1 := v3
+y := 16
 :call _cas
 
 i := bottles3
 v1 := v4
+y := 24
 :call _cas
 
 i := bottles4
 v1 := v5
+y := 32
 :call _cas
 
 i := bottles5
 v1 := v6
+y := 40
 :call _cas
 
 return
@@ -313,23 +324,27 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 i := bottles2
 v1 := v3
+y := 16
 :call _cas
 
 i := bottles3
 v1 := v4
+y := 24
 :call _cas
 
 i := bottles4
 v1 := v5
+y := 32
 :call _cas
 
 return
@@ -345,19 +360,22 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 i := bottles2
 v1 := v3
+y := 16
 :call _cas
 
 i := bottles3
 v1 := v4
+y := 24
 :call _cas
 
 return
@@ -373,15 +391,17 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 i := bottles2
 v1 := v3
+y := 16
 :call _cas
 
 return
@@ -397,11 +417,12 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
 v1 := v2
+y := 8
 :call _cas
 
 return
@@ -417,7 +438,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 return
@@ -605,7 +626,7 @@ dnl return
 : _casb13b
 : _casb3bb
 
-:org 0xe54      # SC off-by-one bug
+:org 0xe2a      # SC off-by-one bug
 : _casi
 v3 >>= v3
 v3 &= m
@@ -688,25 +709,25 @@ jump _casi    # bbbb
 #      5	BF
 #      6	BP
 #      7	BB
-# % printf '%02x\n' 0 4 16 20 64 68 80 84 | xxd -r -p | xxd -b -c1
+# % printf '%02x\n' 0 2 8 10 32 34 40 42 | xxd -r -p | xxd -b -c1 
 # 00000000: 00000000  .
-# 00000001: 00000100  .
-# 00000002: 00010000  .
-# 00000003: 00010100  .
-# 00000004: 01000000  @
-# 00000005: 01000100  D
-# 00000006: 01010000  P
-# 00000007: 01010100  T
+# 00000001: 00000010  .
+# 00000002: 00001000  .
+# 00000003: 00001010  .
+# 00000004: 00100000
+# 00000005: 00100010  "
+# 00000006: 00101000  (
+# 00000007: 00101010  *
 
 define(`FF',  0)dnl
 define(`FP',  0)dnl
-define(`FB',  4)dnl
-define(`PF', 16)dnl
-define(`PP', 20)dnl
-define(`PB', 64)dnl
-define(`BF', 68)dnl
-define(`BP', 80)dnl
-define(`BB', 84)dnl
+define(`FB',  2)dnl
+define(`PF',  8)dnl
+define(`PP', 10)dnl
+define(`PB', 32)dnl
+define(`BF', 34)dnl
+define(`BP', 40)dnl
+define(`BB', 42)dnl
 
 # BB SC off-by-one bug
 BB
