@@ -189,9 +189,9 @@ delay := v0
 
 x := 0
 y := 57
-p := 1
-m := 0x18
-: call cascade
+p := 9
+m := 0xaa
+: call cas
 
 v1 := delay
 v0 := 255
@@ -237,7 +237,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -283,7 +283,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -324,7 +324,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -360,7 +360,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -391,7 +391,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -417,7 +417,7 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 i := bottles1
@@ -438,123 +438,191 @@ load v0
 t := v0
 
 i := bottles0
-t <<= t
+t >>= t
 :call _cas
 
 return
 
-define(`CASCADE',`dnl
-: cascade_loop`'$1
+: cas
 # indicate one col done
 i := array
 ve := 64
 vf := 1
 sprite ve vf 7
 
-i := bottle0a
-i += p
-load v1
-
-:call cascade`'$1
-
-i := bottle0a
-i += p
-save v`'$1
-
-s := 56
-s &= x
-if s == 56
-then jump cascade_done`'$1
-
+:call _cas7
 p += 9
 x += 8
-y := 57
-jump cascade_loop`'$1
-
-: cascade_done`'$1')dnl
-
-define(`OCASCADE',`dnl
-: cascade_loop`'$1
-# indicate one col done
-i := array
-ve := 64
-vf := 1
-sprite ve vf 7
-
-i := bottle0a
-i += p
-load v`'$1
-
-:call cascade`'$1
-
-i := bottle0a
-i += p
-save v`'$1
-
-s := 56
-s &= x
-if s == 56
-then jump cascade_done`'$1
-
+:call _cas7
 p += 9
 x += 8
-y := 57
-jump cascade_loop`'$1
-
-: cascade_done`'$1')dnl
-
-: cascade
-CASCADE(7)
+:call _cas7
+p += 9
+x += 8
+:call _cas7
+p += 9
+x += 8
+:call _cas7
+p += 9
+x += 8
+:call _cas7
+p += 9
+x += 8
+:call _cas7
+p += 9
+x += 8
+:call _cas7
+p -= 63
 x -= 56
-y := 57
-p := 2
 
-CASCADE(6)
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p += 9
+x += 8
+:call _cas6
+p -= 63
 x -= 56
-y := 57
-p := 3
 
-CASCADE(5)
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p += 9
+x += 8
+:call _cas5
+p -= 63
 x -= 56
-y := 57
-p := 4
 
-CASCADE(4)
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p += 9
+x += 8
+:call _cas4
+p -= 63
 x -= 56
-y := 57
-p := 5
 
-CASCADE(3)
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p += 9
+x += 8
+:call _cas3
+p -= 63
 x -= 56
-y := 57
-p := 6
 
-CASCADE(2)
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p += 9
+x += 8
+:call _cas2
+p -= 63
 x -= 56
-y := 57
-p := 7
 
-CASCADE(1)
-x -= 56
-y := 57
-p := 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
+p += 9
+x += 8
+:call _cas1
 
-CASCADE(0)
-return
-
-undefine(`CASCADE')dnl
-define(`CASCADE',`dnl
-: cascade`'$1
-y -= 8')dnl
-
-CASCADE(7)
-CASCADE(6)
-CASCADE(5)
-CASCADE(4)
-CASCADE(3)
-CASCADE(2)
-CASCADE(1)
-CASCADE(0)
 return
 
 :monitor bottles 180
@@ -627,7 +695,7 @@ dnl return
 
 :org 0xe2a      # SC off-by-one bug
 : _casi
-t <<= t
+t >>= t
 t &= m
 s >>= s
 return
@@ -643,7 +711,7 @@ i := _spr23bb
 i += v0
 sprite x y 15
 
-t <<= t
+t >>= t
 t &= m
 return
 
