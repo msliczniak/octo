@@ -237,7 +237,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -283,7 +283,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -324,7 +324,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -360,7 +360,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -391,7 +391,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -417,7 +417,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 i := bottles1
@@ -438,7 +438,7 @@ load v0
 t := v0
 
 i := bottles0
-t >>= t
+t <<= t
 :call _cas
 
 return
