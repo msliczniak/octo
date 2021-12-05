@@ -226,6 +226,14 @@ load v0
 t |= v0
 jump0 JT8
 
+# indicate one col done
+: p2
+i := array
+ve := 64
+vf := 1
+sprite ve vf 7
+return
+
 : _cas7
 i := bottles0
 i += p
@@ -238,6 +246,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -270,7 +279,7 @@ v1 := v7
 y := 48
 :call _cas
 
-return
+jump p2
 
 : _cas6
 i := bottles0
@@ -284,6 +293,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -311,7 +321,7 @@ v1 := v6
 y := 40
 :call _cas
 
-return
+jump p2
 
 : _cas5
 i := bottles0
@@ -325,6 +335,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -347,7 +358,7 @@ v1 := v5
 y := 32
 :call _cas
 
-return
+jump p2
 
 : _cas4
 i := bottles0
@@ -361,6 +372,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -378,7 +390,7 @@ v1 := v4
 y := 24
 :call _cas
 
-return
+jump p2
 
 : _cas3
 i := bottles0
@@ -392,6 +404,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -404,7 +417,7 @@ v1 := v3
 y := 16
 :call _cas
 
-return
+jump p2
 
 : _cas2
 i := bottles0
@@ -418,6 +431,7 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
 i := bottles1
@@ -425,7 +439,7 @@ v1 := v2
 y := 8
 :call _cas
 
-return
+jump p2
 
 : _cas1
 i := bottles0
@@ -439,17 +453,12 @@ t := v0
 
 i := bottles0
 t <<= t
+y := 0
 :call _cas
 
-return
+jump p2
 
 : cas
-# indicate one col done
-i := array
-ve := 64
-vf := 1
-sprite ve vf 7
-
 :call _cas7
 p += 9
 x += 8
