@@ -156,7 +156,7 @@ load v0
 if v0 == 0
 then jump filla
 
-i := _spri
+i := _spr23bb
 i += v0
 sprite x y 7
 
@@ -568,7 +568,7 @@ define(`R', `108')dnl
 define(`B', `68')dnl
 define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 
-: _spri
+: _spr23bb
 A(0, 0, 0, 0) A(0, 0, 0, 0)
 A(0, 0, P, Y) A(0, 0, P, Y)
 A(0, 0, P, R) A(0, 0, P, R)
@@ -620,7 +620,6 @@ dnl return
 : _cas1b2b
 : _cas1bb3
 : _cas1bbb
-: _cas23bb
 : _cas2bb3
 : _cas2bbb
 : _casb13b
@@ -628,9 +627,24 @@ dnl return
 
 :org 0xe2a      # SC off-by-one bug
 : _casi
-v3 >>= v3
-v3 &= m
+t <<= t
+t &= m
 s >>= s
+return
+
+: _cas23bb
+v0 := v1
+v1 := 0
+save v1
+
+v8 := 0
+
+i := _spr23bb
+i += v0
+sprite x y 15
+
+t <<= t
+t &= m
 return
 
 :org JT8
