@@ -71,21 +71,21 @@ jump init
 0xff
 
      : bottle0a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x10 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
      : bottle1a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x20 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
      : bottle2a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x30 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
      : bottle3a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x40 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
      : bottle4a
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
      : bottle5a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x60 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
      : bottle6a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x70 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
      : bottle7a
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x80 0xff
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
 
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
@@ -219,13 +219,6 @@ s := key
 clear
 jump gen
 
-: _cas
-i := LUT
-i += v1
-load v0
-t |= v0
-jump0 JT8
-
 # indicate one col done
 : p2
 i := array
@@ -233,6 +226,69 @@ ve := 64
 vf := 1
 sprite ve vf 7
 return
+
+: __cas0
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles0
+jump0 JT8
+
+: __cas1
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles1
+jump0 JT8
+
+: __cas2
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles2
+jump0 JT8
+
+: __cas3
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles3
+jump0 JT8
+
+: __cas4
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles4
+jump0 JT8
+
+: __cas5
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles5
+jump0 JT8
+
+: __cas6
+t <<= t
+i := LUT
+i += v1
+load v0
+t |= v0
+i := bottles6
+jump0 JT8
 
 : _cas7
 i := bottles0
@@ -244,40 +300,32 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
-i := bottles2
 v1 := v3
 y := 16
-:call _cas
+:call __cas2
 
-i := bottles3
 v1 := v4
 y := 24
-:call _cas
+:call __cas3
 
-i := bottles4
 v1 := v5
 y := 32
-:call _cas
+:call __cas4
 
-i := bottles5
 v1 := v6
 y := 40
-:call _cas
+:call __cas5
 
-i := bottles6
 v1 := v7
 y := 48
-:call _cas
+:call __cas6
 
 jump p2
 
@@ -291,35 +339,28 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
-i := bottles2
 v1 := v3
 y := 16
-:call _cas
+:call __cas2
 
-i := bottles3
 v1 := v4
 y := 24
-:call _cas
+:call __cas3
 
-i := bottles4
 v1 := v5
 y := 32
-:call _cas
+:call __cas4
 
-i := bottles5
 v1 := v6
 y := 40
-:call _cas
+:call __cas5
 
 jump p2
 
@@ -333,30 +374,24 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
-i := bottles2
 v1 := v3
 y := 16
-:call _cas
+:call __cas2
 
-i := bottles3
 v1 := v4
 y := 24
-:call _cas
+:call __cas3
 
-i := bottles4
 v1 := v5
 y := 32
-:call _cas
+:call __cas4
 
 jump p2
 
@@ -370,25 +405,20 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
-i := bottles2
 v1 := v3
 y := 16
-:call _cas
+:call __cas2
 
-i := bottles3
 v1 := v4
 y := 24
-:call _cas
+:call __cas3
 
 jump p2
 
@@ -402,20 +432,16 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
-i := bottles2
 v1 := v3
 y := 16
-:call _cas
+:call __cas2
 
 jump p2
 
@@ -429,15 +455,12 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
-i := bottles1
 v1 := v2
 y := 8
-:call _cas
+:call __cas1
 
 jump p2
 
@@ -451,10 +474,8 @@ v8 := v0
 load v0
 t := v0
 
-i := bottles0
-t <<= t
 y := 0
-:call _cas
+:call __cas0
 
 jump p2
 
@@ -685,7 +706,6 @@ dnl v1 |= v8
 dnl v0 <<= v0
 dnl v0 &= mask
 dnl return
-
 : _cas02b3
 : _cas02bb
 : _cas03bb
@@ -701,17 +721,10 @@ dnl return
 : _cas2bbb
 : _casb13b
 : _casb3bb
-
-:org 0xe2a      # SC off-by-one bug
-: _casi
-t >>= t
-t &= m
-s >>= s
-return
-
 : _cas23bb
 v0 := v1
 v1 := 0
+i += p
 save v1
 
 v8 := 0
@@ -722,6 +735,13 @@ sprite x y 15
 
 t >>= t
 t &= m
+return
+
+:org 0xe2a      # SC off-by-one bug
+: _casi
+t >>= t
+t &= m
+s >>= s
 return
 
 :org JT8
