@@ -87,6 +87,23 @@ jump init
      : bottle7a
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
 
+dnl      : bottle0a
+dnl 0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
+dnl      : bottle1a
+dnl 0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
+dnl      : bottle2a
+dnl 0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
+dnl      : bottle3a
+dnl 0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
+dnl      : bottle4a
+dnl 0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
+dnl      : bottle5a
+dnl 0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
+dnl      : bottle6a
+dnl 0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
+dnl      : bottle7a
+dnl 0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
+
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
 : bottle0b
@@ -177,16 +194,18 @@ jump fill
 
 : filled
 
-i := array
-ve := 64
-vf := 1
-sprite ve vf 3
+#:breakpoint bar
 
-:breakpoint bar
-
-v0 := 255
+v1 := 255
+v0 := 1
 delay := v0
 
+: start_sync
+v0 := delay
+if v0 != 0
+then jump start_sync
+
+delay := v1
 x := 0
 y := 57
 p := 9
@@ -200,16 +219,16 @@ i := digits
 bcd v0
 i := digits
 load v2
-v3 := 72
+v3 := 65
 v4 := 0
-i := bighex v0
-sprite v3 v4 10
-v3 += 9
-i := bighex v1
-sprite v3 v4 10
-v3 += 9
-i := bighex v2
-sprite v3 v4 10
+i := hex v0
+sprite v3 v4 5
+v3 += 6
+i := hex v1
+sprite v3 v4 5
+v3 += 6
+i := hex v2
+sprite v3 v4 5
 
 # pause
 
@@ -219,12 +238,19 @@ s := key
 clear
 jump gen
 
-# indicate one col done
 : p2
-i := array
-ve := 64
-vf := 1
-sprite ve vf 7
+i := p2s
+load v2
+v3 := delay
+v3 =- v0
+v0 -= v3
+v3 &= v2
+if x == 0
+then v1 += 6
+save v1
+i := hex v3
+sprite v1 x 5
+
 return
 
 : __cas0
@@ -674,7 +700,6 @@ A(0, 0, P, B) A(0, 0, P, B)
 A(P, Y, 0, 0) A(P, Y, 0, 0)
 A(P, Y, P, Y) A(P, Y, P, Y)
 A(P, Y, P, R) A(P, Y, P, R)
-: array
 A(P, Y, P, B) A(P, Y, P, B)
 A(P, R, 0, 0) A(P, R, 0, 0)
 A(P, R, P, Y) A(P, R, P, Y)
@@ -684,6 +709,9 @@ A(P, B, 0, 0) A(P, B, 0, 0)
 A(P, B, P, Y) A(P, B, P, Y)
 A(P, B, P, R) A(P, B, P, R)
 A(P, B, P, B) A(P, B, P, B)
+
+: p2s
+255 80 15
 
 : _cas013b
 dnl table := PB
