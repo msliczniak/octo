@@ -316,6 +316,98 @@ t |= v0
 i := bottles6
 jump0 JT8
 
+: foo
+s <<= s
+if vf != 0
+then jump foo0
+
+: foo0
+i := bottles0
+i += p
+load v1
+i := LUT
+i += v0
+v8 := v0
+load v0
+t := v0
+
+y := 0
+:call __cas0
+
+s <<= s
+if vf != 0
+then jump foo1
+
+: foo1
+i := bottles1
+i += p
+load v1
+v8 := v0
+y := 8
+:call __cas1
+
+s <<= s
+if vf != 0
+then jump foo2
+
+: foo2
+i := bottles2
+i += p
+load v1
+v8 := v0
+y := 16
+:call __cas2
+
+s <<= s
+if vf != 0
+then jump foo3
+
+: foo3
+i := bottles3
+i += p
+load v1
+v8 := v0
+y := 24
+:call __cas3
+
+s <<= s
+if vf != 0
+then jump foo4
+
+: foo4
+i := bottles4
+i += p
+load v1
+v8 := v0
+y := 32
+:call __cas4
+
+s <<= s
+if vf != 0
+then jump foo5
+
+: foo5
+i := bottles5
+i += p
+load v1
+v8 := v0
+y := 40
+:call __cas5
+
+s <<= s
+if vf != 0
+then jump foo6
+
+: foo6
+i := bottles6
+i += p
+load v1
+v8 := v0
+y := 48
+:call __cas6
+
+jump p2
+
 : _cas7
 i := bottles0
 i += p
@@ -506,30 +598,32 @@ y := 0
 jump p2
 
 : cas
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p += 9
 x += 8
-:call _cas7
+:call foo
 p -= 63
 x -= 56
+
+return
 
 :call _cas6
 p += 9
