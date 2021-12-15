@@ -2,10 +2,17 @@
 
 # generate lookup table A: bottle to cascade
 
-# y
-# x
+# q  ^  0
+# r  |  1
+# s  |  2
+# t  |  3
+#
+# D  st qr st - qr st qr  0
+# Cr Cq Cr Cq - Tr Tq Tr Tq
+# Ct Cs Ct Cs - Tt Ts Tt Ts
 
 BEGIN {
+	i = -1
 	for (b0 = 0; b0 < 2; b0++)
 	for (b1 = 0; b1 < 2; b1++)
 	for (b2 = 0; b2 < 2; b2++)
@@ -14,19 +21,27 @@ BEGIN {
 	for (b5 = 0; b5 < 2; b5++)
 	for (b6 = 0; b6 < 2; b6++)
 	for (b7 = 0; b7 < 2; b7++) {
-		c = b0 b2
-		t = b4 b6
-		if (c == "00") x = "B"
-		else if (t == "00") x = "P"
-		else x = "F"
+		i++
 
-		c = b1 b3
-		t = b5 b7
-		if (c == "00") y = "B"
-		else if (t == "00") y = "P"
-		else y = "F"
+		c = b1 b3       # color
+		k = b5 b7       # kind
+		if (c == "00") 
+			if (k == "00") q = "B"
+			else continue
+		else if (k == "00") q = "P"
+		else if (c != "00") q = "F"
+		else continue
 
-		print x y
+		c = b0 b2       # color
+		k = b4 b6       # kind
+		if (c == "00") 
+			if (k == "00") r = "B"
+			else continue
+		else if (k == "00") r = "P"
+		else if (c != "00") r = "F"
+		else continue
+
+		printf(":org eval(LUT + %d) :byte %s%s\n", i, q, r)
 	}
 
 	exit

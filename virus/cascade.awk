@@ -20,8 +20,7 @@ NF != 4 { exit(1) }
 	print a[0], a[1], a[2], a[3]
 }
 
-# FF and FC behave the same
-# % printf '%s\n' {x..z}0{x..z}1{x..z}2{x..z}3 | tr 'xyz' 'fpb' | \
-#   sed 's/../& /g; s/ $//' | grep -v 'f0 p1' | grep -v 'f2 p3' >cascade.txt
+# FF and FP behave the same
+# % ./casgen.awk >cascade.txt
 # % ./cascade.awk cascade.txt >one.txt
 # % ./cascade.awk one.txt >two.txt
