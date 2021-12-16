@@ -306,7 +306,6 @@ t |= v0
 jump0 JTE
 
 : _cas
-s := 0xff
 t := FF # zero
 y := 248
 :call __cas
@@ -422,7 +421,6 @@ o := v1
 t >>= t
 t &= m
 p += 1
-s >>= s
 return
 
 : _dca013b
