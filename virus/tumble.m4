@@ -51,7 +51,7 @@ define(`PB', 64)dnl
 define(`BF', 68)dnl
 define(`BP', 80)dnl
 define(`BB', 84)dnl
-define(`D', 128)dnl dirty
+define(`D', `eval(($1)| 128)')dnl dirty
 
 : main
 jump init
@@ -252,7 +252,13 @@ delay := v1
 x := 0
 p := 0
 m := 0xaa
-: call cas
+:call cas
+:call cas
+:call cas
+:call cas
+:call cas
+:call cas
+:call cas
 
 v1 := delay
 v0 := 255
@@ -281,6 +287,7 @@ clear
 jump gen
 
 : p2
+p += 1
 v0 := s
 i := bottles0
 i += p
@@ -385,6 +392,9 @@ load v0
 t := v0
 jump _cas6
 
+: __cas7
+: __cas8
+
 : __cas6
 s |= vf
 p += 1
@@ -425,7 +435,7 @@ s <<= s
 if vf != 0
 then jump __cas1
 
-y := 0
+y := 248
 :call ___cas
 
 s <<= s
@@ -433,7 +443,7 @@ if vf != 0
 then jump __cas2
 
 : _cas2
-y := 8
+y := 0
 :call __cas
 
 s <<= s
@@ -449,7 +459,7 @@ if vf != 0
 then jump __cas4
 
 : _cas4
-y := 8
+y := 16
 :call __cas
 
 s <<= s
@@ -457,7 +467,7 @@ if vf != 0
 then jump __cas5
 
 : _cas5
-y := 8
+y := 24
 :call __cas
 
 s <<= s
@@ -465,7 +475,7 @@ if vf != 0
 then jump __cas6
 
 : _cas6
-y := 8
+y := 32
 :call __cas
 
 s <<= s
@@ -473,13 +483,29 @@ if vf != 0
 then jump __cas7
 
 : _cas7
+y := 40
+:call __cas
+
+s <<= s
+if vf != 0
+then jump __cas8
+
+: _cas8
+y := 48
+:call __cas
+
+s <<= s
+if vf != 0
+then jump __cas9
+
+: _cas9
 v0 <<= v0
 if v0 == 0
 then jump p2
 
-: __cas7
+: __cas9
 v0 := o
-i := bottles0
+i := bottle0a
 i += p
 save v0
 
@@ -561,8 +587,15 @@ dnl v0 &= mask
 dnl return
 
 :org 0xd54      # SC off-by-one bug
+
 : _dcai
+v0 := o
+i := bottle0a
+i += p
+save v0
+
 : _casi
+o := v1
 t >>= t
 t &= m
 vf := 1
@@ -604,21 +637,20 @@ return
 : _casb13b
 : _dcab3bb
 : _casb3bb
+
 : _dca23bb
 : _cas23bb
 v0 := v1
-v1 := 0
+i := bottle0a
 i += p
-save v1
-
-v8 := 0
+save v0
 
 i := _spr23bb
 i += v0
 sprite x y 15
 
-t >>= t
-t &= m
+t := D(BB >> 1)
+p += 1
 return
 
 :org JTE
