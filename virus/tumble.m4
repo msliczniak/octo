@@ -253,12 +253,6 @@ x := 0
 p := 0
 m := 0xaa
 :call cas
-:call cas
-:call cas
-:call cas
-:call cas
-:call cas
-:call cas
 
 v1 := delay
 v0 := 255
@@ -288,10 +282,6 @@ jump gen
 
 : p2
 p += 1
-v0 := s
-i := bottles0
-i += p
-save v0
 i := p2s
 load v2
 v3 := delay
@@ -303,121 +293,12 @@ then v1 += 6
 save v1
 i := hex v3
 sprite v1 x 5
-
 return
-
-: __cas1
-s |= vf 
-o := v0
-p += 1
-s <<= s
-if vf != 0
-then jump __cas2
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas2
-
-: __cas2
-s |= vf
-p += 1
-s <<= s
-if vf != 0
-then jump __cas3
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas3
-
-: __cas3
-s |= vf
-p += 1
-s <<= s
-if vf != 0
-then jump __cas4
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas4
-
-: __cas4
-s |= vf
-p += 1
-s <<= s
-if vf != 0
-then jump __cas5
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas5
-
-: __cas5
-s |= vf
-p += 1
-s <<= s
-if vf != 0
-then jump __cas6
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas6
-
-: __cas7
-: __cas8
-
-: __cas6
-s |= vf
-p += 1
-s <<= s
-if vf != 0
-then jump __cas7
-
-i := bottles0
-i += p
-load v1
-o := v0
-i := LUT
-i += v0
-load v0
-t := v0
-jump _cas7
 
 : __cas
 i := bottle0a
 i += p
 load v1
-
-: ___cas
 i := LUT
 i += v1
 load v0
@@ -425,90 +306,32 @@ t |= v0
 jump0 JTE
 
 : _cas
-i := bottle0a
-i += p
-load v1 # load first
-s := v0
+s := 0xff
 t := FF # zero
-
-s <<= s
-if vf != 0
-then jump __cas1
-
 y := 248
-:call ___cas
-
-s <<= s
-if vf != 0
-then jump __cas2
-
-: _cas2
+:call __cas
 y := 0
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas3
-
-: _cas3
 y := 8
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas4
-
-: _cas4
 y := 16
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas5
-
-: _cas5
 y := 24
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas6
-
-: _cas6
 y := 32
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas7
-
-: _cas7
 y := 40
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas8
-
-: _cas8
 y := 48
 :call __cas
-
-s <<= s
-if vf != 0
-then jump __cas9
-
-: _cas9
-v0 <<= v0
-if v0 == 0
+t <<= t
+if vf == 0
 then jump p2
 
-: __cas9
 v0 := o
 i := bottle0a
 i += p
 save v0
-
 jump p2
 
 : cas
@@ -598,9 +421,8 @@ save v0
 o := v1
 t >>= t
 t &= m
-vf := 1
-s |= vf
 p += 1
+s >>= s
 return
 
 : _dca013b
