@@ -179,8 +179,10 @@ hires
 
 i := dots
 v0 := 0
-v1 := 63
-v2 := 127
+#v1 := 63
+v1 := 0
+#v2 := 127
+v2 := 0
 v3 := 3
 v4 := 19
 v5 := 35
@@ -261,8 +263,8 @@ i := digits
 bcd v0
 i := digits
 load v2
-v3 := 65
-v4 := 0
+v3 := 63
+v4 := 59
 i := hex v0
 sprite v3 v4 5
 v3 += 6
@@ -281,7 +283,6 @@ clear
 jump gen
 
 : p2
-p += 1
 i := p2s
 load v2
 v3 := delay
@@ -295,7 +296,7 @@ i := hex v3
 sprite v1 x 5
 return
 
-: __cas
+: _cas
 i := bottle0a
 i += p
 load v1
@@ -305,28 +306,168 @@ load v0
 t |= v0
 jump0 JTE
 
-: _cas
+: _cas7
 t := FF # zero
 y := 248
-:call __cas
+:call _cas
 y := 0
-:call __cas
+:call _cas
 y := 8
-:call __cas
+:call _cas
 y := 16
-:call __cas
+:call _cas
 y := 24
-:call __cas
+:call _cas
 y := 32
-:call __cas
+:call _cas
 y := 40
-:call __cas
+:call _cas
 y := 48
-:call __cas
+:call _cas
+p += 1
 t <<= t
 if vf == 0
 then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
 
+: _cas6
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+y := 8
+:call _cas
+y := 16
+:call _cas
+y := 24
+:call _cas
+y := 32
+:call _cas
+y := 40
+:call _cas
+p += 2
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas5
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+y := 8
+:call _cas
+y := 16
+:call _cas
+y := 24
+:call _cas
+y := 32
+:call _cas
+p += 3
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas4
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+y := 8
+:call _cas
+y := 16
+:call _cas
+y := 24
+:call _cas
+p += 4
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas3
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+y := 8
+:call _cas
+y := 16
+:call _cas
+p += 5
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas2
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+y := 8
+:call _cas
+p += 6
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas1
+t := FF # zero
+y := 248
+:call _cas
+y := 0
+:call _cas
+p += 7
+t <<= t
+if vf == 0
+then jump p2
+v0 := o
+i := bottle0a
+i += p
+save v0
+jump p2
+
+: _cas0
+t := FF # zero
+y := 248
+:call _cas
+p += 8
+t <<= t
+if vf == 0
+then jump p2
 v0 := o
 i := bottle0a
 i += p
@@ -334,21 +475,147 @@ save v0
 jump p2
 
 : cas
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
 x += 8
-:call _cas
+:call _cas7
+p -= 63
+x -= 56
+
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+x += 8
+:call _cas6
+p -= 63
+x -= 56
+
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+x += 8
+:call _cas5
+p -= 63
+x -= 56
+
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+x += 8
+:call _cas4
+p -= 63
+x -= 56
+
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+x += 8
+:call _cas3
+p -= 63
+x -= 56
+
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+x += 8
+:call _cas2
+p -= 63
+x -= 56
+
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+x += 8
+:call _cas1
+p -= 63
+x -= 56
+
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
+x += 8
+:call _cas0
 p -= 63
 x -= 56
 
@@ -384,7 +651,7 @@ A(P, R, P, B) A(P, R, P, B)     # 1110 R B
 A(P, B, P, B) A(P, B, P, B)     # 1111 B B
 
 : p2s
-255 80 15
+255 76 15
 
 dnl : _cas013b
 dnl table := PB
