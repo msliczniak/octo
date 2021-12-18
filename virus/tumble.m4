@@ -2,6 +2,7 @@
 
 # SC version
 
+:alias c v7     # col state
 :alias o v8     # old v0
 :alias m v9     # mask
 :alias s va     # state
@@ -254,6 +255,7 @@ delay := v1
 x := 0
 p := 0
 m := 0xaa
+c := 0
 :call cas
 
 v1 := delay
@@ -294,6 +296,8 @@ then v1 += 6
 save v1
 i := hex v3
 sprite v1 x 5
+if s == 0
+then vf := 1
 return
 
 : _cas
@@ -307,6 +311,7 @@ t |= v0
 jump0 JTE
 
 : _cas7
+s := 128
 t := FF # zero
 y := 248
 :call _cas
@@ -335,6 +340,7 @@ save v0
 jump p2
 
 : _cas6
+s := 64
 t := FF # zero
 y := 248
 :call _cas
@@ -361,6 +367,7 @@ save v0
 jump p2
 
 : _cas5
+s := 32
 t := FF # zero
 y := 248
 :call _cas
@@ -385,6 +392,7 @@ save v0
 jump p2
 
 : _cas4
+s := 16
 t := FF # zero
 y := 248
 :call _cas
@@ -407,6 +415,7 @@ save v0
 jump p2
 
 : _cas3
+s := 8
 t := FF # zero
 y := 248
 :call _cas
@@ -427,6 +436,7 @@ save v0
 jump p2
 
 : _cas2
+s := 4
 t := FF # zero
 y := 248
 :call _cas
@@ -445,6 +455,7 @@ save v0
 jump p2
 
 : _cas1
+s := 2
 t := FF # zero
 y := 248
 :call _cas
@@ -461,6 +472,7 @@ save v0
 jump p2
 
 : _cas0
+s := 1
 t := FF # zero
 y := 248
 :call _cas
@@ -475,150 +487,344 @@ save v0
 jump p2
 
 : cas
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
 x += 8
-:call _cas7
+c <<= c
+if vf == 0
+then :call _cas7
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
 x += 8
-:call _cas6
+c <<= c
+if vf == 0
+then :call _cas6
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
 x += 8
-:call _cas5
+c <<= c
+if vf == 0
+then :call _cas5
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
 x += 8
-:call _cas4
+c <<= c
+if vf == 0
+then :call _cas4
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
 x += 8
-:call _cas3
+c <<= c
+if vf == 0
+then :call _cas3
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
 x += 8
-:call _cas2
+c <<= c
+if vf == 0
+then :call _cas2
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
 x += 8
-:call _cas1
+c <<= c
+if vf == 0
+then :call _cas1
+c |= vf
+if c == 0xff
+then return
 p -= 63
 x -= 56
 
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
+c <<= c
+if vf == 0
+then :call _cas0
 x += 8
-:call _cas0
-p -= 63
-x -= 56
-
+c <<= c
+if vf == 0
+then :call _cas0
 return
 
 :monitor bottles 180
@@ -688,6 +894,7 @@ o := v1
 t >>= t
 t &= m
 p += 1
+s >>= s
 return
 
 : _dca013b
