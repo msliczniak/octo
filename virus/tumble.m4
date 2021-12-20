@@ -294,6 +294,7 @@ then v1 += 6
 save v1
 i := hex v3
 sprite v1 x 5
+#vf := 0
 if s == 0
 then vf := 1
 return
@@ -332,7 +333,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles8
 i += p
 save v0
 jump p2
@@ -359,7 +360,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles7
 i += p
 save v0
 jump p2
@@ -384,7 +385,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles6
 i += p
 save v0
 jump p2
@@ -407,7 +408,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles5
 i += p
 save v0
 jump p2
@@ -428,7 +429,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles4
 i += p
 save v0
 jump p2
@@ -447,7 +448,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles3
 i += p
 save v0
 jump p2
@@ -464,7 +465,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles2
 i += p
 save v0
 jump p2
@@ -479,7 +480,7 @@ t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottle0a
+i := bottles1
 i += p
 save v0
 jump p2
@@ -526,7 +527,7 @@ then :call _cas7
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -569,7 +570,7 @@ then :call _cas6
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -613,7 +614,7 @@ then :call _cas5
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -657,7 +658,7 @@ then :call _cas4
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -701,7 +702,7 @@ then :call _cas3
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -745,7 +746,7 @@ then :call _cas2
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -789,7 +790,7 @@ then :call _cas1
 c |= vf
 if c == 0xff
 then return
-p -= 63
+p -= 72
 x -= 56
 
 c <<= c
@@ -831,9 +832,9 @@ return
 0 0 0
 
 define(`P', `56')dnl
-define(`Y', `124')dnl
-define(`R', `108')dnl
-define(`B', `68')dnl
+define(`Y', `124')dnl 0111.1100
+define(`R', `108')dnl 0110.1100
+define(`B',  `68')dnl 0100.0100
 define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 
 : _spr23bb
