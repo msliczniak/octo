@@ -115,19 +115,19 @@ jump init
      : bottle0a
 0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0xd0
      : bottle1a
-0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0xb0
+0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x0
      : bottle2a
 0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x70
      : bottle3a
-0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x30
+0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x0
      : bottle4a
 0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0xe0
      : bottle5a
-0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0xc0
+0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x0
      : bottle6a
 0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x90
      : bottle7a
-0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x60
+0x00 0x00 0x0 0x0 0x0 0x0 0x0 0x0 0x0
 
 dnl      : bottle0a
 dnl 0x00 0x00 0x30 0x60 0x70 0x90 0xb0 0xc0 0xd0
@@ -283,6 +283,7 @@ clear
 jump gen
 
 : p2
+p -= 9
 i := p2s
 load v2
 v3 := delay
@@ -491,86 +492,100 @@ if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas7
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
 if vf == 0
 then :call _cas6
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas6
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
@@ -578,43 +593,50 @@ if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas5
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
@@ -622,43 +644,50 @@ if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas4
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
@@ -666,43 +695,50 @@ if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas3
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
@@ -710,43 +746,50 @@ if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas2
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
@@ -754,73 +797,87 @@ if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas1
 c |= vf
 if c == 0xff
 then return
-p -= 72
+p -= 63
 x -= 56
 
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
 x += 8
+p += 9
 c <<= c
 if vf == 0
 then :call _cas0
