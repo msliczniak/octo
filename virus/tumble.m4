@@ -972,6 +972,11 @@ s >>= s
 return
 
 : _dca013b
+v0 := o
+i := bottle0a
+i += p
+save v0
+
 : _cas013b
 y += 8
 i := _spr23bb
@@ -993,8 +998,30 @@ return
 : _cas02b3
 : _dca02bb
 : _cas02bb
+
 : _dca03bb
 : _cas03bb
+#i := _spr23bb
+#i += v1
+#sprite x y 7
+#y += 8
+#sprite x y 7
+
+i := _spr23bb
+i += v1
+sprite x y 15
+
+v0 := v1
+v0 |= o
+i := bottle0a
+i += p
+save v0
+
+o := 0
+t := D(BB >> 1)
+p += 1
+return
+
 : _dca123b
 : _cas123b
 : _dca12b3
@@ -1022,14 +1049,14 @@ return
 
 : _dca23bb
 : _cas23bb
+i := _spr23bb
+i += v1
+sprite x y 15
+
 v0 := v1
 i := bottle0a
 i += p
 save v0
-
-i := _spr23bb
-i += v0
-sprite x y 15
 
 t := D(BB >> 1)
 p += 1
