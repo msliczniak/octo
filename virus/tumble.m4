@@ -916,7 +916,6 @@ define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 A(0, 0, 0, 0) A(0, 0, 0, 0)     # 0000 E E
 A(P, Y, 0, 0) A(P, Y, 0, 0)     # 0001 Y E
 A(0, 0, P, Y) A(0, 0, P, Y)     # 0010 E Y
-: _spr013b
 A(P, Y, P, Y) A(P, Y, P, Y)     # 0011 Y Y
 A(P, R, 0, 0) A(P, R, 0, 0)     # 0100 R E
 A(P, B, 0, 0) A(P, B, 0, 0)     # 0101 B E
@@ -974,15 +973,16 @@ return
 
 : _dca013b
 : _cas013b
+y += 8
+i := _spr23bb
+i += v1
+
 v1 &= m
 v1 >>= v1
-o := v1
-
-y += 8
-i := _spr013b
 i += v1
 sprite x y 7
 
+o := v1
 t := D(PB >> 1)
 p += 1
 return
