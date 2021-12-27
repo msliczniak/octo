@@ -202,10 +202,10 @@ return
 define(`X',`dnl
 : _fcas`'$1
 m := 1
-i += m
 p += 2
 y += 8
-jump _cas`'$1
+#jump _lcas`'decr($1)
+jump _lcas`'$1
 ')dnl
 
 X(14)
@@ -269,6 +269,7 @@ return
 define(`X',`dnl
 : _cas`'$1
 load v0
+: _lcas`$1'
 i += m
 if v0 == 0
 then jump _bcas`'decr($1)
@@ -291,10 +292,13 @@ X(4)
 X(3)
 X(2)
 X(1)
+X(0)
 
 undefine(`X')dnl
 
-: _cas0
+#: _lcas0
+: _lcas-1
+: _bcas-1
 return
 
 : cas
