@@ -50,7 +50,7 @@ jump init
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 : bottles
-0x00 0x09 0x11 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
@@ -202,27 +202,27 @@ return
 define(`X',`dnl
 : _fcas`'$1
 m := 1
-p += 2
-y += 8
-#jump _lcas`'decr($1)
+p += 1
+y += 4
 jump _lcas`'$1
 ')dnl
 
-X(14)
-X(13)
-X(12)
-X(11)
-X(10)
-X(9)
-X(8)
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
 X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+X(15)
 
 undefine(`X')dnl
 
@@ -246,21 +246,22 @@ y += 4
 i += t
 ')dnl
 
-X(14)
-X(13)
-X(12)
-X(11)
-X(10)
-X(9)
-X(8)
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
 X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+X(15)
 
 undefine(`X')dnl
 
@@ -272,33 +273,31 @@ load v0
 : _lcas`$1'
 i += m
 if v0 == 0
-then jump _bcas`'decr($1)
+then jump _bcas`'incr($1)
 p += 1
 y += 4
 ')dnl
 
-X(15)
-X(14)
-X(13)
-X(12)
-X(11)
-X(10)
-X(9)
-X(8)
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
 X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
 
 undefine(`X')dnl
 
-#: _lcas0
-: _lcas-1
-: _bcas-1
+: _lcas15
+: _bcas16
 return
 
 : cas
@@ -310,8 +309,8 @@ p := 0
 x := 0
 y := 0
 i := bottles
-i += p
-jump _cas15
+#i += p
+jump _cas0
 
 :monitor bottles 256
 
