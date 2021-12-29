@@ -321,12 +321,84 @@ return
 v1 := 0
 m := 1
 t := 2
-p := 0
 x := 0
+
+p := 0
 y := 0
 i := bottles
-#i += p
-jump _cas0
+:call _cas0
+
+p := 0
+y := 0
+i := bottles
+:call _cas1
+
+p := 0
+y := 0
+i := bottles
+:call _cas2
+
+p := 0
+y := 0
+i := bottles
+:call _cas3
+
+p := 0
+y := 0
+i := bottles
+:call _cas4
+
+p := 0
+y := 0
+i := bottles
+:call _cas5
+
+p := 0
+y := 0
+i := bottles
+:call _cas6
+
+p := 0
+y := 0
+i := bottles
+:call _cas7
+
+p := 0
+y := 0
+i := bottles
+:call _cas8
+
+p := 0
+y := 0
+i := bottles
+:call _cas9
+
+p := 0
+y := 0
+i := bottles
+:call _cas10
+
+p := 0
+y := 0
+i := bottles
+:call _cas11
+
+p := 0
+y := 0
+i := bottles
+:call _cas12
+
+p := 0
+y := 0
+i := bottles
+:call _cas13
+
+p := 0
+y := 0
+i := bottles
+:call _cas14
+
+return
 
 :monitor bottles 256
 
