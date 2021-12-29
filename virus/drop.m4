@@ -218,6 +218,7 @@ return
 define(`X',`dnl
 : _fcas`'$1
 m := 1
+s -= 1
 p += 1
 y += 4
 jump _lcas`'$1
@@ -290,6 +291,7 @@ load v0
 i += m
 if v0 == 0
 then jump _bcas`'incr($1)
+s -= 1
 p += 1
 y += 4
 ')dnl
@@ -322,82 +324,46 @@ v1 := 0
 m := 1
 t := 2
 x := 0
+c := 0
 
+define(`X',`dnl
+if c != 0
+then return
+: cas`'$1
+c <<= c
+if vf != 0
+then jump scas`'$1
+s := eval(15 - $1)
 p := 0
 y := 0
 i := bottles
-:call _cas0
+:call _cas`'$1
+if s != 0
+then jump cas`'incr($1)
+vf := 1
+: scas`'$1
+c |= vf
+')dnl
 
-p := 0
-y := 0
-i := bottles
-:call _cas1
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
 
-p := 0
-y := 0
-i := bottles
-:call _cas2
+undefine(`X')dnl
 
-p := 0
-y := 0
-i := bottles
-:call _cas3
-
-p := 0
-y := 0
-i := bottles
-:call _cas4
-
-p := 0
-y := 0
-i := bottles
-:call _cas5
-
-p := 0
-y := 0
-i := bottles
-:call _cas6
-
-p := 0
-y := 0
-i := bottles
-:call _cas7
-
-p := 0
-y := 0
-i := bottles
-:call _cas8
-
-p := 0
-y := 0
-i := bottles
-:call _cas9
-
-p := 0
-y := 0
-i := bottles
-:call _cas10
-
-p := 0
-y := 0
-i := bottles
-:call _cas11
-
-p := 0
-y := 0
-i := bottles
-:call _cas12
-
-p := 0
-y := 0
-i := bottles
-:call _cas13
-
-p := 0
-y := 0
-i := bottles
-:call _cas14
-
+: cas15
 return
 
 :monitor bottles 256
