@@ -300,7 +300,6 @@ clear
 jump gen
 
 : p2
-p -= 9
 i := p2s
 load v2
 v3 := delay
@@ -312,9 +311,11 @@ then v1 += 6
 save v1
 i := hex v3
 sprite v1 x 5
-#vf := 0
-if s == 0
-then vf := 1
+if s != 0
+then return
+
+vf := 1
+c |= vf
 return
 
 : _cas
@@ -328,577 +329,360 @@ t |= v0
 #:breakpoint jump0
 jump0 JTE
 
+: _cas7s
+c |= vf
+p += 8
+return
+
 : _cas7
+c <<= c
+if vf != 0
+then jump _cas7s
+
 s := 128
 t := FF # zero
 y := 248
 :call _cas
-y := 0
+: __cas6
 :call _cas
-y := 8
+: __cas5
 :call _cas
-y := 16
+: __cas4
 :call _cas
-y := 24
+: __cas3
 :call _cas
-y := 32
+: __cas2
 :call _cas
-y := 40
+: __cas1
 :call _cas
-y := 48
+: __cas0
 :call _cas
-p += 1
 t <<= t
 if vf == 0
 then jump p2
 v0 := o
-i := bottles8
+i := bottle0a
 i += p
 save v0
 jump p2
 
+: _cas6s
+c |= vf
+p += 7
+return
+
 : _cas6
+c <<= c
+if vf != 0
+then jump _cas6s
+
 s := 64
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-y := 8
-:call _cas
-y := 16
-:call _cas
-y := 24
-:call _cas
-y := 32
-:call _cas
-y := 40
-:call _cas
-p += 2
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles7
-i += p
-save v0
-jump p2
+jump __cas6
+
+: _cas5s
+c |= vf
+p += 6
+return
 
 : _cas5
+c <<= c
+if vf != 0
+then jump _cas5s
+
 s := 32
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-y := 8
-:call _cas
-y := 16
-:call _cas
-y := 24
-:call _cas
-y := 32
-:call _cas
-p += 3
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles6
-i += p
-save v0
-jump p2
+jump __cas5
+
+: _cas4s
+c |= vf
+p += 5
+return
 
 : _cas4
+c <<= c
+if vf != 0
+then jump _cas4s
+
 s := 16
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-y := 8
-:call _cas
-y := 16
-:call _cas
-y := 24
-:call _cas
+jump __cas4
+
+: _cas3s
+c |= vf
 p += 4
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles5
-i += p
-save v0
-jump p2
+return
 
 : _cas3
+c <<= c
+if vf != 0
+then jump _cas3s
+
 s := 8
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-y := 8
-:call _cas
-y := 16
-:call _cas
-p += 5
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles4
-i += p
-save v0
-jump p2
+jump __cas3
+
+: _cas2s
+c |= vf
+p += 3
+return
 
 : _cas2
+c <<= c
+if vf != 0
+then jump _cas2s
+
 s := 4
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-y := 8
-:call _cas
-p += 6
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles3
-i += p
-save v0
-jump p2
+jump __cas2
+
+: _cas1s
+c |= vf
+p += 2
+return
 
 : _cas1
+c <<= c
+if vf != 0
+then jump _cas1s
+
 s := 2
 t := FF # zero
 y := 248
-:call _cas
-y := 0
-:call _cas
-p += 7
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles2
-i += p
-save v0
-jump p2
+jump __cas1
+
+: _cas0s
+c |= vf
+p += 1
+return
 
 : _cas0
+c <<= c
+if vf != 0
+then jump _cas0s
+
 s := 1
 t := FF # zero
 y := 248
-:call _cas
-p += 8
-t <<= t
-if vf == 0
-then jump p2
-v0 := o
-i := bottles1
-i += p
-save v0
-jump p2
+jump __cas0
 
 : cas
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas7
-c |= vf
+p += 1
+:call _cas7
 if c == 0xff
 then return
-p -= 63
+p -= 71
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas6
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas6
-c |= vf
+p += 2
+:call _cas6
 if c == 0xff
 then return
-p -= 63
+p -= 70
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas5
-c |= vf
+p += 3
+:call _cas5
 if c == 0xff
 then return
-p -= 63
+p -= 69
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas4
-c |= vf
+p += 4
+:call _cas4
 if c == 0xff
 then return
-p -= 63
+p -= 68
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas3
-c |= vf
+p += 5
+:call _cas3
 if c == 0xff
 then return
-p -= 63
+p -= 67
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas2
-c |= vf
+p += 6
+:call _cas2
 if c == 0xff
 then return
-p -= 63
+p -= 66
 x -= 56
 
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas1
-c |= vf
+p += 7
+:call _cas1
 if c == 0xff
 then return
-p -= 63
-x -= 56
+p -= 71
+x -= 65
 
-c <<= c
-if vf == 0
-then :call _cas0
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 x += 8
-p += 9
-c <<= c
-if vf == 0
-then :call _cas0
+p += 8
+:call _cas0
 return
 
 :monitor bottles 180
@@ -969,6 +753,7 @@ t >>= t
 t &= m
 p += 1
 s >>= s
+y += 8
 return
 
 : _dca013b
@@ -1014,6 +799,7 @@ save v0
 o := 0
 t := D(BB >> 1)
 p += 1
+y += 8
 return
 
 : _dca123b
@@ -1054,6 +840,7 @@ save v0
 
 t := D(BB >> 1)
 p += 1
+y += 8
 return
 
 :org JTE
