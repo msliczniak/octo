@@ -2,300 +2,35 @@
 
 # SC version
 
-:alias m v8
-:alias s v9
-:alias x vA
-:alias y vB
-:alias pos vC
+:alias c v7     # col state
+:alias o v8     # old v0
+:alias m v9     # mask
+:alias s va     # state
+:alias x vb
+:alias y vc
+:alias p vd     # position
+:alias t ve     # table
 
 : main
-hires
+jump init
 
-#:breakpoint main
-
-: gen
-
-i := dots
-v0 := 0
-v1 := 63
-v2 := 127
-v3 := 4
-v4 := 20
-v5 := 36
-v6 := 52
-
-sprite v0 v3 13
-sprite v1 v3 13
-sprite v2 v3 13
-
-sprite v0 v4 13
-sprite v1 v4 13
-sprite v2 v4 13
-
-sprite v0 v5 13
-sprite v1 v5 13
-sprite v2 v5 13
-
-sprite v0 v6 9
-sprite v1 v6 9
-sprite v2 v6 9
-
-#:breakpoint baz
-
-pos := 1
-x := 0
-y := 1
-
-: fill
-
-i := bottle0a
-i += pos
-load v0
-
-if v0 == 0xf0
-then jump fill_a
-
-i := array
-i += v0
-sprite x y 7
-
-: fill_a
-
-pos += 1
-y += 8
-if y != 65
-then jump fill
-
-if x == 56
-then jump filled
-
-x += 8
-pos += 1
-y := 1
-jump fill
-
-: filled
-
-i := array
-ve := 64
-vf := 1
-sprite ve vf 3
-
-#:breakpoint bar
-
-v0 := 255
-delay := v0
-
-x := 0
-y := 49
-pos := 1
-m := 0xff
-: call cascade
-
-v1 := delay
-v0 := 255
-v0 -= v1
-i := digits
-bcd v0
-i := digits
-load v2
-v3 := 72
-v4 := 0
-i := bighex v0
-sprite v3 v4 10
-v3 += 9
-i := bighex v1
-sprite v3 v4 10
-v3 += 9
-i := bighex v2
-sprite v3 v4 10
-
-# pause
-
-s := 15
-buzzer := s
-s := key
-clear
-jump gen
-
-dnl define(`CASCADE',`dnl
-dnl : cascade_loop`'$1
-dnl # indicate one col done
-dnl i := array
-dnl ve := 64
-dnl vf := 1
-dnl sprite ve vf 7
-dnl 
-dnl m <<= m
-dnl if vF == 0
-dnl then jump cascade_skip`'$1
-dnl 
-dnl i := bottle0a
-dnl i += pos
-dnl load v`'$1
-dnl 
-dnl :call cascade`'$1
-dnl if s != 1
-dnl then jump cascade_skip`'$1
-dnl 
-dnl m |= s
-dnl i := bottle0a
-dnl i += pos
-dnl save v`'$1
-dnl 
-dnl : cascade_skip`'$1
-dnl s := 56
-dnl s &= x
-dnl if s == 56
-dnl then jump cascade_done`'$1
-dnl 
-dnl pos += 9
-dnl x += 8
-dnl #y += 56
-dnl y := 49
-dnl jump cascade_loop`'$1
-dnl 
-dnl : cascade_done`'$1')dnl
-
-define(`X',`dnl
-: _b`'$1`c'decr($1)
-if v`'decr($1) == 12
-then jump _b`'$1`b'decr($1)
-
-vE <<= v`'decr($1)
-if vF != 0
-then jump _b`'$1`f'decr($1)
-
-i := array
-i += vE
-sprite x y 7
-y -= 4
-v`'$1 := v`'decr($1)
-')dnl
-
-X(8)
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
-return
-
-undefine(`X')dnl
-
-define(`X',`dnl
-: _cascade`'$1
-if v`'$1 == 12
-then jump _b`'$1`c'decr($1)
-
-y -= 4
-s <<= s
-')dnl
-
-X(8)
-X(7)
-X(6)
-X(5)
-X(4)
-X(3)
-X(2)
-X(1)
-return
-
-undefine(`X')dnl
-
-dnl : cascade
-dnl CASCADE(7)
-dnl x -= 56
-dnl #y += 56
-dnl #pos -= 62
-dnl y := 49
-dnl pos := 2
-dnl 
-dnl CASCADE(6)
-dnl x -= 56
-dnl #y += 48
-dnl #pos -= 61
-dnl y := 49
-dnl pos := 3
-dnl 
-dnl CASCADE(5)
-dnl x -= 56
-dnl #y += 40
-dnl #pos -= 60
-dnl y := 49
-dnl pos := 4
-dnl 
-dnl CASCADE(4)
-dnl x -= 56
-dnl #y += 32
-dnl #pos -= 59
-dnl y := 49
-dnl pos := 5
-dnl 
-dnl CASCADE(3)
-dnl x -= 56
-dnl #y += 24
-dnl #pos -= 58
-dnl y := 49
-dnl pos := 6
-dnl 
-dnl CASCADE(2)
-dnl x -= 56
-dnl #y += 16
-dnl #pos -= 57
-dnl y := 49
-dnl pos := 7
-dnl 
-dnl CASCADE(1)
-dnl x -= 56
-dnl #y += 8
-dnl #pos -= 56
-dnl y := 49
-dnl pos := 8
-dnl 
-dnl CASCADE(0)
-dnl return
-dnl 
-dnl undefine(`CASCADE')dnl
-dnl define(`CASCADE',`dnl
-dnl : cascade`'$1
-dnl if v`'$1 == 0xf0
-dnl then jump cascade_twoblank`'$1
-dnl 
-dnl y -= 8
-dnl jump cascade`'decr($1)
-dnl 
-dnl : cascade_twoblank`'$1
-dnl if v`'decr($1) != 0xf0
-dnl then jump cascade_twodrop`'$1
-dnl 
-dnl y -= 8
-dnl jump cascade_twoblank`'decr($1)
-dnl 
-dnl : cascade_twodrop`'$1
-dnl i := array
-dnl i += v`'decr($1)
-dnl sprite x y 15
-dnl 
-dnl s := 1
-dnl v`'$1 := v`'decr($1)
-dnl v`'decr($1) := 0xf0
-dnl y -= 8
-dnl ')dnl
-dnl 
-dnl CASCADE(7)
-dnl CASCADE(6)
-dnl CASCADE(5)
-dnl CASCADE(4)
-dnl CASCADE(3)
-dnl CASCADE(2)
-dnl CASCADE(1)
-dnl : cascade0
-dnl : cascade_twoblank0
-dnl return
+# VIRUS 2P 000000
+0x56
+0x49
+0x52
+0x55
+0x53
+0x20
+0x32
+0x50
+0x20
+0x30
+0x30
+0x30
+0x30
+0x30
+0x30
+0
 
 : virus_level_tbl
 0x9 0x9 0x9 0x9 0x9 0x9 0x9
@@ -315,97 +50,399 @@ dnl return
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 : bottles
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
-
-     : bottle0a
-0xfc 0x00 0x80 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle1a
-0xfc 0x10 0x90 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle2a
-0xfc 0x20 0xa0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle3a
-0xfc 0x30 0xb0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle4a
-0xfc 0x40 0xc0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle5a
-0xfc 0x50 0xd0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle6a
-0xfc 0x60 0xe0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-     : bottle7a
-0xfc 0x70 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0
-
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
-
-: bottle0b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle1b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle2b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle3b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle4b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle5b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle6b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle7b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
+0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
 
 : dots
 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80
 
-:monitor bottles 180
+: init
+#:breakpoint init
+hires
+
+: gen
+
+i := dots
+v0 := 0
+#v1 := 63
+v1 := 0
+#v2 := 127
+v2 := 0
+v3 := 3
+v4 := 19
+v5 := 35
+v6 := 51
+
+sprite v0 v3 13
+sprite v1 v3 13
+sprite v2 v3 13
+
+sprite v0 v4 13
+sprite v1 v4 13
+sprite v2 v4 13
+
+sprite v0 v5 13
+sprite v1 v5 13
+sprite v2 v5 13
+
+sprite v0 v6 9
+sprite v1 v6 9
+sprite v2 v6 9
+
+#:breakpoint baz
+
+p := 0
+x := 0
+y := 0
+
+: fill
+i := bottles
+i += p
+load v0
+
+if v0 == 0
+then jump filla
+
+i := _spr
+i += v0
+sprite x y 3
+
+: filla
+y += 4
+p += 1
+
+if y != 64
+then jump fill
+
+if x == 56
+then jump filled
+
+x += 8
+y := 0
+jump fill
+
+: filled
+i := 0xf00
+load vf
+i := 0x000
+save vf
+i := 0xf10
+load vf
+i := 0x010
+save vf
+i := 0xf20
+load vf
+i := 0x020
+save vf
+i := 0xf30
+load v1
+i := 0x030
+save v1
+
+#:breakpoint bar
+
+v1 := 255
+v0 := 1
+delay := v0
+
+: start_sync
+v0 := delay
+if v0 != 0
+then jump start_sync
+
+delay := v1
+x := 0
+p := 0
+m := 0xaa
+c := 0
+:call cas
+
+v1 := delay
+v0 := 255
+v0 -= v1
+i := digits
+bcd v0
+i := digits
+load v2
+v3 := 63
+v4 := 59
+i := hex v0
+sprite v3 v4 5
+v3 += 6
+i := hex v1
+sprite v3 v4 5
+v3 += 6
+i := hex v2
+sprite v3 v4 5
+
+# pause
+
+s := 15
+buzzer := s
+s := key
+clear
+jump gen
+
+: p2
+p -= 9
+i := p2s
+load v2
+v3 := delay
+v3 =- v0
+v0 -= v3
+v3 &= v2
+if x == 0
+then v1 += 6
+save v1
+i := hex v3
+sprite v1 x 5
+#vf := 0
+if s == 0
+then vf := 1
+return
+
+define(`X',`dnl
+: _fcas`'$1
+m := 1
+s -= 1
+p += 1
+y += 4
+jump _lcas`'$1
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+X(15)
+
+undefine(`X')dnl
+
+return
+
+define(`X',`dnl
+: _bcas`'$1
+load v0
+m &= v0
+if m == 0
+then jump _fcas`'$1
+
+i := _spr
+i += v0
+sprite x y 7
+s += vf
+i := bottles
+i += p
+save v1
+p += 1
+y += 4
+i += t
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+X(15)
+
+undefine(`X')dnl
+
+return
+
+define(`X',`dnl
+: _cas`'$1
+s := 0
+y := 0
+i := bottles
+i += p
+load v0
+: _lcas`$1'
+i += m
+if v0 == 0
+then jump _bcas`'incr($1)
+p += 1
+y += 4
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+
+undefine(`X')dnl
+
+: _lcas15
+: _bcas16
+return
+
+: cas
+:breakpoint cas
+v1 := 0
+m := 1
+t := 2
+x := 0
+c := 0
+
+define(`X',`dnl
+: cas`'$1
+c <<= c
+if vf != 0
+then jump scas`'$1
+
+:call _cas`'$1
+p += `'incr($1)
+if s == 0
+then return
+
+vf := 1
+c |= vf
+return
+
+: scas`'$1
+c |= vf
+p += 16
+return
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+
+undefine(`X')dnl
+
+define(`X',`dnl
+p := 0
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+:call cas`'$1
+
+if c == 0xff
+then return
+
+x -= 56
+p -= 128
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+
+undefine(`X')dnl
+
+:monitor bottles 256
 
 : digits
 0 0 0
 
 define(`P', `56')dnl
-define(`Y', `124')dnl
-define(`R', `108')dnl
-define(`B', `68')dnl
-define(`A', `$1 $2 $1 0 $3 $4 $3 0 $1 $2 $1 0 $3 $4 $3 0')dnl
-define(`C', `$1 $2 $1 0 eval($1 ^ $3) eval($2 ^ $4) eval($1 ^ $3) 0 $3 $4 $3 0 0 0 0 0')dnl
+define(`Y', `124')dnl 0111.1100
+define(`R', `108')dnl 0110.1100
+define(`B',  `68')dnl 0100.0100
+define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
 
-: array
-A(P, Y, P, Y)
-A(P, Y, P, R)
-A(P, Y, P, B)
-A(P, Y, 0, 0)
+: _spr
+0
+A(P, Y, P, Y)     # 00 Y Y
+A(P, R, P, R)     # 08 R R
+A(P, B, P, B)     # 10 B B
 
-A(P, R, P, Y)
-A(P, R, P, R)
-A(P, R, P, B)
-A(P, R, 0, 0)
+: p2s
+255 76 15
 
-A(P, B, P, Y)
-A(P, B, P, R)
-A(P, B, P, B)
-A(P, B, 0, 0)
-
-A(0, 0, P, Y)
-A(0, 0, P, R)
-A(0, 0, P, B)
-
-
-C(P, Y, P, Y)
-C(P, Y, P, R)
-C(P, Y, P, B)
-C(P, Y, 0, 0)
-
-C(P, R, P, Y)
-C(P, R, P, R)
-C(P, R, P, B)
-C(P, R, 0, 0)
-
-C(P, B, P, Y)
-C(P, B, P, R)
-C(P, B, P, B)
-C(P, B, 0, 0)
-
-C(0, 0, P, Y)
-C(0, 0, P, R)
-C(0, 0, P, B)
+:org 0xf00
+: digit0
+0xE0 0xA0 0xA0 0xA0 0xE0
+: digit1
+0x20 0x20 0x20 0x20 0x20
+: digit2
+0xE0 0x20 0xE0 0x80 0xE0
+: digit3
+0xE0 0x20 0xE0 0x20 0xE0
+: digit4
+0xA0 0xA0 0xE0 0x20 0x20
+: digit5
+0xE0 0x80 0xE0 0x20 0xE0
+: digit6
+0xE0 0x80 0xE0 0xA0 0xE0
+: digit7
+0xE0 0x20 0x20 0x20 0x20
+: digit8
+0xE0 0xA0 0xE0 0xA0 0xE0
+: digit9
+0xE0 0xA0 0xE0 0x20 0xE0
