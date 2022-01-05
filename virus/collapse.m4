@@ -167,6 +167,7 @@ then jump start_sync
 delay := v1
 x := 0
 p := 0
+j := 15
 :call cas
 
 v1 := delay
@@ -252,10 +253,14 @@ i += p
 
 define(`X',`dnl
 load v0
-: ____lcas`$1'
+: ____lcas`'$1
 i += m
 if v0 == 0
 then jump ____bcas`'$1
+
+if j == `'$1
+then jump ____ecas
+
 p += 1
 ')dnl
 
@@ -331,6 +336,10 @@ s += vf
 i := bottles
 i += p
 save v1
+
+if j == `'$1
+then jump ____ecas
+
 i += t
 p += 1
 ')dnl
