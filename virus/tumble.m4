@@ -792,7 +792,8 @@ return
 : _cas03bb
 i := _spr23bb
 i += v1
-sprite x y 15
+sprite x y 7
+# sprite x y 15
 
 v0 := v1
 v0 |= o
@@ -835,7 +836,8 @@ return
 : _cas23bb
 i := _spr23bb
 i += v1
-sprite x y 15
+sprite x y 7
+# sprite x y 15
 
 v0 := v1
 i := bottle0a
