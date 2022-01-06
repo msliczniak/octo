@@ -303,17 +303,18 @@ clear
 jump gen
 
 : p2
-i := p2s
-load v2
-v3 := delay
-v3 =- v0
-v0 -= v3
-v3 &= v2
-if x == 0
-then v1 += 6
-save v1
-i := hex v3
-sprite v1 x 5
+# i := p2s
+# load v2
+# v3 := delay
+# v3 =- v0
+# v0 -= v3
+# v3 &= v2
+# if x == 0
+# then v1 += 6
+# save v1
+# i := hex v3
+# sprite v1 x 5
+
 if s != 0
 then return
 
