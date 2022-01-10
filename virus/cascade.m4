@@ -2,15 +2,16 @@
 
 # SC version
 
+# LTR TTB
+
+:alias c v7     # col state
+:alias o v8     # old v0
 :alias m v9     # mask
 :alias s va     # state
 :alias x vb
-:alias y vc
+:alias j vc
 :alias p vd     # position
 :alias t ve     # table
-
-define(`JT8', `0xe80')dnl 0x80 offest jump table
-define(`LUT', `0xeff')dnl SC off-by-one bug
 
 : main
 jump init
@@ -51,79 +52,23 @@ jump init
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 : bottles
-: bottles0
-0xff
-: bottles1
-0xff
-: bottles2
-0xff
-: bottles3
-0xff
-: bottles4
-0xff
-: bottles5
-0xff
-: bottles6
-0xff
-: bottles7
-0xff
-: bottles8
-0xff
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01 0x00 0x01
+#0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+#0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
 
-dnl      : bottle0a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
-dnl      : bottle1a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
-dnl      : bottle2a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
-dnl      : bottle3a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
-dnl      : bottle4a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
-dnl      : bottle5a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
-dnl      : bottle6a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x50 0xff
-dnl      : bottle7a
-dnl 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xa0 0xff
-
-     : bottle0a
-0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
-     : bottle1a
-0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
-     : bottle2a
-0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
-     : bottle3a
-0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
-     : bottle4a
-0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
-     : bottle5a
-0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
-     : bottle6a
-0x00 0x50 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xff
-     : bottle7a
-0x00 0xa0 0x50 0xa0 0x50 0xa0 0x50 0xa0 0xff
-
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
-
-: bottle0b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle1b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle2b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle3b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle4b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle5b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle6b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-: bottle7b
-0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xf0 0xfc
-
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xfc
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
 
 : dots
 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80 0x00 0x00 0x00 0x80
@@ -136,8 +81,10 @@ hires
 
 i := dots
 v0 := 0
-v1 := 63
-v2 := 127
+#v1 := 63
+v1 := 0
+#v2 := 127
+v2 := 0
 v3 := 3
 v4 := 19
 v5 := 35
@@ -163,36 +110,51 @@ sprite v2 v6 9
 
 p := 0
 x := 0
-y := 0
+j := 0
 
 : fill
-i := bottle0a
+i := bottles
 i += p
 load v0
 
 if v0 == 0
 then jump filla
 
-i := _spr23bb
+i := _spr
 i += v0
-sprite x y 7
+sprite x j 3
 
 : filla
-y += 8
+j += 4
 p += 1
 
-if y != 64
+if j != 64
 then jump fill
 
 if x == 56
 then jump filled
 
 x += 8
-p += 1
-y := 0
+j := 0
 jump fill
 
 : filled
+i := 0xf00
+load vf
+i := 0x000
+save vf
+i := 0xf10
+load vf
+i := 0x010
+save vf
+i := 0xf20
+load vf
+i := 0x020
+save vf
+i := 0xf30
+load v1
+i := 0x030
+save v1
 
 #:breakpoint bar
 
@@ -207,10 +169,8 @@ then jump start_sync
 
 delay := v1
 x := 0
-y := 57
-p := 9
-m := 0xaa
-: call cas
+p := 0
+:call cas
 
 v1 := delay
 v0 := 255
@@ -219,8 +179,8 @@ i := digits
 bcd v0
 i := digits
 load v2
-v3 := 65
-v4 := 0
+v3 := 63
+v4 := 59
 i := hex v0
 sprite v3 v4 5
 v3 += 6
@@ -239,6 +199,7 @@ clear
 jump gen
 
 : p2
+p -= 9
 i := p2s
 load v2
 v3 := delay
@@ -250,877 +211,246 @@ then v1 += 6
 save v1
 i := hex v3
 sprite v1 x 5
-
+#vf := 0
+if s == 0
+then vf := 1
 return
-
-: __cas0
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles0
-jump0 JT8
-
-: __cas1
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles1
-jump0 JT8
-
-: __cas2
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles2
-jump0 JT8
-
-: __cas3
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles3
-jump0 JT8
-
-: __cas4
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles4
-jump0 JT8
-
-: __cas5
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles5
-jump0 JT8
-
-: __cas6
-t <<= t
-i := LUT
-i += v1
-load v0
-t |= v0
-i := bottles6
-jump0 JT8
-
-: _cas7
-i := bottles0
-i += p
-load v7
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-v1 := v3
-y := 16
-:call __cas2
-
-v1 := v4
-y := 24
-:call __cas3
-
-v1 := v5
-y := 32
-:call __cas4
-
-v1 := v6
-y := 40
-:call __cas5
-
-v1 := v7
-y := 48
-:call __cas6
-
-jump p2
-
-: _cas6
-i := bottles0
-i += p
-load v6
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-v1 := v3
-y := 16
-:call __cas2
-
-v1 := v4
-y := 24
-:call __cas3
-
-v1 := v5
-y := 32
-:call __cas4
-
-v1 := v6
-y := 40
-:call __cas5
-
-jump p2
-
-: _cas5
-i := bottles0
-i += p
-load v5
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-v1 := v3
-y := 16
-:call __cas2
-
-v1 := v4
-y := 24
-:call __cas3
-
-v1 := v5
-y := 32
-:call __cas4
-
-jump p2
-
-: _cas4
-i := bottles0
-i += p
-load v4
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-v1 := v3
-y := 16
-:call __cas2
-
-v1 := v4
-y := 24
-:call __cas3
-
-jump p2
-
-: _cas3
-i := bottles0
-i += p
-load v3
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-v1 := v3
-y := 16
-:call __cas2
-
-jump p2
-
-: _cas2
-i := bottles0
-i += p
-load v2
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-v1 := v2
-y := 8
-:call __cas1
-
-jump p2
-
-: _cas1
-i := bottles0
-i += p
-load v1
-i := LUT
-i += v0
-v8 := v0
-load v0
-t := v0
-
-y := 0
-:call __cas0
-
-jump p2
 
 : cas
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p += 9
-x += 8
-:call _cas7
-p -= 63
-x -= 56
+:breakpoint cas
+c := 0
+m := 1
+t := 2
+v1 := 0
+j := 15
 
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p += 9
-x += 8
-:call _cas6
-p -= 63
-x -= 56
+: casl
+:call ____cas0
+:call ____cas
+:call ____cas
+:call ____cas
+:call ____cas
+:call ____cas
+:call ____cas
+:call ____cas
 
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p += 9
-x += 8
-:call _cas5
-p -= 63
-x -= 56
+if c == 0xff
+then return
 
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p += 9
-x += 8
-:call _cas4
-p -= 63
-x -= 56
+if j == 1 then
+return
 
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p += 9
-x += 8
-:call _cas3
-p -= 63
 x -= 56
+j -= 1
+jump casl
 
-:call _cas2
-p += 9
+: ____cas
 x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p += 9
-x += 8
-:call _cas2
-p -= 63
-x -= 56
 
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
-p += 9
-x += 8
-:call _cas1
+: ____cas0
+p := x
+p <<= p
+c <<= c
+if vf != 0
+then jump ____scas
+
+s := 0
+i := bottles
+i += p
+
+define(`X',`dnl
+load v0
+: ____lcas`'$1
+i += m
+if v0 == 0
+then jump ____bcas`'$1
+
+if j == `'$1
+then jump ____ecas
+
+p += 1
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+
+undefine(`X')dnl
+
+: ____ecas
+vf := 1
+if s == 0 then
+: ____scas
+c |= vf
+return
+
+
+
+
+
+
+
+define(`X',`dnl
+: ____bfcas`'$1
+m := 1
+p += 1
+jump ____lcas`'incr($1)
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+
+undefine(`X')dnl
+: ____bfcas14
+m := 1
+jump ____ecas
+
+define(`X',`dnl
+: ____bcas`'$1
+load v0
+m &= v0
+if m == 0
+then jump ____bfcas`'$1
+
+i := _spr
+i += v0
+vf := `'eval(4*$1)
+sprite x vf 7
+s += vf
+i := bottles
+i += p
+save v1
+
+if j == `'incr($1) then
+#:breakpoint exit
+jump ____ecas
+
+i += t
+p += 1
+')dnl
+
+X(0)
+X(1)
+X(2)
+X(3)
+X(4)
+X(5)
+X(6)
+X(7)
+X(8)
+X(9)
+X(10)
+X(11)
+X(12)
+X(13)
+X(14)
+
+undefine(`X')dnl
 
 return
 
-:monitor bottles 180
+
+i := bottles
+p := 0
+x := 0
+y := 0
+i += p
+
+load v0
+i += one
+if v0 == 0xff then
+jump casn
+
+load v0
+two &= v0
+if two == 2 then
+jump casn
+
+two := 2
+i := spr
+i += v0
+sprite x y 7
+
+i := bottles
+i += p
+save v0
+
+: casn
+x += 8
+p += 16
+i += fifteen
+return
+
+: cas
+i := bottles
+i += p
+x := p
+x >>= x
+y := 0
+
+:monitor bottles 256
 
 : digits
 0 0 0
 
 define(`P', `56')dnl
-define(`Y', `124')dnl
-define(`R', `108')dnl
-define(`B', `68')dnl
-define(`A', `$1 $2 $1 0 $3 $4 $3 0')dnl
+define(`Y', `124')dnl 0111.1100
+define(`R', `108')dnl 0110.1100
+define(`B',  `68')dnl 0100.0100
+define(`L', `eval($1 | 1)')dnl
+define(`V', `Y')dnl
 
-: _spr23bb
-A(0, 0, 0, 0) A(0, 0, 0, 0)
-A(0, 0, P, Y) A(0, 0, P, Y)
-A(0, 0, P, R) A(0, 0, P, R)
-A(0, 0, P, B) A(0, 0, P, B)
-A(P, Y, 0, 0) A(P, Y, 0, 0)
-A(P, Y, P, Y) A(P, Y, P, Y)
-A(P, Y, P, R) A(P, Y, P, R)
-A(P, Y, P, B) A(P, Y, P, B)
-A(P, R, 0, 0) A(P, R, 0, 0)
-A(P, R, P, Y) A(P, R, P, Y)
-A(P, R, P, R) A(P, R, P, R)
-A(P, R, P, B) A(P, R, P, B)
-A(P, B, 0, 0) A(P, B, 0, 0)
-A(P, B, P, Y) A(P, B, P, Y)
-A(P, B, P, R) A(P, B, P, R)
-A(P, B, P, B) A(P, B, P, B)
+: spr
+P Y P 0  P Y P V  Y V P L(Y)  P 0 P L(Y)
+P R P 0  P R P V  R V P L(R)  P 0 P L(R)
+P B P 0  P B P V  B V P L(B)  P 0 P L(B)
+P
 
 : p2s
-255 80 15
+255 76 15
 
-: _cas013b
-dnl table := PB
-dnl v1 <<= v1
-dnl v1 &= mask
-dnl v0 := v8
-dnl save v1
-dnl v8 := v1
-dnl i := _s013b
-dnl i += v1
-dnl y += 8
-dnl sprite x y 7
-dnl return
-dnl 
-: _cas023b
-dnl table := PB
-dnl v1 &= mask
-dnl v8 &= mask
-dnl v1 |= v8
-dnl v0 <<= v0
-dnl v0 &= mask
-dnl return
-: _cas02b3
-: _cas02bb
-: _cas03bb
-: _cas123b
-: _cas12b3
-: _cas12bb
-: _cas13bb
-: _cas1b23
-: _cas1b2b
-: _cas1bb3
-: _cas1bbb
-: _cas2bb3
-: _cas2bbb
-: _casb13b
-: _casb3bb
-: _cas23bb
-v0 := v1
-v1 := 0
-i += p
-save v1
-
-v8 := 0
-
-i := _spr23bb
-i += v0
-sprite x y 15
-
-t >>= t
-t &= m
-return
-
-:org 0xe2a      # SC off-by-one bug
-: _casi
-t >>= t
-t &= m
-s >>= s
-return
-
-:org JT8
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 0123
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 01b3
-jump _cas013b # 01b3
-jump _casi    # 01bb
-jump _casi    # 0b23
-jump _casi    # 0b2b
-jump _cas02b3 # 0b23
-jump _cas023b # 0b23
-jump _cas02bb # 0b2b
-jump _casi    # 0bb3
-jump _cas03bb # 0bb3
-jump _casi    # 0bbb
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 0123
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 01b3
-jump _cas013b # 01b3
-jump _casi    # 01bb
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 0123
-jump _casi    # 0123
-jump _casi    # 012b
-jump _casi    # 01b3
-jump _cas013b # 01b3
-jump _casi    # 01bb
-jump _casi    # 0b23
-jump _casi    # 0b2b
-jump _cas02b3 # 0b23
-jump _cas023b # 0b23
-jump _cas02bb # 0b2b
-jump _casi    # 0bb3
-jump _cas03bb # 0bb3
-jump _casi    # 0bbb
-jump _casi    # b123
-jump _casi    # b12b
-jump _casi    # b123
-jump _casi    # b123
-jump _casi    # b12b
-jump _casi    # b1b3
-jump _casb13b # b1b3
-jump _casi    # b1bb
-jump _cas1b23 # b123
-jump _cas1b2b # b12b
-jump _cas12b3 # b123
-jump _cas123b # b123
-jump _cas12bb # b12b
-jump _cas1bb3 # b1b3
-jump _cas13bb # b1b3
-jump _cas1bbb # b1bb
-jump _casi    # bb23
-jump _casi    # bb2b
-jump _cas2bb3 # bb23
-jump _cas23bb # bb23
-jump _cas2bbb # bb2b
-jump _casi    # bbb3
-jump _casb3bb # bbb3
-jump _casi    # bbbb
-
-# % printf '%s\n' {x..z}{x..z} | tr 'xyz' 'FPB' | nl -v-1
-#     -1	FF
-#      0	FP
-#      1	FB
-#      2	PF
-#      3	PP
-#      4	PB
-#      5	BF
-#      6	BP
-#      7	BB
-# % printf '%02x\n' 0 2 8 10 32 34 40 42 | xxd -r -p | xxd -b -c1 
-# 00000000: 00000000  .
-# 00000001: 00000010  .
-# 00000002: 00001000  .
-# 00000003: 00001010  .
-# 00000004: 00100000
-# 00000005: 00100010  "
-# 00000006: 00101000  (
-# 00000007: 00101010  *
-
-define(`FF',  0)dnl
-define(`FP',  0)dnl
-define(`FB',  2)dnl
-define(`PF',  8)dnl
-define(`PP', 10)dnl
-define(`PB', 32)dnl
-define(`BF', 34)dnl
-define(`BP', 40)dnl
-define(`BB', 42)dnl
-
-# BB SC off-by-one bug
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BB
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-PB
-PB
-FB
-FB
-PB
-PB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-BP
-BF
-BP
-BF
-BF
-BF
-BF
-BF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PB
-PB
-FB
-FB
-PB
-PB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PB
-PB
-FB
-FB
-PB
-PB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-FB
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
-PP
-PF
-FP
-FF
-PF
-PF
-FF
-FF
-FP
-FF
-FP
-FF
-FF
-FF
-FF
-FF
+:org 0xf00
+: digit0
+0xE0 0xA0 0xA0 0xA0 0xE0
+: digit1
+0x20 0x20 0x20 0x20 0x20
+: digit2
+0xE0 0x20 0xE0 0x80 0xE0
+: digit3
+0xE0 0x20 0xE0 0x20 0xE0
+: digit4
+0xA0 0xA0 0xE0 0x20 0x20
+: digit5
+0xE0 0x80 0xE0 0x20 0xE0
+: digit6
+0xE0 0x80 0xE0 0xA0 0xE0
+: digit7
+0xE0 0x20 0x20 0x20 0x20
+: digit8
+0xE0 0xA0 0xE0 0xA0 0xE0
+: digit9
+0xE0 0xA0 0xE0 0x20 0xE0
