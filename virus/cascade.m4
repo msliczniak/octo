@@ -451,6 +451,15 @@ x := p
 x >>= x
 y := 0
 
+
+
+c <<= c
+load v0
+
+
+
+
+
 :monitor bottles 256
 
 : digits
