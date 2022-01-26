@@ -1,6 +1,22 @@
 : main
 hires
-v2 := 5
+v2 := 4
+v1 := 0
+
+v0 := 0
+i := piece
+sprite v0 v1 3
+i += v2
+v0 += 8
+sprite v0 v1 3
+
+v0 := 64
+i := piece
+sprite v0 v1 3
+i += v2
+v0 += 8
+sprite v0 v1 3
+
 v1 := 255
 v0 := 1
 delay := v0
@@ -11,45 +27,110 @@ if v0 != 0
 then jump start_sync
 
 delay := v1
-
-v0 := 16
 v1 := 0
-i := 0
+
+v0 := 0
+i := right
 v3 := 0
 if v3 key then
-i += v2
+v2 := 4
 sprite v0 v1 3
 i += v2
 v0 += 8
 v3 := 1
 if v3 key then
-i += v2
-sprite v0 v1 3
-i += v2
-v0 += 8
-v3 := 2
-if v3 key then
-i += v2
+v2 := 4
 sprite v0 v1 3
 
-v0 := 40
-v1 := 0
-i := 0
-v3 := 3
+v0 := 64
+i := right
+v3 := 0
 if v3 key then
-i += v2
+v2 := 4
 sprite v0 v1 3
 i += v2
 v0 += 8
-v3 := 4
+v3 := 1
 if v3 key then
-i += v2
+v2 := 4
+sprite v0 v1 3
+
+v0 := 6
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
 sprite v0 v1 3
 i += v2
 v0 += 8
-v3 := 5
+v3 := 1
 if v3 key then
+v2 := 4
+sprite v0 v1 3
+
+v0 := 70
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
+sprite v0 v1 3
 i += v2
+v0 += 8
+v3 := 1
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+
+v0 := 12
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+i += v2
+v0 += 8
+v3 := 1
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+
+v0 := 76
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+i += v2
+v0 += 8
+v3 := 1
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+
+v0 := 18
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+i += v2
+v0 += 8
+v3 := 1
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+
+v0 := 82
+i := right
+v3 := 0
+if v3 key then
+v2 := 4
+sprite v0 v1 3
+i += v2
+v0 += 8
+v3 := 1
+if v3 key then
+v2 := 4
 sprite v0 v1 3
 
 v1 := delay
@@ -62,3 +143,11 @@ sprite v0 v0 5
 v0 := key
 clear
 jump main
+
+: piece
+0x3F 0x44 0x3F 0x00
+0x80 0x40 0x80 0x00
+
+: right
+0x3F 0x45 0x3F 0x00
+0x7E 0x51 0x7E
