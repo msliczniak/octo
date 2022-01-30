@@ -15,13 +15,18 @@ PBMS_EW_V = ${PBMS_V:.v.pbm=.v.ew.pbm}
 PBMS_NS_V = ${PBMS_V:.v.pbm=.v.ns.pbm}
 
 SRCS = ${PBMS_H} ${PBMS_V} Makefile
-OBJS = ${PBMS_NS_H} ${PBMS_EW_V} ${PBMS_NS_V}
+OBJS = ${PBMS_EW_H} ${PBMS_NS_H} ${PBMS_EW_V} ${PBMS_NS_V}
 
 all : ${OBJS}
 
 ${OBJS} : ${SRCS}
 
 O = -compress None -strip
+
+H = -negate -compose Difference -composite -negate -gravity East -splice 4x0
+
+.h.pbm.h.ew.pbm:
+	convert $< -splice 0x6 $< $H $O $@
 
 .h.pbm.h.ns.pbm:
 	convert -size 8x9 tile:$< $O $@
