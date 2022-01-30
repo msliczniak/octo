@@ -8,20 +8,23 @@ PBMS = rr.pbm yy.pbm bb.pbm ry.pbm rb.pbm yb.pbm
 PBMS_H = ${PBMS:.pbm=.h.pbm}
 PBMS_V = ${PBMS:.pbm=.v.pbm}
 
-PBMS_EW_H = ${PBMS_H:.v.pbm=.h.ew.pbm}
-PBMS_NS_H = ${PBMS_H:.v.pbm=.h.ns.pbm}
+PBMS_EW_H = ${PBMS_H:.h.pbm=.h.ew.pbm}
+PBMS_NS_H = ${PBMS_H:.h.pbm=.h.ns.pbm}
 
 PBMS_EW_V = ${PBMS_V:.v.pbm=.v.ew.pbm}
 PBMS_NS_V = ${PBMS_V:.v.pbm=.v.ns.pbm}
 
-SRCS = Makefile ${PBMS_V} #${PBMS_H}
-OBJS = ${PBMS_EW_V} ${PBMS_NS_V}
+SRCS = ${PBMS_H} ${PBMS_V} Makefile
+OBJS = ${PBMS_NS_H} ${PBMS_EW_V} ${PBMS_NS_V}
 
 all : ${OBJS}
 
 ${OBJS} : ${SRCS}
 
 O = -compress None -strip
+
+.h.pbm.h.ns.pbm:
+	convert -size 8x9 tile:$< $O $@
 
 .v.pbm.v.ew.pbm:
 	convert -size 4x11 tile:$< -gravity East -splice 4x0 $O $@
