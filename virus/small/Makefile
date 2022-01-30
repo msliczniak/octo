@@ -15,7 +15,7 @@ PBMS_EW_V = ${PBMS_V:.v.pbm=.v.ew.pbm}
 PBMS_NS_V = ${PBMS_V:.v.pbm=.v.ns.pbm}
 
 SRCS = Makefile ${PBMS_V} #${PBMS_H}
-OBJS = ${PBMS_EW_V}
+OBJS = ${PBMS_EW_V} ${PBMS_NS_V}
 
 all : ${OBJS}
 
@@ -25,6 +25,9 @@ O = -compress None -strip
 
 .v.pbm.v.ew.pbm:
 	convert -size 4x11 tile:$< -gravity East -splice 4x0 $O $@
+
+.v.pbm.v.ns.pbm:
+	convert -size 8x5 tile:$< $O $@
 
 clean :
 	$(RM) ${OBJS}
