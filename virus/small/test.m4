@@ -55,38 +55,49 @@ sprite v9 vd 0
 sprite va vd 0
 
 v0 := 60
-v1 := 35
+v1 := 47
 v2 := 124
-v3 := 20
+v3 := 32
 i := piece
 sprite v0 v1 9
 sprite v2 v3 9
 
-v0 := 56
+ve := 116
+vd := 112
+vc := 108
+vb := 56
+va := 52
+v9 := 48
+v8 := 44
+v7 := 26
+v6 := 20
+v5 := 14
+v4 := 8
+v3 := 41
+v2 := 35
 v1 := 29
-v2 := 120
-v3 := 14
-v4 := 52
-v5 := 23
-v6 := 116
-v7 := 8
+v0 := 23
 i := down
 
-vf := 255
+vf := 122
 delay := vf
 
 : start_sync
 vf := delay
-if vf != 253
+if vf != 120
 then jump start_sync
 
-sprite v0 v1 15
-sprite v2 v3 15
-sprite v4 v5 15
-sprite v6 v7 15
+sprite vf v7 15
+sprite vb v3 15
+sprite ve v6 15
+sprite va v2 15
+sprite vd v5 15
+sprite v9 v1 15
+sprite vc v4 15
+sprite v8 v0 15
 
 v1 := delay
-v0 := 253
+v0 := 120
 v0 -= v1
 i := hex v0
 v0 := 1
