@@ -3,7 +3,7 @@
 .SUFFIXES: # remove defaults
 .SUFFIXES: .h.ew.pbm .v.ew.pbm .h.ns.pbm .v.ns.pbm .h.pbm .v.pbm .pbm
 
-PBMS = rr.pbm yy.pbm bb.pbm ry.pbm rb.pbm yb.pbm
+PBMS = rr.pbm yy.pbm bb.pbm ry.pbm rb.pbm yb.pbm yr.pbm br.pbm by.pbm
  
 PBMS_H = ${PBMS:.pbm=.h.pbm}
 PBMS_V = ${PBMS:.pbm=.v.pbm}
