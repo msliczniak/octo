@@ -12,12 +12,13 @@ PBMS_V = ${PBMS:.pbm=.v.pbm}
 PBMS_EW_H = ${PBMS_H:.h.pbm=.h.ew.pbm}
 PBMS_NS_H = ${PBMS_H:.h.pbm=.h.ns.pbm}
 PBMS_SE_H = ${PBMS_H:.h.pbm=.h.se.pbm}
+PBMS_SE_H = ${PBMS_H:.h.pbm=.h.sw.pbm}
 
 PBMS_EW_V = ${PBMS_V:.v.pbm=.v.ew.pbm}
 PBMS_NS_V = ${PBMS_V:.v.pbm=.v.ns.pbm}
 
 SRCS = ${PBMS_H} ${PBMS_V} Makefile
-OBJS = ${PBMS_EW_H} ${PBMS_NS_H} ${PBMS_SE_H} \
+OBJS = ${PBMS_EW_H} ${PBMS_NS_H} ${PBMS_SE_H} ${PBMS_SW_H} \
        ${PBMS_EW_V} ${PBMS_NS_V}
 
 all : ${OBJS}
@@ -36,6 +37,9 @@ H = -negate -compose Difference -composite -negate -gravity East -splice 4x0
 
 .h.pbm.h.se.pbm:
 	convert $< -splice 0x6 $< +append $O $@
+
+.h.pbm.h.sw.pbm:
+	convert $< -splice 0x6 $< -reverse +append $O $@
 
 .v.pbm.v.ew.pbm:
 	convert -size 4x11 tile:$< -gravity East -splice 4x0 $O $@
