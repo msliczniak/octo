@@ -1,11 +1,6 @@
-define(`K1', `vb')dnl
-define(`K124', `vc')dnl
 define(`N', `va')dnl
 
 : main
-
-K1 := 1
-K124 := 124
 N := 0
 
 v1 := 255
@@ -17,47 +12,34 @@ if v0 != 0
 then jump start_sync
 delay := v1
 
-N += 4
-i := boards1
+N += 16
+i := boards
 i += N
-load v0
-if v0 != 0xff then
-K1 := 1
+load v7
 
-i += K1
-load v0
 if v0 != 0xff then
-K1 := 1
+v0 := 0
 
-i += K1
-load v0
-if v0 != 0xff then
-K1 := 1
+if v1 != 0xff then
+v0 := 0
 
-i += K1
-load v0
-if v0 != 0xff then
-K1 := 1
+if v2 != 0xff then
+v0 := 0
 
-i += K124
-load v0
-if v0 != 0xff then
-K1 := 1
+if v3 != 0xff then
+v0 := 0
 
-i += K1
-load v0
-if v0 != 0xff then
-K1 := 1
+if v4 != 0xff then
+v0 := 0
 
-i += K1
-load v0
-if v0 != 0xff then
-K1 := 1
+if v5 != 0xff then
+v0 := 0
 
-i += K1
-load v0
-if v0 != 0xff then
-K1 := 1
+if v6 != 0xff then
+v0 := 0
+
+if v7 != 0xff then
+v0 := 0
 
 v1 := delay
 v0 := 255
@@ -69,15 +51,8 @@ v0 := key
 clear
 jump main
 
-: boards1
-0xff
-: boards2
-0xff
-: boards3
-0xff
-: boards4
-0xff
-
+: boards
+0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
@@ -111,15 +86,7 @@ jump main
 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
 
-: boards5
-0xff
-: boards6
-0xff
-: boards7
-0xff
-: boards8
-0xff
-
+0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff
