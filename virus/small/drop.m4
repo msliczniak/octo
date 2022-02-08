@@ -1,7 +1,7 @@
-define(`N', `va')dnl
+define(`X', `va')dnl
 
 : main
-N := 0
+X := 0
 
 v1 := 255
 v0 := 2
@@ -12,9 +12,10 @@ if v0 != 0
 then jump start_sync
 delay := v1
 
-N += 16
+X += 4
 i := boards
-i += N
+i += X
+i += X
 load v7
 
 if v0 != 0xff then
