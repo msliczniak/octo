@@ -1,4 +1,73 @@
+define(`K1', `vb')dnl
+define(`K124', `vc')dnl
+define(`N', `va')dnl
+
 : main
+
+K1 := 1
+K124 := 124
+N := 0
+
+v1 := 255
+v0 := 2
+delay := v0
+: start_sync
+v0 := delay
+if v0 != 0
+then jump start_sync
+delay := v1
+
+N += 4
+i := boards1
+i += N
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K124
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+i += K1
+load v0
+if v0 != 0xff then
+K1 := 1
+
+v1 := delay
+v0 := 255
+v0 -= v1
+i := hex v0
+v0 := 1
+sprite v0 v0 5
+v0 := key
+clear
+jump main
 
 : boards1
 0xff
