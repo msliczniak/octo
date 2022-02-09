@@ -9,9 +9,11 @@ define(`RE', `ve')dnl
 : main
 NA := 128
 
+v2 := 1
 v1 := 255
 v0 := 2
 delay := v0
+buzzer := v2
 : start_sync
 v0 := delay
 if v0 != 0
@@ -56,7 +58,10 @@ v0 -= v1
 i := hex v0
 v0 := 1
 sprite v0 v0 5
-v0 := key
+buzzer := v0
+: here
+if v0 -key then
+jump here
 clear
 jump main
 
