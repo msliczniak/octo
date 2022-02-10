@@ -9,20 +9,18 @@ define(`RE', `ve')dnl
 : main
 NA := 128
 
-v2 := 1
 v1 := 255
 v0 := 2
 delay := v0
-buzzer := v2
 : start_sync
 v0 := delay
 if v0 != 0
 then jump start_sync
 delay := v1
 
-:breakpoint main
+#:breakpoint main
 
-NA += 8
+NA += 0
 i := boards
 i += NA
 load v7
@@ -52,37 +50,56 @@ v0 := 0
 if v7 != 0xff then
 v0 := 0
 
+:call row
+
 v1 := delay
 v0 := 255
 v0 -= v1
 i := hex v0
 v0 := 1
 sprite v0 v0 5
-buzzer := v0
-: here
-if v0 -key then
-jump here
+v0 := key
 clear
 jump main
 
 : __cascade0
-RA := 128
+RA := 0x80
 RA &= v0
 
-if RA == 0 then
+if RA == 0x80 then
 jump ___cascade0
+
+RA := v0
+:call cell
+
+v0 := 0x01
+v0 &= v1
+if v0 == 0x01 then
+jump ____cascade0
 
 jump _cascade1
 
 # virus
 : ___cascade0
-v0 := 128
-v0 &= NA
+:call cell
+RA &= NA
 i := level0
-i += v0
+i += RA
 v0 := NA
 save v0
+
 jump _cascade1
+
+# pill
+: ____cascade0
+
+jump _cascade1
+
+: cell
+return
+
+: row
+return
 
 : level0
 0
@@ -100,7 +117,9 @@ jump _cascade1
 0
 : level7
 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+: pred
+0x40 0x40 0xE0 0xE0 0xE0 0x40
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -127,8 +146,8 @@ jump _cascade1
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 
-0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
-0x00 0xff 0xff 0xff 0xff 0xff 0xff 0xff
+0x01 0x01 0xff 0xff 0xff 0xff 0xff 0xff
+0x80 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
 0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff
