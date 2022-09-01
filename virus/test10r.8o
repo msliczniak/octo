@@ -1,0 +1,188 @@
+# ten rows of eight rotated
+
+: main
+
+clear
+hires
+
+i := tower
+
+v0 := 0
+v1 := 8
+v2 := 16
+v3 := 24
+v4 := 32
+v5 := 40
+v6 := 48
+v7 := 56
+
+v8 := 0
+sprite v8 v0 13
+sprite v8 v2 13
+sprite v8 v4 13
+sprite v8 v6 13
+
+v8 += 8
+sprite v8 v0 13
+sprite v8 v2 13
+sprite v8 v4 13
+sprite v8 v6 13
+
+v8 += 8
+sprite v8 v0 13
+sprite v8 v2 13
+sprite v8 v4 13
+sprite v8 v6 13
+
+v8 += 8
+sprite v8 v0 13
+sprite v8 v2 13
+sprite v8 v4 13
+sprite v8 v6 13
+
+v8 += 8
+sprite v8 v0 13
+sprite v8 v2 13
+sprite v8 v4 13
+sprite v8 v6 13
+
+v8 += 4
+
+vf := 255
+delay := vf
+
+: repeat
+vf := delay
+if vf != 253
+then jump repeat
+
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+v8 -= 4
+sprite v8 v0 5
+sprite v8 v1 5
+sprite v8 v2 5
+sprite v8 v3 5
+sprite v8 v4 5
+sprite v8 v5 5
+sprite v8 v6 5
+sprite v8 v7 5
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str
+bcd v8
+
+v8 := 0
+v3 := 64
+
+i := str
+load v2
+
+i := bighex v0
+sprite v3 v8 10
+v3 += 9
+i := bighex v1
+sprite v3 v8 10
+v3 += 9
+i := bighex v2
+sprite v3 v8 10
+
+vf := key
+jump main
+
+: tower
+:byte 0x44 0xAA 0xAA 0xAA 0x44 0x00 0x00 0x00 0x44 0xAA 0xAA 0xAA 0x44 0x00 0x00
+
+: str
+:byte 0 0 0
+:monitor str 3
