@@ -1,0 +1,234 @@
+:alias LLCA v0
+:alias LLCB v1
+:alias LLT0 v2
+:alias LLT1 v3
+
+:alias LUCA v4
+:alias LUCB v5
+:alias LUT0 v6
+:alias LUT1 v7
+
+:alias LMSK v8
+:alias RMSK v9
+:alias EMSK va
+
+:alias POSX vd
+:alias POSY ve
+
+:alias FLAG vf
+
+# MSB R 76543210 L LSB
+
+# 0 1 T
+# 0 0 E
+# 0 1 V
+# 1 0 L
+# 1 1 R
+
+: main
+LLT0 := 0
+LLT1 := 0
+LUT0 := 1
+LUT1 := 0
+
+:breakpoint foo
+
+# short circuit - noting to drop
+if LUT0 == 0
+then jump cascade_one_end
+
+# needed to flip bits
+RMSK := 0xff
+
+# 1 => L
+LMSK := LUT1
+LMSK ^= RMSK
+LMSK &= LUT0
+
+# 1 => E
+EMSK := LLT0
+EMSK |= LLT1
+EMSK ^= RMSK
+
+# 1 => L & R is empty for capsule
+RMSK := EMSK
+RMSK &= LMSK
+RMSK <<= RMSK
+EMSK &= RMSK
+
+# 1 => R
+RMSK := LUT0
+RMSK &= LUT1
+
+# so it's never odd
+LMSK <<= LMSK
+
+# fix-up to remove Rs that are part of a L
+RMSK ^= LMSK
+
+RMSK &= EMSK
+LMSK &= EMSK
+
+: cascade_one_end
+
+ve := 0
+
+: entry
+
+clear
+hires
+
+i := tower
+
+v0 := 0
+v1 := 8
+v2 := 16
+v3 := 24
+v4 := 32
+v5 := 40
+v6 := 48
+v7 := 56
+
+v8 := 2
+sprite v0 v8 15
+sprite v1 v8 15
+sprite v2 v8 15
+sprite v3 v8 15
+sprite v4 v8 15
+sprite v5 v8 15
+sprite v6 v8 15
+sprite v7 v8 15
+
+v8 += 18
+sprite v0 v8 15
+sprite v1 v8 15
+sprite v2 v8 15
+sprite v3 v8 15
+sprite v4 v8 15
+sprite v5 v8 15
+sprite v6 v8 15
+sprite v7 v8 15
+
+v8 += 18
+sprite v0 v8 9
+sprite v1 v8 9
+sprite v2 v8 9
+sprite v3 v8 9
+sprite v4 v8 9
+sprite v5 v8 9
+sprite v6 v8 9
+sprite v7 v8 9
+
+v0 += 64
+v1 += 64
+v2 += 64
+v3 += 64
+v4 += 64
+v5 += 64
+v6 += 64
+v7 += 64
+
+v8 := 17
+sprite v0 v8 15
+sprite v1 v8 15
+sprite v2 v8 15
+sprite v3 v8 15
+sprite v4 v8 15
+sprite v5 v8 15
+sprite v6 v8 15
+sprite v7 v8 15
+
+v8 += 18
+sprite v0 v8 15
+sprite v1 v8 15
+sprite v2 v8 15
+sprite v3 v8 15
+sprite v4 v8 15
+sprite v5 v8 15
+sprite v6 v8 15
+sprite v7 v8 15
+
+v8 += 18
+sprite v0 v8 9
+sprite v1 v8 9
+sprite v2 v8 9
+sprite v3 v8 9
+sprite v4 v8 9
+sprite v5 v8 9
+sprite v6 v8 9
+sprite v7 v8 9
+
+vf := 255
+delay := vf
+
+: repeat
+vf := delay
+if vf != 253
+then jump repeat
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str
+bcd v8
+
+v8 := 0
+v3 := 64
+
+i := str
+load v2
+
+i := bighex v0
+sprite v3 v8 10
+v3 += 9
+i := bighex v1
+sprite v3 v8 10
+v3 += 9
+i := bighex v2
+sprite v3 v8 10
+
+v0 := 0
+v8 := 1
+
+i := blank
+i += ve
+ve += 15
+if ve == 60 then
+ve := 0
+
+sprite v0 v8 15
+
+i := blit
+sprite v0 v8 15
+
+i := hex vf
+v8 := 59
+sprite v0 v8 5
+
+vf := key
+jump entry
+
+: tower
+:byte 0x00 0x88 0x00 0x00 0x00 0x00 0x00 0x88 0x00 0x00 0x00 0x00 0x00 0x88 0x00
+
+: blit
+:byte 0x40 0xE0 0x60 0xE0 0x40 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+: blank
+:byte 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+: virus
+:byte 0x40 0xE0 0x60 0xE0 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+: left
+:byte 0x00 0xE0 0x60 0xE0 0x00 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+: right
+:byte 0x00 0xE0 0x60 0xE0 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+
+
+: str
+:byte 0 0 0
+:monitor str 3
