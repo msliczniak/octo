@@ -17,19 +17,20 @@
 
 :alias FLAG vf
 
-# MSB R 76543210 L LSB
+# MSB L 76543210 LSB R
 
 # 0 1 T
+# ---+-
 # 0 0 E
 # 0 1 V
-# 1 0 L
-# 1 1 R
+# 1 0 R
+# 1 1 L
 
 : main
 LLT0 := 0
 LLT1 := 0
-LUT0 := 1
-LUT1 := 0
+LUT0 := 0b10000111
+LUT1 := 0b00101010
 
 :breakpoint foo
 
@@ -37,34 +38,28 @@ LUT1 := 0
 if LUT0 == 0
 then jump cascade_one_end
 
-# needed to flip bits
-RMSK := 0xff
-
 # 1 => L
 LMSK := LUT1
-LMSK ^= RMSK
 LMSK &= LUT0
 
-# 1 => E
+# 0 => E
 EMSK := LLT0
 EMSK |= LLT1
+
+# 1 => E taking capsules into account as well
+RMSK := EMSK
+RMSK <<= RMSK
+RMSK &= LMSK
+EMSK |= RMSK
+RMSK := LMSK
+RMSK >>= RMSK
+EMSK |= RMSK
+RMSK := 0xff
 EMSK ^= RMSK
 
-# 1 => L & R is empty for capsule
-RMSK := EMSK
-RMSK &= LMSK
-RMSK <<= RMSK
-EMSK &= RMSK
-
 # 1 => R
-RMSK := LUT0
-RMSK &= LUT1
-
-# so it's never odd
-LMSK <<= LMSK
-
-# fix-up to remove Rs that are part of a L
-RMSK ^= LMSK
+RMSK ^= LUT1
+RMSK &= LUT0
 
 RMSK &= EMSK
 LMSK &= EMSK
