@@ -27,49 +27,6 @@
 # 1 1 L
 
 : main
-LLT0 := 0
-LLT1 := 0
-LUT0 := 0b10000111
-LUT1 := 0b00101010
-
-:breakpoint foo
-
-# short circuit - noting to drop
-if LUT0 == 0
-then jump cascade_one_end
-
-# 1 => L
-LMSK := LUT1
-LMSK &= LUT0
-
-# 0 => E
-EMSK := LLT0
-EMSK |= LLT1
-
-# 1 => E taking capsules into account as well
-RMSK := EMSK
-RMSK <<= RMSK
-RMSK &= LMSK
-EMSK |= RMSK
-RMSK := LMSK
-RMSK >>= RMSK
-EMSK |= RMSK
-RMSK := 0xff
-EMSK ^= RMSK
-
-# 1 => R
-RMSK ^= LUT1
-RMSK &= LUT0
-
-RMSK &= EMSK
-LMSK &= EMSK
-
-: cascade_one_end
-
-ve := 0
-
-: entry
-
 clear
 hires
 
@@ -153,6 +110,17 @@ sprite v5 v8 9
 sprite v6 v8 9
 sprite v7 v8 9
 
+POSX := 252
+i := piece
+POSY := 81
+sprite POSX POSY 3
+POSY += 30
+sprite POSX POSY 3
+POSY += 6
+sprite POSX POSY 9
+POSY += 220
+POSX := 120
+
 vf := 255
 delay := vf
 
@@ -160,6 +128,50 @@ delay := vf
 vf := delay
 if vf != 253
 then jump repeat
+
+#LLT0 := 0
+#LLT1 := 0
+#LUT0 := 0b10000111
+#LUT1 := 0b00101010
+
+i := board
+i += POSX
+load v7
+
+# short circuit - noting to drop
+if LUT0 == 0
+then jump cascade_one_end
+
+# 1 => L
+LMSK := LUT1
+LMSK &= LUT0
+
+# 0 => E
+EMSK := LLT0
+EMSK |= LLT1
+
+# 1 => E taking capsules into account as well
+RMSK := EMSK
+RMSK <<= RMSK
+RMSK &= LMSK
+EMSK |= RMSK
+RMSK := LMSK
+RMSK >>= RMSK
+EMSK |= RMSK
+RMSK := 0xff
+EMSK ^= RMSK
+
+# 1 => R
+RMSK ^= LUT1
+RMSK &= LUT0
+
+LMSK &= EMSK
+RMSK &= EMSK
+RMSK <<= RMSK
+
+jump0 0x900
+
+: cascade_one_end
 
 vf := delay
 v8 := 253
@@ -183,47 +195,162 @@ v3 += 9
 i := bighex v2
 sprite v3 v8 10
 
-v0 := 0
-v8 := 1
-
-i := blank
-i += ve
-ve += 15
-if ve == 60 then
-ve := 0
-
-sprite v0 v8 15
-
-i := blit
-sprite v0 v8 15
-
 i := hex vf
+v0 := 0
 v8 := 59
 sprite v0 v8 5
 
 vf := key
-jump entry
+jump main
 
 : tower
 :byte 0x00 0x88 0x00 0x00 0x00 0x00 0x00 0x88 0x00 0x00 0x00 0x00 0x00 0x88 0x00
 
-: blit
-:byte 0x40 0xE0 0x60 0xE0 0x40 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-: blank
-:byte 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-: virus
-:byte 0x40 0xE0 0x60 0xE0 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-: left
-:byte 0x00 0xE0 0x60 0xE0 0x00 0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-: right
-:byte 0x00 0xE0 0x60 0xE0 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-
-
 : str
 :byte 0 0 0
 :monitor str 3
+
+: right0
+EMSK := 0b11000000
+EMSK &= LUCA
+
+if EMSK == 0b01000000 then
+jump right0r
+
+if EMSK == 0b10000000 then
+jump right0r
+
+: right0r
+i := piece
+sprite POSX POSY 3
+
+LLCA &= EMSK
+EMSK := 0b00111111
+LUCA &= EMSK
+
+return
+
+: right5
+EMSK := 0b00110000
+EMSK &= LUCB
+
+if EMSK == 0b00010000 then
+jump right5r
+
+if EMSK == 0b00100000 then
+jump right5r
+
+: right5r
+i := piece
+sprite POSX POSY 3
+
+LLCB &= EMSK
+EMSK := 0b11001111
+LUCB &= EMSK
+
+return
+
+: right_cascade_one
+if FLAG != 0 then
+:call right0
+
+POSY += 30
+:call right5
+
+POSY += 226
+jump0 0x800
+
+: left6
+EMSK := 0b00001100
+EMSK &= LUCB
+
+if EMSK == 0b00000100 then
+jump left6r
+
+if EMSK == 0b00001000 then
+jump left6r
+
+: left6r
+i := piece
+
+RMSK := 0b00000011
+RMSK &= LUCB
+
+if RMSK == 0b00000001 then
+jump left6rr
+
+if RMSK == 0b00000010 then
+jump left6rr
+
+: left6rr
+LMSK := 0
+i += LMSK
+sprite POSX POSY 9
+
+LLCB &= EMSK
+LLCB &= RMSK
+EMSK := 0b11110000
+LUCB &= EMSK
+
+return
+
+: left_cascade_one
+POSY += 36
+:call left6
+
+jump cascade_one_end
+
+: piece
+:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE 0x00 0x00 0x00 0x00 0x00 0x00
+
+:org 0x800
+
+jump cascade_one_end
+jump left_cascade_one
+
+:org 0x900
+
+jump0 0x800
+jump0 0x800
+jump0 0x800
+jump0 0x800
+jump right_cascade_one
+
+: board
+:monitor board 128
+:byte
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0
+0b10000111
+0b00101010
