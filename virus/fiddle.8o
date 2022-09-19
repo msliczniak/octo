@@ -12,6 +12,8 @@
 :alias RMSK v9
 :alias EMSK va
 
+:alias FRAME vc
+
 :alias POSX vd
 :alias POSY ve
 
@@ -121,13 +123,8 @@ sprite POSX POSY 9
 POSY += 220
 POSX := 64
 
-vf := 255
-delay := vf
-
-: repeat
-vf := delay
-if vf != 253
-then jump repeat
+FRAME := 255
+delay := FRAME
 
 :call cascade_one
 POSX += 4
@@ -595,7 +592,7 @@ POSX += 4
 POSX := 64
 
 vf := delay
-v8 := 253
+v8 := 255
 v8 -= vf
 
 i := str
@@ -628,6 +625,12 @@ jump main
 i := board
 i += POSX
 load v7
+
+: repeat
+vf := delay
+if vf == FRAME
+then jump repeat
+FRAME -= 1
 
 # short circuit - noting to drop
 if LUT0 == 0
