@@ -1,16 +1,18 @@
-:alias LLCA v0
-:alias LLCB v1
-:alias LLT0 v2
-:alias LLT1 v3
+:alias LLT0 v0
+:alias LLT1 v1
+:alias LLCA v2
+:alias LLCB v3
 
-:alias LUCA v4
-:alias LUCB v5
-:alias LUT0 v6
-:alias LUT1 v7
+:alias LUT0 v4
+:alias LUT1 v5
+:alias LUCA v6
+:alias LUCB v7
 
 :alias LMSK v8
+:alias YMSK v8
 :alias RMSK v9
 :alias EMSK va
+:alias BMSK va
 
 :alias FRAME vc
 
@@ -114,7 +116,7 @@ sprite v7 v8 9
 
 POSX := 252
 i := piece
-POSY := 81
+POSY := 17
 sprite POSX POSY 3
 POSY += 30
 sprite POSX POSY 3
@@ -626,6 +628,8 @@ sprite v0 v8 5
 vf := key
 jump main
 
+: run_one
+
 : cascade_one
 i := board
 i += POSX
@@ -845,6 +849,18 @@ jump right_cascade_one
 0 0 0 0
 0 0 0 0
 0 0 0 0
-0 0
 0b10000111
 0b00000010
+0 0
+
+: vruns
+:monitor vruns 64
+:byte
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
