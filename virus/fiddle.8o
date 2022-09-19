@@ -126,6 +126,11 @@ POSX := 64
 FRAME := 255
 delay := FRAME
 
+: repeat
+vf := delay
+if vf != FRAME
+then jump 253
+
 :call cascade_one
 POSX += 4
 :call cascade_one
@@ -592,7 +597,7 @@ POSX += 4
 POSX := 64
 
 vf := delay
-v8 := 255
+v8 := 253
 v8 -= vf
 
 i := str
@@ -626,11 +631,11 @@ i := board
 i += POSX
 load v7
 
-: repeat
-vf := delay
-if vf == FRAME
-then jump repeat
-FRAME -= 1
+#: repeat
+#vf := delay
+#if vf == FRAME
+#then jump repeat
+#FRAME -= 1
 
 # short circuit - noting to drop
 if LUT0 == 0
