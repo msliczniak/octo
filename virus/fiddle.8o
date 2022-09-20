@@ -1,24 +1,24 @@
-:alias LLT0 v0
-:alias LLT1 v1
-:alias LLCA v2
-:alias LLCB v3
+:alias LLCA v0
+:alias LLCB v1
+:alias LLT0 v2
+:alias LLT1 v3
 
-:alias LUT0 v4
-:alias LUT1 v5
-:alias LUCA v6
-:alias LUCB v7
+:alias LUCA v4
+:alias LUCB v5
+:alias LUT0 v6
+:alias LUT1 v7
+:alias BMSK v7 # blue
 
-:alias LMSK v8
-:alias YMSK v8
-:alias RMSK v9
-:alias EMSK va
-:alias BMSK va
+:alias LMSK v8 # left
+:alias YMSK v8 # yellow
+:alias RMSK v9 # right/red
+:alias EMSK va # empty
 
+:alias COLOR vb
 :alias FRAME vc
 
 :alias POSX vd
 :alias POSY ve
-
 :alias FLAG vf
 
 # MSB L 76543210 LSB R
@@ -629,6 +629,19 @@ vf := key
 jump main
 
 : run_one
+i := board
+i += POSX
+load v3
+
+# yellow
+YMSK := 0b10101010
+YMSK &= LLCA
+EMSK := 0b10101010
+EMSK &= LLCB
+EMSK >>= EMSK
+EMSK |= YMSK
+
+return
 
 : cascade_one
 i := board
@@ -834,6 +847,7 @@ jump right_cascade_one
 0 0 0 0
 0 0 0 0
 
+0xaa 0 0 0xf0
 0 0 0 0
 0 0 0 0
 0 0 0 0
@@ -848,10 +862,9 @@ jump right_cascade_one
 0 0 0 0
 0 0 0 0
 0 0 0 0
-0 0 0 0
+0 0
 0b10000111
 0b00000010
-0 0
 
 : vruns
 :monitor vruns 64
