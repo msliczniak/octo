@@ -7,16 +7,13 @@
 :alias LUCB v5
 :alias LUT0 v6
 :alias LUT1 v7
-:alias BMSK v7 # blue
 
 :alias LMSK v8 # left
-:alias YMSK v8 # yellow
-:alias RMSK v9 # right/red
+:alias RMSK v9 # right
 :alias EMSK va # empty
-
 :alias COLOR vb
-:alias FRAME vc
 
+:alias FRAME vc
 :alias POSX vd
 :alias POSY ve
 :alias FLAG vf
@@ -137,6 +134,39 @@ delay := FRAME
 vf := delay
 if vf != FRAME
 then jump 253
+
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX += 4
+:call run_one
+POSX := 64
 
 :call cascade_one
 POSX += 4
@@ -636,17 +666,48 @@ jump main
 : run_one
 i := board
 i += POSX
-load v3
+load v7
 
-# yellow
-YMSK := 0b10101010
-YMSK &= LLCA
+# left bits
+LMSK := 0b10101010
+LMSK &= LLCA
 EMSK := 0b10101010
 EMSK &= LLCB
 EMSK >>= EMSK
-EMSK |= YMSK
+LMSK |= EMSK
 
-return
+# right bits
+RMSK := 0b01010101
+RMSK &= LLCA
+RMSK <<= RMSK
+EMSK := 0b01010101
+EMSK &= LLCB
+RMSK |= EMSK
+
+:call runsr
+:call runsy
+
+EMSK := 0xff
+EMSK ^= RMSK
+EMSK &= LMSK
+COLOR := 16
+EMSK <<= EMSK
+jump0 0xa00
+
+: runsr
+EMSK := RMSK
+EMSK &= LMSK
+COLOR := 0
+EMSK <<= EMSK
+jump0 0xa00
+
+: runsy
+EMSK := 0xff
+EMSK ^= RMSK
+EMSK &= LMSK
+COLOR := 16
+EMSK <<= EMSK
+jump0 0xa00
 
 : cascade_one
 i := board
@@ -831,6 +892,151 @@ jump0 0x800
 jump0 0x800
 jump0 0x800
 jump right_cascade_one
+
+:org 0xa00
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
+
+return
+return
+return
+return
+return
+return
+return
+return
 
 : board
 :monitor board 128
