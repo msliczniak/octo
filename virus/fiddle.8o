@@ -663,6 +663,28 @@ sprite v0 v8 5
 vf := key
 jump main
 
+:org 0x800
+
+jump cascade_one_end
+jump left_cascade_one
+
+:org 0x900
+
+jump0 0x800
+jump0 0x800
+jump0 0x800
+jump0 0x800
+jump right_cascade_one
+
+:org 0xa00
+return
+
+:org 0xa2a
+jump bbbbccc
+
+:org 0xb00
+
+
 : run_one
 i := board
 i += POSX
@@ -879,25 +901,6 @@ LUT0 &= EMSK
 LUT1 &= EMSK
 
 return
-
-:org 0x800
-
-jump cascade_one_end
-jump left_cascade_one
-
-:org 0x900
-
-jump0 0x800
-jump0 0x800
-jump0 0x800
-jump0 0x800
-jump right_cascade_one
-
-:org 0xa00
-return
-
-:org 0xa2a
-jump bbbbccc
 
 : board
 :monitor board 128
