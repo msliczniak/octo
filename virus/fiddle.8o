@@ -136,35 +136,35 @@ if vf != FRAME
 then jump 253
 
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
-POSX += 4
+POSX += 2
 :call run_one
 POSX := 64
 
@@ -666,7 +666,7 @@ jump main
 : run_one
 i := board
 i += POSX
-load v7
+load v3
 
 # left bits
 LMSK := 0b10101010
@@ -686,13 +686,16 @@ RMSK |= EMSK
 
 :call runsr
 :call runsy
+:call runsb
 
-EMSK := 0xff
-EMSK ^= RMSK
-EMSK &= LMSK
-COLOR := 16
-EMSK <<= EMSK
-jump0 0xa00
+v0 := LLT0
+v1 := LLT1
+POSX += 2
+i := board
+i += POSX
+save v1
+
+return
 
 : runsr
 EMSK := RMSK
@@ -706,6 +709,14 @@ EMSK := 0xff
 EMSK ^= RMSK
 EMSK &= LMSK
 COLOR := 16
+EMSK <<= EMSK
+jump0 0xa00
+
+: runsb
+EMSK := 0xff
+EMSK ^= LMSK
+EMSK &= RMSK
+COLOR := 32
 EMSK <<= EMSK
 jump0 0xa00
 
@@ -870,16 +881,6 @@ LUT1 &= EMSK
 
 return
 
-: left_cascade_one
-POSY += 36
-:call left6
-
-POSY -= 36
-jump cascade_one_end
-
-: piece
-:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE 0x00 0x00 0x00 0x00 0x00 0x00
-
 :org 0x800
 
 jump cascade_one_end
@@ -895,148 +896,9 @@ jump right_cascade_one
 
 :org 0xa00
 return
-return
-return
-return
-return
-return
-return
-return
 
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
-
-return
-return
-return
-return
-return
-return
-return
-return
+:org 0xa2a
+jump bbbbccc
 
 : board
 :monitor board 128
@@ -1073,7 +935,7 @@ return
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
-0b01000000 0b00010100 0b10000110 0b00000010
+0b01000000 0b00010101 0b10000111 0b00000010
 
 : vruns
 :monitor vruns 64
@@ -1086,3 +948,73 @@ return
 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0
+
+: piece
+:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE 0x00 0x00 0x00 0x00 0x00 0x00
+
+: left_cascade_one
+POSY += 36
+:call left6
+
+POSY -= 36
+jump cascade_one_end
+
+
+: bbbbccc
+if FLAG == 0
+then jump bbbbbccc
+
+i := vruns
+i += POSY
+load v1
+
+if v0 != COLOR
+then jump bbbbbccc
+
+v1 += 4
+if v1 != POSX
+then jump bbbbbccc
+
+: bbbbbccc
+POSY += 6
+i := vruns
+i += POSY
+load v1
+
+if v0 != COLOR
+then jump bbbbbccc0
+
+v1 += 4
+if v1 != POSX
+then jump bbbbbccc0
+
+: bbbbbccc0
+POSY += 6
+i := vruns
+i += POSY
+load v1
+
+if v0 != COLOR
+then jump bbbbbccc1
+
+v1 += 4
+if v1 != POSX
+then jump bbbbbccc1
+
+: bbbbbccc1
+POSY += 6
+i := vruns
+i += POSY
+load v1
+
+if v0 != COLOR
+then jump bbbbbccc2
+
+v1 += 4
+if v1 != POSX
+then jump bbbbbccc2
+
+: bbbbbccc2
+POSY -= 18
+
+return
