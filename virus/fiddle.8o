@@ -136,35 +136,35 @@ if vf != FRAME
 then jump 253
 
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
-POSX += 2
+POSX += 4
 :call run_one
 POSX := 64
 
@@ -690,8 +690,7 @@ RMSK |= EMSK
 
 v0 := LLT0
 v1 := LLT1
-POSX += 2
-i := board
+i := board_02
 i += POSX
 save v1
 
@@ -903,7 +902,9 @@ jump bbbbccc
 : board
 :monitor board 128
 :byte
-0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000
+: board_02
+0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
