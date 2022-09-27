@@ -684,11 +684,16 @@ jump bbbbccc
 
 :org 0xb00
 
-
 : run_one
 i := board
 i += POSX
 load v3
+
+# short circuit
+EMSK := LLCA
+EMSK |= LLCB
+if EMSK == 0
+then return
 
 # left bits
 LMSK := 0b10101010
