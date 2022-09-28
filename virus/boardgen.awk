@@ -1,16 +1,16 @@
 #!/usr/bin/awk -f
 
+BEGIN {
+	s = "\n: board_02\n"
+}
+
 NF == 8 {
-	c = "0b"
+	c0 = "0b"
+	c1 = "0b"
 	t0 = "0b"
 	t1 = "0b"
 
 	for (i = 1; i <= NF; i++) {
-		if (i == 5) {
-			ca = c
-			c = "0b"
-		}
-
 		t = substr($i, 1, 1)
 		if (t == "V") {
 			t0 = t0 "0"
@@ -24,18 +24,27 @@ NF == 8 {
 		} else {
 			t0 = t0 "0"
 			t1 = t1 "0"
-			c = c "00"
+			c0 = c0 "0"
+			c1 = c1 "0"
 
 			continue
 		}
 
 		t = substr($i, 2, 1)
-		if (t == "B") c = c "01"
-		else if (t == "Y") c = c "10"
-		else c = c "11"
+		if (t == "B") {
+			c0 = c0 "0"
+			c1 = c1 "1"
+		} else if (t == "Y") {
+			c0 = c0 "1"
+			c1 = c1 "0"
+		} else {
+			c0 = c0 "1"
+			c1 = c1 "1"
+		}
 	}
 	
-	print ca, c, t0, t1
+	print c0, c1 s t0, t1
+	s = " "
 	next
 }
 
