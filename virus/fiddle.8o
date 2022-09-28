@@ -116,16 +116,35 @@ sprite v5 v8 9
 sprite v6 v8 9
 sprite v7 v8 9
 
-POSX := 252
-i := piece
-POSY := 17
-sprite POSX POSY 3
-POSY += 30
-sprite POSX POSY 3
-POSY += 6
-sprite POSX POSY 9
-POSY += 220
 POSX := 64
+POSY := 16
+
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+POSX += 4
+:call draw_one
+
+POSX := 64
+POSY := 17
 
 FRAME := 255
 delay := FRAME
@@ -958,16 +977,12 @@ return
 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0
 
-: piece
-:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE 0x00 0x00 0x00 0x00 0x00 0x00
-
 : left_cascade_one
 POSY += 36
 :call left6
 
 POSY -= 36
 jump cascade_one_end
-
 
 : bbbbccc
 if FLAG == 0
@@ -1027,3 +1042,56 @@ then jump bbbbbccc2
 POSY -= 18
 
 return
+
+: draw_one
+i := board
+i += POSX
+load v3
+
+EMSK := 0b11000000
+EMSK &= LLCA
+
+if EMSK == 0
+then jump draw_one_1
+
+i := rpiecel
+if EMSK == 0b01000000
+then jump draw_one_0t
+
+i := ypiecel
+if EMSK == 0b10000000
+then jump draw_one_0t
+
+i := bpiecel
+: draw_one_0t
+
+: draw_one_1
+
+return
+
+: piece
+:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE
+
+: rpiecel
+0x00
+: rpiecer
+0xE0 0x60 0xE0 0x40 0x40
+: rpiecev
+0x40 0xE0 0x60 0xE0 0x40 0x00 0x00 0x00 0x00
+0
+
+: ypiecel
+0x00
+: ypiecer
+0xA0 0x60 0xA0 0x40 0x40
+: ypiecev
+0x40 0xA0 0x60 0xA0 0x40 0x00 0x00 0x00 0x00
+0
+
+: bpiecel
+0x00
+: bpiecer
+0xE0 0x20 0xE0 0x40 0x40
+: bpiecev
+0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
+0
