@@ -27,10 +27,12 @@
 # 1 0 R
 # 1 1 L
 
-# 00 E
-# 01 B
-# 10 Y
-# 11 R
+# A B C
+# ---+-
+# 0 0 E
+# 0 1 B
+# 1 0 Y
+# 1 1 R
 
 : main
 clear
@@ -698,7 +700,7 @@ jump right_cascade_one
 :org 0xa00
 return
 
-:org 0xa2a
+:org 0xa0e
 jump bbbbccc
 
 :org 0xb00
@@ -714,22 +716,6 @@ EMSK |= LLCB
 if EMSK == 0
 then return
 
-# left bits
-LMSK := 0b10101010
-LMSK &= LLCA
-EMSK := 0b10101010
-EMSK &= LLCB
-EMSK >>= EMSK
-LMSK |= EMSK
-
-# right bits
-RMSK := 0b01010101
-RMSK &= LLCA
-RMSK <<= RMSK
-EMSK := 0b01010101
-EMSK &= LLCB
-RMSK |= EMSK
-
 :call runsr
 :call runsy
 :call runsb
@@ -743,24 +729,24 @@ save v1
 return
 
 : runsr
-EMSK := RMSK
-EMSK &= LMSK
+EMSK := LLCA
+EMSK &= LLCB
 COLOR := 0
 EMSK <<= EMSK
 jump0 0xa00
 
 : runsy
 EMSK := 0xff
-EMSK ^= RMSK
-EMSK &= LMSK
+EMSK ^= LLCB
+EMSK &= LLCA
 COLOR := 16
 EMSK <<= EMSK
 jump0 0xa00
 
 : runsb
 EMSK := 0xff
-EMSK ^= LMSK
-EMSK &= RMSK
+EMSK ^= LLCA
+EMSK &= LLCB
 COLOR := 32
 EMSK <<= EMSK
 jump0 0xa00
@@ -963,7 +949,7 @@ return
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
 0b00000000 0b00000000 0b00000000 0b00000000
-0b01000000 0b00010101 0b10000111 0b00000010
+0b00000000 0b10000111 0b10000111 0b00000010
 
 : vruns
 :monitor vruns 64
