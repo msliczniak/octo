@@ -123,26 +123,49 @@ POSY := 16
 
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
 :call draw_one
 POSX += 4
+POSY := 16
+:call draw_one
+POSX += 4
+POSY := 16
+:call draw_one
+POSX += 4
+POSY := 16
+:call draw_one
+POSX += 4
+POSY := 16
+:call draw_one
+POSX += 4
+POSY := 16
 :call draw_one
 
 POSX := 64
@@ -684,6 +707,98 @@ sprite v0 v8 5
 vf := key
 jump main
 
+: draw_one
+i := board
+i += POSX
+load v3
+
+EMSK := LLCA
+EMSK |= LLCB
+
+: _draw_one_loop
+if EMSK == 0
+then return
+
+EMSK <<= EMSK
+if FLAG == 0
+then jump _draw_one_skip
+
+LLCA <<= LLCA
+if FLAG == 0
+then jump _draw_one_blue
+
+COLOR := 16
+LLCB <<= LLCB
+if FLAG != 0
+then COLOR := 32
+
+: _draw_one_type
+LLT0 <<= LLT0
+if FLAG == 0
+then jump _draw_one_virus
+
+LLT1 <<= LLT1
+if FLAG == 0
+then jump _draw_one_right
+
+i := rpiecel
+i += COLOR
+sprite POSX POSY 6
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_right
+i := rpiecer
+i += COLOR
+sprite POSX POSY 4
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_virus
+LLT1 <<= LLT1
+i := rpiecev
+i += COLOR
+sprite POSX POSY 5
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_blue
+COLOR := 0
+LLCB <<= LLCB
+jump _draw_one_type
+
+: _draw_one_skip
+LLCA <<= LLCA
+LLCB <<= LLCB
+LLT0 <<= LLT0
+LLT1 <<= LLT1
+POSY += 6
+jump _draw_one_loop
+
+: rpiecer
+: rpiecel
+0x00
+0xE0 0x20 0xE0 0x40 0x40
+: rpiecev
+0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
+0
+
+: ypiecer
+: ypiecel
+0x00
+0xA0 0x60 0xA0 0x40 0x40
+: ypiecev
+0x40 0xA0 0x60 0xA0 0x40 0x00 0x00 0x00 0x00
+0
+
+: bpiecer
+: bpiecel
+0x00
+0xE0 0x20 0xE0 0x40 0x40
+: bpiecev
+0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
+0
+
 :org 0x800
 
 jump cascade_one_end
@@ -1029,55 +1144,5 @@ POSY -= 18
 
 return
 
-: draw_one
-i := board
-i += POSX
-load v3
-
-EMSK := 0b11000000
-EMSK &= LLCA
-
-if EMSK == 0
-then jump draw_one_1
-
-i := rpiecel
-if EMSK == 0b01000000
-then jump draw_one_0t
-
-i := ypiecel
-if EMSK == 0b10000000
-then jump draw_one_0t
-
-i := bpiecel
-: draw_one_0t
-
-: draw_one_1
-
-return
-
 : piece
 :byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE
-
-: rpiecel
-0x00
-: rpiecer
-0xE0 0x60 0xE0 0x40 0x40
-: rpiecev
-0x40 0xE0 0x60 0xE0 0x40 0x00 0x00 0x00 0x00
-0
-
-: ypiecel
-0x00
-: ypiecer
-0xA0 0x60 0xA0 0x40 0x40
-: ypiecev
-0x40 0xA0 0x60 0xA0 0x40 0x00 0x00 0x00 0x00
-0
-
-: bpiecel
-0x00
-: bpiecer
-0xE0 0x20 0xE0 0x40 0x40
-: bpiecev
-0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
-0
