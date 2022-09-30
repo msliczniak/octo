@@ -1,12 +1,12 @@
-:alias LLCA v0
-:alias LLCB v1
-:alias LLT0 v2
-:alias LLT1 v3
+:alias LUCA v0
+:alias LUCB v1
+:alias LUTA v2
+:alias LUTA v3
 
-:alias LUCA v4
-:alias LUCB v5
-:alias LUT0 v6
-:alias LUT1 v7
+:alias LLCA v4
+:alias LLCB v5
+:alias LLTA v6
+:alias LLTA v7
 
 :alias LMSK v8 # left
 :alias RMSK v9 # right
@@ -18,7 +18,7 @@
 :alias POSY ve
 :alias FLAG vf
 
-# 0 1 T
+# A B T
 # ---+-
 # 0 0 E
 # 0 1 V
@@ -32,38 +32,88 @@
 # 1 0 Y
 # 1 1 R
 
+:stringmode safe " !\"#$%&'()*+,-./0123456789:;<=>?" { :byte { CHAR } }
+:stringmode safe "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_" { :byte { CHAR } }
+:stringmode safe "`abcdefghijklmnopqrstuvwxyz{|}~"   { :byte { CHAR } }
+
 : main
+jump _init
+
+safe "@(#)bottles"
+
+# null terminate
+:byte 0
+
+: fieldspr
+0x11 0x11 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+: fieldspr_0c
+0x11 0x11 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x11 0x11
+: zeros
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00
+
+:calc EVENALIGN { ( HERE + 1 ) & 0xfffe }
+:org EVENALIGN
+: _init
 hires
 
 : _main
 clear
 
-i := tower
+# clear game boards
+i := zeros
+load vf
+
+i := boards_00
+save vf
+i := boards_08
+save vf
+i := boards_10
+save vf
+i := boards_18
+save vf
+i := boards_20
+save vf
+i := boards_28
+save vf
+i := boards_30
+save vf
+i := boards_38
+save vf
+
+# draw play fields
+
 v0 := 0
 
 : _fieldr
-v1 := 3
+v1 := 39
+
+# only two colums the first time through
+i := fieldspr_0c
 
 : _field
-:next tower
-sprite v0 v1 1
+sprite v0 v1 0
 
 v0 += 64
 v1 += 15
-sprite v0 v1 1
+sprite v0 v1 0
 
-if v1 == 60
+# now draw three columns
+i := fieldspr
+
+if v1 == 18
 then jump _fieldc
 
 v0 -= 64
-v1 -= 9
+v1 -= 33
 jump _field
 
 : _fieldc
-if v0 == 120
+if v0 == 112
 then jump _fieldd
 
-v0 -= 56
+v0 -= 48
 jump _fieldr
 
 : _fieldd
@@ -104,141 +154,30 @@ v8 := 59
 sprite v0 v8 5
 
 vf := key
-jump main
+jump _main
 
-: draw_one
-i := board
-i += POSX
-load v3
-
-EMSK := LLCA
-EMSK |= LLCB
-
-: _draw_one_loop
-if EMSK == 0
-then return
-
-EMSK <<= EMSK
-if FLAG == 0
-then jump _draw_one_skip
-
-LLCA <<= LLCA
-if FLAG == 0
-then jump _draw_one_blue
-
-COLOR := 16
-LLCB <<= LLCB
-if FLAG != 0
-then COLOR := 32
-
-: _draw_one_type
-LLT0 <<= LLT0
-if FLAG == 0
-then jump _draw_one_virus
-
-LLT1 <<= LLT1
-if FLAG == 0
-then jump _draw_one_right
-
-i := rpiecel
-i += COLOR
-sprite POSX POSY 6
-POSY += 6
-jump _draw_one_loop
-
-: _draw_one_right
-i := rpiecer
-i += COLOR
-sprite POSX POSY 4
-POSY += 6
-jump _draw_one_loop
-
-: _draw_one_virus
-LLT1 <<= LLT1
-i := rpiecev
-i += COLOR
-sprite POSX POSY 5
-POSY += 6
-jump _draw_one_loop
-
-: _draw_one_blue
-COLOR := 0
-LLCB <<= LLCB
-jump _draw_one_type
-
-: _draw_one_skip
-LLCA <<= LLCA
-LLCB <<= LLCB
-LLT0 <<= LLT0
-LLT1 <<= LLT1
-POSY += 6
-jump _draw_one_loop
-
-: rpiecer
-: rpiecel
-0x00
-0xE0 0x20 0xE0 0x40 0x40
-: rpiecev
-0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
-0
-
-: ypiecer
-: ypiecel
-0x00
-0xA0 0x60 0xA0 0x40 0x40
-: ypiecev
-0x40 0xA0 0x60 0xA0 0x40 0x00 0x00 0x00 0x00
-0
-
-: bpiecer
-: bpiecel
-0x00
-0xE0 0x20 0xE0 0x40 0x40
-: bpiecev
-0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
-0
-
+:org 0x1fd
 : str
-0 0 0
 :monitor str 3
+0 0 0
 
-: board
-:monitor board 128
-0b00000000 0b00000000
-: board_02
-0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
+:org 0x180
+: boards
+:monitor boards 128
+: boards_00
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_08
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_10
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_18
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 
-0b00000000 0b10000111 0b00000000 0b10000111
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b00000000 0b00000000 0b00000000
-0b00000000 0b10000111 0b10000111 0b00000010
-
-: piece
-:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE
+: boards_20
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_28
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_30
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: boards_38
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
