@@ -1,0 +1,244 @@
+:alias LLCA v0
+:alias LLCB v1
+:alias LLT0 v2
+:alias LLT1 v3
+
+:alias LUCA v4
+:alias LUCB v5
+:alias LUT0 v6
+:alias LUT1 v7
+
+:alias LMSK v8 # left
+:alias RMSK v9 # right
+:alias EMSK va # empty
+:alias COLOR vb
+
+:alias FRAME vc
+:alias POSX vd
+:alias POSY ve
+:alias FLAG vf
+
+# 0 1 T
+# ---+-
+# 0 0 E
+# 0 1 V
+# 1 0 R
+# 1 1 L
+
+# A B C
+# ---+-
+# 0 0 E
+# 0 1 B
+# 1 0 Y
+# 1 1 R
+
+: main
+hires
+
+: _main
+clear
+
+i := tower
+v0 := 0
+
+: _fieldr
+v1 := 3
+
+: _field
+:next tower
+sprite v0 v1 1
+
+v0 += 64
+v1 += 15
+sprite v0 v1 1
+
+if v1 == 60
+then jump _fieldc
+
+v0 -= 64
+v1 -= 9
+jump _field
+
+: _fieldc
+if v0 == 120
+then jump _fieldd
+
+v0 -= 56
+jump _fieldr
+
+: _fieldd
+
+FRAME := 255
+delay := FRAME
+
+: repeat
+vf := delay
+if vf != 253
+then jump repeat
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str
+bcd v8
+
+v8 := 0
+v3 := 65
+
+i := str
+load v2
+
+i := bighex v0
+sprite v3 v8 10
+v3 += 9
+i := bighex v1
+sprite v3 v8 10
+v3 += 9
+i := bighex v2
+sprite v3 v8 10
+
+i := hex vf
+v0 := 0
+v8 := 59
+sprite v0 v8 5
+
+vf := key
+jump main
+
+: draw_one
+i := board
+i += POSX
+load v3
+
+EMSK := LLCA
+EMSK |= LLCB
+
+: _draw_one_loop
+if EMSK == 0
+then return
+
+EMSK <<= EMSK
+if FLAG == 0
+then jump _draw_one_skip
+
+LLCA <<= LLCA
+if FLAG == 0
+then jump _draw_one_blue
+
+COLOR := 16
+LLCB <<= LLCB
+if FLAG != 0
+then COLOR := 32
+
+: _draw_one_type
+LLT0 <<= LLT0
+if FLAG == 0
+then jump _draw_one_virus
+
+LLT1 <<= LLT1
+if FLAG == 0
+then jump _draw_one_right
+
+i := rpiecel
+i += COLOR
+sprite POSX POSY 6
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_right
+i := rpiecer
+i += COLOR
+sprite POSX POSY 4
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_virus
+LLT1 <<= LLT1
+i := rpiecev
+i += COLOR
+sprite POSX POSY 5
+POSY += 6
+jump _draw_one_loop
+
+: _draw_one_blue
+COLOR := 0
+LLCB <<= LLCB
+jump _draw_one_type
+
+: _draw_one_skip
+LLCA <<= LLCA
+LLCB <<= LLCB
+LLT0 <<= LLT0
+LLT1 <<= LLT1
+POSY += 6
+jump _draw_one_loop
+
+: rpiecer
+: rpiecel
+0x00
+0xE0 0x20 0xE0 0x40 0x40
+: rpiecev
+0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
+0
+
+: ypiecer
+: ypiecel
+0x00
+0xA0 0x60 0xA0 0x40 0x40
+: ypiecev
+0x40 0xA0 0x60 0xA0 0x40 0x00 0x00 0x00 0x00
+0
+
+: bpiecer
+: bpiecel
+0x00
+0xE0 0x20 0xE0 0x40 0x40
+: bpiecev
+0x40 0xE0 0x20 0xE0 0x40 0x00 0x00 0x00 0x00
+0
+
+: str
+0 0 0
+:monitor str 3
+
+: board
+:monitor board 128
+0b00000000 0b00000000
+: board_02
+0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+
+0b00000000 0b10000111 0b00000000 0b10000111
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b00000000 0b00000000 0b00000000
+0b00000000 0b10000111 0b10000111 0b00000010
+
+: piece
+:byte 0xEE 0x22 0xEE 0x44 0x44 0x44 0xEE 0x22 0xEE
