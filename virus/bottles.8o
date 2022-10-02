@@ -131,15 +131,16 @@ v3 := 65
 i := str
 load v2
 
-i := bighex v0
-sprite v3 v8 10
-v3 += 9
-i := bighex v1
-sprite v3 v8 10
-v3 += 9
-i := bighex v2
-sprite v3 v8 10
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
 
+vf := 9
 i := hex vf
 v0 := 0
 v8 := 59
@@ -148,12 +149,12 @@ sprite v0 v8 5
 vf := key
 jump _main
 
-:org 0x1fd
 : str
 :monitor str 3
+:byte
 0 0 0
 
-:org 0x180
+:org 50
 : boards
 :monitor boards 128
 : boards_00
