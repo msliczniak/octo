@@ -44,14 +44,8 @@ safe "@(#)bottles"
 # null terminate
 :byte 0
 
-: fieldspr
-0x11 0x11 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-: fieldspr_0c
-0x11 0x11 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-0x11 0x11
 : zeros
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-0x00 0x00
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 
 :calc EVENALIGN { ( HERE + 1 ) & 0xfffe }
 :org EVENALIGN
@@ -87,33 +81,31 @@ save vf
 v0 := 0
 
 : _fieldr
-v1 := 39
+v1 := 3
 
 # only two colums the first time through
-i := fieldspr_0c
+i := b00010001
 
 : _field
-sprite v0 v1 0
+:next b00010001
+sprite v0 v1 1
 
 v0 += 64
 v1 += 15
-sprite v0 v1 0
+sprite v0 v1 1
 
-# now draw three columns
-i := fieldspr
-
-if v1 == 18
+if v1 == 60
 then jump _fieldc
 
 v0 -= 64
-v1 -= 33
+v1 -= 9
 jump _field
 
 : _fieldc
-if v0 == 112
+if v0 == 120
 then jump _fieldd
 
-v0 -= 48
+v0 -= 56
 jump _fieldr
 
 : _fieldd
