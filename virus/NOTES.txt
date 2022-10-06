@@ -66,3 +66,11 @@
        0
 % awk '{ print $2 }' wc | sort | uniq -c | awk '$1 != 1' | wc -l
        0
+% <first.txt xxd -r -ps | xxd -b -c4 | awk '{ print $2 $3, $4 $5 }' | paste - wc.txt | sort -k2 -k4 | awk 'BEGIN { print "obase = 16"; print "ibase = 16"; L = "0" } $4 == "32767" { printf("(%s - %s) %% 10000\n", toupper($3), toupper(L)); L = $3 }' | bc | fmt -10 | uniq -c >pattern.txt
+% <first.txt xxd -r -ps | xxd -b -c4 | awk '{ print $2 $3, $4 $5 }' | paste - wc.txt | sort -k2 -k4 | awk '$4 == "32767"' >paste.txt
+% <first.txt xxd -r -ps | xxd -b -c4 | awk '{ print $2 $3, $4 $5 }' | paste - wc.txt | sort -k2 -k4 | awk 'BEGIN { print "obase = 16"; print "ibase = 16"; L = "0" } $4 == "32767" { printf("(%s - %s) %% 10000\n", toupper($3), toupper(L)); L = $3 }' | bc | paste paste.txt - >bc.txt
+% awk '$5 == "1"' bc.txt > 0000000.txt
+% time ./lfsr >foo
+./lfsr > foo  326.68s user 26.61s system 98% cpu 5:59.06 total
+% tail -f foo | awk '{ print $1, NR, NF }' foo
+% awk '{ print $1 }' all.txt | cat - lfsr.txt| sort | uniq -c | awk '$1 != "2"'
