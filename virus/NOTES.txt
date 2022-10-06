@@ -1,0 +1,28 @@
+% for i in `jot -w '%02x' 256 0`; do for j in `jot -w '%02x' 256 0`; do printf '%s%s ' $i $j; ./lfsr $i $j | head -65536 | wc -l; done; done >wc
+% ./lfsr 0 2 > lfsr.txt
+% pbpaste | sed 's/<[^>]*>/\
+/g' > octo.txt
+% pbpaste | sed 's/<[^>]*>/\
+/g' >> octo.txt
+% xxd -r -ps <octo.txt | xxd -c2 | awk '{ print $2 }' | diff -u lfsr.txt - | head
+--- lfsr.txt	2022-10-05 23:58:24.000000000 -0500
++++ -	2022-10-06 00:07:00.000000000 -0500
+@@ -16382,16386 +16382,3 @@
+ 8880
+ 1100
+ 2200
+-4400
+-8801
+-1002
+-2004
+% xxd -r -ps <octo.txt | xxd -c2 | awk '{ print $2 }' | tail
+9111
+2222
+4444
+8888
+1110
+2220
+4440
+8880
+1100
+2200
