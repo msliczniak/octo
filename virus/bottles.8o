@@ -32,18 +32,200 @@ hires
 : _main
 clear
 
+:const SEEDM 0
+:const SEEDL 2
+
+:alias C0    v0
+:alias YPOS  v1
+:alias LFSRM v2
+:alias LFSRL v3
+:alias VIRI  v4
+:alias LVL   v5
+:alias POS   v6
+:alias TYPE  v7
+
+:alias LFSR0 v8
+:alias LFSR1 v9
+:alias LVLA  va
+:alias LVLB  vb
+
+:alias C1    vf
+:alias FLAG  vf
+
+LVLA := 9
+LVLB := 20
+LFSR0 := SEEDM
+LFSR1 := SEEDL
+
 # clear game boards
-v8 := 0
 i := zeros
 load v7
+FLAG := 0
 
 : _main_clear
 i := boards
-i += v8
-v8 += 8
+i += FLAG
 save v7
-if v8 != 0
+FLAG += 8
+if FLAG != 0
 then jump _main_clear
+
+YPOS = 0
+
+# game level
+VIRI := LVLA
+i := ltbl
+i += VIRI
+load v0
+LVL := v0
+
+VIRI += 1
+VIRI <<= VIRI
+VIRI <<= VIRI
+
+LFSRM := LFSR0
+LFSRL := LFSR1
+
+: gen_loop
+
+# pick level in bottle
+LFSRM <<= LFSRM
+LFSRL <<= LFSRL
+LFSRM |= FLAG
+C0 := 0x80
+C0 &= LFSRM
+C1 := 0x80
+C1 &= LFSRL
+C0 += C1
+C0 <<= C0
+LFSRL |= FLAG
+
+
+POS := 0x7f
+POS &= LFSRM
+if POS < LVL
+then jump gen_loop
+
+# level in bottle is not too high
+
+# virus position now set
+
+TYPE := 3
+TYPE &= VIRI
+if TYPE != 0
+then jump _type_known
+C0 := 0xf
+C0 &= LFSRL 
+i := vtbl
+i += C0
+load v0
+TYPE := v0
+
+: _type_known
+
+# we'll need these masks soon
+#s0 := 3
+#s1 := 7
+
+: retry
+
+i := bottles
+i += POS
+load v0
+
+if v0 == 0
+then jump found_empty
+
+: try_again
+
+POS += 1
+if POS == 0x80
+then jump gen_loop
+
+jump retry
+
+: found_empty
+
+surrounding := 0
+
+i := bottle
+i += pos
+load v0
+v0 &= s0
+i := bit_tbl
+i += v0
+load v0
+surrounding |= v0
+
+i := bottle1
+i += pos
+load v0
+v0 &= s0
+i := bit_tbl
+i += v0
+load v0
+surrounding |= v0
+
+s2 := pos
+s2 &= s1
+
+if s2 == 0
+then jump ok0
+if s2 == 1
+then jump ok0
+
+i := bottlem2
+i += pos
+load v0
+v0 &= s0
+i := bit_tbl
+i += v0
+load v0
+surrounding |= v0
+
+: ok0
+
+if s2 == 6
+then jump ok1
+if s2 == 7
+then jump ok1
+
+i := bottlep2
+i += pos
+load v0
+v0 &= s0
+i := bit_tbl
+i += v0
+load v0
+surrounding |= v0
+
+: ok1
+
+if surrounding == 7
+then jump try_again
+
+: find_type
+
+i := bit_tbl
+i += type
+load v0
+v0 &= surrounding
+if v0 == 0
+then jump success
+
+if type == 0
+then type := 3
+type -= 1
+jump find_type
+
+: success
+
+v0 := 0xd0
+v0 |= type
+i := bottle0
+i += pos
+save v0
+
 
 # draw play fields
 : _fieldr
@@ -113,6 +295,14 @@ sprite v0 v8 5
 
 vf := key
 jump _main
+
+: ltbl
+0x30 0x30 0x30 0x30 0x30 0x30 0x30
+0x30 0x30 0x30 0x30 0x30 0x30 0x30
+0x30 0x28 0x28 0x20 0x20 0x18 0x18
+
+: vtbl
+1 2 3 3 2 1 1 2 3 3 2 1 1 2 3 2
 
 :org 0xf0
 : boards
