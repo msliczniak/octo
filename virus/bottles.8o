@@ -34,8 +34,10 @@ clear
 
 :const SEEDM 0
 :const SEEDL 2
+:const LVLA 9
+:const LVLB 20
 
-:alias C0    v0
+:alias SPARE v0
 :alias YPOS  v1
 :alias LFSRM v2
 :alias LFSRL v3
@@ -43,17 +45,14 @@ clear
 :alias LVL   v5
 :alias POS   v6
 :alias TYPE  v7
+:alias OFF   v8
+:alias END   v9
+:alias MSK   va
 
-:alias LFSR0 v8
-:alias LFSR1 v9
-:alias LVLA  va
-:alias LVLB  vb
-
-:alias C1    vf
+:alias LFSR0 vd
+:alias LFSR1 ve
 :alias FLAG  vf
 
-LVLA := 9
-LVLB := 20
 LFSR0 := SEEDM
 LFSR1 := SEEDL
 
@@ -70,10 +69,89 @@ FLAG += 8
 if FLAG != 0
 then jump _main_clear
 
-YPOS = 0
+vf := 255
+delay := vf
 
-# game level
+: repeat
+vf := delay
+if vf != 253
+then jump repeat
+
+OFF := 0
+YPOS := 2
 VIRI := LVLA
+:call gen_board
+
+OFF := 128
+YPOS := 125
+VIRI := LVLB
+:call gen_board
+
+# draw play fields
+: _fieldr
+v1 := 6
+
+i := b00010001
+
+: _field
+:next b00010001
+sprite v0 v1 1
+
+v0 += 64
+v1 += 9
+sprite v0 v1 1
+
+if v1 == 57
+then jump _fieldc
+
+v0 -= 64
+v1 -= 3
+jump _field
+
+: _fieldc
+if v0 == 120
+then jump _fieldd
+
+v0 -= 56
+jump _fieldr
+
+: _fieldd
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str
+bcd v8
+
+v8 := 4
+v3 := 65
+
+i := str
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
+
+vf := 9
+i := hex vf
+v0 := 0
+v8 := 55
+sprite v0 v8 5
+
+vf := key
+jump _main
+
+: gen_board
+END := OFF
+END += 127
+
 i := ltbl
 i += VIRI
 load v0
@@ -86,76 +164,75 @@ VIRI <<= VIRI
 LFSRM := LFSR0
 LFSRL := LFSR1
 
-: gen_loop
+: _gen_board_loop
 
 # pick level in bottle
 LFSRM <<= LFSRM
 LFSRL <<= LFSRL
 LFSRM |= FLAG
-C0 := 0x80
-C0 &= LFSRM
-C1 := 0x80
-C1 &= LFSRL
-C0 += C1
-C0 <<= C0
+SPARE := 0x80
+SPARE &= LFSRM
+FLAG := 0x80
+FLAG &= LFSRL
+SPARE += FLAG
+SPARE <<= SPARE
 LFSRL |= FLAG
-
 
 POS := 0x7f
 POS &= LFSRM
 if POS < LVL
-then jump gen_loop
+then jump _gen_board_loop
 
 # level in bottle is not too high
+POS += OFF
+if POS > END
+then jump _gen_board_loop
 
-# virus position now set
-
-TYPE := 3
-TYPE &= VIRI
-if TYPE != 0
-then jump _type_known
-C0 := 0xf
-C0 &= LFSRL 
-i := vtbl
-i += C0
-load v0
-TYPE := v0
-
-: _type_known
-
-# we'll need these masks soon
-#s0 := 3
-#s1 := 7
-
-: retry
-
+: _gen_board_retry
 i := bottles
 i += POS
 load v0
 
 if v0 == 0
-then jump found_empty
+then jump _gen_board_found_empty
 
-: try_again
-
+: _gen_board_try_again
 POS += 1
-if POS == 0x80
-then jump gen_loop
+if POS == END
+then jump _gen_board_loop
 
-jump retry
+jump _gen_board_retry
 
-: found_empty
-
-surrounding := 0
-
-i := bottle
-i += pos
+: _gen_board_found_empty
+i := bboards
+i += POS
 load v0
-v0 &= s0
-i := bit_tbl
-i += v0
+TYPE := v0
+
+
+
+
+
+TYPE := 3
+TYPE &= VIRI
+if TYPE != 0
+then jump _gen_board_type_known
+SPARE := 0xf
+SPARE &= LFSRL 
+i := vtbl
+i += SPARE
 load v0
-surrounding |= v0
+TYPE := v0
+
+: _gen_board_type_known
+
+
+
+
+
+
+
+
 
 i := bottle1
 i += pos
@@ -226,75 +303,7 @@ i := bottle0
 i += pos
 save v0
 
-
-# draw play fields
-: _fieldr
-v1 := 6
-
-i := b00010001
-
-: _field
-:next b00010001
-sprite v0 v1 1
-
-v0 += 64
-v1 += 9
-sprite v0 v1 1
-
-if v1 == 57
-then jump _fieldc
-
-v0 -= 64
-v1 -= 3
-jump _field
-
-: _fieldc
-if v0 == 120
-then jump _fieldd
-
-v0 -= 56
-jump _fieldr
-
-: _fieldd
-
-FRAME := 255
-delay := FRAME
-
-: repeat
-vf := delay
-if vf != 253
-then jump repeat
-
-vf := delay
-v8 := 253
-v8 -= vf
-
-i := str
-bcd v8
-
-v8 := 4
-v3 := 65
-
-i := str
-load v2
-
-i := hex v0
-sprite v3 v8 5
-v3 += 5
-i := hex v1
-sprite v3 v8 5
-v3 += 5
-i := hex v2
-sprite v3 v8 5
-
-vf := 9
-i := hex vf
-v0 := 0
-v8 := 55
-sprite v0 v8 5
-
-vf := key
-jump _main
+return
 
 : ltbl
 0x30 0x30 0x30 0x30 0x30 0x30 0x30
@@ -303,6 +312,9 @@ jump _main
 
 : vtbl
 1 2 3 3 2 1 1 2 3 3 2 1 1 2 3 2
+
+:org 0xd0
+: bboards
 
 :org 0xf0
 : boards
