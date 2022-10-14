@@ -224,12 +224,18 @@ SPARE += FLAG
 SPARE <<= SPARE
 LFSRL |= FLAG
 
-POS := 0x7f
-#POS := 0xf
-POS &= LFSRM
+#POS := 0x7f
+POS := 0xf
+POS &= LFSRL
+POS <<= POS
+POS <<= POS
+POS <<= POS
 if POS < LVL
 #if POS > LVL
 then jump _gen_bottle_loop
+TYPE := 0x7
+TYPE &= LFSRM
+POS |= TYPE
 
 #i := virus_pos_tbl
 #i += POS
@@ -300,8 +306,11 @@ TYPE := 3
 TYPE &= VIRI
 if TYPE != 3
 then jump _gen_bottle_type_known
-SPARE := 0xf
-SPARE &= LFSRL 
+SPARE := 0x78
+SPARE &= LFSRM
+SPARE >>= SPARE
+SPARE >>= SPARE
+SPARE >>= SPARE
 i := vtbl
 i += SPARE
 load v0
