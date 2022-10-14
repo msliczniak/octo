@@ -79,8 +79,8 @@ clear
 
 :const SEEDM 0
 :const SEEDL 2
-:const LVLA 9
-:const LVLB 12
+:const LVLA 20
+:const LVLB 0
 
 :alias SPARE v0
 :alias FOURTEEN v1
@@ -194,8 +194,8 @@ v2 := 0xff
 i := bottles_40
 save v2
 
-#i := ltbl
-i := virus_level_tbl
+i := ltbl
+#i := virus_level_tbl
 i += VIRI
 load v0
 LVL := v0
@@ -212,37 +212,47 @@ FOUR := 4
 
 : _gen_bottle_loop
 # pick level in bottle
-:call lfsr
+#:call lfsr
+LFSRM <<= LFSRM
+LFSRL <<= LFSRL
+LFSRM |= FLAG
+SPARE := 0x80
+SPARE &= LFSRM
+FLAG := 0x80
+FLAG &= LFSRL
+SPARE += FLAG
+SPARE <<= SPARE
+LFSRL |= FLAG
 
-#POS := 0x7f
-POS := 0xf
+POS := 0x7f
+#POS := 0xf
 POS &= LFSRM
-#if POS < LVL
-if POS > LVL
+if POS < LVL
+#if POS > LVL
 then jump _gen_bottle_loop
 
-i := virus_pos_tbl
-i += POS
-load v0
-POS := 7
-POS &= LFSRL
-POS += v0
+#i := virus_pos_tbl
+#i += POS
+#load v0
+#POS := 7
+#POS &= LFSRL
+#POS += v0
 
-TYPE := 3
-TYPE &= VIRI
-if TYPE != 3
-then jump _gen_bottle_type_known
-:call lfsr
-SPARE := 0xf
-SPARE &= LFSRM
-i := virus_type_tbl
-i += SPARE
-load v0
-TYPE := v0
+#TYPE := 3
+#TYPE &= VIRI
+#if TYPE != 3
+#then jump _gen_bottle_type_known
+#:call lfsr
+#SPARE := 0xf
+#SPARE &= LFSRM
+#i := virus_type_tbl
+#i += SPARE
+#load v0
+#TYPE := v0
 
-: _gen_bottle_type_known
-if TYPE == 0
-then TYPE := 4
+#: _gen_bottle_type_known
+#if TYPE == 0
+#then TYPE := 4
 
 : _gen_bottle_retry
 i := bottle
@@ -286,20 +296,20 @@ MSK |= v0
 if MSK == 7
 then jump _gen_bottle_try_again
 
-#TYPE := 3
-#TYPE &= VIRI
-#if TYPE != 3
-#then jump _gen_bottle_type_known
-#SPARE := 0xf
-#SPARE &= LFSRL 
-#i := vtbl
-#i += SPARE
-#load v0
-#TYPE := v0
+TYPE := 3
+TYPE &= VIRI
+if TYPE != 3
+then jump _gen_bottle_type_known
+SPARE := 0xf
+SPARE &= LFSRL 
+i := vtbl
+i += SPARE
+load v0
+TYPE := v0
 
-#: _gen_bottle_type_known
-#if TYPE == 0
-#then TYPE := 4
+: _gen_bottle_type_known
+if TYPE == 0
+then TYPE := 4
 
 : _gen_bottle_find_type
 v0 := TYPE
@@ -328,38 +338,38 @@ then return
 
 jump _gen_bottle_loop
 
-: lfsr
-LFSRL >>= LFSRL
-LFSRM >>= LFSRM
-if FLAG != 0
-then FLAG := 0x80
-LFSRL |= FLAG
-SPARE := 1
-SPARE &= LFSRM
-FLAG := 1
-FLAG &= LFSRL
-SPARE ^= FLAG
-if SPARE != 0
-then SPARE := 0x80
-LFSRM |= SPARE
-return
+#: lfsr
+#LFSRL >>= LFSRL
+#LFSRM >>= LFSRM
+#if FLAG != 0
+#then FLAG := 0x80
+#LFSRL |= FLAG
+#SPARE := 1
+#SPARE &= LFSRM
+#FLAG := 1
+#FLAG &= LFSRL
+#SPARE ^= FLAG
+#if SPARE != 0
+#then SPARE := 0x80
+#LFSRM |= SPARE
+#return
 
-: virus_level_tbl
-0x9 0x9 0x9 0x9 0x9 0x9 0x9
-0x9 0x9 0x9 0x9 0x9 0x9 0x9
-0x9 0xA 0xA 0xB 0xB 0xC 0xC
-0xC 0xC 0xC 0xC 0xC 0xC 0xC
-0xC 0xC 0xC 0xC 0xC 0xC 0xC
+#: virus_level_tbl
+#0x9 0x9 0x9 0x9 0x9 0x9 0x9
+#0x9 0x9 0x9 0x9 0x9 0x9 0x9
+#0x9 0xA 0xA 0xB 0xB 0xC 0xC
+#0xC 0xC 0xC 0xC 0xC 0xC 0xC
+#0xC 0xC 0xC 0xC 0xC 0xC 0xC
 
-: virus_pos_tbl
-0x78 0x70 0x68 0x60 0x58 0x50 0x48 0x40
-0x38 0x30 0x28 0x20 0x18 0x10 0x08 0x00
+#: virus_pos_tbl
+#0x78 0x70 0x68 0x60 0x58 0x50 0x48 0x40
+#0x38 0x30 0x28 0x20 0x18 0x10 0x08 0x00
 
-: bit_tbl
-1 2 4 0
+#: bit_tbl
+#1 2 4 0
 
-: virus_type_tbl
-0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
+#: virus_type_tbl
+#0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 : ltbl
 0x30 0x30 0x30 0x30 0x30 0x30 0x30
@@ -367,6 +377,6 @@ return
 0x30 0x28 0x28 0x20 0x20 0x18 0x18
 
 : vtbl
-1 2 3 3 2 1 1 2 3 3 2 1 1 2 3 2
+0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
 :monitor bottle 280
