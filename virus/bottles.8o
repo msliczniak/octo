@@ -91,6 +91,7 @@ clear
 :alias POS   v6
 :alias TYPE  v7
 :alias MSK   v8
+:alias ENDL   v9
 
 :alias YPOS  va
 :alias VIRI  vb
@@ -209,6 +210,7 @@ LFSRL := LFSR1
 
 FOURTEEN := 14
 FOUR := 4
+ENDL := 0x80
 
 : _gen_bottle_loop
 # pick level in bottle
@@ -224,18 +226,21 @@ SPARE += FLAG
 SPARE <<= SPARE
 LFSRL |= FLAG
 
-#POS := 0x7f
-POS := 0xf
+POS := 0x7f
+#POS := 0xf
 POS &= LFSRL
-POS <<= POS
-POS <<= POS
-POS <<= POS
+#POS <<= POS
+#POS <<= POS
+#POS <<= POS
 if POS < LVL
 #if POS > LVL
 then jump _gen_bottle_loop
-TYPE := 0x7
-TYPE &= LFSRM
-POS |= TYPE
+#TYPE := 0x7
+#TYPE &= LFSRM
+#POS |= TYPE
+
+if POS >= ENDL
+then jump _gen_bottle_loop
 
 #i := virus_pos_tbl
 #i += POS
@@ -271,10 +276,13 @@ then jump _gen_bottle_found_empty
 : _gen_bottle_try_again
 :next b00000001
 POS += 1
-if POS == 0x80
-then jump _gen_bottle_loop
+if POS != ENDL
+then jump _gen_bottle_retry
 
-jump _gen_bottle_retry
+ENDL := 0x7f
+ENDL &= LFSRL
+ENDL += 1
+jump _gen_bottle_loop
 
 : _gen_bottle_found_empty
 i := bottle-16
@@ -306,11 +314,12 @@ TYPE := 3
 TYPE &= VIRI
 if TYPE != 3
 then jump _gen_bottle_type_known
-SPARE := 0x78
+#SPARE := 0x78
+SPARE := 0xf
 SPARE &= LFSRM
-SPARE >>= SPARE
-SPARE >>= SPARE
-SPARE >>= SPARE
+#SPARE >>= SPARE
+#SPARE >>= SPARE
+#SPARE >>= SPARE
 i := vtbl
 i += SPARE
 load v0
