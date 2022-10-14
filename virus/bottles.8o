@@ -1,5 +1,3 @@
-:alias FRAME vc
-
 # A B T
 # ---+-
 # 0 0 E
@@ -14,40 +12,88 @@
 # 1 0 Y
 # 1 1 R
 
-:org 0x1f0
+:org 0xdb
+: bottle-16
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+: bottle
+0 0 0 0  0 0 0 0
+
+: hand
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
 : zeros
+0 0 0 0  0 0
+
+: bottles-4
+0 0  0 8
+
+: bottles
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+: bottles_40
+0x00 0x00 0xff
+
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0
+
+: main-8
+0 0 0 0  0 0 0 0
 
 :org 0x200
 : main
-i := zeros
+jump _zero
+:byte 0xff
 
 : str
-:monitor str 8
-v8 := 0x12
-v9 := 0x0a
+
+:org 0x210
+: _zero
+v9 := 8
+i := zeros
 save v9
+
+v8 := 0x12
+v9 := 0x1e
+i := main-8
+save v9
+
+:org 0x21e
 hires
 
-# 0x20a
 : _main
 clear
 
 :const SEEDM 0
 :const SEEDL 2
 :const LVLA 9
-:const LVLB 20
+:const LVLB 12
 
 :alias SPARE v0
-:alias YPOS  v1
+:alias FOURTEEN v1
 :alias LFSRM v2
 :alias LFSRL v3
-:alias VIRI  v4
+:alias FOUR  v4
 :alias LVL   v5
 :alias POS   v6
 :alias TYPE  v7
-:alias OFF   v8
-:alias END   v9
-:alias MSK   va
+:alias MSK   v8
+
+:alias YPOS  va
+:alias VIRI  vb
 
 :alias LFSR0 vd
 :alias LFSR1 ve
@@ -55,19 +101,6 @@ clear
 
 LFSR0 := SEEDM
 LFSR1 := SEEDL
-
-# clear game boards
-i := zeros
-load v7
-FLAG := 0
-
-: _main_clear
-i := boards
-i += FLAG
-save v7
-FLAG += 8
-if FLAG != 0
-then jump _main_clear
 
 vf := 255
 delay := vf
@@ -77,15 +110,41 @@ vf := delay
 if vf != 253
 then jump repeat
 
-OFF := 0
 YPOS := 2
 VIRI := LVLA
-:call gen_board
+:call gen_bottle
 
-OFF := 128
-YPOS := 125
+YPOS := 61
 VIRI := LVLB
-:call gen_board
+:call gen_bottle
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str
+bcd v8
+
+v8 := 4
+v3 := 65
+
+i := str
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
+
+vf := 9
+i := hex vf
+v0 := 0
+v8 := 55
+sprite v0 v8 5
 
 # draw play fields
 : _fieldr
@@ -116,41 +175,24 @@ v0 -= 56
 jump _fieldr
 
 : _fieldd
-
-vf := delay
-v8 := 253
-v8 -= vf
-
-i := str
-bcd v8
-
-v8 := 4
-v3 := 65
-
-i := str
-load v2
-
-i := hex v0
-sprite v3 v8 5
-v3 += 5
-i := hex v1
-sprite v3 v8 5
-v3 += 5
-i := hex v2
-sprite v3 v8 5
-
-vf := 9
-i := hex vf
-v0 := 0
-v8 := 55
-sprite v0 v8 5
-
 vf := key
 jump _main
 
-: gen_board
-END := OFF
-END += 127
+: gen_bottle
+i := zeros
+load v9
+i := hand
+
+: _gen_bottle_clear
+save v7
+v8 += 8
+i += v9
+if v8 != 128
+then jump _gen_bottle_clear
+
+v2 := 0xff
+i := bottles_40
+save v2
 
 i := ltbl
 i += VIRI
@@ -164,7 +206,10 @@ VIRI <<= VIRI
 LFSRM := LFSR0
 LFSRL := LFSR1
 
-: _gen_board_loop
+FOURTEEN := 14
+FOUR := 4
+
+: _gen_bottle_loop
 
 # pick level in bottle
 LFSRM <<= LFSRM
@@ -181,42 +226,54 @@ LFSRL |= FLAG
 POS := 0x7f
 POS &= LFSRM
 if POS < LVL
-then jump _gen_board_loop
+then jump _gen_bottle_loop
 
-# level in bottle is not too high
-POS += OFF
-if POS > END
-then jump _gen_board_loop
-
-: _gen_board_retry
-i := bottles
+: _gen_bottle_retry
+i := bottle
 i += POS
 load v0
 
 if v0 == 0
-then jump _gen_board_found_empty
+then jump _gen_bottle_found_empty
 
-: _gen_board_try_again
+: _gen_bottle_try_again
+:next b00000001
 POS += 1
-if POS == END
-then jump _gen_board_loop
+if POS == 0x80
+then jump _gen_bottle_loop
 
-jump _gen_board_retry
+jump _gen_bottle_retry
 
-: _gen_board_found_empty
-i := bboards
+: _gen_bottle_found_empty
+i := bottle-16
 i += POS
 load v0
-TYPE := v0
+MSK := v0
 
+TYPE := 7
+TYPE &= POS
 
+i += FOURTEEN
+load v0
+if TYPE > 1
+then MSK |= v0
 
+i += FOUR
+load v0
+if TYPE < 7
+then MSK |= v0
 
+i += FOURTEEN
+load v0
+MSK |= v0
+
+if MSK == 7
+then jump _gen_bottle_try_again
 
 TYPE := 3
 TYPE &= VIRI
-if TYPE != 0
-then jump _gen_board_type_known
+if TYPE != 3
+then jump _gen_bottle_type_known
 SPARE := 0xf
 SPARE &= LFSRL 
 i := vtbl
@@ -224,86 +281,36 @@ i += SPARE
 load v0
 TYPE := v0
 
-: _gen_board_type_known
+: _gen_bottle_type_known
+if TYPE == 0
+then TYPE := 4
 
+: _gen_bottle_find_type
+v0 := TYPE
+v0 &= MSK
 
-
-
-
-
-
-
-
-i := bottle1
-i += pos
-load v0
-v0 &= s0
-i := bit_tbl
-i += v0
-load v0
-surrounding |= v0
-
-s2 := pos
-s2 &= s1
-
-if s2 == 0
-then jump ok0
-if s2 == 1
-then jump ok0
-
-i := bottlem2
-i += pos
-load v0
-v0 &= s0
-i := bit_tbl
-i += v0
-load v0
-surrounding |= v0
-
-: ok0
-
-if s2 == 6
-then jump ok1
-if s2 == 7
-then jump ok1
-
-i := bottlep2
-i += pos
-load v0
-v0 &= s0
-i := bit_tbl
-i += v0
-load v0
-surrounding |= v0
-
-: ok1
-
-if surrounding == 7
-then jump try_again
-
-: find_type
-
-i := bit_tbl
-i += type
-load v0
-v0 &= surrounding
 if v0 == 0
-then jump success
+then jump _gen_bottle_success
 
-if type == 0
-then type := 3
-type -= 1
-jump find_type
+TYPE >>= TYPE
+if FLAG != 0
+then TYPE := 4
+jump _gen_bottle_find_type
 
-: success
-
-v0 := 0xd0
-v0 |= type
-i := bottle0
-i += pos
+: _gen_bottle_success
+v0 := TYPE
+i := bottle
+i += POS
 save v0
 
-return
+VIRI -= 1
+i := b00000001
+sprite VIRI YPOS 1
+
+if VIRI == 0
+then return
+
+jump _gen_bottle_loop
 
 : ltbl
 0x30 0x30 0x30 0x30 0x30 0x30 0x30
@@ -313,9 +320,4 @@ return
 : vtbl
 1 2 3 3 2 1 1 2 3 3 2 1 1 2 3 2
 
-:org 0xd0
-: bboards
-
-:org 0xf0
-: boards
-:monitor boards 256
+:monitor bottle 280
