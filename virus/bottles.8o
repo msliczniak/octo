@@ -12,12 +12,12 @@
 # 1 0 Y
 # 1 1 R
 
-:org 0xdb
+:org 0x5b
 : bottle-16
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 
 : bottle
-0 0 0 0  0 0 0 0
+0 0 0 0 0 0
 
 : hand
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
@@ -30,52 +30,76 @@
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0
+
+: guard0
+                                 0
+0x00 0x00
+
+: bottle0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+: guard1
+0xff 0x00 0x00 0x00
+
+: bottle1
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+
+: guard2
+0xff
+
 : zeros
-0 0 0 0  0 0
-
-: bottles-4
-0 0  0 8
-
-: bottles
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-: bottles_40
-0x00 0x00 0xff
-
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0
-
-: main-8
 0 0 0 0  0 0 0 0
 
 :org 0x200
 : main
-jump _zero
-:byte 0xff
+v0 := 0xff
 
 : str
+v9 := 0x12
+va := 0x12
 
-:org 0x210
-: _zero
-v9 := 8
-i := zeros
-save v9
+i := guard0
+save v2
 
-v8 := 0x12
-v9 := 0x1e
-i := main-8
-save v9
+i := guard1
+save v3
 
-:org 0x21e
+i := guard2
+save va
+
+:org 0x212
 hires
 
 : _main
 clear
+
+v8 := 0
+v9 := 8
+i := zeros
+load v7
+i := hand
+
+: _main_clear
+save v7
+v8 += 8
+i += v9
+if v8 != 0
+then jump _main_clear
 
 :const SEEDM 0
 :const SEEDL 2
@@ -180,21 +204,6 @@ vf := key
 jump _main
 
 : gen_bottle
-i := zeros
-load v9
-i := hand
-
-: _gen_bottle_clear
-save v7
-v8 += 8
-i += v9
-if v8 != 128
-then jump _gen_bottle_clear
-
-v2 := 0xff
-i := bottles_40
-save v2
-
 i := ltbl
 i += VIRI
 load v0
