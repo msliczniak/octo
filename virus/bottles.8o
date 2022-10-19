@@ -115,17 +115,20 @@ then jump _main_clear
 :alias POS   v6
 :alias TYPE  v7
 :alias MSK   v8
-:alias ENDL   v9
-
+:alias END   v9
 :alias YPOS  va
 :alias VIRI  vb
-
+:alias SIXTEEN  vc
 :alias LFSR0 vd
 :alias LFSR1 ve
 :alias FLAG  vf
 
 LFSR0 := SEEDM
 LFSR1 := SEEDL
+
+FOURTEEN := 14
+FOUR := 4
+SIXTEEN := 16
 
 vf := 255
 delay := vf
@@ -137,10 +140,12 @@ then jump repeat
 
 YPOS := 2
 VIRI := LVLA
+END := 0
 :call gen_bottle
 
 YPOS := 61
 VIRI := LVLB
+END := 0xf0
 :call gen_bottle
 
 vf := delay
@@ -208,6 +213,9 @@ i := ltbl
 i += VIRI
 load v0
 LVL := v0
+LVL += END
+END += 0x7f
+MSK := 0x7f
 
 VIRI += 1
 VIRI <<= VIRI
@@ -215,10 +223,6 @@ VIRI <<= VIRI
 
 LFSRM := LFSR0
 LFSRL := LFSR1
-
-FOURTEEN := 14
-FOUR := 4
-ENDL := 0x80
 
 : _gen_bottle_loop
 # pick level in bottle
@@ -233,13 +237,16 @@ SPARE += FLAG
 SPARE <<= SPARE
 LFSRL |= FLAG
 
-POS := 0x7f
+TYPE := END
+TYPE -= LVL
+POS := MSK
 POS &= LFSRL
-if POS < LVL
-then jump _gen_bottle_loop
-
-if POS >= ENDL
-then jump _gen_bottle_loop
+POS =- END
+POS -= LVL
+if FLAG != 0
+then POS += TYPE
+POS += LVL
+TYPE := POS
 
 : _gen_bottle_retry
 i := bottle
@@ -252,12 +259,12 @@ then jump _gen_bottle_found_empty
 : _gen_bottle_try_again
 :next b00000001
 POS += 1
-if POS != ENDL
+if POS != END
 then jump _gen_bottle_retry
 
-ENDL := 0x7f
-ENDL &= LFSRL
-ENDL += 1
+#ENDL := 0x7f
+#ENDL &= LFSRL
+#ENDL += 1
 jump _gen_bottle_loop
 
 : _gen_bottle_found_empty
@@ -329,11 +336,11 @@ then return
 jump _gen_bottle_loop
 
 : ltbl
-0x30 0x30 0x30 0x30 0x30 0x30 0x30
-0x30 0x30 0x30 0x30 0x30 0x30 0x30
-0x30 0x28 0x28 0x20 0x20 0x18 0x18
+0x2e 0x2e 0x2e 0x2e 0x2e 0x2e 0x2e
+0x2e 0x2e 0x2e 0x2e 0x2e 0x2e 0x2e
+0x2e 0x26 0x26 0x18 0x18 0x16 0x16
 
 : vtbl
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
 
-:monitor bottle 280
+:monitor hand 256
