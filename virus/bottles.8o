@@ -104,7 +104,7 @@ then jump _main_clear
 :const SEEDM 0
 :const SEEDL 2
 :const LVLA 20
-:const LVLB 0
+:const LVLB 20
 
 :alias SPARE v0
 :alias FOURTEEN v1
@@ -118,17 +118,17 @@ then jump _main_clear
 :alias END   v9
 :alias YPOS  va
 :alias VIRI  vb
-:alias SIXTEEN  vc
-:alias LFSR0 vd
-:alias LFSR1 ve
+:alias EIGHTEEN vc
+:alias FOO vd
+:alias BAR ve
 :alias FLAG  vf
 
-LFSR0 := SEEDM
-LFSR1 := SEEDL
+LFSRM := SEEDM
+LFSRL := SEEDL
 
 FOURTEEN := 14
 FOUR := 4
-SIXTEEN := 16
+EIGHTEEN := 18
 
 vf := 255
 delay := vf
@@ -140,12 +140,12 @@ then jump repeat
 
 YPOS := 2
 VIRI := LVLA
-END := 0
+END := 0x7d
 :call gen_bottle
 
 YPOS := 61
 VIRI := LVLB
-END := 0xf0
+END := 0xf5
 :call gen_bottle
 
 vf := delay
@@ -213,16 +213,11 @@ i := ltbl
 i += VIRI
 load v0
 LVL := v0
-LVL += END
-END += 0x7f
 MSK := 0x7f
 
 VIRI += 1
 VIRI <<= VIRI
 VIRI <<= VIRI
-
-LFSRM := LFSR0
-LFSRL := LFSR1
 
 : _gen_bottle_loop
 # pick level in bottle
@@ -237,16 +232,13 @@ SPARE += FLAG
 SPARE <<= SPARE
 LFSRL |= FLAG
 
-TYPE := END
-TYPE -= LVL
-POS := MSK
-POS &= LFSRL
-POS =- END
+POS := LFSRL
+POS &= MSK
+# clamp biasing to blottom of bottle
 POS -= LVL
-if FLAG != 0
-then POS += TYPE
-POS += LVL
-TYPE := POS
+if FLAG == 0
+then POS += LVL
+POS =- END
 
 : _gen_bottle_retry
 i := bottle
@@ -257,77 +249,88 @@ if v0 == 0
 then jump _gen_bottle_found_empty
 
 : _gen_bottle_try_again
-:next b00000001
-POS += 1
-if POS != END
-then jump _gen_bottle_retry
+if POS == END
+then jump _gen_bottle_loop
 
-#ENDL := 0x7f
-#ENDL &= LFSRL
-#ENDL += 1
-jump _gen_bottle_loop
+POS += 1
+jump _gen_bottle_retry
 
 : _gen_bottle_found_empty
+# fail fast next time if neighbors too dense
+:next b10000000
+SPARE := 0x80
+save SPARE
+
 i := bottle-16
 i += POS
 load v0
-MSK := v0
+TYPE := v0
 
-TYPE := 7
-TYPE &= POS
+FLAG := 6
+FLAG &= POS
+if FLAG == 4
+then jump _gen_bottle_l
+
+if FLAG == 6
+then jump _gen_bottle_r
 
 i += FOURTEEN
 load v0
-if TYPE > 1
-then MSK |= v0
+TYPE |= v0
 
 i += FOUR
+: _gen_bottle_r_ret
 load v0
-if TYPE < 7
-then MSK |= v0
+TYPE |= v0
 
 i += FOURTEEN
+: _gen_bottle_l_ret
 load v0
-MSK |= v0
+TYPE |= v0
 
-if MSK == 7
+# remove msb in case empty was marked dense
+TYPE <<= TYPE
+if TYPE == 14
 then jump _gen_bottle_try_again
 
-TYPE := 3
-TYPE &= VIRI
-if TYPE != 3
+TYPE >>= TYPE
+SPARE := 3
+SPARE &= VIRI
+if SPARE != 3
 then jump _gen_bottle_type_known
+
 SPARE := 0xf
 SPARE &= LFSRM
 i := vtbl
 i += SPARE
 load v0
-TYPE := v0
+SPARE := v0
 
 : _gen_bottle_type_known
-if TYPE == 0
-then TYPE := 4
+if SPARE == 0
+then SPARE := 4
+
+FLAG := SPARE
 
 : _gen_bottle_find_type
-v0 := TYPE
-v0 &= MSK
+SPARE &= TYPE
 
 if v0 == 0
 then jump _gen_bottle_success
 
-TYPE >>= TYPE
+SPARE >>= SPARE
 if FLAG != 0
-then TYPE := 4
+then SPARE := 4
 jump _gen_bottle_find_type
 
 : _gen_bottle_success
-v0 := TYPE
+SPARE := FLAG
 i := bottle
 i += POS
-save v0
+save SPARE
 
 VIRI -= 1
-i := b00000001
+i := b10000000
 sprite VIRI YPOS 1
 
 if VIRI == 0
@@ -335,10 +338,22 @@ then return
 
 jump _gen_bottle_loop
 
+: _gen_bottle_l
+i += FOURTEEN
+load v0
+TYPE |= v0
+
+i += EIGHTEEN
+jump _gen_bottle_l_ret
+
+: _gen_bottle_r
+i += EIGHTEEN
+jump _gen_bottle_r_ret
+
 : ltbl
-0x2e 0x2e 0x2e 0x2e 0x2e 0x2e 0x2e
-0x2e 0x2e 0x2e 0x2e 0x2e 0x2e 0x2e
-0x2e 0x26 0x26 0x18 0x18 0x16 0x16
+79 79 79 79 79 79 79
+79 79 79 79 79 79 79
+79 87 87 95 95 103 103
 
 : vtbl
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
