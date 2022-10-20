@@ -21,6 +21,7 @@
 
 : hand
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+: hand_10
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
@@ -93,13 +94,15 @@ load v7
 v8 := 0
 v9 := 8
 i := hand
+:call clear_range
 
-: _main_clear
-save v7
-v8 += 8
-i += v9
-if v8 != 0
-then jump _main_clear
+v8 := 0xe8
+i := bottle0
+:call clear_range
+
+v8 := 0xe8
+i := bottle0
+:call clear_range
 
 :const SEEDM 0x0
 :const SEEDL 0x1
@@ -186,8 +189,56 @@ v3 += 5
 i := hex v2
 sprite v3 v8 5
 
+v6 := 0
+v7 := 5
+v8 := 0
+
+i := zeros
+load v4
+v5 := 0x80
+
+: _drawl
+i := hand_10
+i += v8
+load v0
+
+if v0 == 1
+then jump _draw0
+
+if v0 == 2
+then jump _draw1
+
+if v0 == 4
+then jump _draw2
+
+i := dot-2
+sprite v6 v7 3
+
+: _drawr
+v8 += 1
+v7 += 6
+
+v5 >>= v5
+if vf == 0
+then jump _drawl
+
 vf := key
 jump _main
+
+: _draw0
+i := virus0
+sprite v6 v7 5
+jump _drawr
+
+: _draw1
+i := virus1
+sprite v6 v7 5
+jump _drawr
+
+: _draw2
+i := virus2
+sprite v6 v7 5
+jump _drawr
 
 : gen_bottle
 LFSRM := LFSR0
@@ -333,6 +384,16 @@ jump _gen_bottle_l_ret
 i += EIGHTEEN
 jump _gen_bottle_r_ret
 
+
+: clear_range
+save v7
+v8 += 8
+i += v9
+if v8 != 0
+then jump clear_range
+
+return
+
 : draw_seed
 v2 := 0xf
 v2 &= v1
@@ -355,6 +416,19 @@ return
 
 : vtbl
 0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
+
+: viri
+: virus0
+0x20 0x70 0x70 0x70
+: virus1
+0x20 0x50 0x50 0x50
+: virus2
+0x20 0x50 0x70 0x50 0x20
+
+: dot-2
+0 0
+: dot
+0x10
 
 :monitor hand 258
 :monitor bottle0 141
