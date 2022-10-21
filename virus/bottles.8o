@@ -104,9 +104,9 @@ v8 := 0xe8
 i := bottle0
 :call clear_range
 
-:const SEEDM 0x0
-:const SEEDL 0x1
-:const LVLA 20
+:const SEEDM 0x78
+:const SEEDL 0x07
+:const LVLA 9
 :const LVLB 18
 
 :alias SPARE v0
@@ -136,8 +136,8 @@ if LFSR1 == 0
 then LFSR1 := 1
 
 : good_seed
-#FSR0 := SEEDM
-#FSR1 := SEEDL
+LFSR0 := SEEDM
+LFSR1 := SEEDL
 
 v0 := 0
 v7 := 55
@@ -189,10 +189,12 @@ v3 += 5
 i := hex v2
 sprite v3 v8 5
 
-v6 := 0
-v7 := 5
 v8 := 0
+v7 := 52
+v6 := 12
 
+: _drawll
+v7 -= 48
 i := zeros
 load v4
 v5 := 0x80
@@ -221,6 +223,20 @@ v7 += 6
 v5 >>= v5
 if vf == 0
 then jump _drawl
+
+v6 += 4
+if v6 == 128
+then jump _hand
+
+if v6 != 64
+then jump _drawll
+
+v6 += 12
+v7 += 9
+v8 += 16
+jump _drawll
+
+: _hand
 
 vf := key
 jump _main
