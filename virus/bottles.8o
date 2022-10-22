@@ -76,6 +76,7 @@ v9 := 0x12
 va := 0x12
 
 i := guard0
+: lfsrm
 save v2
 
 i := guard1
@@ -107,11 +108,11 @@ i := bottle0
 
 :const SEEDM 0x78
 :const SEEDL 0x07
-:const LVLA 9
-:const LVLB 18
+:const LVLA 19
+:const LVLB 20
 
 :alias SPARE v0
-:alias FOURTEEN v1
+:alias P0    v1
 :alias LFSRM v2
 :alias LFSRL v3
 :alias FOUR  v4
@@ -123,7 +124,7 @@ i := bottle0
 :alias YPOS  va
 :alias VIRI  vb
 :alias EIGHTEEN vc
-:alias P0    vd
+:alias FOURTEEN vd
 
 :alias FLAG  vf
 
@@ -137,8 +138,13 @@ if LFSRL == 0
 then LFSRL := 1
 
 : good_seed
-LFSRM := SEEDM
-LFSRL := SEEDL
+#LFSRM := SEEDM
+#LFSRL := SEEDL
+
+v0 := LFSRM
+v1 := LFSRL
+i := lfsrm
+save v1
 
 v0 := 0
 v7 := 55
@@ -150,6 +156,11 @@ v1 := LFSRL
 FOURTEEN := 14
 FOUR := 4
 EIGHTEEN := 18
+
+i := lfsrm
+load v1
+LFSRM := v0
+LFSRL := v1
 
 vf := 255
 delay := vf
@@ -171,8 +182,10 @@ v8 -= vf
 i := str0
 bcd v8
 
-LFSRM := SEEDM
-LFSRL := SEEDL
+i := lfsrm
+load v1
+LFSRM := v0
+LFSRL := v1
 
 vf := 255
 delay := vf
@@ -337,7 +350,7 @@ then jump _gen_bottle_retry
 
 END -= P0
 P0 -= LVL
-#P0 <<= P0
+P0 <<= P0
 
 : _gen_bottle_mask
 if P0 > MSK
