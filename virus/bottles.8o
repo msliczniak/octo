@@ -282,6 +282,73 @@ v8 += 16
 jump _drawll
 
 : _hand
+i := lfsrm
+load v1
+LFSRM := v0
+LFSRL := v1
+
+POS := 0
+FOUR := 4
+i := hand
+
+vf := 255
+delay := vf
+
+: repeat2
+vf := delay
+if vf != 253
+then jump repeat2
+
+: _handf
+LFSRM <<= LFSRM
+LFSRL <<= LFSRL
+LFSRM |= FLAG
+SPARE := 0x80
+SPARE &= LFSRM
+FLAG := 0x80
+FLAG &= LFSRL
+SPARE += FLAG
+SPARE <<= SPARE
+LFSRL |= FLAG
+
+v0 := 0xf
+v0 &= LFSRM
+if v0 > 8
+then v0 -= 9
+
+v1 := 0xf
+v1 &= LFSRL
+if v1 > 8
+then v1 -= 9
+
+save v2
+i += FOUR
+POS += 4
+
+if POS != 0
+then jump _handf
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str0
+bcd v8
+
+v8 := 4
+v3 := 105
+
+i := str0
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
 
 vf := key
 jump _main
