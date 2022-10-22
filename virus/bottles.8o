@@ -318,9 +318,12 @@ POS &= MSK
 POS -= LVL
 if FLAG == 0
 then POS += LVL
+P0 := POS
 POS =- END
+POS -= 1
 
 : _gen_bottle_retry
+POS += 1
 i := bottle
 i += POS
 load v0
@@ -329,11 +332,19 @@ if v0 == 0
 then jump _gen_bottle_found_empty
 
 : _gen_bottle_try_again
-if POS == END
+if POS != END
+then jump _gen_bottle_retry
+
+END -= P0
+P0 -= LVL
+#P0 <<= P0
+
+: _gen_bottle_mask
+if P0 > MSK
 then jump _gen_bottle_loop
 
-POS += 1
-jump _gen_bottle_retry
+MSK >>= MSK
+jump _gen_bottle_mask
 
 : _gen_bottle_found_empty
 # fail fast next time if neighbors too dense
