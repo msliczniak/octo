@@ -1,8 +1,10 @@
 : main
 v8 := 0
 v9 := 0
+v4 := 4
 i := screen
-load v7
+i += v4
+load v3
 vd := v0
 :call disp
 vd := v1
@@ -10,23 +12,12 @@ vd := v1
 vd := v2
 :call disp
 vd := v3
-:call disp
-
-v8 := 0
-v9 += 6
-vd := v4
-:call disp
-vd := v5
-:call disp
-vd := v6
-:call disp
-vd := v7
 :call disp
 
 v8 := 0
 v9 += 6
 i := 0
-load v7
+load v3
 vd := v0
 :call disp
 vd := v1
@@ -34,17 +25,6 @@ vd := v1
 vd := v2
 :call disp
 vd := v3
-:call disp
-
-v8 := 0
-v9 += 6
-vd := v4
-:call disp
-vd := v5
-:call disp
-vd := v6
-:call disp
-vd := v7
 :call disp
 
 : repeat
@@ -69,4 +49,3 @@ return
 
 :org 0xffc
 : screen
-:byte 0x55 0x5a 0xa5
