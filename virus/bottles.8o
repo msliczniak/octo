@@ -45,8 +45,8 @@ then jump _main_clear
 
 :const SEEDM 0x78
 :const SEEDL 0x07
-:const LVLA 18
-:const LVLB 20
+:const LVLA 20
+:const LVLB 18
 
 :alias LFSRM v0
 :alias SPARE v0
@@ -110,11 +110,8 @@ i += FOUR
 if COUNT != 255
 then jump _randgen
 
-# save the extra 255 byte
+# save the extra 0xFF marker byte
 save COUNT
-
-vf := key
-jump _main
 
 FOURTEEN := 14
 EIGHTEEN := 18
@@ -129,42 +126,14 @@ then jump repeat0
 
 YPOS := 2
 VIRI := LVLA
-END := 0x7d
+END := 0x67
 :call gen_bottle
-
-
-
 
 vf := delay
 v8 := 253
 v8 -= vf
-
 i := str0
 bcd v8
-
-v8 := 4
-v3 := 65
-
-i := str0
-load v2
-
-i := hex v0
-sprite v3 v8 5
-v3 += 5
-i := hex v1
-sprite v3 v8 5
-v3 += 5
-i := hex v2
-sprite v3 v8 5
-
-vf := key
-jump _main
-
-
-
-
-
-
 
 vf := 255
 delay := vf
@@ -176,13 +145,12 @@ then jump repeat1
 
 YPOS := 61
 VIRI := LVLB
-END := 0xf5
+END := 0xdf
 :call gen_bottle
 
 vf := delay
 v8 := 253
 v8 -= vf
-
 i := str1
 bcd v8
 
@@ -216,6 +184,9 @@ sprite v3 v8 5
 v8 := 0
 v7 := 52
 v6 := 12
+
+vf := key
+jump _main
 
 : _drawll
 v7 -= 48
@@ -378,7 +349,7 @@ POS -= 1
 
 : _gen_bottle_retry
 POS += 1
-i := bottle
+i := bottle0_10
 i += POS
 load v0
 
@@ -406,7 +377,7 @@ jump _gen_bottle_mask
 SPARE := 0x80
 save SPARE
 
-i := bottle-16
+i := bottle0
 i += POS
 load v0
 TYPE := v0
@@ -473,7 +444,7 @@ jump _gen_bottle_find_type
 
 : _gen_bottle_success
 SPARE := FLAG
-i := bottle
+i := bottle0_10
 i += POS
 save SPARE
 
@@ -579,23 +550,20 @@ return
 :org 0x100
 : bottle0
 
-:org 0x134
-: bottle-16
-
-:org 0x144
-: bottle
+:org 0x110
+: bottle0_10
 
 :org 0x178
 : zeros
 
+:org 0x180
+: scratchpad
+
 :org 0x1c0
 : bottle1
 
-:org 0x1f4
-: bottle1_34
-
 :org 0x1f8
-: pt
+: pt # patch target
 
 #:monitor rand 256
 :monitor bottle0 256
