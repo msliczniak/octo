@@ -13,6 +13,7 @@
 # 1 1 R
 
 : main
+#jump patch
 vb := 0xff
 vc := 0x12
 
@@ -24,7 +25,7 @@ i := zeros
 :next str1
 save vb
 
-i := _pt
+i := bottle1_34
 save vf
 
 :org 0x20e
@@ -544,6 +545,38 @@ return
 #0xF8 0xA8 0xF8 0x38 0x28 0xF8 0x00 0xF0 0x28 0xF0 0x00 0xF8 0xA8 0x50 0
 #0x70 0x88 0x88 0xF8 0x88 0x70 0x00 0xF8 0xA8 0x88 0x00 0xF8 0x28 0x08
 
+#: patch
+#i := a5s
+#load v7
+#v8 := 8
+#
+#i := rand
+#: _clear_rand
+#save v7
+#i += v8
+#v9 += 8
+#if v9 != 0
+#then jump _clear_rand
+#
+#i := 0x100
+#: _clear_100
+#save v7
+#i += v8
+#v9 += 8
+#if v9 != 0
+#then jump _clear_100
+#
+#i := _zeros
+#load vf
+#
+#vb := 0xff
+#jump 0x202
+#
+#: _zeros
+#0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+#: a5s
+#0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5
+
 #:org 0
 : rand
 
@@ -562,10 +595,9 @@ return
 :org 0x1c0
 : bottle1
 
-:org 0x1f2
-: _pt
-
 :org 0x1f4
 : bottle1_34
 
-:monitor rand 256
+#:monitor rand 256
+:monitor bottle0 256
+:monitor main 16
