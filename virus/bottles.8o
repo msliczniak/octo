@@ -13,8 +13,8 @@
 # 1 1 R
 
 : main
-jump patch
-#v8 := 0x12
+#jump patch
+v8 := 0x12
 v9 := 0xc
 
 : str0
@@ -540,38 +540,38 @@ return
 #0xF8 0xA8 0xF8 0x38 0x28 0xF8 0x00 0xF0 0x28 0xF0 0x00 0xF8 0xA8 0x50 0
 #0x70 0x88 0x88 0xF8 0x88 0x70 0x00 0xF8 0xA8 0x88 0x00 0xF8 0x28 0x08
 
-: patch
-i := a5s
-load v7
-v8 := 8
-
-i := rand
-: _fill_rand
-save v7
-i += v8
-v9 += 8
-if v9 != 0
-then jump _fill_rand
-
-i := 0x100
-: _fill_100
-save v7
-i += v8
-v9 += 8
-if v9 != 0
-then jump _fill_100
-
-i := _zeros
-load vf
-
-v8 := 0x12
-:breakpoint patched
-jump 0x202
-
-: _zeros
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-: a5s
-0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5
+#: patch
+#i := a5s
+#load v7
+#v8 := 8
+#
+#i := rand
+#: _fill_rand
+#save v7
+#i += v8
+#v9 += 8
+#if v9 != 0
+#then jump _fill_rand
+#
+#i := 0x100
+#: _fill_100
+#save v7
+#i += v8
+#v9 += 8
+#if v9 != 0
+#then jump _fill_100
+#
+#i := _zeros
+#load vf
+#
+#v8 := 0x12
+#:breakpoint patched
+#jump 0x202
+#
+#: _zeros
+#0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+#: a5s
+#0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5
 
 #:org 0
 : rand
