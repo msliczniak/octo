@@ -12,109 +12,54 @@
 # 1 0 Y
 # 1 1 R
 
-:org 0x5b
-: bottle-16
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-: bottle
-0 0 0 0 0 0
-
-: hand
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-: hand_10
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0
-
-: guard0
-                                 0
-0x00 0x00
-
-: bottle0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-: guard1
-0xff 0x00 0x00 0x00
-
-: bottle1
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
-
-: guard2
-0xff
-
-: zeros
-0 0 0 0  0 0 0 0
-
-:org 0x200
 : main
-v0 := 0xff
+vb := 0xff
+vc := 0x12
 
 : str0
-v9 := 0x12
+vd := 0xe
+
+i := zeros
+
 :next str1
-va := 0x12
+save vb
 
-i := guard0
-: lfsrm
-save v2
+i := _pt
+save vf
 
-i := guard1
-save v3
-
-i := guard2
-save va
-
-:org 0x212
+:org 0x20e
 hires
 
 : _main
 clear
 
 i := zeros
-load v7
-v8 := 0
-v9 := 8
-i := hand
-:call clear_range
+load vb
+vc := 11
+i := bottle-16
 
-v8 := 0xe8
-i := bottle0
-:call clear_range
+: _main_clear
+save va
+i += vc
+vb += 163
 
-v8 := 0xe8
-i := bottle0
-:call clear_range
+if vb != 0
+then jump _main_clear
+
+save v6
+i := bottle1_34
+save vb
 
 :const SEEDM 0x78
 :const SEEDL 0x07
 :const LVLA 19
 :const LVLB 20
 
+:alias LFSRM v0
 :alias SPARE v0
 :alias P0    v1
-:alias LFSRM v2
-:alias LFSRL v3
+:alias LFSRL v2
+:alias COUNT v3
 :alias FOUR  v4
 :alias LVL   v5
 :alias POS   v6
@@ -141,26 +86,45 @@ then LFSRL := 1
 #LFSRM := SEEDM
 #LFSRL := SEEDL
 
-v0 := LFSRM
-v1 := LFSRL
-i := lfsrm
-save v1
-
-v0 := 0
+v8 := 0
 v7 := 55
 v1 := LFSRM
 :call draw_seed
 v1 := LFSRL
 :call draw_seed
 
-FOURTEEN := 14
+# generate 128 random numbers
 FOUR := 4
-EIGHTEEN := 18
+COUNT := 0xc0 # count-up to 255
+i := rand
 
-i := lfsrm
-load v1
-LFSRM := v0
-LFSRL := v1
+: _randgen
+save LFSRL
+
+LFSRM <<= LFSRM
+LFSRL <<= LFSRL
+LFSRM |= FLAG
+MSK := 0x80
+MSK &= LFSRM
+FLAG := 0x80
+FLAG &= LFSRL
+MSK += FLAG
+MSK <<= MSK
+LFSRL |= FLAG
+
+COUNT += 1
+i += FOUR
+if COUNT != 255
+then jump _randgen
+
+# save the extra 255 byte
+save COUNT
+
+vf := key
+jump _main
+
+FOURTEEN := 14
+EIGHTEEN := 18
 
 vf := 255
 delay := vf
@@ -181,11 +145,6 @@ v8 -= vf
 
 i := str0
 bcd v8
-
-i := lfsrm
-load v1
-LFSRM := v0
-LFSRL := v1
 
 vf := 255
 delay := vf
@@ -245,7 +204,7 @@ load v4
 v5 := 0x80
 
 : _drawl
-i := hand_10
+#i := hand_10
 i += v8
 load v0
 
@@ -282,14 +241,14 @@ v8 += 16
 jump _drawll
 
 : _hand
-i := lfsrm
+#i := lfsrm
 load v1
 LFSRM := v0
 LFSRL := v1
 
 POS := 0
 FOUR := 4
-i := hand
+#i := hand
 
 vf := 255
 delay := vf
@@ -384,12 +343,12 @@ VIRI <<= VIRI
 LFSRM <<= LFSRM
 LFSRL <<= LFSRL
 LFSRM |= FLAG
-SPARE := 0x80
-SPARE &= LFSRM
+MSK := 0x80
+MSK &= LFSRM
 FLAG := 0x80
 FLAG &= LFSRL
-SPARE += FLAG
-SPARE <<= SPARE
+MSK += FLAG
+MSK <<= MSK
 LFSRL |= FLAG
 
 POS := LFSRL
@@ -521,29 +480,19 @@ jump _gen_bottle_l_ret
 i += EIGHTEEN
 jump _gen_bottle_r_ret
 
-
-: clear_range
-save v7
-v8 += 8
-i += v9
-if v8 != 0
-then jump clear_range
-
-return
-
 : draw_seed
-v2 := 0xf
-v2 &= v1
+v3 := 0xf
+v3 &= v1
 v1 >>= v1
 v1 >>= v1
 v1 >>= v1
 v1 >>= v1
 i := hex v1
-sprite v0 v7 5
-v0 += 5
-i := hex v2
-sprite v0 v7 5
-v0 += 5
+sprite v8 v7 5
+v8 += 5
+i := hex v3
+sprite v8 v7 5
+v8 += 5
 return
 
 : ltbl
@@ -567,5 +516,34 @@ return
 : dot
 0x10
 
-:monitor hand 258
-:monitor bottle0 141
+#: hexr
+#0xF8 0x88 0xF8 0x00 0xF8 0x00 0x00 0xE8 0xA8 0xB8 0x00 0xA8 0xA8 0xF8 0
+#0x38 0x20 0xF8 0xB8 0xA8 0xE8 0x00 0xF8 0xA8 0xE8 0x00 0x08 0x08 0xF8 0
+#0xF8 0xA8 0xF8 0x38 0x28 0xF8 0x00 0xF0 0x28 0xF0 0x00 0xF8 0xA8 0x50 0
+#0x70 0x88 0x88 0xF8 0x88 0x70 0x00 0xF8 0xA8 0x88 0x00 0xF8 0x28 0x08
+
+#:org 0
+: rand
+
+:org 0x100
+: bottle0
+
+:org 0x134
+: bottle-16
+
+:org 0x144
+: bottle
+
+:org 0x1b4
+: zeros
+
+:org 0x1c0
+: bottle1
+
+:org 0x1f2
+: _pt
+
+:org 0x1f4
+: bottle1_34
+
+:monitor rand 256
