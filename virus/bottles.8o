@@ -120,9 +120,6 @@ then jump _randgen
 # save the extra 255 byte
 save COUNT
 
-vf := key
-jump _main
-
 FOURTEEN := 14
 EIGHTEEN := 18
 
@@ -139,12 +136,39 @@ VIRI := LVLA
 END := 0x7d
 :call gen_bottle
 
+
+
+
 vf := delay
 v8 := 253
 v8 -= vf
 
 i := str0
 bcd v8
+
+v8 := 4
+v3 := 65
+
+i := str0
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
+
+vf := key
+jump _main
+
+
+
+
+
+
 
 vf := 255
 delay := vf
@@ -333,6 +357,7 @@ i += VIRI
 load v0
 LVL := v0
 MSK := 0x7f
+LFSRL := 0
 
 VIRI += 1
 VIRI <<= VIRI
@@ -340,18 +365,12 @@ VIRI <<= VIRI
 
 : _gen_bottle_loop
 # pick level in bottle
-LFSRM <<= LFSRM
-LFSRL <<= LFSRL
-LFSRM |= FLAG
-MSK := 0x80
-MSK &= LFSRM
-FLAG := 0x80
-FLAG &= LFSRL
-MSK += FLAG
-MSK <<= MSK
-LFSRL |= FLAG
+i := rand
+i += LFSRL
+load LFSRM
+LFSRL += 2
 
-POS := LFSRL
+POS := LFSRM
 POS &= MSK
 # clamp biasing to blottom of bottle
 POS -= LVL
@@ -429,8 +448,11 @@ SPARE &= VIRI
 if SPARE != 3
 then jump _gen_bottle_type_known
 
-SPARE := 0xf
-SPARE &= LFSRM
+i := rand
+i += LFSRL
+load LFSRM
+FLAG := 15
+LFSRM &= FLAG
 i := vtbl
 i += SPARE
 load v0
