@@ -14,46 +14,38 @@
 
 : main
 jump patch
-#vb := 0xff
-vc := 0x12
+#v8 := 0x12
+v9 := 0xc
 
 : str0
-vd := 0xe
-
 i := zeros
+save v7
 
 :next str1
+i := pt
 save vb
 
-i := bottle1_34
-save vf
-
-:org 0x20e
+:org 0x20c
 hires
 
 : _main
 clear
 
 i := zeros
-load vb
-vc := 11
-i := bottle-16
+load v7
+v8 := 0x80
 
 : _main_clear
-save va
-i += vc
-vb += 163
-
-if vb != 0
+i := bottle0
+i += v8
+save v7
+v8 += 8
+if v8 != 0x78
 then jump _main_clear
-
-save v6
-i := bottle1_34
-save vb
 
 :const SEEDM 0x78
 :const SEEDL 0x07
-:const LVLA 19
+:const LVLA 18
 :const LVLB 20
 
 :alias LFSRM v0
@@ -554,25 +546,26 @@ load v7
 v8 := 8
 
 i := rand
-: _clear_rand
+: _fill_rand
 save v7
 i += v8
 v9 += 8
 if v9 != 0
-then jump _clear_rand
+then jump _fill_rand
 
 i := 0x100
-: _clear_100
+: _fill_100
 save v7
 i += v8
 v9 += 8
 if v9 != 0
-then jump _clear_100
+then jump _fill_100
 
 i := _zeros
 load vf
 
-vb := 0xff
+v8 := 0x12
+:breakpoint patched
 jump 0x202
 
 : _zeros
@@ -592,7 +585,7 @@ jump 0x202
 :org 0x144
 : bottle
 
-:org 0x1b4
+:org 0x178
 : zeros
 
 :org 0x1c0
@@ -600,6 +593,9 @@ jump 0x202
 
 :org 0x1f4
 : bottle1_34
+
+:org 0x1f8
+: pt
 
 #:monitor rand 256
 :monitor bottle0 256
