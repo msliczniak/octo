@@ -53,18 +53,37 @@ then jump _main_clear
 :alias P0    v1
 :alias LFSRL v2
 :alias COUNT v3
-:alias FOUR  v4
+:alias VIRI  v4
 :alias LVL   v5
 :alias POS   v6
 :alias TYPE  v7
-:alias MSK   v8
+:alias MSK   v8 # MSK must be v8
 :alias END   v9
 :alias YPOS  va
-:alias VIRI  vb
+:alias FOUR  vb
 :alias EIGHTEEN vc
 :alias FOURTEEN vd
 
 :alias FLAG  vf
+
+i := dots
+v2 := 6
+
+: _main_dots
+sprite v0 v2 1
+v0 += 64
+v2 += 9
+sprite v0 v2 1
+v0 -= 56
+v2 -= 9
+
+if v0 != 64
+then jump _main_dots
+
+v0 := 0
+v2 += 6
+if v2 != 54
+then jump _main_dots
 
 LFSRM := random 0x7f
 LFSRL := random 0xff
@@ -98,6 +117,7 @@ LFSRM <<= LFSRM
 LFSRL <<= LFSRL
 LFSRM |= FLAG
 MSK := 0x80
+: dots # MSK must be v8
 MSK &= LFSRM
 FLAG := 0x80
 FLAG &= LFSRL
