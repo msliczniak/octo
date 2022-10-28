@@ -45,16 +45,16 @@ then jump _main_clear
 
 #:const SEEDM 0x42
 #:const SEEDL 0x7e
+#:const LVLA 18
+#:const LVLB 20
+:const SEEDM 0x5c
+:const SEEDL 0x1b
+:const LVLA 1
+:const LVLB 1
+#:const SEEDM 0x2d
+#:const SEEDL 0x00
 #:const LVLA 20
 #:const LVLB 20
-#:const SEEDM 0x5c
-#:const SEEDL 0x1b
-#:const LVLA 1
-#:const LVLB 1
-:const SEEDM 0x2d
-:const SEEDL 0x00
-:const LVLA 20
-:const LVLB 20
 
 :alias LFSRM v0
 :alias SPARE v0
@@ -350,6 +350,7 @@ LFSRL := 0
 VIRI += 1
 VIRI <<= VIRI
 VIRI <<= VIRI
+TYPE := 1
 
 : _gen_bottle_loop
 # pick level in bottle
@@ -401,7 +402,7 @@ save SPARE
 i := bottle0
 i += POS
 load v0
-TYPE := v0
+COUNT := v0
 
 FLAG := 6
 FLAG &= POS
@@ -413,64 +414,41 @@ then jump _gen_bottle_r
 
 i += FOURTEEN
 load v0
-TYPE |= v0
+COUNT |= v0
 
 i += FOUR
 : _gen_bottle_r_ret
 load v0
-TYPE |= v0
+COUNT |= v0
 
 i += FOURTEEN
 : _gen_bottle_l_ret
 load v0
-TYPE |= v0
+COUNT |= v0
 
 # remove msb in case empty was marked dense
-TYPE <<= TYPE
-if TYPE == 14
+COUNT <<= COUNT
+if COUNT == 14
 then jump _gen_bottle_try_again
 
-TYPE >>= TYPE
-SPARE := 3
-SPARE &= VIRI
-if SPARE != 3
-then jump _gen_bottle_type_known
-
-i := rand
-i += LFSRL
-load LFSRM
-FLAG := 15
-LFSRM &= FLAG
-i := vtbl
-i += SPARE
-load v0
-SPARE := v0
-
-: _gen_bottle_type_known
-if SPARE == 0
-then SPARE := 4
-
-FLAG := SPARE
+COUNT >>= COUNT
+SPARE := TYPE
 
 : _gen_bottle_find_type
-SPARE &= TYPE
+SPARE <<= SPARE
+if SPARE == 8
+then SPARE := 1
 
-if v0 == 0
-then jump _gen_bottle_success
+TYPE := SPARE
+TYPE &= COUNT
+if TYPE != 0
+then jump _gen_bottle_find_type
 
-SPARE >>= SPARE
-if FLAG != 0
-then SPARE := 4
-jump _gen_bottle_find_type
-
-: _gen_bottle_success
-#:breakpoint foo
-if FLAG == 0 then FLAG := 2 # XXX
-SPARE := FLAG
 i := bottle0_10
 i += POS
 save SPARE
 
+TYPE := SPARE
 VIRI -= 1
 i := b10000000
 sprite VIRI YPOS 1
@@ -483,7 +461,7 @@ jump _gen_bottle_loop
 : _gen_bottle_l
 i += FOURTEEN
 load v0
-TYPE |= v0
+COUNT |= v0
 
 i += EIGHTEEN
 jump _gen_bottle_l_ret
@@ -512,10 +490,6 @@ return
 79 79 79 79 79 79 79
 79 87 87 95 95 103 103
 
-: vtbl
-0 1 2 2 1 0 0 1 2 2 1 0 0 1 2 1
-
-: viri
 : virus0
 0x40 0xE0 0x60 0xE0
 : virus1
