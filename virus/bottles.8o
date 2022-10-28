@@ -43,14 +43,14 @@ v8 += 8
 if v8 != 0x78
 then jump _main_clear
 
-#:const SEEDM 0x42
-#:const SEEDL 0x7e
-#:const LVLA 18
-#:const LVLB 20
-:const SEEDM 0x5c
-:const SEEDL 0x1b
-:const LVLA 1
-:const LVLB 1
+:const SEEDM 0x42
+:const SEEDL 0x7e
+:const LVLA 9
+:const LVLB 20
+#:const SEEDM 0x5c
+#:const SEEDL 0x1b
+#:const LVLA 1
+#:const LVLB 2
 #:const SEEDM 0x2d
 #:const SEEDL 0x00
 #:const LVLA 20
@@ -103,8 +103,8 @@ if LFSRL == 0
 then LFSRL := 1
 
 : good_seed
-LFSRM := SEEDM
-LFSRL := SEEDL
+#LFSRM := SEEDM
+#LFSRL := SEEDL
 
 v8 := 0
 v7 := 55
@@ -223,7 +223,7 @@ vd := 0
 : _again
 v9 := 10
 va := vc
-vb := 2
+vb := 61
 :call drawc
 vc := va
 
@@ -231,7 +231,7 @@ v5 += 0x80
 v8 -= 64
 v9 := 7
 va := vd
-vb := 61
+vb := 2
 :call drawc
 vd := va
 
