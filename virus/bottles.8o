@@ -57,7 +57,7 @@ then jump _main_clear
 :alias LVL   v5
 :alias POS   v6
 :alias TYPE  v7
-:alias MSK   v8 # MSK must be v8
+:alias MSK   v8
 :alias END   v9
 :alias YPOS  va
 :alias FOUR  vb
@@ -117,7 +117,6 @@ LFSRM <<= LFSRM
 LFSRL <<= LFSRL
 LFSRM |= FLAG
 MSK := 0x80
-: dots # MSK must be v8
 MSK &= LFSRM
 FLAG := 0x80
 FLAG &= LFSRL
@@ -205,61 +204,98 @@ v8 := 0
 v7 := 52
 v6 := 12
 
+#:breakpoint foo
+:next dots
+v5 := 0x88
+v6 := 0x88
+v8 := 52
+vc := 0
+vd := 0
+
+: _again
+v9 := 7
+va := vc
+vb := 2
+:call drawc
+vc := va
+
+v5 += 0x80
+v8 += 64
+v9 := 10
+va := vd
+vb := 61
+:call drawc
+vd := va
+
+v5 += 0x78
+v8 -= 68
+if v8 != 252
+then jump _again
+
 vf := key
 jump _main
 
-: _drawll
-v7 -= 48
+: drawc
 i := zeros
 load v4
-v5 := 0x80
+v7 := 0x80
 
-: _drawl
-#i := hand_10
-i += v8
+: _another
+i := bottle0
+i += v5
 load v0
+v5 += 1
 
-if v0 == 1
-then jump _draw0
+v0 <<= v0
+if v0 == 0
+then jump _skip
+
+i := b10000000
+sprite va vb 1
+va += 1
 
 if v0 == 2
-then jump _draw1
+then jump _virus0
 
+v1 |= v7
 if v0 == 4
-then jump _draw2
+then jump _virus1
 
-i := dot-2
-sprite v6 v7 3
+i := virus2
 
-: _drawr
-v8 += 1
-v7 += 6
+: _virus0r
+v4 |= v7
 
-v5 >>= v5
-if vf == 0
-then jump _drawl
+: _virus1r
+v3 |= v7
+v2 |= v7
+
+sprite v8 v9 5
+
+: _skip
+v9 += 6
+v7 >>= v7
+if v7 != 0
+then jump _another
+
+v0 := v4
+i := bottle0
+i += v6
+save v3
 
 v6 += 4
-if v6 == 128
-then jump _hand
+if v6 == 0xc0
+then v6 := 0x40
 
-if v6 != 64
-then jump _drawll
+return
 
-v6 += 12
-v7 += 9
-v8 += 16
-jump _drawll
+: _virus0
+i := virus0
+jump _virus0r
 
-: _hand
-#i := lfsrm
-load v1
-LFSRM := v0
-LFSRL := v1
-
-POS := 0
-FOUR := 4
-#i := hand
+: _virus1
+i := virus1
+jump _virus1r
 
 vf := 255
 delay := vf
@@ -268,35 +304,6 @@ delay := vf
 vf := delay
 if vf != 253
 then jump repeat2
-
-: _handf
-LFSRM <<= LFSRM
-LFSRL <<= LFSRL
-LFSRM |= FLAG
-SPARE := 0x80
-SPARE &= LFSRM
-FLAG := 0x80
-FLAG &= LFSRL
-SPARE += FLAG
-SPARE <<= SPARE
-LFSRL |= FLAG
-
-v0 := 0xf
-v0 &= LFSRM
-if v0 > 8
-then v0 -= 9
-
-v1 := 0xf
-v1 &= LFSRL
-if v1 > 8
-then v1 -= 9
-
-save v2
-i += FOUR
-POS += 4
-
-if POS != 0
-then jump _handf
 
 vf := delay
 v8 := 253
@@ -322,21 +329,6 @@ sprite v3 v8 5
 
 vf := key
 jump _main
-
-: _draw0
-i := virus0
-sprite v6 v7 5
-jump _drawr
-
-: _draw1
-i := virus1
-sprite v6 v7 5
-jump _drawr
-
-: _draw2
-i := virus2
-sprite v6 v7 5
-jump _drawr
 
 : gen_bottle
 i := ltbl
@@ -514,16 +506,11 @@ return
 
 : viri
 : virus0
-0x20 0x70 0x70 0x70
+0x40 0xE0 0x60 0xE0
 : virus1
-0x20 0x50 0x50 0x50
+0x40 0xA0 0x20 0xA0
 : virus2
-0x20 0x50 0x70 0x50 0x20
-
-: dot-2
-0 0
-: dot
-0x10
+0x40 0xA0 0x60 0xA0 0x40
 
 #: hexr
 #0xF8 0x88 0xF8 0x00 0xF8 0x00 0x00 0xE8 0xA8 0xB8 0x00 0xA8 0xA8 0xF8 0
