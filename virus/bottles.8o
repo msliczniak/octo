@@ -208,11 +208,15 @@ sprite v3 v8 5
 v3 += 5
 i := hex v2
 sprite v3 v8 5
-#v8 := 0
-#v7 := 52
-#v6 := 12
 
-#:breakpoint foo
+vf := 255
+delay := vf
+
+: repeat2
+vf := delay
+if vf != 253
+then jump repeat2
+
 :next dots
 v5 := 0x88
 v6 := 0x88
@@ -243,7 +247,30 @@ v8 += 60
 if v8 != 60
 then jump _again
 
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str0
+bcd v8
+
+v8 := 4
+v3 := 105
+
+i := str0
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
+
 vf := key
+#:byte 0 1
 jump _main
 
 : drawc
@@ -261,7 +288,6 @@ v0 <<= v0
 if v0 == 0
 then jump _skip
 
-#:breakpoint foo
 i := b10000000
 sprite va vb 1
 va += 1
@@ -305,39 +331,6 @@ jump _virus0r
 : _virus1
 i := virus1
 jump _virus1r
-
-vf := 255
-delay := vf
-
-: repeat2
-vf := delay
-if vf != 253
-then jump repeat2
-
-vf := delay
-v8 := 253
-v8 -= vf
-
-i := str0
-bcd v8
-
-v8 := 4
-v3 := 105
-
-i := str0
-load v2
-
-i := hex v0
-sprite v3 v8 5
-v3 += 5
-i := hex v1
-sprite v3 v8 5
-v3 += 5
-i := hex v2
-sprite v3 v8 5
-
-vf := key
-jump _main
 
 : gen_bottle
 i := ltbl
