@@ -103,8 +103,8 @@ if LFSRL == 0
 then LFSRL := 1
 
 : good_seed
-LFSRM := SEEDM
-LFSRL := SEEDL
+#LFSRM := SEEDM
+#LFSRL := SEEDL
 
 v8 := 0
 v7 := 55
@@ -382,6 +382,7 @@ then jump _gen_bottle_found_empty
 if POS != END
 then jump _gen_bottle_retry
 
+LVL -= P0
 END -= P0
 P0 -= LVL
 P0 <<= P0
