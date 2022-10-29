@@ -45,7 +45,7 @@ if v8 != 0x78
 then jump _main_clear
 
 :const SEEDM 0x00
-:const SEEDL 0x67
+:const SEEDL 0xc0
 :const LVLA 18
 :const LVLB 20
 #:const SEEDM 0x5c
@@ -371,8 +371,9 @@ POS &= MSK
 POS -= LVL
 if FLAG == 0
 then POS += LVL
-P0 := POS
+#P0 := POS
 POS =- END
+P0 := POS
 POS -= 1
 
 : _gen_bottle_retry
@@ -388,7 +389,11 @@ then jump _gen_bottle_found_empty
 if POS != END
 then jump _gen_bottle_retry
 
-jump _gen_bottle_loop
+POS := P0
+POS -= 2
+P0 -= 1
+jump _gen_bottle_retry
+
 LVL -= P0
 LVL += 1
 END -= P0
