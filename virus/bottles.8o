@@ -46,8 +46,8 @@ then jump _main_clear
 
 :const SEEDM 0x00
 :const SEEDL 0xc0
-:const LVLA 18
-:const LVLB 20
+:const LVLA 14
+:const LVLB 16
 #:const SEEDM 0x5c
 #:const SEEDL 0x1b
 #:const LVLA 1
@@ -328,7 +328,27 @@ then :byte 0 6
 i := 0x110
 sprite v0 v1 8
 if vf != 0
-then :byte 0 1
+then :byte 0 7
+
+i := 0x118
+sprite v0 v1 8
+if vf != 0
+then :byte 0 8
+
+i := 0x120
+sprite v0 v1 8
+if vf != 0
+then :byte 0 9
+
+i := 0x188
+sprite v0 v1 8
+if vf != 0
+then :byte 0 10
+
+i := 0x190
+sprite v0 v1 8
+if vf != 0
+then :byte 0 11
 
 #vf := key
 jump _main
