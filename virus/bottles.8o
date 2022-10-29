@@ -324,6 +324,12 @@ sprite v0 v1 8
 if vf != 0
 then :byte 0 6
 
+# check max heights
+i := 0x110
+sprite v0 v1 8
+if vf != 0
+then :byte 0 1
+
 #vf := key
 jump _main
 
