@@ -16,7 +16,7 @@
 #jump patch
 v8 := 0x12
 v9 := 0xc
-:breakpoint foo
+#:breakpoint foo
 
 : str0
 i := zeros
@@ -86,7 +86,8 @@ sprite v0 v2 1
 v0 -= 56
 v2 -= 3
 
-if v0 != 64
+#if v0 != 64
+if v0 != 56
 then jump _main_dots
 
 v0 := 0
@@ -112,7 +113,7 @@ v0 += vf
 save v1
 
 if v0 == 128
-then :byte 0 1
+then :byte 0 0
 
 LFSRM := v0
 LFSRL := v1
@@ -283,6 +284,46 @@ v3 += 5
 i := hex v2
 sprite v3 v8 5
 
+v0 := 120
+v1 := 0
+i := inv8
+sprite v0 v1 8
+
+i := 0x100
+sprite v0 v1 8
+if vf != 0
+then :byte 0 1
+
+i := 0x100
+sprite v0 v1 8
+if vf != 0
+then :byte 0 1
+
+i := 0x108
+sprite v0 v1 8
+if vf != 0
+then :byte 0 2
+
+i := 0x178
+sprite v0 v1 8
+if vf != 0
+then :byte 0 3
+
+i := 0x180
+sprite v0 v1 8
+if vf != 0
+then :byte 0 4
+
+i := 0x1f0
+sprite v0 v1 8
+if vf != 0
+then :byte 0 5
+
+i := 0x1f8
+sprite v0 v1 8
+if vf != 0
+then :byte 0 6
+
 #vf := key
 jump _main
 
@@ -371,9 +412,8 @@ POS &= MSK
 POS -= LVL
 if FLAG == 0
 then POS += LVL
-#P0 := POS
-POS =- END
 P0 := POS
+POS =- END
 POS -= 1
 
 : _gen_bottle_retry
@@ -389,15 +429,9 @@ then jump _gen_bottle_found_empty
 if POS != END
 then jump _gen_bottle_retry
 
-POS := P0
-POS -= 2
-P0 -= 1
-jump _gen_bottle_retry
-
 LVL -= P0
-LVL += 1
 END -= P0
-P0 -= LVL
+P0 := LVL
 P0 <<= P0
 
 : _gen_bottle_mask
@@ -549,6 +583,9 @@ return
 #0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
 #: a5s
 #0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5
+
+: inv8
+255 255 255 255  255 255 255 255
 
 #:org 0
 : rand
