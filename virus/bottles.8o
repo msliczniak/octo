@@ -117,8 +117,8 @@ then :byte 0 1
 LFSRM := v0
 LFSRL := v1
 
-LFSRM := SEEDM
-LFSRL := SEEDL
+#LFSRM := SEEDM
+#LFSRL := SEEDL
 
 v8 := 0
 v7 := 55
@@ -388,7 +388,9 @@ then jump _gen_bottle_found_empty
 if POS != END
 then jump _gen_bottle_retry
 
+jump _gen_bottle_loop
 LVL -= P0
+LVL += 1
 END -= P0
 P0 -= LVL
 P0 <<= P0
