@@ -46,8 +46,8 @@ then jump _main_clear
 
 :const SEEDM 0x00
 :const SEEDL 0xc0
-:const LVLA 14
-:const LVLB 16
+:const LVLA 13
+:const LVLB 14
 #:const SEEDM 0x5c
 #:const SEEDL 0x1b
 #:const LVLA 1
@@ -86,8 +86,8 @@ sprite v0 v2 1
 v0 -= 56
 v2 -= 3
 
-#if v0 != 64
-if v0 != 56
+if v0 != 64
+#if v0 != 56
 then jump _main_dots
 
 v0 := 0
@@ -105,18 +105,18 @@ if LFSRL == 0
 then LFSRL := 1
 
 : good_seed
-vf := 1
-i := 0x202
-load v1
-v1 += vf
-v0 += vf
-save v1
+#vf := 1
+#i := 0x202
+#load v1
+#v1 += vf
+#v0 += vf
+#save v1
 
-if v0 == 128
-then :byte 0 0
+#if v0 == 128
+#then :byte 0 0
 
-LFSRM := v0
-LFSRL := v1
+#LFSRM := v0
+#LFSRL := v1
 
 #LFSRM := SEEDM
 #LFSRL := SEEDL
@@ -284,73 +284,129 @@ v3 += 5
 i := hex v2
 sprite v3 v8 5
 
-v0 := 120
-v1 := 0
-i := inv8
-sprite v0 v1 8
+#v0 := 120
+#v1 := 0
+#i := inv8
+#sprite v0 v1 8
 
-i := 0x100
-sprite v0 v1 8
-if vf != 0
-then :byte 0 1
+#i := 0x100
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 1
 
-i := 0x100
-sprite v0 v1 8
-if vf != 0
-then :byte 0 1
+#i := 0x100
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 1
 
-i := 0x108
-sprite v0 v1 8
-if vf != 0
-then :byte 0 2
+#i := 0x108
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 2
 
-i := 0x178
-sprite v0 v1 8
-if vf != 0
-then :byte 0 3
+#i := 0x178
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 3
 
-i := 0x180
-sprite v0 v1 8
-if vf != 0
-then :byte 0 4
+#i := 0x180
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 4
 
-i := 0x1f0
-sprite v0 v1 8
-if vf != 0
-then :byte 0 5
+#i := 0x1f0
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 5
 
-i := 0x1f8
-sprite v0 v1 8
-if vf != 0
-then :byte 0 6
+#i := 0x1f8
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 6
 
 # check max heights
-i := 0x110
-sprite v0 v1 8
-if vf != 0
-then :byte 0 7
+#i := 0x110
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 7
 
-i := 0x118
-sprite v0 v1 8
-if vf != 0
-then :byte 0 8
+#i := 0x118
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 8
 
-i := 0x120
-sprite v0 v1 8
-if vf != 0
-then :byte 0 9
+#i := 0x120
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 9
 
-i := 0x188
-sprite v0 v1 8
-if vf != 0
-then :byte 0 10
+#i := 0x188
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 10
 
-i := 0x190
-sprite v0 v1 8
-if vf != 0
-then :byte 0 11
+#i := 0x190
+#sprite v0 v1 8
+#if vf != 0
+#then :byte 0 11
 
-#vf := key
+vf := 255
+delay := vf
+
+: repeat3
+vf := delay
+if vf != 253
+then jump repeat3
+
+# clear top three rows
+#:breakpoint foo
+i := bottle0
+load vb
+i := bottle0t3
+save vb
+i := bottle1t3
+save vb
+
+vc := 0x68 # offset
+vd := 0x40 # end
+:call splat
+
+vc := 0xb8 # offset
+vd := 0x88 # end
+:call splat
+
+v0 := 0
+v1 := 0
+i := guard0
+save v1
+
+i := guard1
+v0 := 255
+save v0
+
+vf := delay
+v8 := 253
+v8 -= vf
+
+i := str0
+bcd v8
+
+v8 := 58
+v3 := 105
+
+i := str0
+load v2
+
+i := hex v0
+sprite v3 v8 5
+v3 += 5
+i := hex v1
+sprite v3 v8 5
+v3 += 5
+i := hex v2
+sprite v3 v8 5
+
+vf := key
 jump _main
 
 : drawc
@@ -544,6 +600,30 @@ jump _gen_bottle_l_ret
 i += EIGHTEEN
 jump _gen_bottle_r_ret
 
+: splat
+i := bottle0
+i += vc
+load v3
+
+i := bottle1
+i += v4
+save v3
+
+i := bottle0_04
+i += vc
+load v3
+
+i := bottle0
+i += v4
+save v3
+
+if vc == vd
+then return
+
+v4 += 4
+vc -= 8
+jump splat
+
 : draw_seed
 v3 := 0xf
 v3 &= v1
@@ -610,8 +690,8 @@ return
 #: a5s
 #0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5 0xa5
 
-: inv8
-255 255 255 255  255 255 255 255
+#: inv8
+#255 255 255 255  255 255 255 255
 
 #:org 0
 : rand
@@ -622,20 +702,32 @@ return
 :org 0x100
 : bottle0
 
+:org 0x104
+: bottle0_04
+
 :org 0x10a # for outside space bottle logic
 : bottle_10
 
 :org 0x110
 : bottle0_10
 
+:org 0x134
+: bottle0t3
+
+:org 0x142
+: guard0
+
 :org 0x178
 : zeros
 
-:org 0x180
-: scratchpad
+:org 0x1bf
+: guard1
 
 :org 0x1c0
 : bottle1
+
+:org 0x1f4
+: bottle1t3
 
 :org 0x1f8
 : pt # patch target
