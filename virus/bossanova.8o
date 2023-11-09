@@ -1,0 +1,270 @@
+: main
+i := note
+audio
+v0 := 10
+
+: repeat
+#buzzwe := v0
+delay := v0
+v0 := 20
+
+: wait0004
+v1 := delay
+
+if v1 != 0
+then jump wait0004
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0005
+v1 := delay
+
+if v1 != 0
+then jump wait0005
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0007
+v1 := delay
+
+if v1 != 0
+then jump wait0007
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0010
+v1 := delay
+
+if v1 != 0
+then jump wait0010
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0012
+v1 := delay
+
+if v1 != 0
+then jump wait0012
+
+buzzer := v0
+delay := v0
+#v0 := 20
+
+: wait0013
+v1 := delay
+
+if v1 != 0
+then jump wait0013
+
+buzzer := v0
+delay := v0
+v0 := 40
+
+: wait0015
+v1 := delay
+
+if v1 != 0
+then jump wait0015
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0017
+v1 := delay
+
+if v1 != 0
+then jump wait0017
+
+buzzer := v0
+delay := v0
+#v0 := 10
+
+: wait0023
+v1 := delay
+
+if v1 != 0
+then jump wait0023
+
+#buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0024
+v1 := delay
+
+if v1 != 0
+then jump wait0024
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0025
+v1 := delay
+
+if v1 != 0
+then jump wait0025
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0027
+v1 := delay
+
+if v1 != 0
+then jump wait0027
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0030
+v1 := delay
+
+if v1 != 0
+then jump wait0030
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0032
+v1 := delay
+
+if v1 != 0
+then jump wait0032
+
+buzzer := v0
+delay := v0
+#v0 := 20
+
+: wait0033
+v1 := delay
+
+if v1 != 0
+then jump wait0033
+
+buzzer := v0
+delay := v0
+v0 := 50
+
+: wait0035
+v1 := delay
+
+if v1 != 0
+then jump wait0035
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0037
+v1 := delay
+
+if v1 != 0
+then jump wait0037
+
+#buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0044
+v1 := delay
+
+if v1 != 0
+then jump wait0044
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0045
+v1 := delay
+
+if v1 != 0
+then jump wait0045
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0047
+v1 := delay
+
+if v1 != 0
+then jump wait0047
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0050
+v1 := delay
+
+if v1 != 0
+then jump wait0050
+
+buzzer := v0
+delay := v0
+v0 := 20
+
+: wait0052
+v1 := delay
+
+if v1 != 0
+then jump wait0052
+
+buzzer := v0
+delay := v0
+#v0 := 20
+
+: wait0053
+v1 := delay
+
+if v1 != 0
+then jump wait0053
+
+buzzer := v0
+delay := v0
+v0 := 40
+
+: wait0055
+v1 := delay
+
+if v1 != 0
+then jump wait0055
+
+buzzer := v0
+delay := v0
+v0 := 10
+
+: wait0057
+v1 := delay
+
+if v1 != 0
+then jump wait0057
+
+buzzer := v0
+delay := v0
+#v0 := 10
+
+: wait0063
+v1 := delay
+
+if v1 != 0
+then jump wait0063
+
+jump repeat
+
+: note
+0xFF 0x00 0xFF 0x00 0xFF 0x00 0xFF 0x00 0xFF 0x00 0xFF 0x00 0xFF 0x00 0xFF 0x00
