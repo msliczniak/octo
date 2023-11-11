@@ -21,57 +21,76 @@ loop
 	x += 7	
 again
 
-y := 120
 x := 0
+
+: forever
+y := 124
 i := vcap
 sprite y x 5
 
-: vforeever
-i := vchm
+i := vcvm
 
 loop
+	if y == 0 then
+	jump forever
+
+	y -= 4
+
 	vf := key
-	sprite y x 12
-	
-	while x != 56
-
-	x += 7
+	sprite y x 5
 again
-	
-x := 0
-i := vcap
-sprite y x 5
-jump vforeever
 
-y := 8
-x := 2
-i := hcap
-sprite y x 8
+#x := 0
+#i := vcap
+#sprite y x 5
+#
+#: foreever
+#i := vchm
+#
+#loop
+#	vf := key
+#	sprite y x 12
+#
+#	while x != 56
+#
+#	x += 7
+#again
+#
+#x := 0
+#i := vcap
+#sprite y x 5
+#jump foreever
 
-: hforeever
-i := hchm
-
-loop
-	vf := key
-	sprite y x 15
-	
-	while x != 58
-
-	x += 7
-again
-	
-x := 2
-i := hcap
-sprite y x 8
-jump hforeever
+#y := 8
+#x := 2
+#i := hcap
+#sprite y x 8
+#
+#: foreever
+#i := hchm
+#
+#loop
+#	vf := key
+#	sprite y x 15
+#
+#	while x != 58
+#
+#	x += 7
+#again
+#
+#x := 2
+#i := hcap
+#sprite y x 8
+#jump foreever
 
 : dashes 0x88 0x88 0x88
 
 : hcap 0x1C 0x1C 0x14 0x08 0x08 0x14 0x1C 0x1C
 
-: vcap 0x50 0x20 0x20 0x20 0x50
-
 : hchm 0x1C 0x1C 0x14 0x08 0x08 0x14 0x1C 0x00 0x1C 0x14 0x08 0x08 0x14 0x1C 0x1C
 
-: vchm 0x50 0x20 0x20 0x20 0x50 0x00 0x00 0x50 0x20 0x20 0x20 0x50
+: vcap 0x50 0x20 0x20 0x20 0x50
 
+: vcvm 0x55 0x22 0x22 0x22 0x55
+
+: vchm 0x50 0x20 0x20 0x20 0x50 0x00 0x00 0x50 0x20 0x20 0x20 0x50
