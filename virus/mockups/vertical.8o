@@ -1,153 +1,50 @@
-# Chip8 is a virtual machine designed in 1977 for programming video games.
-# Octo is a high level assembler, disassembler and simulator for Chip8.
-# Click 'Run' and then press ASWD to move the sprite around the screen.
-# Click the Octo logo for source, documentation and examples.
-
-:alias px v1
-:alias py v2
+:alias y vd
+:alias x ve
 
 : main
-	hires
+hires
+i := dashes
 
-	i := dots
-	py := 0
+x := 1
+loop
+	y := 120
+	loop
+		sprite y x 3
 
-	px := 0
-	sprite px py 0
+		while y != 0
+		
+		y -= 8
+	again
 	
-	px := 16
-	sprite px py 0
+	while x != 57
 	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	py := 16
+	x += 7	
+again
 
-	px := 0
-	sprite px py 0
-	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	py := 32
+y := 8
+x := 2
+i := hcap
+sprite y x 8
 
-	px := 0
-	sprite px py 0
-	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	py := 48
+: foreever
+i := hchm
 
-	px := 0
-	sprite px py 0
+loop
+	vf := key
+	sprite y x 15
 	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
+	while x != 58
 
-	py := 64
+	x += 7
+again
+	
+x := 2
+i := hcap
+sprite y x 8
+jump foreever
 
-	px := 64
-	sprite px py 0
-	
-	px := 80
-	sprite px py 0
-	
-	px := 96
-	sprite px py 0
-	
-	px := 112
-	sprite px py 0
-	
-	py := 80
+: dashes 0x88 0x88 0x88
 
-	px := 0
-	sprite px py 0
-	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	py := 96
+: hcap 0x1C 0x1C 0x14 0x08 0x08 0x14 0x1C 0x1C
 
-	px := 0
-	sprite px py 0
-	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	py := 112
-
-	px := 0
-	sprite px py 0
-	
-	px := 16
-	sprite px py 0
-	
-	px := 32
-	sprite px py 0
-	
-	px := 48
-	sprite px py 0
-	
-	
-  px := 124
-  py := 0
-  i  := person
-  sprite px py 0
-	
-	i := person
-
-  loop
-    # erase the player, update its position and then redraw:
-		v0 := key
-    sprite px py 0
-		px -= 4
-    sprite px py 0
-
-    # lock the framerate of this program via the delay timer:
-    loop
-      vf := delay
-      if vf != 0 then
-    again
-    vf := 7
-    delay := vf
-  again
-
-: person
-	0x00 0x00 0x7F 0x00 0x00 0x00 0x7F 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-
-: dots
-0x00 0x00 0x00 0x00 0x88 0x88 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x88 0x88 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x88 0x88 0x00 0x00
+: hchm 0x1C 0x1C 0x14 0x08 0x08 0x14 0x1C 0x00 0x1C 0x14 0x08 0x08 0x14 0x1C 0x1C
