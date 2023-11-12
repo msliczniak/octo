@@ -21,17 +21,41 @@ loop
 	x += 7	
 again
 
-#x := 2
-#y := 124
-#i := hcap
-#sprite y x 8
-#i := hcvm
-#
-#loop
-#	y -= 4
-#	vf := key
-#	sprite y x 8
-#again
+y := 8
+x := 2
+i := hcap
+sprite y x 8
+i := hchm
+
+loop
+	vf := key
+	sprite y x 15
+	x += 7
+again
+
+x := 0
+y := 121
+i := vcap
+sprite y x 5
+i := vchm
+
+loop
+	vf := key
+	sprite y x 12
+	x += 7
+again
+
+x := 2
+y := 124
+i := hcap
+sprite y x 8
+i := hcvm
+
+loop
+	y -= 4
+	vf := key
+	sprite y x 8
+again
 
 x := 0
 y := 125
@@ -46,56 +70,13 @@ loop
 	sprite y x 5
 again
 
-#x := 0
-#i := vcap
-#sprite y x 5
-#
-#: foreever
-#i := vchm
-#
-#loop
-#	vf := key
-#	sprite y x 12
-#
-#	while x != 56
-#
-#	x += 7
-#again
-#
-#x := 0
-#i := vcap
-#sprite y x 5
-#jump foreever
-
-#y := 8
-#x := 2
-#i := hcap
-#sprite y x 8
-#
-#: foreever
-#i := hchm
-#
-#loop
-#	vf := key
-#	sprite y x 15
-#
-#	while x != 58
-#
-#	x += 7
-#again
-#
-#x := 2
-#i := hcap
-#sprite y x 8
-#jump foreever
-
 : dashes 0x44 0x44 0x44
 
 : hcap 0xE0 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0xE0
 
 : hcvm 0xEE 0xEE 0xAA 0x44 0x44 0xAA 0xEE 0xEE
 
-: hchm 0x1C 0x1C 0x14 0x08 0x08 0x14 0x1C 0x00 0x1C 0x14 0x08 0x08 0x14 0x1C 0x1C
+: hchm 0xE0 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0x00 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0xE0
 
 : vcap 0x50 0x20 0x20 0x20 0x50
 
