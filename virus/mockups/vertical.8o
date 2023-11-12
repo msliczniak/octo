@@ -21,40 +21,30 @@ loop
 	x += 7	
 again
 
-x := 2
-
-: forever
-y := 124
-i := hcap
-sprite y x 8
-
-i := hcvm
-
-loop
-	if y == 0 then
-	jump forever
-
-	y -= 4
-	vf := key
-	sprite y x 8
-again
-
-#: forever
+#x := 2
 #y := 124
-#i := vcap
-#sprite y x 5
-#
-#i := vcvm
+#i := hcap
+#sprite y x 8
+#i := hcvm
 #
 #loop
-#	if y == 0 then
-#	jump forever
-#
 #	y -= 4
-#
 #	vf := key
-#	sprite y x 5
+#	sprite y x 8
 #again
+
+x := 0
+y := 125
+i := vcap
+sprite y x 5
+
+i := vcvm
+
+loop
+	y -= 4
+	vf := key
+	sprite y x 5
+again
 
 #x := 0
 #i := vcap
