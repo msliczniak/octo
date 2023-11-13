@@ -1,0 +1,101 @@
+:alias y vd
+:alias x ve
+
+: main
+hires
+
+y := 0
+loop
+	x := 64
+	i := edge
+	sprite x y 15
+	i := dots
+	loop
+		sprite x y 0
+		x += 16
+		while x != 192
+	again
+	y += 16
+	while y != 64
+again
+
+loop again
+
+x := 7
+y := 121
+i := vcap
+sprite y x 5
+y := 120
+i := rotc
+
+loop
+	vf := key
+	sprite y x 10
+again
+
+y := 8
+x := 2
+i := hcap
+sprite y x 8
+i := hchm
+
+loop
+	vf := key
+	sprite y x 15
+	x += 7
+again
+
+x := 0
+y := 121
+i := vcap
+sprite y x 5
+i := vchm
+
+loop
+	vf := key
+	sprite y x 12
+	x += 7
+again
+
+x := 2
+y := 124
+i := hcap
+sprite y x 8
+i := hcvm
+
+loop
+	y -= 4
+	vf := key
+	sprite y x 8
+again
+
+x := 0
+y := 125
+i := vcap
+sprite y x 5
+
+i := vcvm
+
+loop
+	y -= 4
+	vf := key
+	sprite y x 5
+again
+
+: dots 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0
+
+: edge 64 0 64 0 64 0 64 0 64 0 64 0 64 0 64
+
+: hcap 0xE0 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0xE0
+
+: hcvm 0xEE 0xEE 0xAA 0x44 0x44 0xAA 0xEE 0xEE
+
+: hchm 0xE0 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0x00 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0xE0
+
+: vcap 0x50 0x20 0x20 0x20 0x50
+
+: vcvm 0x55 0x22 0x22 0x22 0x55
+
+: vchm 0x50 0x20 0x20 0x20 0x50 0x00 0x00 0x50 0x20 0x20 0x20 0x50
+
+: rotc 0x28 0x10 0xF0 0xF0 0x88 0x40 0x40 0xA0 0xE0 0xE0
