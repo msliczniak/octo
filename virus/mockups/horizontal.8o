@@ -4,19 +4,29 @@
 : main
 hires
 
+i := dots
 y := 0
 loop
 	x := 64
-	i := edge
-	sprite x y 15
-	i := dots
 	loop
 		sprite x y 0
 		x += 16
-		while x != 192
+		if x != 192 then
 	again
 	y += 16
-	while y != 64
+	if y != 64 then
+again
+
+i := inv
+loop
+	x := 0
+	loop
+		sprite x y 0
+		x += 5
+		if x != 65 then
+	again
+	y += 16
+	if y != 128 then
 again
 
 loop again
@@ -84,7 +94,7 @@ again
 
 : dots 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0 0 0 16 16 0 0 0 0
 
-: edge 64 0 64 0 64 0 64 0 64 0 64 0 64 0 64
+: inv 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0 248 0
 
 : hcap 0xE0 0xE0 0xA0 0x40 0x40 0xA0 0xE0 0xE0
 
