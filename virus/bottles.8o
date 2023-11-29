@@ -53,8 +53,8 @@ then jump _main_clear
 
 :const SEEDM 0x00
 :const SEEDL 0xc0
-:const LVLA 13
-:const LVLB 14
+:const LVLA 19
+:const LVLB 20
 #:const SEEDM 0x5c
 #:const SEEDL 0x1b
 #:const LVLA 1
@@ -83,7 +83,8 @@ then jump _main_clear
 :alias FLAG  vf
 
 i := dots
-v2 := 9
+v0 := 1
+v2 := 2
 
 : _main_dots
 sprite v0 v2 1
@@ -93,13 +94,12 @@ sprite v0 v2 1
 v0 -= 56
 v2 -= 3
 
-if v0 != 64
-#if v0 != 56
+if v0 != 65
 then jump _main_dots
 
-v0 := 0
-v2 += 6
-if v2 != 57
+v0 := 1
+v2 += 8
+if v2 != 66
 then jump _main_dots
 
 LFSRM := random 0x7f
@@ -210,26 +210,26 @@ i := str0
 load v2
 
 i := hex v0
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v1
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v2
-sprite v3 v8 5
+#sprite v3 v8 5
 
 v3 += 10
 i := str1
 load v2
 
 i := hex v0
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v1
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v2
-sprite v3 v8 5
+#sprite v3 v8 5
 
 vf := 255
 delay := vf
@@ -247,7 +247,7 @@ vc := 0
 vd := 0
 
 : _again
-v9 := 10
+v9 := 3
 va := vc
 vb := 61
 :call drawc
@@ -255,7 +255,7 @@ vc := va
 
 v5 += 0x80
 v8 -= 64
-v9 := 7
+v9 := 0
 va := vd
 vb := 2
 :call drawc
@@ -283,13 +283,13 @@ i := str0
 load v2
 
 i := hex v0
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v1
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v2
-sprite v3 v8 5
+#sprite v3 v8 5
 
 #v0 := 120
 #v1 := 0
@@ -405,13 +405,13 @@ i := str0
 load v2
 
 i := hex v0
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v1
-sprite v3 v8 5
+#sprite v3 v8 5
 v3 += 5
 i := hex v2
-sprite v3 v8 5
+#sprite v3 v8 5
 
 vf := key
 jump _main
@@ -432,7 +432,7 @@ if v0 == 0
 then jump _skip
 
 i := b10000000
-sprite va vb 1
+#sprite va vb 1
 va += 1
 
 if v0 == 2
@@ -454,7 +454,7 @@ v2 |= v7
 sprite v8 v9 5
 
 : _skip
-v9 += 6
+v9 += 8
 v7 >>= v7
 if v7 != 0
 then jump _another
@@ -588,7 +588,7 @@ save SPARE
 TYPE := SPARE
 VIRI -= 1
 i := b10000000
-sprite VIRI YPOS 1
+#sprite VIRI YPOS 1
 
 if VIRI == 0
 then return
@@ -639,10 +639,10 @@ v1 >>= v1
 v1 >>= v1
 v1 >>= v1
 i := hex v1
-sprite v8 v7 5
+#sprite v8 v7 5
 v8 += 5
 i := hex v3
-sprite v8 v7 5
+#sprite v8 v7 5
 v8 += 5
 return
 
@@ -652,11 +652,11 @@ return
 79 87 87 95 95 103 103
 
 : virus0
-0x40 0xE0 0x60 0xE0
+0x40 0xE0 0xA0 0xE0
 : virus1
-0x40 0xA0 0x20 0xA0
+0x40 0xA0 0xE0 0xA0
 : virus2
-0x40 0xA0 0x60 0xA0 0x40
+0x40 0xA0 0xA0 0xA0 0x40
 
 #: hexr
 #0xF8 0x88 0xF8 0x00 0xF8 0x00 0x00 0xE8 0xA8 0xB8 0x00 0xA8 0xA8 0xF8 0
