@@ -31,22 +31,17 @@ hires
 : _main
 clear
 
-i := inv
+i := border
+v0 := 63
+
 v1 := 0
 
-: inv0
-v0 := 64
+: border_again
+sprite v0 v1 8
 
-: inv1
-sprite v0 v1 0
-
-v0 += 16
-if v0 != 128
-then jump inv1
-
-v1 += 16
+v1 += 8
 if v1 != 64
-then jump inv0
+then jump border_again
 
 i := zeros
 load v7
@@ -578,9 +573,9 @@ return
 : virus2
 0x40 0xA0 0xA0 0xA0 0x40
 
-: inv
-255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
-255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
+: border
+#0x80 0x40 0x40 0x40 0x80 0x80 0x80 0x40
+0x80 0x40 0x80 0x40 0x80 0x40 0x80 0x40
 
 #:org 0
 : rand
