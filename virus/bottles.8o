@@ -31,18 +31,6 @@ hires
 : _main
 clear
 
-i := border
-v0 := 63
-
-v1 := 0
-
-: border_again
-sprite v0 v1 8
-
-v1 += 8
-if v1 != 64
-then jump border_again
-
 i := zeros
 load v7
 v8 := 0x80
@@ -106,6 +94,42 @@ v2 += 8
 if v2 != 66
 then jump _main_dots
 
+# hand dots
+v0 := 52
+v2 := 63
+sprite v0 v2 1
+
+v0 := 67
+v1 := 0
+sprite v0 v1 1
+
+i := border
+v0 := 60
+sprite v0 v2 1
+v0 := 75
+sprite v0 v1 1
+
+# border
+v0 := 63
+
+: border_again
+sprite v0 v1 8
+
+v1 += 8
+if v1 != 64
+then jump border_again
+
+# hand dashes
+i := ee
+v0 := 53
+v2 := 62
+sprite v0 v2 1
+
+v0 := 68
+v1 := 1
+sprite v0 v1 1
+
+# LFSR
 LFSRM := random 0x7f
 LFSRL := random 0xff
 
@@ -380,6 +404,7 @@ i += v6
 save v3
 v6 += 4
 
+:next ee # 0xEE
 return
 
 : _virus0
