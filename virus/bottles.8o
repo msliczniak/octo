@@ -31,6 +31,23 @@ hires
 : _main
 clear
 
+i := inv
+v1 := 0
+
+: inv0
+v0 := 64
+
+: inv1
+sprite v0 v1 0
+
+v0 += 16
+if v0 != 128
+then jump inv1
+
+v1 += 16
+if v1 != 64
+then jump inv0
+
 i := zeros
 load v7
 v8 := 0x80
@@ -560,6 +577,10 @@ return
 0x40 0xA0 0xE0 0xA0
 : virus2
 0x40 0xA0 0xA0 0xA0 0x40
+
+: inv
+255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
+255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
 
 #:org 0
 : rand
