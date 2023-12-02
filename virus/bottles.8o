@@ -71,7 +71,7 @@ then jump _main_clear
 :alias FOUR  vb
 :alias EIGHTEEN vc
 :alias FOURTEEN vd
-
+:alias INV   ve
 :alias FLAG  vf
 
 i := dots
@@ -185,9 +185,10 @@ vf := delay
 if vf != 253
 then jump repeat0
 
-YPOS := 2
+YPOS := 62
 VIRI := LVLA
 END := 0x6d
+INV := 0
 :call gen_bottle
 
 vf := delay
@@ -204,9 +205,10 @@ vf := delay
 if vf != 253
 then jump repeat1
 
-YPOS := 61
+YPOS := 1
 VIRI := LVLB
 END := 0xe5
+INV := 255
 :call gen_bottle
 
 vf := delay
@@ -426,6 +428,10 @@ LFSRL := 0
 VIRI += 1
 VIRI <<= VIRI
 VIRI <<= VIRI
+FLAG := 48
+FLAG -= VIRI
+if FLAG == 0
+then VIRI += 80
 TYPE := 1
 
 : _gen_bottle_loop
@@ -527,11 +533,16 @@ save SPARE
 
 TYPE := SPARE
 VIRI -= 1
+VIRI ^= INV
 i := b10000000
-#sprite VIRI YPOS 1
+sprite VIRI YPOS 1
+VIRI ^= INV
 
 if VIRI == 0
 then return
+
+if VIRI == 128
+then VIRI := 48
 
 jump _gen_bottle_loop
 
