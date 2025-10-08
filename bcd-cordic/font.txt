@@ -1,0 +1,134 @@
+:breakpoint "main" : main
+
+vc := 0 # offset into registers
+vd := 16 # x
+ve := 0 # y
+
+clear
+vd := 0
+
+v2 := 10
+loop
+	while v2 != 0
+	v2 -= 1
+	v0 := v2
+	i := digits
+	i += v0
+	load v0
+	i += v0
+	sprite vd ve 5
+	i := neg
+	v0 += 1
+	v0 >>= v0
+	i += v0
+	load v0
+	i += v0
+	sprite vd ve 3
+	vd += 6
+again
+
+# v0 is scratch, v1 is digit
+i := manafe
+i += vc
+load v6
+v0 := 0xf
+v0 &= v1
+i := digits
+i += v0
+
+jump main
+
+: hdigit
+v1 >>= v1
+v1 >>= v1
+v1 >>= v1
+v1 >>= v1
+
+: ldigit
+v0 := 0xf
+v0 &= v1
+
+i := digits
+i += v0
+load v0
+
+i := digit0
+i += v0
+load v0
+
+# for flashing the digit and moving the cursor
+: invexp 0xF0 0xF0
+: invman 0xF0 0xF0 0xF0 0xF0 0xF0
+: cursor 0x88
+# NB: must be adjacent
+: manx10 0x13
+: mana10 0x02
+: manx32 0x57
+: mana32 0x46
+: manx54 0x97
+: mana54 0x88
+: manx76 0x53
+: mana76 0x64
+: manx98 0x87
+: mana98 0x98
+: manxba 0x53
+: manaba 0x64
+: manxdc 0x87
+: manadc 0x98
+: manxfe 0x53
+: manafe 0x64
+: manxs  0x11
+: manas  0x20
+: expb   0x00
+: expa   0x00
+: expxs  0x00
+: expas  0x00
+
+#         0  1  2  3  4  5  6  7  8  9
+: digits 23 27 15 12 21 14  3 20  3  4
+# NB: must be adjacent
+: digit6 0b01110000
+         0b01000000
+: digit8 0b01110000
+         0b01010000
+: digit9 0b01110000
+         0b01010000
+: digit3 0b01110000
+         0b00010000
+: digit2 0b01100000
+         0b00010000
+: digit5 0b01110000
+         0b01000000
+         0b01110000
+         0b00010000
+: digit0 0b01100000
+         0b01010000
+: digit4 0b01010000
+         0b01010000
+: digit7 0b01110000
+: digit1 0b00010000
+         0b00010000
+         0b00010000
+: neg    0b00010000 # unused for negative sign
+         0b00010000 # unused ...
+# NB: must be adjacent
+0xc #2
+0                   # unused
+0xa #4
+0                   # unused
+0x9 #6
+0x7 #7
+0x7 #8
+0                   # unused
+0x5 #a
+0x3 #b
+0x3 #c
+0                   # unused
+0x1 #e
+# NB: must be adjacent
+0b11000000 # negative sign in upper left
+0          # negative sign in middle left
+0
+0b11000000
+
+#:monitor num0 "%2x %2x %2x %2x\n%2x %2x %2x %2x"
