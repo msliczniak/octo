@@ -1,286 +1,94 @@
 :breakpoint "main" : main
-#vf := 0 # no carry
-
-i := offset
-load vb
-
-#7
-
-#v3 += vf # carry
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += vb
-
-vd := v3
-vd ^= vc
-
-ve := v3
-ve += vc
-
-v2 += vf
-
-vd &= ve
-
-ve := v3
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v3 += vb
-v3 += ve
-
-#6
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += va
-
-vd := v2
-vd ^= vc
-
-ve := v2
-ve += vc
-
-v1 += vf
-
-vd &= ve
-
-ve := v2
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v2 += va
-v2 += ve
-
-#5
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v9
-
-vd := v1
-vd ^= vc
-
-ve := v1
-ve += vc
-
-v0 += vf
-
-vd &= ve
-
-ve := v1
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v1 += v9
-v1 += ve
-
-#4
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v8
-
-vd := v0
-vd ^= vc
-
-ve := v0
-ve += vc
-
-vb := vf # tuck away carry
-
-vd &= ve
-
-ve := v0
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v0 += v8
-v0 += ve
-
-i := offset
-save v3
-
-i := numbers
-load v3
-
-#3
-
-v3 += vb
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v7
-
-vd := v3
-vd ^= vc
-
-ve := v3
-ve += vc
-
-v2 += vf
-
-vd &= ve
-
-ve := v3
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v3 += v7
-v3 += ve
-
-#2
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v6
-
-vd := v2
-vd ^= vc
-
-ve := v2
-ve += vc
-
-v1 += vf
-
-vd &= ve
-
-ve := v2
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v2 += v6
-v2 += ve
-
-#1
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v5
-
-vd := v1
-vd ^= vc
-
-ve := v1
-ve += vc
-
-v0 += vf
-
-vd &= ve
-
-ve := v1
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v1 += v5
-v1 += ve
-
-#0
-
-vc := 0x66 # 9 + 6 = 0xf
-vc += v4
-
-vd := v0
-vd ^= vc
-
-ve := v0
-ve += vc
-
-vb := vf # tuck away carry
-
-vd &= ve
-
-ve := v0
-ve |= vc
-
-vd ^= ve
-
-ve := 0x88
-ve &= vd # the bcd carries if any
-
-vd := ve
-vd >>= vd
-vd >>= vd # have to subtract 6 from any of those bcd carries
-
-ve -= vd
-
-v0 += v4
-v0 += ve
-
-i := numbers
-save v3
+vf := 0 # no carry
+i := num0
+
+:call acc2bcd
+i := num1
+save v0
+
+:call acc2bcd
+i := num3
+save v0
+
+:call acc2bcd
+i := num5
+save v0
+
+:call acc2bcd
+i := num7
+save v0
+
+:call acc2bcd
+i := num9
+save v0
+
+:call acc2bcd
+i := numb
+save v0
+
+:call acc2bcd
+i := numd
+save v0
+
+:call acc2bcd
+i := numf
+save v0
 
 jump main
 
-: numbers
-0x01 0x23 0x45 0x67
-: offset
-0x89 0x87 0x65 0x43
+# v0 accumulator
+# v1 addend
+# v2 carry
+# v3 v4 v5 scratch
+: acc2bcd
+load v1
 
-0x98 0x87 0x65 0x43
-0x21 0x01 0x23 0x45
+v0 += v2 # carry
 
-:monitor numbers "%2x %2x %2x %2x\n%2x %2x %2x %2x"
+v3 := 0x66
+v3 += v1
+
+v4 := v0
+v4 ^= v3
+
+v5 := v0
+v5 += v3
+
+v2 := vf # carry
+
+v4 &= v5
+
+v5 := v0
+v5 |= v3
+
+v4 ^= v5
+
+v3 := 0x88
+v3 &= v4
+
+v3 >>= v4
+v4 >>= v4
+
+v0 += v1
+v0 += v3
+
+return
+
+: num0 0x01
+: num1 0x23
+: num2 0x45
+: num3 0x67
+: num4 0x89
+: num5 0x87
+: num6 0x65
+: num7 0x43
+: num8 0x98
+: num9 0x87
+: numa 0x65
+: numb 0x43
+: numc 0x21
+: numd 0x01
+: nume 0x23
+: numf 0x45
+
+:monitor num0 "%2x %2x %2x %2x\n%2x %2x %2x %2x"
