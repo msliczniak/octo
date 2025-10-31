@@ -1,0 +1,110 @@
+# stack (grows down):
+#
+# T (top)
+# Z
+# Y
+# X
+
+vc := 0
+
+:breakpoint "main" : main
+
+ve := 60 # screen x
+vd := 1  # screen y
+
+clear
+
+v0 := vc
+v0 >>= v0
+i := tman01
+i += v0
+load v1 - v1
+
+if vf == 0
+then jump digit_even
+
+v1 >>= v1
+v1 >>= v1
+v1 >>= v1
+v1 >>= v1
+
+: digit_even
+v2 := 0xf
+v2 &= v1
+
+i := digits
+i += v2
+load v0 - v0
+
+i += v0
+sprite ve vd 5
+
+i := neg
+i += v2
+load v0 - v0
+
+i += v0
+sprite ve vd 3
+
+vc += 1
+jump main
+
+# for moving the cursor
+#: cursor 0x88
+# NB: must be adjacent
+: tman01 0x43   # mantissa
+: tman23 0x65   #    ...
+: tman45 0x87   #    ...
+: tman67 0xa9   #    ...
+: tman89 0xcb   #    ...
+: tmanab 0x00   #    ...
+: digits 
+: tmancd 0x00   #    ...
+: texp01 0x00   # exponent
+: texp2s 0x00   #    ...   sign
+# NB: must be adjacent
+#   0  1  2  3  4  5  6  7  8  9
+   24 28 16 13 22 15  4 21  4  5
+# NB: must be adjacent
+: digit6 0b01110000
+         0b01000000
+: digit8 0b01110000
+         0b01010000
+: digit9 0b01110000
+         0b01010000
+: digit3 0b01110000
+         0b00010000
+: digit2 0b01100000
+         0b00010000
+: digit5 0b01110000
+         0b01000000
+         0b01110000
+         0b00010000
+: digit0 0b01100000
+         0b01010000
+: digit4 0b01010000
+         0b01010000
+: digit7 0b01110000
+: digit1 0b00010000
+# NB: must be adjacent
+: neg    0b00010000 # unused for negative sign
+         0b00010000 # unused ...
+         0b00010000 # unused ...
+         0b00010000 # unused ...
+		 10
+		 9
+		 8
+		 7
+		 6
+		 4
+		 4
+		 2
+		 1
+# NB: must be adjacent
+0b11000000 # negative sign in upper left
+0          # negative sign in middle left
+0
+0b11000000
+
+#:monitor tman0 "%2x %2x %2x %2x\n%2x %2x %2x %2x"
+
